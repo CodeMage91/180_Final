@@ -13,7 +13,7 @@ db = SQLAlchemy(app)
 #test page to see everything!#
 @app.route('/')
 def all_users():
-    users = db.session.execute( text("select * from shop_user")).mappings().fetchall()
+    users = db.session.execute( text("select * from shop_user where user_type = 'Admin'")).mappings().fetchall()
     return render_template('test.html', users=users)
 
 #run#
