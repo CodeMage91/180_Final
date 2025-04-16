@@ -45,6 +45,20 @@
     {% endif %}
 </div>
 
+<div class="box">
+    <h1>Items</h1>
+    {%if items%}
+
+    {% for item in items %}
+
+        {{ item.item_name}}
+
+    {% endfor%}
+{% else %}
+    <p> no items found</p>
+{% endif %}
+</div>
+
 
 
 
