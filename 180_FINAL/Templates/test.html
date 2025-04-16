@@ -1,18 +1,69 @@
 <!DOCTYPE html>
 <html>
 <body>
+    <div class="box_holder">
+    <div class="box">
 <h1>  Admin Users</h1><br>
-{% if users %}
+{% if admin_users %}
 
-    {% for user in users %}
+    {% for user in admin_users %}
 
-       {{ user.full_name }}
+       {{ user.full_name }}<br>
 
     {% endfor %}
 {% else %}
-    <p>no users found</p>
+    <p>no admin_users found</p>
 
 {% endif %}
+</div>
 
+<div class="box">
+    <h1>Vendor Users</h1>
+    {%if vendor_users%}
+
+        {% for user in vendor_users %}
+
+            {{ user.full_name}}
+
+        {% endfor%}
+    {% else %}
+        <p> no vendors found</p>
+    {% endif %}
+</div>
+
+<div class="box">
+    <h1>Customer Users</h1>
+    {%if customer_users%}
+
+        {% for user in customer_users %}
+
+            {{ user.full_name}}
+
+        {% endfor%}
+    {% else %}
+        <p> no customers found</p>
+    {% endif %}
+</div>
+
+
+
+
+</div>
 </body>
+
+
 </html>
+<style>
+    .box_holder{
+        display: flex;
+        flex-wrap: wrap;
+        border: 1px red solid;
+    }
+    .box{
+        border: 3px grey outset;
+        width: 240px;
+        padding: 13px;
+        border-radius: 7px;
+        margin: 7px;
+    }
+</style>
