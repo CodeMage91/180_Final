@@ -1,6 +1,25 @@
 <!DOCTYPE html>
 <html>
 <body>
+<div class="create_user">
+    <h1>Create User</h1>
+    <form method="POST" action="/">
+        <input name="full_name" placeholder="Full Name">
+        <input name="email" placeholder="Email">
+        <input name="username" placeholder="username">
+        <input name="password_hash" placeholder="Password">
+        <lable name="user_type" for="User Type">Account Type</lable>
+        <select name="user_type">
+            <option value="Customer">Customer</option>
+            <option value="Vendor">Vendor</option>
+        </select>
+        <button type="submit">Create</button>
+
+    </form>
+</div>
+
+
+
     <div class="box_holder">
     <div class="box">
 <h1>  Admin Users</h1><br>
@@ -51,7 +70,7 @@
 
     {% for item in items %}
 
-        {{ item.item_name}}
+        {{ item.item_name}} <p>Price: ${{ item.original_price}}</p>
 
     {% endfor%}
 {% else %}
@@ -79,5 +98,10 @@
         padding: 13px;
         border-radius: 7px;
         margin: 7px;
+    }
+    .create_user{
+        height: 123px;
+        padding-left: 23px;
+        border: green 3px solid;
     }
 </style>

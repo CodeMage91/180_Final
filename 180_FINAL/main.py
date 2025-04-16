@@ -11,7 +11,7 @@ db = SQLAlchemy(app)
 #routes#
 
 #test page to see everything!#
-@app.route('/')
+@app.route('/', methods=['GET','POST'])
 def all_users():
     admin_users = db.session.execute( text("select * from shop_user where user_type = 'Admin'")
                                      ).mappings().fetchall()
@@ -21,6 +21,22 @@ def all_users():
                                         ).mappings().fetchall()
     items = db.session.execute( text("select * from shop_item")
                                   ).mappings().fetchall()
+    
+    #sign up#
+    if request.method == 'POST':
+        signup_data = {
+            'full_name':request.form['full_name'],
+            'email':request.form['email'],
+            'username':request.form['username'],
+            'password_hash':request.form['password_hash'],
+            'user_type':request.form['user_type']
+        }
+        db.session.execute(text("""
+        insert into shop_user(full_name,email,username,password_hash,user_type)
+                                values(:full_name,:email,:username,:password_hash,:user_type)
+        """), signup_data)
+
+        db.session.commit()
 
     return render_template('test.html',
                             admin_users=admin_users,
