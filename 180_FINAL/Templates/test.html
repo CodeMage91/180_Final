@@ -8,7 +8,7 @@
         <input name="email" placeholder="Email">
         <input name="username" placeholder="username">
         <input name="password_hash" placeholder="Password">
-        <lable name="user_type" for="User Type">Account Type</lable>
+        <label  for="user_Type">Account Type</lable>
         <select name="user_type">
             <option value="Customer">Customer</option>
             <option value="Vendor">Vendor</option>
@@ -85,8 +85,9 @@
 <div class="create_item">
     <h2>Create Item</h2>
     <div class="item_form">
-        <form meathod="POST" action="/">
+        <form method="POST" action="/">
         <input placeholder="Item Name" name="item_name">
+        <input placeholder="item_image" name="item_image">
         <input placeholder="Item Price" name="original_price">
         <textarea placeholder="Item Description" name="item_desc"></textarea>
         <button type="submit">Create</button>
@@ -128,12 +129,14 @@
 <style>
     .item_form{
         display: flex;
-       
+       border: grey 1px solid;
+       flex-direction: row;
+       width: 240px;
 
     }
     .item_form textarea{
-        height: 240px;
-        width: 240px;
+        height: 140px;
+        width: 230px;
     }
     .create_item{
         display: flex;
