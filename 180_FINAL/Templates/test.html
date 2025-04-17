@@ -1,6 +1,18 @@
 <!DOCTYPE html>
 <html>
 <body>
+
+<div class="login">
+    <h1>login</h1>
+    <div class="login_form">
+        <form method="POST" action="/">
+            <input placeholder="Email" name="email"><br>
+            <input placeholder="Password" name="password_hash"><br>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+</div>
+
 <div class="create_user">
     <h1>Create User</h1>
     <form method="POST" action="/">
@@ -128,6 +140,16 @@
 
 </html>
 <style>
+    .login{
+        display: flex;
+        height: 240px;
+    }
+    .login_form{
+        display: flex;
+        flex-direction: column;
+        border: red 1px solid;
+        width: 240px;
+    }
     .item_form{
         display: flex;
        border: grey 1px solid;
