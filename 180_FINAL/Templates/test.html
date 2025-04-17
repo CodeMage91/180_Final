@@ -3,7 +3,7 @@
 <body>
 
 <div class="login">
-    <h1>login</h1>
+    <h1>Login</h1>
     <div class="login_form">
         <form method="POST" action="/">
             <input placeholder="Email" name="email"><br>
@@ -142,13 +142,14 @@
 <style>
     .login{
         display: flex;
-        height: 240px;
+        flex-direction: column;
+        height: 142px;
+        border: 1px yellow solid;
     }
     .login_form{
         display: flex;
-        flex-direction: column;
         border: red 1px solid;
-        width: 240px;
+       
     }
     .item_form{
         display: flex;
