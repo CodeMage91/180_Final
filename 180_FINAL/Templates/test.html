@@ -1,5 +1,86 @@
 <!DOCTYPE html>
 <html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+   
+        .login{
+            display: flex;
+            flex-direction: column;
+            height: 142px;
+            border: 1px yellow solid;
+        }
+    
+        .login_form{
+            display: flex;
+            /* border: red 1px solid; */
+           
+        }
+        .item_form{
+            display: flex;
+           border: grey 1px solid;
+           flex-direction: row;
+           width: 240px;
+    
+        }
+        .item_form textarea{
+            height: 140px;
+            width: 230px;
+        }
+        .create_item{
+            display: flex;
+            border: 1px salmon solid;
+            height: 240px;
+        }
+        .item_box{
+            border: 1px blue solid;
+            display: flex;
+        }
+        .item_stats{
+            border: skyblue 1px solid;
+        }
+        .user_box{
+            border: green 1px solid;
+            display: flex;
+            margin: 3px;
+        }
+        .box_holder{
+            display: flex;
+            flex-wrap: wrap;
+            border: 1px red solid;
+            flex-direction: column;
+        }
+        .box{
+            border: 3px grey outset;
+            padding: 13px;
+            border-radius: 7px;
+            margin: 7px;
+            overflow-y: scroll;
+            height: 240px;
+            flex-wrap: wrap;
+        }
+        .create_user{
+            height: 123px;
+            padding-left: 23px;
+            border: green 3px solid;
+        }
+        .profile{
+            width: 53px;
+            height: 69px;
+            border:red 1px outset;
+            background-position: center;
+            background-size: contain;
+        }
+        body{
+            background-color: aliceblue;
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+    </style>
+
 <body>
 
 <div class="login">
@@ -136,74 +217,4 @@
 
 </div>
 </body>
-
-
 </html>
-<style>
-    .login{
-        display: flex;
-        flex-direction: column;
-        height: 142px;
-        border: 1px yellow solid;
-    }
-    .login_form{
-        display: flex;
-        border: red 1px solid;
-       
-    }
-    .item_form{
-        display: flex;
-       border: grey 1px solid;
-       flex-direction: row;
-       width: 240px;
-
-    }
-    .item_form textarea{
-        height: 140px;
-        width: 230px;
-    }
-    .create_item{
-        display: flex;
-        border: 1px salmon solid;
-        height: 240px;
-    }
-    .item_box{
-        border: 1px blue solid;
-        display: flex;
-    }
-    .item_stats{
-        border: skyblue 1px solid;
-    }
-    .user_box{
-        border: green 1px solid;
-        display: flex;
-        margin: 3px;
-    }
-    .box_holder{
-        display: flex;
-        flex-wrap: wrap;
-        border: 1px red solid;
-        flex-direction: column;
-    }
-    .box{
-        border: 3px grey outset;
-        padding: 13px;
-        border-radius: 7px;
-        margin: 7px;
-        overflow-y: scroll;
-        height: 240px;
-        flex-wrap: wrap;
-    }
-    .create_user{
-        height: 123px;
-        padding-left: 23px;
-        border: green 3px solid;
-    }
-    .profile{
-        width: 53px;
-        height: 69px;
-        border:red 1px outset;
-        background-position: center;
-        background-size: contain;
-    }
-</style>
