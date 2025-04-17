@@ -20,10 +20,26 @@
     <div class="login_name"></div>
 
         <div class="login_stats">
-            <div class="wallet">$240.00</div>
+            <div class="wallet">Wallet: $240.00</div>
             Name: {{login.full_name}}<br>
             Email: {{login.username}}<br>
             Class: {{login.user_type}}<br>
+        </div>
+        
+        <div class="cart">
+            CART
+            <table>
+                <tr>
+                    <th>Item Name</th>
+                    <th>Item Description</th>
+                    <th>Item Price</th>
+                </tr>
+                <tr>
+                    <td>name</td>
+                    <td>Description</td>
+                    <td>$12.99</td>
+                </tr>
+            </table>
         </div>
         
     </div>
@@ -169,6 +185,26 @@
 
 </html>
 <style>
+    .cart{
+        border: salmon 1px solid;
+        overflow-y: scroll;
+        width: 420px;
+    }
+    .login_nav{
+        border: red 1px solid;
+        height: 124px;
+        display: flex;
+        flex-direction: column;
+    }
+    .login_profile{
+        border: green 1px solid;
+        display: flex;
+    }
+    .login_profile_pic{
+        border: blue 1px solid;
+        width: 120px;
+        height: 120px;
+    }
     .login{
         display: flex;
         flex-direction: column;
