@@ -1,6 +1,6 @@
-<!DOCTYPE html>
-<html>
-<body>
+{% extends "base.html" %}
+{% block title %}Test Page{% endblock %}
+{% block body %}
     <div class="box_holder">
     <div class="box">
 <h1>  Admin Users</h1><br>
@@ -63,10 +63,6 @@
 
 
 </div>
-</body>
-
-
-</html>
 <style>
     .box_holder{
         display: flex;
@@ -81,3 +77,4 @@
         margin: 7px;
     }
 </style>
+{% endblock %}
