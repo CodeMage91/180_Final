@@ -1,0 +1,20 @@
+create database shopdb;
+use shopdb;
+
+#creating an admin first for sign in!
+
+create table shop_user(
+user_id int primary key auto_increment,
+full_name varchar(55) not null,
+email varchar(100) unique not null,
+username varchar(100) not null,
+password_hash varchar(100) not null,
+user_type enum('Admin','Vendor','Customer') not null
+);
+
+#user table created. Now time to add an admin
+insert into shop_user(full_name, email, username, password_hash, user_type)
+values('Devin Ayala', 'devin15Takidan@email.com', 'Tahdah25', '1234', 'Admin');
+
+select * from shop_user;
+select * from shop_item;
