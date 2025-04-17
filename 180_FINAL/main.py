@@ -34,6 +34,16 @@ def all_users():
             """), signup_data)
             db.session.commit()
 
+        elif 'login_email'in request.form: #This means user is logining in.
+             email =request.form['login_email']
+             password_hash = request.form['password_hash']
+             login_data = db.session.execute(text("""
+            select * from shop_user where email = :e and password_hash = :p
+            """), {'e':email, 'p': password_hash}).fetchone()
+             db.session.commit()
+
+            
+ 
         elif 'item_name' in request.form:  # This means the Create Item form was submitted
             create_item = {
                 'item_name': request.form['item_name'],
