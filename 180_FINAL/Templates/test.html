@@ -81,16 +81,32 @@
     {% endif %}
 </div>
 
+
+<div class="create_item">
+    <h2>Create Item</h2>
+    <div class="item_form">
+        <input placeholder="Item Name">
+        <input placeholder="Item Price">
+        <textarea placeholder="Item Description"></textarea>
+        <button>Create</button>
+    </div>
+</div>
+
+
 <div class="box">
     <h1>Items</h1>
     {%if items%}
 
     {% for item in items %}
+    <div class="item_box">
     <div class="profile"></div>
-        {{ item.item_name}} <p>Price: ${{ item.original_price}}</p>
-        {{item.item_desc}}
+        <div class="item_stats">
+        Item: {{ item.item_name}}<br>
+        Price: ${{ item.original_price}}<br>
+        Description: {{item.item_desc}}
+    </div>
 
-
+    </div>
     {% endfor%}
 {% else %}
     <p> no items found</p>
@@ -106,6 +122,27 @@
 
 </html>
 <style>
+    .item_form{
+        display: flex;
+        flex-direction: column;
+
+    }
+    .item_form textarea{
+        height: 240px;
+        width: 240px;
+    }
+    .create_item{
+        display: flex;
+        border: 1px salmon solid;
+        height: 240px;
+    }
+    .item_box{
+        border: 1px blue solid;
+        display: flex;
+    }
+    .item_stats{
+        border: skyblue 1px solid;
+    }
     .user_box{
         border: green 1px solid;
         display: flex;
