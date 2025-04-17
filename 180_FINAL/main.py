@@ -21,8 +21,9 @@ def all_users():
                                         ).mappings().fetchall()
     items = db.session.execute( text("select * from shop_item")
                                   ).mappings().fetchall()
+    creator = db.session.execute(text('select * from shop_user where user_id = 1'))
     
-    #sign up#
+    #Create User#
     if request.method == 'POST':
         signup_data = {
             'full_name':request.form['full_name'],
@@ -36,13 +37,26 @@ def all_users():
                                 values(:full_name,:email,:username,:password_hash,:user_type)
         """), signup_data)
 
+        create_item = {
+            'item_name':request.form['item_name'],
+            'original_price':request.form['original_price'],
+            'item_desc':request.form['item_desc'],
+            'created_by':1
+        }
+        db.session.execute(text("""
+            insert into shop_item( item_name, original_price, item_desc, created_by)
+            values(:item_name, original_price, item_desc, created_by)    
+    """), create_item)
+
         db.session.commit()
 
     return render_template('test.html',
                             admin_users=admin_users,
                             vendor_users=vendor_users, 
                             customer_users=customer_users,
-                            items=items)
+                            items=items,
+                            creator=creator
+                            )
 
 #run#
 if __name__ == '__main__':

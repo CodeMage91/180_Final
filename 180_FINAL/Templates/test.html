@@ -85,10 +85,13 @@
 <div class="create_item">
     <h2>Create Item</h2>
     <div class="item_form">
-        <input placeholder="Item Name">
-        <input placeholder="Item Price">
-        <textarea placeholder="Item Description"></textarea>
-        <button>Create</button>
+        <form meathod="POST" action="/">
+        <input placeholder="Item Name" name="item_name">
+        <input placeholder="Item Price" name="original_price">
+        <textarea placeholder="Item Description" name="item_desc"></textarea>
+        <button type="submit">Create</button>
+    </form>
+
     </div>
 </div>
 
@@ -103,7 +106,8 @@
         <div class="item_stats">
         Item: {{ item.item_name}}<br>
         Price: ${{ item.original_price}}<br>
-        Description: {{item.item_desc}}
+        Description: {{item.item_desc}}<br>
+        Created By: {{creator.full_name}}
     </div>
 
     </div>
@@ -124,7 +128,7 @@
 <style>
     .item_form{
         display: flex;
-        flex-direction: column;
+       
 
     }
     .item_form textarea{
