@@ -26,9 +26,14 @@
 {% if admin_users %}
 
     {% for user in admin_users %}
-
-       {{ user.full_name }}<br>
-
+    <div class="user_box">
+        <div class="profile"></div>
+        <div class="user_stats"></div>
+       Name: {{ user.full_name }}<br>
+       Username: {{user.username}}<br>
+       Email: {{user.email}}<br>
+       Type: {{user.user_type}}
+    </div>
     {% endfor %}
 {% else %}
     <p>no admin_users found</p>
@@ -41,8 +46,14 @@
     {%if vendor_users%}
 
         {% for user in vendor_users %}
-
-            {{ user.full_name}}
+        <div class="user_box">
+            <div class="profile"></div>
+            <div class="user_stats"></div>
+           Name: {{ user.full_name }}<br>
+           Username: {{user.username}}<br>
+           Email: {{user.email}}<br>
+           Type: {{user.user_type}}
+        </div>
 
         {% endfor%}
     {% else %}
@@ -55,8 +66,14 @@
     {%if customer_users%}
 
         {% for user in customer_users %}
-
-            {{ user.full_name}}
+        <div class="user_box">
+            <div class="profile"></div>
+            <div class="user_stats"></div>
+           Name: {{ user.full_name }}<br>
+           Username: {{user.username}}<br>
+           Email: {{user.email}}<br>
+           Type: {{user.user_type}}
+        </div>
 
         {% endfor%}
     {% else %}
@@ -69,8 +86,10 @@
     {%if items%}
 
     {% for item in items %}
-
+    <div class="profile"></div>
         {{ item.item_name}} <p>Price: ${{ item.original_price}}</p>
+        {{item.item_desc}}
+
 
     {% endfor%}
 {% else %}
@@ -87,21 +106,35 @@
 
 </html>
 <style>
+    .user_box{
+        border: green 1px solid;
+        display: flex;
+        margin: 3px;
+    }
     .box_holder{
         display: flex;
         flex-wrap: wrap;
         border: 1px red solid;
+        flex-direction: column;
     }
     .box{
         border: 3px grey outset;
-        width: 240px;
         padding: 13px;
         border-radius: 7px;
         margin: 7px;
+        overflow-y: scroll;
+        height: 240px;
+        flex-wrap: wrap;
     }
     .create_user{
         height: 123px;
         padding-left: 23px;
         border: green 3px solid;
+    }
+    .profile{
+        width: 53px;
+        height: 69px;
+        border:red 1px outset;
+
     }
 </style>
