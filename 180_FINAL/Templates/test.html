@@ -7,7 +7,7 @@
         <input name="full_name" placeholder="Full Name">
         <input name="email" placeholder="Email">
         <input name="username" placeholder="username">
-        <input name="password_hash" placeholder="Password">
+        <input name="password_hash" placeholder="Password"><br>
         <label  for="user_Type">Account Type</lable>
         <select name="user_type">
             <option value="Customer">Customer</option>
@@ -27,7 +27,7 @@
 
     {% for user in admin_users %}
     <div class="user_box">
-        <div class="profile"></div>
+        <div class="profile" id="pic"></div>
         <div class="user_stats"></div>
        Name: {{ user.full_name }}<br>
        Username: {{user.username}}<br>
@@ -47,7 +47,7 @@
 
         {% for user in vendor_users %}
         <div class="user_box">
-            <div class="profile"></div>
+            <div class="profile" id="pic"></div>
             <div class="user_stats"></div>
            Name: {{ user.full_name }}<br>
            Username: {{user.username}}<br>
@@ -103,7 +103,8 @@
 
     {% for item in items %}
     <div class="item_box">
-    <div class="profile"></div>
+        <div class="profile" style="background-image: url('{{ url_for('static', filename='images/' ~ item.item_image) }}');"></div>
+
         <div class="item_stats">
         Item: {{ item.item_name}}<br>
         Price: ${{ item.original_price}}<br>
@@ -179,6 +180,7 @@
         width: 53px;
         height: 69px;
         border:red 1px outset;
-
+        background-position: center;
+        background-size: contain;
     }
 </style>
