@@ -1,13 +1,44 @@
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <ul class="flashes">
+    {% for category, message in messages %}
+      <li class="{{ category }}">{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
 <!DOCTYPE html>
 <html>
 <body>
+
+{% if login %}
+<div class="login_nav">
+
+    <div class="login_profile">
+        <div class="login_profile_pic"></div>
+
+    <div class="login_name"></div>
+
+        <div class="login_stats">
+            <div class="wallet">$240.00</div>
+            Name: {{login.full_name}}<br>
+            Email: {{login.username}}<br>
+            Class: {{login.user_type}}<br>
+        </div>
+        
+    </div>
+</div>
+
+{% else %}
+
+{% endif %}
 
 <div class="login">
     <h1>Login</h1>
     <div class="login_form">
         <form method="POST" action="/">
             <input placeholder="Email" name="login_email"><br>
-            <input placeholder="Password" name="password_hash"><br>
+            <input placeholder="Password" name="password_hash" type="password"><br>
             <button type="submit">Login</button>
         </form>
     </div>
@@ -132,8 +163,6 @@
 </div>
 
 
-
-
 </div>
 </body>
 
@@ -206,4 +235,14 @@
         background-position: center;
         background-size: contain;
     }
+    .flashes {
+  list-style-type: none;
+  padding: 0;
+}
+.flashes .success {
+  color: green;
+}
+.flashes .danger {
+  color: red;
+}
 </style>

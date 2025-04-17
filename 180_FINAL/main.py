@@ -13,6 +13,7 @@ db = SQLAlchemy(app)
 #test page to see everything!#
 @app.route('/', methods=['GET', 'POST'])
 def all_users():
+    login = None
     admin_users = db.session.execute(text("SELECT * FROM shop_user WHERE user_type = 'Admin'")).mappings().fetchall()
     vendor_users = db.session.execute(text("SELECT * FROM shop_user WHERE user_type = 'Vendor'")).mappings().fetchall()
     customer_users = db.session.execute(text("SELECT * FROM shop_user WHERE user_type = 'Customer'")).mappings().fetchall()
@@ -37,10 +38,19 @@ def all_users():
         elif 'login_email'in request.form: #This means user is logining in.
              email =request.form['login_email']
              password_hash = request.form['password_hash']
+
              login_data = db.session.execute(text("""
             select * from shop_user where email = :e and password_hash = :p
-            """), {'e':email, 'p': password_hash}).fetchone()
-             db.session.commit()
+            """), {'e':email, 'p': password_hash}).mappings().fetchone()
+             
+             if login_data:
+                 session['user_id'] = login_data['user_id']
+                 login = login_data
+                 flash('login success!')
+             else:
+                flash('Invalid email or password')
+             
+
 
             
  
@@ -63,7 +73,8 @@ def all_users():
                            vendor_users=vendor_users,
                            customer_users=customer_users,
                            items=items,
-                           creator=creator)
+                           creator=creator,
+                           login=login)
 
 
 #run#
