@@ -9,6 +9,13 @@
 {% endwith %}
 <!DOCTYPE html>
 <html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="/180_FINAL/Static/test1.css">
+</head>
 <body>
 
 {% if login %}
@@ -49,200 +56,107 @@
     <form method="POST" action="/">
         <input name="full_name" placeholder="Full Name">
         <input name="email" placeholder="Email">
-        <input name="username" placeholder="username">
-        <input name="password_hash" placeholder="Password"><br>
-        <label  for="user_Type">Account Type</lable>
+        <input name="username" placeholder="Username">
+        <input name="password_hash" placeholder="Password" type="password">
+        <label for="user_type">Account Type:</label>
         <select name="user_type">
             <option value="Customer">Customer</option>
             <option value="Vendor">Vendor</option>
         </select>
         <button type="submit">Create</button>
-
     </form>
 </div>
 
-
-
-    <div class="box_holder">
+<div class="box_holder">
     <div class="box">
-<h1>  Admin Users</h1><br>
-{% if admin_users %}
-
-    {% for user in admin_users %}
-    <div class="user_box">
-        <div class="profile" id="pic"></div>
-        <div class="user_stats"></div>
-       Name: {{ user.full_name }}<br>
-       Username: {{user.username}}<br>
-       Email: {{user.email}}<br>
-       Type: {{user.user_type}}
+        <h1>Admin Users</h1>
+        {% if admin_users %}
+            {% for user in admin_users %}
+            <div class="user_box">
+                <div class="profile" id="pic"></div>
+                <div class="user_stats">
+                    Name: {{ user.full_name }}<br>
+                    Username: {{ user.username }}<br>
+                    Email: {{ user.email }}<br>
+                    Type: {{ user.user_type }}
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p>No admin users found</p>
+        {% endif %}
     </div>
-    {% endfor %}
-{% else %}
-    <p>no admin_users found</p>
 
-{% endif %}
-</div>
+    <div class="box">
+        <h1>Vendor Users</h1>
+        {% if vendor_users %}
+            {% for user in vendor_users %}
+            <div class="user_box">
+                <div class="profile" id="pic"></div>
+                <div class="user_stats">
+                    Name: {{ user.full_name }}<br>
+                    Username: {{ user.username }}<br>
+                    Email: {{ user.email }}<br>
+                    Type: {{ user.user_type }}
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p>No vendors found</p>
+        {% endif %}
+    </div>
 
-<div class="box">
-    <h1>Vendor Users</h1>
-    {%if vendor_users%}
+    <div class="box">
+        <h1>Customer Users</h1>
+        {% if customer_users %}
+            {% for user in customer_users %}
+            <div class="user_box">
+                <div class="profile"></div>
+                <div class="user_stats">
+                    Name: {{ user.full_name }}<br>
+                    Username: {{ user.username }}<br>
+                    Email: {{ user.email }}<br>
+                    Type: {{ user.user_type }}
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p>No customers found</p>
+        {% endif %}
+    </div>
 
-        {% for user in vendor_users %}
-        <div class="user_box">
-            <div class="profile" id="pic"></div>
-            <div class="user_stats"></div>
-           Name: {{ user.full_name }}<br>
-           Username: {{user.username}}<br>
-           Email: {{user.email}}<br>
-           Type: {{user.user_type}}
+    <div class="create_item">
+        <h2>Create Item</h2>
+        <div class="item_form">
+            <form method="POST" action="/">
+                <input placeholder="Item Name" name="item_name">
+                <input placeholder="Item Image" name="item_image">
+                <input placeholder="Item Price" name="original_price">
+                <textarea placeholder="Item Description" name="item_desc"></textarea>
+                <button type="submit">Create</button>
+            </form>
         </div>
+    </div>
 
-        {% endfor%}
-    {% else %}
-        <p> no vendors found</p>
-    {% endif %}
-</div>
-
-<div class="box">
-    <h1>Customer Users</h1>
-    {%if customer_users%}
-
-        {% for user in customer_users %}
-        <div class="user_box">
-            <div class="profile"></div>
-            <div class="user_stats"></div>
-           Name: {{ user.full_name }}<br>
-           Username: {{user.username}}<br>
-           Email: {{user.email}}<br>
-           Type: {{user.user_type}}
-        </div>
-
-        {% endfor%}
-    {% else %}
-        <p> no customers found</p>
-    {% endif %}
-</div>
-
-
-<div class="create_item">
-    <h2>Create Item</h2>
-    <div class="item_form">
-        <form method="POST" action="/">
-        <input placeholder="Item Name" name="item_name">
-        <input placeholder="item_image" name="item_image">
-        <input placeholder="Item Price" name="original_price">
-        <textarea placeholder="Item Description" name="item_desc"></textarea>
-        <button type="submit">Create</button>
-    </form>
-
+    <div class="box">
+        <h1>Items</h1>
+        {% if items %}
+            {% for item in items %}
+            <div class="item_box">
+                <div class="profile" style='background-image: url("{{ url_for("static", filename="images/" ~ item.item_image) }}");'></div>
+                <div class="item_stats">
+                    Item: {{ item.item_name }}<br>
+                    Price: ${{ item.original_price }}<br>
+                    Description: {{ item.item_desc }}<br>
+                    Created By: {{ creator.full_name }}
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p>No items found</p>
+        {% endif %}
     </div>
 </div>
 
-
-<div class="box">
-    <h1>Items</h1>
-    {%if items%}
-
-    {% for item in items %}
-    <div class="item_box">
-        <div class="profile" style="background-image: url('{{ url_for('static', filename='images/' ~ item.item_image) }}');"></div>
-
-        <div class="item_stats">
-        Item: {{ item.item_name}}<br>
-        Price: ${{ item.original_price}}<br>
-        Description: {{item.item_desc}}<br>
-        Created By: {{creator.full_name}}
-    </div>
-
-    </div>
-    {% endfor%}
-{% else %}
-    <p> no items found</p>
-{% endif %}
-</div>
-
-
-</div>
 </body>
-
-
 </html>
-<style>
-    .login{
-        display: flex;
-        flex-direction: column;
-        height: 142px;
-        border: 1px yellow solid;
-    }
-    .login_form{
-        display: flex;
-        border: red 1px solid;
-       
-    }
-    .item_form{
-        display: flex;
-       border: grey 1px solid;
-       flex-direction: row;
-       width: 240px;
-
-    }
-    .item_form textarea{
-        height: 140px;
-        width: 230px;
-    }
-    .create_item{
-        display: flex;
-        border: 1px salmon solid;
-        height: 240px;
-    }
-    .item_box{
-        border: 1px blue solid;
-        display: flex;
-    }
-    .item_stats{
-        border: skyblue 1px solid;
-    }
-    .user_box{
-        border: green 1px solid;
-        display: flex;
-        margin: 3px;
-    }
-    .box_holder{
-        display: flex;
-        flex-wrap: wrap;
-        border: 1px red solid;
-        flex-direction: column;
-    }
-    .box{
-        border: 3px grey outset;
-        padding: 13px;
-        border-radius: 7px;
-        margin: 7px;
-        overflow-y: scroll;
-        height: 240px;
-        flex-wrap: wrap;
-    }
-    .create_user{
-        height: 123px;
-        padding-left: 23px;
-        border: green 3px solid;
-    }
-    .profile{
-        width: 53px;
-        height: 69px;
-        border:red 1px outset;
-        background-position: center;
-        background-size: contain;
-    }
-    .flashes {
-  list-style-type: none;
-  padding: 0;
-}
-.flashes .success {
-  color: green;
-}
-.flashes .danger {
-  color: red;
-}
-</style>
