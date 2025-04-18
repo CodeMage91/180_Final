@@ -1,3 +1,5 @@
+{% extends 'base.html'%}
+{% block body %}
 {% with messages = get_flashed_messages(with_categories=true) %}
   {% if messages %}
     <ul class="flashes">
@@ -7,16 +9,9 @@
     </ul>
   {% endif %}
 {% endwith %}
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link rel="stylesheet" href="/180_FINAL/Static/test1.css">
-</head>
-<body>
+
+<div class="page">
+<div class="bodi">
 
 {% if login %}
 <div class="login_nav">
@@ -180,6 +175,7 @@
 
 
 </div>
+
 <style>
     .cart_inventory{
         border: 1px red solid;
