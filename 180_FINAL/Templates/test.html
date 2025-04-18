@@ -28,7 +28,9 @@
         
         <div class="cart">
             CART: {{login.cart_id}}<br>
-            <div></div>
+            <div class="cart_inventory">
+
+            </div>
     
             <div class="cart_total">Total: ${{login.cart_total}}</div>
         </div>
@@ -157,10 +159,14 @@
         <div class="profile" style="background-image: url('{{ url_for('static', filename='images/' ~ item.item_image) }}');"></div>
 
         <div class="item_stats">
+            <form method="POST" action="/">
         Item: {{ item.item_name}}<br>
+        <input type="hidden" name="item_id">
         Price: ${{ item.original_price}}<br>
         Description: {{item.item_desc}}<br>
-        Created By: {{creator.full_name}}
+        Created By: {{creator.full_name}}<br>
+        <button type="submit">Add to Cart</button>
+    </form>
     </div>
 
     </div>
@@ -177,9 +183,14 @@
 
 </html>
 <style>
+    .cart_inventory{
+        border: 1px red solid;
+        height: 69px;
+        display: flex;
+        overflow-y: scroll;
+    }
     .cart{
         border: salmon 1px solid;
-        overflow-y: scroll;
         width: 420px;
     }
     .login_nav{
