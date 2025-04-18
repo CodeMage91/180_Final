@@ -34,18 +34,12 @@
                     <th>Item Description</th>
                     <th>Item Price</th>
                 </tr>
-               
-                {% if object_data %}
-                {% for item in object_data %}
-                    <tr>
-                        <td>{{ item.item_name }}</td>
-                        <td>{{ item.item_desc }}</td>
-                        <td>${{ item.original_price }}</td>
-                    </tr>
-                {% endfor %}
-           
+                <tr>
+                    <td>name</td>
+                    <td>Description</td>
+                    <td>$12.99</td>
+                </tr>
             </table>
-            {% endif %}
             <div class="cart_total">Total: {{login.cart_total}}</div>
         </div>
         
@@ -155,7 +149,7 @@
         <form method="POST" action="/">
         <input placeholder="Item Name" name="item_name">
         <input placeholder="item_image" name="item_image">
-        <input placeholder="Item Price" name="original_price" type="number">
+        <input placeholder="Item Price" name="original_price">
         <textarea placeholder="Item Description" name="item_desc"></textarea>
         <button type="submit">Create</button>
     </form>
@@ -171,20 +165,14 @@
     {% for item in items %}
     <div class="item_box">
         <div class="profile" style="background-image: url('{{ url_for('static', filename='images/' ~ item.item_image) }}');"></div>
-        <form method="POST" action="/">
+
         <div class="item_stats">
         Item: {{ item.item_name}}<br>
-        <input type="hidden" name="item_name">
-        <input type="hidden" name="item_image">
         Price: ${{ item.original_price}}<br>
-        <input type="hidden" name="original_price">
         Description: {{item.item_desc}}<br>
-        <input type="hidden" name="item_desc">
         Created By: {{creator.full_name}}
-        <input type="hidden" name="created_by">
     </div>
-        <button type="submit">Add to cart</button>
-    </form>
+
     </div>
     {% endfor%}
 {% else %}
