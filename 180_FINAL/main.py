@@ -4,7 +4,7 @@ from sqlalchemy import text
 from datetime import datetime
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:CSET115@localhost/shopdb'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:[password]@localhost/shopdb'
 app.config['SECRET_KEY'] = 'dev_key'
 db = SQLAlchemy(app)
 
@@ -83,6 +83,15 @@ def all_users():
                 INSERT INTO shop_item (item_name, item_image,original_price, item_desc, created_by)
                 VALUES (:item_name, :item_image, :original_price, :item_desc, :created_by)
             """), create_item)
+            db.session.commit()
+        elif 'coin-count' in request.form:
+            coin_count = request.form['coin-count']
+            cash = coin_count * 1.00  # Assuming 1 coin = $1.00
+            user_id = request.form['user_id']
+            db.session.execute(text("""
+                INSERT INTO shop_wallet (user_id, wallet_amount)
+                VALUES (:user_id, :cash)
+            """), {'user_id': user_id, 'cash': cash})
             db.session.commit()
 
     return render_template('test.html',

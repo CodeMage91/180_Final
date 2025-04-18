@@ -20,6 +20,11 @@
             padding: 10px 0;
             text-align: center;
         }
+        #header-title {
+            font-family: 'Micro 5', sans-serif;
+            font-size: 80px;
+            color: rgb(255, 187, 0);
+        }
         nav ul {
             list-style-type: none;
             padding: 0;
@@ -150,15 +155,21 @@
         }
         .temp-coin-animation {
             animation: coinAnimation 1s forwards;
+            transition: transform 0.2s ease-in-out;
         }
         @keyframes coinAnimation {
-            0% { transform: translateY(0);
-            opacity: 1; 
-            visibility: visible;/* Start fully visible */}
-            50% { transform: translateY(-20px);
-            opacity: 1; /* Coin moves up */}
-            100% { transform: translateY(0);
-            opacity: 0;/* Fade out the coin */}
+            0% { 
+                transform: translateY(0px);
+                opacity: 1; 
+                visibility: visible;/* Start fully visible */}
+            50% { 
+                transform: translateY(-20px) translateX(10px);
+                opacity: 1; /* Coin moves up */}
+            80% {
+                opacity: 0.8; }
+            100% { 
+                transform: translateY(20px) translateX(-80px);
+                opacity: 0;/* Fade out the coin */}
         }
         .hp-bar {
             background-color: #ccc;
@@ -167,6 +178,7 @@
             height: 20px;
             margin-bottom: 10px;
             border: 2px solid white;
+            z-index: 0;
         }
         .hp-bar-fill {
             background-color: #4caf50;
@@ -180,6 +192,26 @@
             width: 100%;
             transition: width 0.5s ease-in-out;
         }
+        .middle-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            height: 100%;
+        }
+        #end-run {
+            background-color: rgb(116, 50, 50);
+            color: white;
+            font-family: 'Micro 5', sans-serif;
+            font-size: 40px;
+            padding: 10px 10px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            &:hover {
+                background-color: rgb(255, 0, 0);
+            }
+        }
         .hp-container {
             display: flex;
             justify-content: space-between;
@@ -191,13 +223,12 @@
             }
         }
         .inventory-background {
+            position: relative;
             background-image: url("{{url_for( 'static', filename='images/pixelframe.png') }}");
             background-size: 600px 380px;
             background-repeat: no-repeat;
             width: 520px;
             height: 280px;
-            position: absolute;
-            top: 150px;
             right: 00px;
             z-index: 1;
             padding:50px 50px 50px 50px;
@@ -225,6 +256,16 @@
             align-items: center;
             font-size: 25pt;
             color: rgb(255, 187, 0);
+        }
+        #coin-count{
+            background-color: transparent;
+            border: none;
+            color: rgb(255, 187, 0);
+            font-size: 45pt;
+            text-align: center;
+            width: 50px;
+            height: 50px;
+            font-family: 'Micro 5', sans-serif;
         }
         #inventory-list {
             background-image: url("{{url_for( 'static', filename='images/item-frame.png') }}");
@@ -258,7 +299,6 @@
             var enemy = document.createElement("div");
             enemy.className = "enemy";
             enemy.style.left = randomNum(1000, 2000) + "px"; // Random position
-            enemy.style.top = "330px";
             var enemyImg = document.createElement("div");
             enemyImg.className = "enemyImg";
             enemy.appendChild(enemyImg);
@@ -423,7 +463,7 @@
 </head>
 <body>
     <header>
-        <h1>KRONOS ADVENTURE</h1>
+        <h1 id='header-title'>KRONOS ADVENTURE</h1>
         <nav>
             <ul>
                 <li><a href="">LOGOUT</a></li>
@@ -449,26 +489,31 @@
             </div>
         </div>
         <div class="inventory-background">
+                    <form action="/" method="POST" id="inventory-form">
+                    <input type="hidden" name="user_id" {%if login %}value="{{login.user_id}}" {% endif %}>
             <div class="game-inventory" >
                 <div class="inventory-header">
                     <h1 style="text-transform: uppercase;"> user.character_name </h1>
                     <div class="coin-cointainer">
-                    <h3 id='coins'> <span id="coin-count" value="0">0</span> COINS</h3>
+                    <h3 id='coins'> <input type="text" readonly name="coin-counts" id="coin-count" value="0">COINS</h3>
                     <img alt="Coin" width="50" height="50" src="{{url_for( 'static', filename='images/Coin.png') }}">
                     </div>
                 </div>
-                
-                <div class="hp-container">
-                    <h2>100/100 HP</h2>
-                    <div class="hp-bar" value ="100" max="100">
-                        <div class="hp-bar-fill" id="hp-bar-fill" value="100"></div>
+                <div class="middle-container">
+                    <div class="hp-container">
+                        <h2>100/100 HP</h2>
+                        <div class="hp-bar" value ="100" max="100">
+                            <div class="hp-bar-fill" id="hp-bar-fill" value="100"></div>
+                        </div>
                     </div>
+                        <input type='submit' id='end-run' value='END RUN'>
                 </div>
                 <h2>Inventory</h2>
                 <div id="inventory-list">
                     <!-- Inventory items will be dynamically added here -->
                 </div>
             </div>
+                    </form>
         </div>
     </div>
     <ion-icon name="chevron-down-outline" id='drop-down-tag'></ion-icon>
