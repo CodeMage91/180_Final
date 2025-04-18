@@ -107,7 +107,7 @@
 
         {% for user in vendor_users %}
         <div class="user_box">
-            <div class="profile" id="pic"></div>
+            <div class="profile" id="pic"  style="background-image: url('{{ url_for('static', filename='images/' ~ user.user_image) }}');"></div>
             <div class="user_stats"></div>
            Name: {{ user.full_name }}<br>
            Username: {{user.username}}<br>
@@ -127,7 +127,7 @@
 
         {% for user in customer_users %}
         <div class="user_box">
-            <div class="profile"></div>
+            <div class="profile"  style="background-image: url('{{ url_for('static', filename='images/' ~ user.user_image) }}');"></div>
             <div class="user_stats"></div>
            Name: {{ user.full_name }}<br>
            Username: {{user.username}}<br>
