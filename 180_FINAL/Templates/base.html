@@ -105,7 +105,7 @@
             width: 80px;
             height: 64px;
             scale:1.8;
-            
+            z-index:1;
         }
         .enemyAttack{
             animation: enemyAnimation 4s infinite;
@@ -266,6 +266,7 @@
             width: 50px;
             height: 50px;
             font-family: 'Micro 5', sans-serif;
+            overflow: visible;
         }
         #inventory-list {
             background-image: url("{{url_for( 'static', filename='images/item-frame.png') }}");
