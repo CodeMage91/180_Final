@@ -47,10 +47,19 @@ def all_users():
              if login_data:
                  session['user_id'] = login_data['user_id']
                  
-                 #where's mah wallet
+                                                                 #where's mah wallet
                  wallet_data = db.session.execute(text("""
             select * from shop_wallet where user_id = :user_wallet
             """),{'user_wallet':login_data['user_id']}).mappings().fetchone()
+                 
+                 cart_data = db.session.execute(text("""
+            select * from shop_cart where user_id = :user_cart
+            """),{'user_cart':login_data['user_id']}).mappings().fetchone()
+                 
+                 if cart_data:
+                     login_data = dict(login_data)
+                     login_data['cart_id'] = cart_data['cart_id']
+                     login_data['cart_total'] = cart_data['cart_total']
                  
              #Merge wallet into login    
                  if wallet_data:
