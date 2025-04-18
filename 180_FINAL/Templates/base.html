@@ -1,0 +1,485 @@
+<html>
+<head>
+    <title>{% block title %}Kronos Adventurer{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{{url_for( 'static', filename='css/styles.css' )}}">
+    <script src="{{url_for( 'static', filename='js/scripts.js' )}}"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Micro+5&display=swap" rel="stylesheet">
+    {% block extra_head %}{% endblock %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+        }
+        main {
+            padding: 20px;
+        }
+        footer {
+            text-align: center;
+            padding: 10px 0;
+            background-color: #333;
+            color: white;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+        .game-container {
+            background-image: url("{{url_for( 'static', filename='images/pixelframe.png') }}");
+            background-size: 565px 370px;
+            background-repeat: no-repeat;
+            background-position: top 20px left 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color:rgb(192, 181, 150);
+        }
+        .game-window {
+            background-color: #fff;
+            margin: 45px;
+            height: 280px;
+            width: 480px;
+            background-image: url("{{url_for( 'static', filename='images/background.png') }}");
+            background-size: cover;
+            background-position: bottom 0px left;
+            background-repeat: repeat-x;
+            overflow:hidden;
+        }
+        .player-holder {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        .game-level {
+            position:absolute;
+            width: 2500000px;
+            height: 100%;
+            overflow: hidden;
+            left: 0;
+            top: 0;
+            z-index: 1;
+        }
+        .enemy {
+            position: relative;
+            top: 330px;
+            width:80px;
+            height:100px;
+            left: 600px;
+            scale:1.2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .enemyImg {
+            background-image: url("{{url_for( 'static', filename='images/enemies/enemy.gif') }}");
+            background-size: cover;
+            background-position: center;
+            width: 80px;
+            height: 64px;
+            scale:1.8;
+            
+        }
+        .enemyAttack{
+            animation: enemyAnimation 4s infinite;
+        }
+        @keyframes enemyAnimation {
+            0% { background-image: url("{{url_for( 'static', filename='images/enemies/attack_mushroom.gif') }}"); }
+            45%{ background-image: url("{{url_for( 'static', filename='images/enemies/attack_mushroom.gif') }}"); }
+            50% { background-image: url("{{url_for( 'static', filename='images/enemies/enemy.gif') }}"); }
+            100% { background-image: url("{{url_for( 'static', filename='images/enemies/enemy.gif') }}"); }
+
+        }
+        #player {
+            position: relative;
+            top: 160px;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: transform 0.5s ease-in-out;
+            scale:1.5;
+            z-index:2;
+        }
+        #weapon {
+            position: relative;
+            top: 150px;
+            left: 30%;
+            z-index: 0;
+            transform: translateX(-50%);
+            transition: transform 0.5s ease-in-out;
+            scale:0.9;
+        }
+        #attack {
+            position: relative;
+            top: 80px;
+            left: 70%;
+            z-index: 3;
+            transform: translateX(-50%);
+            transition: transform 0.5s ease-in-out;
+            scale:0.9;
+            display: none; /* Hide the attack image by default */
+        }
+        #temp-coin {
+            position: relative;
+            top: 100px;
+            left: 20%;
+            z-index: 5;
+            transform: translateX(-50%);
+            visibility: hidden; /* Hide the coin by default */
+        }
+        .temp-coin-animation {
+            animation: coinAnimation 1s forwards;
+        }
+        @keyframes coinAnimation {
+            0% { transform: translateY(0);
+            opacity: 1; 
+            visibility: visible;/* Start fully visible */}
+            50% { transform: translateY(-20px);
+            opacity: 1; /* Coin moves up */}
+            100% { transform: translateY(0);
+            opacity: 0;/* Fade out the coin */}
+        }
+        .hp-bar {
+            background-color: #ccc;
+            min-width: 40px;
+            max-width: 100px;
+            height: 20px;
+            margin-bottom: 10px;
+            border: 2px solid white;
+        }
+        .hp-bar-fill {
+            background-color: #4caf50;
+            height: 100%;
+            width: 100%;
+            transition: width 0.5s ease-in-out;
+        }
+        .enemy-fill {
+            background-color: #f44336; /* Red color for enemy HP bar */
+            height: 100%;
+            width: 100%;
+            transition: width 0.5s ease-in-out;
+        }
+        .hp-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 150px;
+            .hp-bar {
+                width: 60px;
+                margin-top: 10px;
+            }
+        }
+        .inventory-background {
+            background-image: url("{{url_for( 'static', filename='images/pixelframe.png') }}");
+            background-size: 600px 380px;
+            background-repeat: no-repeat;
+            width: 520px;
+            height: 280px;
+            position: absolute;
+            top: 150px;
+            right: 00px;
+            z-index: 1;
+            padding:50px 50px 50px 50px;
+            font-family: 'Micro 5', sans-serif;
+            color:rgb(37, 29, 16);
+        }
+        .game-inventory {
+            padding: 0px 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            max-height: 100%;
+        }
+        .inventory-header {
+            display:flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            height: 70px;
+        }
+        .coin-cointainer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 25pt;
+            color: rgb(255, 187, 0);
+        }
+        #inventory-list {
+            background-image: url("{{url_for( 'static', filename='images/item-frame.png') }}");
+            background-size: 64px 64px;
+            background-repeat: repeat-x;
+            background-position: top left;
+            height: 64px;
+            width: 384px;
+        }
+        #drop-down-tag {
+            top: 120px;
+            right: 20px;
+            font-size: 30px;
+            color: #333;
+            cursor: pointer;
+            background-color: rgb(192,181, 150);
+        }
+        #drop-down-tag:hover {
+            color: #555;
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        var state = 'idle'; // Initial state
+        function randomNum(min, max) {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min + 1) + min);
+          }
+        function createEnemy() {
+            var enemy = document.createElement("div");
+            enemy.className = "enemy";
+            enemy.style.left = randomNum(1000, 2000) + "px"; // Random position
+            enemy.style.top = "330px";
+            var enemyImg = document.createElement("div");
+            enemyImg.className = "enemyImg";
+            enemy.appendChild(enemyImg);
+            var hpBar = document.createElement("div");
+            hpBar.className = "hp-bar enemy-hp-bar";
+            hpBar.setAttribute("value", 100);
+            hpBar.setAttribute("max", 100);
+            var hpBarFill = document.createElement("div");
+            hpBarFill.className = "hp-bar-fill enemy-fill";
+            hpBarFill.setAttribute("value", 100);
+            hpBar.appendChild(hpBarFill);
+            enemy.appendChild(hpBar);
+            return enemy;
+        }
+        function playGame(time) {
+            var defaultSpeed = 1.2; // Default speed
+            var gameWindow = document.querySelector(".game-window");
+            var gameLevel = document.querySelector(".game-level");
+            var enemies = document.getElementsByClassName("enemy");
+            var player = document.getElementById("player");
+            
+            var pause = false; // Pause variable
+            // Check if the enemy is within the visible area of the game window
+            
+            function updateEnemyVisibility(enemy) {
+                var enemyRect = enemy.getBoundingClientRect();
+                var gameWindowRect = gameWindow.getBoundingClientRect();
+                if (
+                    enemyRect.left < gameWindowRect.left || // Enemy is to the left of the game window
+                    enemyRect.right > gameWindowRect.right    // Enemy is to the right of the game window
+                ) {
+                    enemy.style.visibility = "hidden"; // Hide the enemy
+                } else {
+                    enemy.style.visibility = "visible"; // Show the enemy
+                }
+            };
+            function updateMovementWhenCloseToPlayer(enemy){
+                var enemyRect = enemy.getBoundingClientRect();
+                var playerRect = player.getBoundingClientRect();
+                if (
+                    enemyRect.left  < playerRect.right 
+                ) {
+                    speed = 0; // Stop the background movement
+                    return enemy;
+                }
+                else {
+                    speed = defaultSpeed; // Resume the background movement
+                }
+            }
+            var enemyHPBarFills = document.getElementsByClassName("enemy-hp-bar");
+            var enemyGlobal;
+            for (var i = 0; i < enemies.length; i++) {
+                updateEnemyVisibility(enemies[i]);
+                let enemy = updateMovementWhenCloseToPlayer(enemies[i]);
+                if (speed !== 0) {
+                    enemyHPBarFills[i].style.display = "none"; // Hide the enemy HP bar
+                } else {
+                    enemyHPBarFills[i].style.display = "block"; // Show the enemy HP bar
+                    enemyHPBarFills[i].style.position = "absolute"; // Set position to absolute
+                    enemyHPBarFills[i].style.width = '100px';
+                }
+                if (enemy){
+                   enemyGlobal = enemy; // Store the enemy that is close to the player 
+                }  
+            }
+            var backgroundPosition = parseInt(getComputedStyle(gameWindow).backgroundPosition.split(" ")[0]) || 0;
+
+            if (speed != 0 && !pause) {
+                // Move the background
+                var gameLevelPosition = parseInt(getComputedStyle(gameLevel).left) || 0;
+                backgroundPosition -= speed; // Adjust the speed of the movement here
+                gameLevelPosition -= speed; // Adjust the speed of the movement here
+                gameLevel.style.left = gameLevelPosition + "px";
+                gameWindow.style.backgroundPosition =  backgroundPosition + "px bottom";
+            }
+            else {
+                function getEnemyHealthBar(){
+                    var enemyHPBarFills = document.getElementsByClassName("enemy-hp-bar");
+                    for (var i = 0; i < enemyHPBarFills.length; i++) {
+                        var enemyHPBarRect = enemyHPBarFills[i].getBoundingClientRect();
+                        var playerRect = player.getBoundingClientRect();
+                        if (
+                            enemyHPBarRect.left - playerRect.right < 50  // Enemy HP bar is close to the left of the player
+                        ){
+                            return enemyHPBarFills[i]; // Return the enemy HP bar that is close to the player
+                        }
+                    }
+                }
+                // If speed is 0, initiate combat
+                state = "combat"; // Change state to combat
+                var attackImage = document.getElementById("attack");
+                var enemyImg = enemyGlobal.querySelector(".enemyImg");
+                enemyImg.classList.add("enemyAttack"); // Add animation class to the enemy image
+                attackImage.style.display = "block"; // Show the attack image
+                console.log(time.toFixed(2));
+                healthBar = getEnemyHealthBar();
+                if (time.toFixed(2) % 0.35 == 0 && time.toFixed(2) != 0) { // Show player attack image every 0.75 seconds
+                    console.log("Attack");
+                    fill = healthBar.querySelector(".hp-bar-fill");
+                    var currentHP = parseInt(healthBar.getAttribute("value"));
+                    var maxHP = parseInt(healthBar.getAttribute("max"));
+                    var damage = 10; // Example damage value
+                    var newHP = currentHP - damage;
+                    if (newHP <= 0){ 
+                        newHP = 0; // Ensure HP doesn't go below 0
+                        enemyGlobal.style.transition = "opacity 0.5s ease-in-out"; // Add transition for smooth effect
+                        enemyGlobal.style.opacity = "0%"; // Hide the enemy if HP is 0
+                        enemyGlobal.style.left = "-100px"; // Move the enemy out of view
+                        enemyGlobal.remove();
+                        state = "idle"; // Change state back to idle
+                        speed = 40; // Resume background movement
+                        attackImage.style.display = "none"; // Hide the attack image
+                        var coinCount = document.getElementById("coin-count");
+                        var currentCoins = parseInt(coinCount.getAttribute("value"));
+                        var newCoins = currentCoins + randomNum(2,5) // Example coin value
+                        coinCount.setAttribute("value", newCoins);
+                        coinCount.innerHTML = newCoins; // Update the displayed coin count
+                        var tempCoin = document.getElementById("temp-coin");
+                        tempCoin.classList.add("temp-coin-animation"); // Add animation class to the coin
+                        tempCoin.style.visibility = "visible"; // Show the coin
+                        setTimeout(function() {
+                            tempCoin.classList.remove("temp-coin-animation"); // Remove animation class after 1 second
+                            tempCoin.style.visibility = "hidden"; // Hide the coin after animation
+                        }, 1000); // Duration of the animation
+                        gameLevel.style.left = "0px"; // Reset the game level position
+                        gameLevelPosition = 0; // Reset the game level position variable
+                        enemy = createEnemy(); // Create a new enemy
+                        gameLevel.appendChild(enemy); // Add the new enemy to the game level
+                        pause=true; // Pause the game for 1 second
+                        setTimeout(function(){
+                            pause=false; // Resume the game after 1 second
+                        }, 1000);
+                        return; // Exit the function
+                    }
+                    healthBar.setAttribute("value", newHP);
+                    fill.setAttribute("value", newHP);
+                    var hpPercentage = (newHP / maxHP) * 100;
+                    fill.style.width = hpPercentage + "%";
+                    fill.style.transition = "width 0.5s ease-in-out"; // Add transition for smooth effect
+                }
+            }
+        }
+        var time = 0; // Initialize time variable
+        document.addEventListener("DOMContentLoaded", function() {
+            var hpBarFill = document.getElementById("hp-bar-fill");
+            var currentHP = 100; // Example current HP value
+            var maxHP = 100; // Example max HP value
+            var hpPercentage = (currentHP / maxHP) * 100;
+            hpBarFill.style.width = hpPercentage + "%";
+            setInterval(function() {
+                time += 0.001; // Increment time by 1 milliseconds (approx. 60 FPS)
+                if (time > 1) {time = 0;}
+            }, 1); // Approximately 60 FPS
+
+            // Start the background movement loop
+            setInterval(function() {
+                playGame(time);
+            }, 16); // Approximately 60 FPS
+
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <h1>KRONOS ADVENTURE</h1>
+        <nav>
+            <ul>
+                <li><a href="">LOGOUT</a></li>
+                <li><a href="">ACHIEVEMENTS</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="game-container">
+        <div class="game-window">
+            <div class="game-level">
+                <div class="enemy">
+                    <div class="hp-bar enemy-hp-bar" value="100" max="100">
+                        <div class="hp-bar-fill enemy-fill" value="100"></div>
+                    </div>
+                    <div class="enemyImg" style=""width="100" height="100" ></div>
+                </div>
+            </div>
+            <div class "player-holder">
+                <img id="player"src="{{url_for( 'static', filename='images/users/character.png') }}" alt="Player Character" width="100" height="100">
+                <img id="weapon" src="{{url_for( 'static', filename='images/weapons/weapon.png') }}" alt="Weapon" width="100" height="100">
+                <img id="attack" src="{{url_for( 'static', filename='images/slice.gif') }}" alt="Attack" width="100" height="100">
+                <img id="temp-coin" src="{{url_for( 'static', filename='images/CoinAnim.gif') }}" alt="Coin" width="100" height="100">
+            </div>
+        </div>
+        <div class="inventory-background">
+            <div class="game-inventory" >
+                <div class="inventory-header">
+                    <h1 style="text-transform: uppercase;"> user.character_name </h1>
+                    <div class="coin-cointainer">
+                    <h3 id='coins'> <span id="coin-count" value="0">0</span> COINS</h3>
+                    <img alt="Coin" width="50" height="50" src="{{url_for( 'static', filename='images/Coin.png') }}">
+                    </div>
+                </div>
+                
+                <div class="hp-container">
+                    <h2>100/100 HP</h2>
+                    <div class="hp-bar" value ="100" max="100">
+                        <div class="hp-bar-fill" id="hp-bar-fill" value="100"></div>
+                    </div>
+                </div>
+                <h2>Inventory</h2>
+                <div id="inventory-list">
+                    <!-- Inventory items will be dynamically added here -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <ion-icon name="chevron-down-outline" id='drop-down-tag'></ion-icon>
+    <main>
+        {% block body %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2025 KRONOS ADVENTURE TEAM</p>
+    </footer>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</body>
+</html>
