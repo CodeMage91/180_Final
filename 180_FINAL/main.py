@@ -26,12 +26,13 @@ def all_users():
                 'full_name': request.form['full_name'],
                 'email': request.form['email'],
                 'username': request.form['username'],
+                'user_image':request.form['user_image'],
                 'password_hash': request.form['password_hash'],
                 'user_type': request.form['user_type']
             }
             db.session.execute(text("""
-                INSERT INTO shop_user (full_name, email, username, password_hash, user_type)
-                VALUES (:full_name, :email, :username, :password_hash, :user_type)
+                INSERT INTO shop_user (full_name, email, username, user_image, password_hash, user_type)
+                VALUES (:full_name, :email, :username, :user_image, :password_hash, :user_type)
             """), signup_data)
             db.session.commit()
 
