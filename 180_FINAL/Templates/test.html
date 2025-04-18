@@ -87,7 +87,7 @@
 
     {% for user in admin_users %}
     <div class="user_box">
-        <div class="profile" id="pic"></div>
+        <div class="profile" id="pic"  style="background-image: url('{{ url_for('static', filename='images/' ~ user.user_image) }}');"></div>
         <div class="user_stats"></div>
        Name: {{ user.full_name }}<br>
        Username: {{user.username}}<br>
@@ -272,7 +272,7 @@
         height: 69px;
         border:red 1px outset;
         background-position: center;
-        background-size: contain;
+        background-size: cover;
     }
     .flashes {
   list-style-type: none;
