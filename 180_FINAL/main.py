@@ -45,15 +45,22 @@ def all_users():
              
              if login_data:
                  session['user_id'] = login_data['user_id']
+                 
+                 #where's mah wallet
+                 wallet_data = db.session.execute(text("""
+            select * from shop_wallet where user_id = :user_wallet
+            """),{'user_wallet':login_data['user_id']}).mappings().fetchone()
+                 
+             #Merge wallet into login    
+                 if wallet_data:
+                     login_data = dict(login_data)
+                     login_data['wallet_amount'] = wallet_data['wallet_amount']
+                 
                  login = login_data
                  flash('login success!')
              else:
                 flash('Invalid email or password')
-             
-
-
-            
- 
+              
         elif 'item_name' in request.form:  # This means the Create Item form was submitted
             create_item = {
                 'item_name': request.form['item_name'],
