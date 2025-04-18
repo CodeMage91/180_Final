@@ -1,3 +1,5 @@
+{% extends 'base.html'%}
+{% block body %}
 {% with messages = get_flashed_messages(with_categories=true) %}
   {% if messages %}
     <ul class="flashes">
@@ -7,9 +9,9 @@
     </ul>
   {% endif %}
 {% endwith %}
-<!DOCTYPE html>
-<html>
-<body>
+
+<div class="page">
+<div class="bodi">
 
 {% if login %}
 <div class="login_nav">
@@ -178,6 +180,7 @@
 
 
 </div>
+
 <style>
     .cart_inventory{
         border: 1px red solid;
