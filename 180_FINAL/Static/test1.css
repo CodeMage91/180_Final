@@ -1,3 +1,63 @@
+.nav_icons{
+    width: 520px;
+    height: 42px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    padding: 20px;
+    margin: 20px auto;
+    display: flex;
+    justify-content: space-evenly;
+}
+.nav_login{
+    width:34px;
+    height:34px;
+    background-image: url('./images/icon_00.png');
+    background-repeat: no-repeat;
+    display: flex;
+}
+.nav_create_item{
+    width:34px;
+    height:34px;
+    background-image: url('./images/icon_00.png');
+    display: flex;
+    background-repeat: no-repeat;
+}
+.nav_shop{
+    width:34px;
+    height:34px;
+    background-image: url('./images/icon_00.png');
+    display: flex;
+    background-repeat: no-repeat;
+}
+.nav_cart{
+    width:34px;
+    height:34px;
+    background-image: url('./images/icon_00.png');
+    display: flex;
+    background-repeat: no-repeat;
+}
+.nav_order{
+    width:34px;
+    height:34px;
+    background-image: url('./images/icon_00.png');
+    display: flex;
+    background-repeat: no-repeat;
+}
+.nav_inventory{
+    width:34px;
+    height:34px;
+    background-image: url('./images/icon_00.png');
+    display: flex;
+    background-repeat: no-repeat;
+}
+.nav_chat{
+    width:34px;
+    height:34px;
+    background-image: url('./images/icon_00.png');
+    display: flex;
+    background-repeat: no-repeat;
+}
 body {
     background-color: #f4f7fa;
     font-family: Arial, sans-serif;

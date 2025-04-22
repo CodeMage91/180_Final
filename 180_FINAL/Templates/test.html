@@ -1,9 +1,4 @@
-{% extends 'base.html'%}
-{% block title %}MASTER PAGE{% endblock %}
-{% block extra_head %}
-<link rel="stylesheet" href="{{ url_for('static', filename='test1.css') }}">
-{% endblock %}
-{% block body %}
+
 {% with messages = get_flashed_messages(with_categories=true) %}
   {% if messages %}
     <ul class="flashes">
@@ -14,8 +9,24 @@
   {% endif %}
 {% endwith %}
 
+{% if not login %}
+  
+<div class="login">
+    <h1>Login</h1>
+    <div class="login_form">
+        <form method="POST" action="/">
+            <input placeholder="Email" name="login_email" required><br>
+            <input placeholder="Password" name="password_hash" type="password" required><br>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+</div>
+
+{% endif %}
+
 <div class="page">
 <div class="bodi">
+    <a href="{{ url_for('logout') }}">Logout</a>
 
 {% if login %}
 <div class="login_nav">
@@ -26,20 +37,14 @@
     <div class="login_name"></div>
 
         <div class="login_stats">
-            <div class="wallet">${{login.wallet_amount}}</div>
+            <div class="wallet">${{login.wallet_amount or 0.00}}</div>
             Name: {{login.full_name}}<br>
-            Email: {{login.username}}<br>
+            Username: {{login.username}}
+            Email: {{login.email}}<br>
             Class: {{login.user_type}}<br>
         </div>
         
-        <div class="cart">
-            CART: {{login.cart_id}}<br>
-            <div class="cart_inventory">
-
-            </div>
-    
-            <div class="cart_total">Total: ${{login.cart_total}}</div>
-        </div>
+        
         
     </div>
 </div>
@@ -47,27 +52,26 @@
 {% else %}
 
 {% endif %}
-
-<div class="login">
-    <h1>Login</h1>
-    <div class="login_form">
-        <form method="POST" action="/">
-            <input placeholder="Email" name="login_email"><br>
-            <input placeholder="Password" name="password_hash" type="password"><br>
-            <button type="submit">Login</button>
-        </form>
-    </div>
+<div class="nav_icons">
+    <div class="nav_login"></div>
+    <div class="nav_create_item"></div>
+    <div class="nav_shop"></div>
+    <div class="nav_cart"></div>
+    <div class="nav_order"></div>
+    <div class="nav_inventory"></div>
+    <div class="nav_chat"></div>
 </div>
+
 
 <div class="create_user">
     <h1>Create User</h1>
     <form method="POST" action="/">
-        <input name="full_name" placeholder="Full Name">
-        <input name="email" placeholder="Email">
+        <input name="full_name" placeholder="Full Name" required>
+        <input name="email" placeholder="Email" required>
         <input name="username" placeholder="username">
         <input name="user_image" placeholder="Profile Image">
-        <input name="password_hash" placeholder="Password"><br>
-        <label  for="user_Type">Account Type</lable>
+        <input name="password_hash" placeholder="Password" required><br>
+        <label  for="user_Type">Account Type</label>
         <select name="user_type">
             <option value="Customer">Customer</option>
             <option value="Vendor">Vendor</option>
@@ -160,9 +164,9 @@
         <div class="profile" style="background-image: url('{{ url_for('static', filename='images/' ~ item.item_image) }}');"></div>
 
         <div class="item_stats">
-            <form method="POST" action="/">
+            <form method="POST" action="{{ url_for('to_cart') }}">
         Item: {{ item.item_name}}<br>
-        <input type="hidden" name="item_id">
+        <input type="hidden" name="item_id" value="{{item.item_id}}">
         Price: ${{ item.original_price}}<br>
         Description: {{item.item_desc}}<br>
         Created By: {{creator.full_name}}<br>
@@ -176,8 +180,29 @@
     <p> no items found</p>
 {% endif %}
 </div>
+<div class="cart">
+    CART: {{login.cart_id}}<br>
+    <div class="cart_inventory">
+        {% if cart_items %}
+        <ul>
+        {% for item in cart_items %}
+        <li>{{item.item_name}} - {{item.original_price}} - {{item.item_desc}}<button>Remove</button></li>
+        {% endfor %}
+        </ul>
+        {% else %}
+        <p>empty cart</p>
+        {% endif %}
+
+    </div>
+
+    <div class="cart_total">Total: ${{login.cart_total}}</div>
+
+   
+
 
 
 </div>
 
-{% endblock %}
+
+</div>
+

@@ -1,0 +1,144 @@
+from flask import Flask, render_template_string
+
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return render_template_string('''
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-commerce App</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h2 { color: #333; }
+        form { margin-bottom: 30px; padding: 20px; border: 1px solid #ccc; border-radius: 10px; }
+        label { display: block; margin-top: 10px; }
+        input, select, textarea { width: 100%; padding: 8px; margin-top: 5px; }
+        button { margin-top: 15px; padding: 10px 20px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background-color: #218838; }
+    </style>
+</head>
+<body>
+    <h1>E-commerce Management Panel</h1>
+
+    <h2>Register User</h2>
+    <form>
+        <label>Name:</label><input type="text">
+        <label>Email:</label><input type="email">
+        <label>Username:</label><input type="text">
+        <label>Password:</label><input type="password">
+        <label>User Type:</label>
+        <select><option>admin</option><option>vendor</option><option>customer</option></select>
+        <button>Register</button>
+    </form>
+
+    <h2>Add Product</h2>
+    <form>
+        <label>Vendor ID:</label><input type="number">
+        <label>Title:</label><input type="text">
+        <label>Description:</label><textarea></textarea>
+        <label>Images (URLs):</label><input type="text">
+        <label>Warranty Period:</label><input type="date">
+        <label>Colors:</label><input type="text">
+        <label>Sizes:</label><input type="text">
+        <label>In Stock:</label><input type="number">
+        <label>Price:</label><input type="number" step="0.01">
+        <label>Created By:</label><input type="number">
+        <label>Updated By:</label><input type="number">
+        <button>Add Product</button>
+    </form>
+
+    <h2>Add Discount</h2>
+    <form>
+        <label>Product ID:</label><input type="number">
+        <label>Old Price:</label><input type="number">
+        <label>New Price:</label><input type="number">
+        <label>Start Time:</label><input type="datetime-local">
+        <label>End Time:</label><input type="datetime-local">
+        <button>Apply Discount</button>
+    </form>
+
+    <h2>Add to Cart</h2>
+    <form>
+        <label>Customer ID:</label><input type="number">
+        <label>Product ID:</label><input type="number">
+        <label>Quantity:</label><input type="number">
+        <label>Color:</label><input type="text">
+        <label>Size:</label><input type="text">
+        <button>Add to Cart</button>
+    </form>
+
+    <h2>Place Order</h2>
+    <form>
+        <label>User ID:</label><input type="number">
+        <label>Date:</label><input type="date">
+        <label>Total Price:</label><input type="number">
+        <label>Status:</label><input type="text">
+        <label>Time:</label><input type="datetime-local">
+        <button>Place Order</button>
+    </form>
+
+    <h2>Write Review</h2>
+    <form>
+        <label>Product ID:</label><input type="number">
+        <label>Customer ID:</label><input type="number">
+        <label>Rating (1-5):</label><input type="number">
+        <label>Description:</label><textarea></textarea>
+        <label>Image URL:</label><input type="text">
+        <label>Reviewer Name:</label><input type="text">
+        <label>Posted Date:</label><input type="datetime-local">
+        <label>Index:</label><input type="number">
+        <button>Submit Review</button>
+    </form>
+
+    <h2>File Complaint</h2>
+    <form>
+        <label>Customer ID:</label><input type="number">
+        <label>Product ID:</label><input type="number">
+        <label>Date:</label><input type="datetime-local">
+        <label>Title:</label><input type="text">
+        <label>Description:</label><textarea></textarea>
+        <label>Demands:</label><textarea></textarea>
+        <label>Image URL:</label><input type="text">
+        <label>Demand Type:</label>
+        <select><option>Return</option><option>Refund</option><option>Warranty</option></select>
+        <label>Status:</label><input type="text">
+        <button>Submit Complaint</button>
+    </form>
+
+    <h2>Review Complaint</h2>
+    <form>
+        <label>Complaint ID:</label><input type="number">
+        <label>Admin ID:</label><input type="number">
+        <label>Valid:</label><input type="checkbox">
+        <label>Not Valid:</label><input type="checkbox">
+        <label>Reviewed By:</label><input type="number">
+        <button>Review</button>
+    </form>
+
+    <h2>Add Warranty</h2>
+    <form>
+        <label>Product ID:</label><input type="number">
+        <label>Expiration Date:</label><input type="date">
+        <button>Add Warranty</button>
+    </form>
+
+    <h2>Send Message</h2>
+    <form>
+        <label>Chat ID:</label><input type="number">
+        <label>Sender ID:</label><input type="number">
+        <label>Text:</label><textarea></textarea>
+        <label>Image URL:</label><input type="text">
+        <label>Timestamp:</label><input type="datetime-local">
+        <button>Send Message</button>
+    </form>
+
+</body>
+</html>
+''')
+
+if __name__ == '__all__':
+    app.run(debug=True)
