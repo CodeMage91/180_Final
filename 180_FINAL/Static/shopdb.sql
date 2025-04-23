@@ -1,26 +1,23 @@
 #create database shopdb;
 use shopdb;
 
-drop table if exists cart_object;
-drop table if exists shop_wallet;
+drop table if exists user_inventory;
+drop table if exists order_item;
+drop table if exists shop_order;
 drop table if exists shop_cart;
 drop table if exists shop_item;
 drop table if exists shop_user;
 
-
-
-
-#creating an admin first for sign in!
-
-create table if not exists shop_user(
+create table shop_user(
 user_id int primary key auto_increment,
 full_name varchar(55) not null,
 email varchar(100) unique not null,
 username varchar(100) not null,
 password_hash varchar(100) not null,
-user_type enum('Admin','Vendor','Customer') not null
+user_type enum('Admin','Vendor','Customer') not null,
+user_image varchar(200) null
 );
-alter table shop_user add user_image varchar(100) null;
+
 create table shop_item(
 item_id int primary key auto_increment,
 item_name varchar(100) not null,
@@ -32,24 +29,51 @@ item_size varchar(33) null,
 in_stock int null,
 created_by int not null,
 original_price decimal(10,2) not null,
-current_price decimal(10,2) not null
+current_price decimal(10,2) null
 );
+
 create table shop_cart(
 cart_id int primary key auto_increment,
 user_id int not null,
-cart_total decimal(10,2) not null,
-foreign key (user_id) references shop_user(user_id)
+item_id int not null,
+is_ordered boolean default false,
+foreign key (user_id) references shop_user(user_id),
+foreign key (item_id) references shop_item(item_id)
 );
-create table cart_object(
+create table shop_order(
+order_id int primary key auto_increment,
+user_id int not null,
 cart_id int not null,
 item_id int not null,
+status enum('Pending','Shipped','Delivered') not null,
+created_at timestamp default current_timestamp,
+last_status_update timestamp default current_timestamp,
+foreign key (user_id) references shop_user(user_id),
 foreign key (cart_id) references shop_cart(cart_id),
 foreign key (item_id) references shop_item(item_id)
 );
 
-create table shop_wallet(
-wallet_id int primary key auto_increment,
-user_id int not null,
-foreign key (user_id) references shop_user(user_id),
-wallet_amount decimal(10,2) null
+create table order_item(
+order_items_id int primary key auto_increment,
+order_id int not null,
+item_id int not null,
+quantity int null,
+original_price decimal(10,2) not null,
+color varchar(33) null,
+size varchar(33),
+foreign key (order_id) references shop_order(order_id),
+foreign key (item_id) references shop_item(item_id)
 );
+
+create table user_inventory (
+inventory_id int primary key auto_increment,
+user_id int unique not null,
+item_id int unique null,
+quantity int default 1,
+acquired_at timestamp default current_timestamp,
+equipped boolean default false,
+foreign key (user_id) references shop_user(user_id),
+foreign key (item_id) references shop_item(item_id)
+);
+insert into user_inventory(user_id, item_id)
+values(1,1);

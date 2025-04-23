@@ -5,7 +5,7 @@ from datetime import datetime
 from werkzeug.security import generate_password_hash
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:CSET155@localhost/shopdb'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:74CLpyrola!@localhost/shopdb'
 app.config['SECRET_KEY'] = 'dev_key'
 db = SQLAlchemy(app)
 
@@ -50,7 +50,7 @@ def initialize():
     #commit to db
     db.session.commit()
     #load homepage
-    redirect(url_for())
+    redirect(url_for("all_users"))
 #test page to see everything!#
 @app.route('/', methods=['GET', 'POST'])
 def all_users():
