@@ -22,6 +22,7 @@ def all_users():
     creator = db.session.execute(text("SELECT * FROM shop_user WHERE user_id = 1")).mappings().fetchone()
     cart_items = get_user_cart(session['user_id']) if 'user_id' in session else []
     order_items = get_user_order(session['user_id']) if 'user_id' in session else []
+    inventory_items = get_user_inventory(session['user_id']) if 'user_id' in session else []
 
     if request.method == 'POST':
         if 'full_name' in request.form:  # This means the Create User form was submitted
@@ -88,17 +89,16 @@ def all_users():
                            creator=creator,
                            login=login,
                            cart_items=cart_items,
-                           order_items=order_items)
+                           order_items=order_items,
+                           inventory_items=inventory_items
+                           )
 
 @app.route('/to_cart/', methods=['POST'])
 def to_cart():
      if 'user_id' not in session:
          flash('Login required!')
          return redirect(url_for('all_users'))
-
-
      user_id = session['user_id'] 
-   
      cart_data = {
              'user_id':user_id,
              'item_id':request.form['item_id']
@@ -110,24 +110,110 @@ def to_cart():
      db.session.commit()
      return redirect(url_for('all_users'))
 
-@app.route('/submit_order', methods=['POST'])
-def submit_order():
+@app.route('/to_order', methods=['GET','POST'])
+def to_order():
+    if request.method == 'GET':
+        flash('Invalid access. Please use the cart form to submit an order.')
+        return redirect(url_for('all_users'))
     if 'user_id' not in session:
-        flash('Login Required!')
+        flash('Login Required')
+        return redirect(url_for('all_users'))
+    
+    user_id = session['user_id']
+
+    try:
+        #insert orders
+        db.session.execute(text("""
+                           insert into shop_order (user_id, cart_id, item_id, status)
+                           select :user_id, cart_id, item_id, 'Pending'
+                           from shop_cart
+                           where user_id = :user_id and is_ordered = false;
+                           """), {'user_id':user_id})
+        #then update cart!
+        db.session.execute(text("""
+                                update shop_cart
+                                set is_ordered = true
+                                where user_id = :user_id and is_ordered = false;
+                                """), {'user_id':user_id})
+        db.session.commit()
+        flash('Order Placed!')
+        return redirect(url_for('all_users'))
+    except Exception as e:
+        db.session.rollback()
+        flash(f'Error placeing order:{e}')
+        return redirect(url_for('all_users'))
+    
+def get_user_order(user_id):
+    return db.session.execute(text("""
+    select shop_order.status,shop_item.*
+    from shop_order
+    join shop_item on shop_order.item_id = shop_item.item_id
+    where shop_order.user_id = :user_id
+"""),{'user_id':user_id}).mappings().fetchall()
+
+@app.route('/update_order_status', methods=['POST','GET'])
+def update_order_status():
+     if request.method == 'GET':
+        flash('Invalid access. Please use the cart form to submit an order.')
+        return redirect(url_for('all_users'))
+     if 'user_id' not in session:
+        flash('Login Required')
+        return redirect(url_for('all_users'))
+     
+     user_id= session['user_id']
+     order_data= {
+         'status':request.form['status'],
+         'user_id':user_id,
+         'item_id':request.form['item_id']
+     }
+     try:
+         #update order status
+         db.session.execute(text("""
+                update shop_order set status = :status
+                                 where user_id = :user_id and item_id = :item_id
+                                 """),order_data)
+         db.session.commit()
+         flash('Order Updated.')
+         return redirect(url_for('all_users'))
+     except Exception as e:
+         flash(f'Error updating order!{e}')
+
+     return redirect(url_for('all_users'))
+
+@app.route('/to_user', methods=['POST','GET'])
+def to_user():
+    if request.method == 'GET':
+        flash('Invalid access or something.')
+        return redirect(url_for('all_users'))
+    if 'user_id' not in session:
+        flash('login required')
         return redirect(url_for('all_users'))
     user_id = session['user_id']
-    order_data = {
+    inventory_data = {
         'user_id':user_id,
-        'cart_id':request.form['cart_id'],
-        'item_id':request.form['item_id'],
-        'status':request.form['status']
+        'item_id':request.form['item_id']
     }
-    db.session.execute(text("""
-insert into shop_order(user_id,cart_id,item_id,status)
-    values(:user_id,:cart_id,:item_id,:status)
-"""),order_data)
-    db.session.commit()
-    return redirect(url_for('all_users'))
+    try:
+        db.session.execute(text("""
+                                insert into user_inventory(user_id, item_id)
+                                values(:user_id,:item_id)
+                                """),inventory_data)
+        db.session.commit()
+        flash('added to invertory!')
+        return redirect(url_for('all_users'))
+    except Exception as e:
+        flash(f'Error updating Inventory: {e}')
+
+        return redirect(url_for('all_users'))
+     
+def get_user_inventory(user_id):
+    return db.session.execute(text("""
+    select user_inventory.*,shop_item.*
+    from user_inventory
+    join shop_item on user_inventory.item_id = shop_item.item_id
+    where user_inventory.user_id = :user_id
+"""),{'user_id':user_id}).mappings().fetchall()
+
 
 
 @app.route('/logout')
@@ -144,21 +230,7 @@ def get_user_cart(user_id):
     where shop_cart.user_id = :user_id
 """), {'user_id': user_id}).mappings().fetchall()
 
-def get_user_order(user_id):
-    return db.session.execute(text("""
-    select shop_order.*,shop_item.*
-    from shop_order
-    join shop_item on shop_order.item_id = shop_item.item_id
-    where shop_order.user_id = :user_id
-"""),{'user_id':user_id}).mappings().fetchall()
 
-def get_user_cart(user_id):
-    return db.session.execute(text("""
-    SELECT shop_cart.cart_id, shop_item.*
-    FROM shop_cart
-    JOIN shop_item ON shop_cart.item_id = shop_item.item_id
-    WHERE shop_cart.user_id = :user_id
-    """), {'user_id': user_id}).mappings().fetchall()
 
 
 
