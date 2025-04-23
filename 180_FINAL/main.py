@@ -10,8 +10,8 @@ app.config['SECRET_KEY'] = 'dev_key'
 db = SQLAlchemy(app)
 
 #routes#
-#@app.route('/init', methods=['GET'])
-def initialize():
+@app.route('/init', methods=['GET'])
+def initialize():   
     
     #get the users that will be default into the database
     create_users = [
@@ -33,7 +33,20 @@ def initialize():
                 """), signup_data)
     db.session.commit()
     #get the items that will be default into the database
-    
+    create_items = [
+        {
+            "item_name":"",
+            "item_image":"",#start from/images/your_file.png
+            "original_price": 0,#number value
+            "item_desc": "",#describe the item in 200 characters or less
+            "created_by":0 # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
+        }
+    ]
+    for create_item in create_items:
+        db.session.execute(text("""
+                INSERT INTO shop_item (item_name, item_image,original_price, item_desc, created_by)
+                VALUES (:item_name, :item_image, :original_price, :item_desc, :created_by)
+            """), create_item)
     #commit to db
     db.session.commit()
     #load homepage
