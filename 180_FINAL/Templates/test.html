@@ -12,16 +12,27 @@
 {% endwith %}
 
 <div class="user_inventory">
-    <h3>user inventory</h3>
+    <h3>User Inventory</h3>
     {% if inventory_items %}
-    {%for item in inventory_items %}
-
-    Name: {{item.item_name}}
-
-    {% endfor %}
+        <ul>
+        {% for item in inventory_items %}
+            <li>
+                <strong>{{ item.item_name }}</strong><br>
+                Description: {{ item.item_desc }}<br>
+                Quantity: {{ item.quantity or 1 }}<br>
+                Equipped: {{ 'Yes' if item.equipped else 'No' }}<br>
+                <form method="POST" action="{{ url_for('equip_item', item_id=item.item_id) }}">
+                    <button type="submit">Equip</button>
+                  </form>
+            </li>
+        {% endfor %}
+        
+        </ul>
     {% else %}
-    <p>No items in inventory</p>
+        <p>No items in inventory</p>
+       
     {% endif %}
+  
 </div>
 
 {% if not login %}
@@ -215,15 +226,15 @@
     </div>
     <div class="cart_total">Total: ${{login.cart_total}}</div>
     <div class="orders">
-        <form method="POST" action="{{url_for('to_order')}}">
-            <button type="submit">Submit Order</button>
-        </form>
+        
+            <button onclick="startOrderStatusAnimation({{order_id}})">Submit Order</button>
+            
     </div>
     <div>
    {% if order_items %}
    
    {% for item in order_items %}
-    {{item.item_name}} - {{item.original_price}} - {{item.status}} 
+    {{item.item_name}} - {{item.original_price}} - {{item.status}} - {{item.last_status_update}}
     <form method="POST" action="{{url_for('update_order_status')}}">
         <input type="hidden" name="item_id" value={{item.item_id}}>
     <label for="status">Status:<select name="status">

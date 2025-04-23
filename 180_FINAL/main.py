@@ -1,7 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
-from datetime import datetime
+import threading
+import time
+from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash
 
 app = Flask(__name__)
@@ -167,7 +169,7 @@ def update_order_status():
          'item_id':request.form['item_id']
      }
      try:
-         #update order status
+         
          db.session.execute(text("""
                 update shop_order set status = :status
                                  where user_id = :user_id and item_id = :item_id
@@ -179,6 +181,22 @@ def update_order_status():
          flash(f'Error updating order!{e}')
 
      return redirect(url_for('all_users'))
+
+@app.route('/update_order_status_js', methods=['POST'])
+def update_order_status_js():
+    data = request.get_json()
+    order_id = data.get('order_id')
+    new_status = data.get('status')
+    try:
+        db.session.execute(text("""
+                                update shop_order
+                                set status = :status, last_staus_update = CURRENT_TIMESTAMP
+                                where order_id = :order_id
+                                """),{'status':new_status, 'order_id': order_id})
+        db.session.commit()
+        return jsonify({'success': True})
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)})
 
 @app.route('/to_user', methods=['POST','GET'])
 def to_user():
@@ -195,8 +213,9 @@ def to_user():
     }
     try:
         db.session.execute(text("""
-                                insert into user_inventory(user_id, item_id)
-                                values(:user_id,:item_id)
+                                insert into user_inventory(user_id, item_id, quantity)
+                                values(:user_id,:item_id, 1)
+                                on duplicate key update quantity = quantity + 1;
                                 """),inventory_data)
         db.session.commit()
         flash('added to invertory!')
@@ -215,6 +234,33 @@ def get_user_inventory(user_id):
 """),{'user_id':user_id}).mappings().fetchall()
 
 
+#this is for you to look at ronin!!!
+@app.route('/equip_item/<int:item_id>', methods=['POST'])
+def equip_item(item_id):
+    user_id = session['user_id']
+    try:
+        # Unequip everything first (if needed)
+        db.session.execute(text("""
+            update user_inventory
+            set equipped = false
+            where user_id = :user_id
+        """), {'user_id': user_id})
+
+        # Equip selected item
+        db.session.execute(text("""
+            update user_inventory
+            set equipped = true
+            where user_id = :user_id and item_id = :item_id
+        """), {'user_id': user_id, 'item_id': item_id})
+
+        db.session.commit()
+        flash('Item equipped!')
+    except Exception as e:
+        flash(f'Error equipping item: {e}')
+    return redirect(url_for('all_users'))
+
+
+
 
 @app.route('/logout')
 def logout():
@@ -227,8 +273,9 @@ def get_user_cart(user_id):
     select shop_item.*
     from shop_cart
     join shop_item on shop_cart.item_id = shop_item.item_id
-    where shop_cart.user_id = :user_id
+    where shop_cart.user_id = :user_id and is_ordered = False
 """), {'user_id': user_id}).mappings().fetchall()
+
 
 
 
