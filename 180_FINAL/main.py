@@ -5,20 +5,20 @@ from datetime import datetime
 from werkzeug.security import generate_password_hash
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:QIblI25#3@localhost/shopdb'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:CSET155@localhost/shopdb'
 app.config['SECRET_KEY'] = 'dev_key'
 db = SQLAlchemy(app)
 
 #routes#
-#@app.route('/init', methods=['GET'])
-def initialize():
-
+@app.route('/init', methods=['GET'])
+def initialize():   
+    
     #get the users that will be default into the database
     create_users = [
         {
             "full_name": "",
             "email": "",
-            "username":"",
+            "username":"",  
             "user_image":"", #start from /images/your_file.png
             "password_hash": "", #we dont have hashing yet
             "user_type": "" #pick one of "Admin" "Vendor" "Consumer"
@@ -33,7 +33,20 @@ def initialize():
                 """), signup_data)
     db.session.commit()
     #get the items that will be default into the database
-
+    create_items = [
+        {
+            "item_name":"",
+            "item_image":"",#start from/images/your_file.png
+            "original_price": 0,#number value
+            "item_desc": "",#describe the item in 200 characters or less
+            "created_by":0 # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
+        }
+    ]
+    for create_item in create_items:
+        db.session.execute(text("""
+                INSERT INTO shop_item (item_name, item_image,original_price, item_desc, created_by)
+                VALUES (:item_name, :item_image, :original_price, :item_desc, :created_by)
+            """), create_item)
     #commit to db
     db.session.commit()
     #load homepage
@@ -78,21 +91,21 @@ def all_users():
              login_data = db.session.execute(text("""
             select * from shop_user where email = :e and password_hash = :p
             """), {'e':email, 'p': password_hash}).mappings().fetchone()
-
-
+             
+             
              if login_data:
                  session['user_id'] = login_data['user_id']
-
+                 
                                                                  #where's mah wallet
-
-
-
+              
+                 
+                 
                  login = login_data
                  flash('login success!')
                  return redirect(url_for('all_users'))
              else:
                 flash('Invalid email or password')
-
+              
         elif 'item_name' in request.form:  # This means the Create Item form was submitted
             create_item = {
                 'item_name': request.form['item_name'],
@@ -125,7 +138,7 @@ def to_cart():
      if 'user_id' not in session:
          flash('Login required!')
          return redirect(url_for('all_users'))
-     user_id = session['user_id']
+     user_id = session['user_id'] 
      cart_data = {
              'user_id':user_id,
              'item_id':request.form['item_id']
@@ -145,7 +158,7 @@ def to_order():
     if 'user_id' not in session:
         flash('Login Required')
         return redirect(url_for('all_users'))
-
+    
     user_id = session['user_id']
 
     try:
@@ -169,7 +182,7 @@ def to_order():
         db.session.rollback()
         flash(f'Error placeing order:{e}')
         return redirect(url_for('all_users'))
-
+    
 def get_user_order(user_id):
     return db.session.execute(text("""
     select shop_order.status,shop_item.*
@@ -186,7 +199,7 @@ def update_order_status():
      if 'user_id' not in session:
         flash('Login Required')
         return redirect(url_for('all_users'))
-
+     
      user_id= session['user_id']
      order_data= {
          'status':request.form['status'],
@@ -232,7 +245,7 @@ def to_user():
         flash(f'Error updating Inventory: {e}')
 
         return redirect(url_for('all_users'))
-
+     
 def get_user_inventory(user_id):
     return db.session.execute(text("""
     select user_inventory.*,shop_item.*

@@ -1,4 +1,6 @@
-
+{%extends "base.html"%}
+{% block extra_head %} <link rel="stylesheet" type="text/css" href="{{url_for( 'static', filename="test1.css")}}">{%endblock%}
+{% block body %}
 {% with messages = get_flashed_messages(with_categories=true) %}
   {% if messages %}
     <ul class="flashes">
@@ -8,6 +10,19 @@
     </ul>
   {% endif %}
 {% endwith %}
+
+<div class="user_inventory">
+    <h3>user inventory</h3>
+    {% if inventory_items %}
+    {%for item in inventory_items %}
+
+    Name: {{item.item_name}}
+
+    {% endfor %}
+    {% else %}
+    <p>No items in inventory</p>
+    {% endif %}
+</div>
 
 {% if not login %}
   
@@ -170,6 +185,8 @@
         Price: ${{ item.original_price}}<br>
         Description: {{item.item_desc}}<br>
         Created By: {{creator.full_name}}<br>
+
+
         <button type="submit">Add to Cart</button>
     </form>
     </div>
@@ -182,11 +199,13 @@
 </div>
 <div class="cart">
     CART: {{login.cart_id}}<br>
+    name: {{login.fullname}}<br>
     <div class="cart_inventory">
         {% if cart_items %}
         <ul>
         {% for item in cart_items %}
-        <li>{{item.item_name}} - {{item.original_price}} - {{item.item_desc}}<button>Remove</button></li>
+        <li>{{item.item_name}} - {{item.original_price}} - {{item.item_desc}}<button>Remove</button></li><br>
+        
         {% endfor %}
         </ul>
         {% else %}
@@ -194,15 +213,37 @@
         {% endif %}
 
     </div>
-
     <div class="cart_total">Total: ${{login.cart_total}}</div>
-
+    <div class="orders">
+        <form method="POST" action="{{url_for('to_order')}}">
+            <button type="submit">Submit Order</button>
+        </form>
+    </div>
+    <div>
+   {% if order_items %}
+   
+   {% for item in order_items %}
+    {{item.item_name}} - {{item.original_price}} - {{item.status}} 
+    <form method="POST" action="{{url_for('update_order_status')}}">
+        <input type="hidden" name="item_id" value={{item.item_id}}>
+    <label for="status">Status:<select name="status">
+        <option value="Pending" {% if item.status == 'Pending' %}selected{% endif %}>Pending</option>
+        <option value="Shipped" {% if item.status == 'Shipped' %}selected{% endif %}>Shipped</option>
+        <option value="Delivered" {% if item.status == 'Delivered' %}selected{% endif %}>Delivered</option>
+    </select></label><button type="submit">Update</button><br><br>
+    </form>
    
 
-
-
+   {% endfor%}
+   {% else%}
+   <p>No order items</p>
+   {% endif %}
 </div>
 
 
 </div>
 
+
+</div>
+
+{%endblock%}
