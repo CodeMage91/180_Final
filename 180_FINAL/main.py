@@ -5,7 +5,7 @@ from datetime import datetime
 from werkzeug.security import generate_password_hash
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:CSET155@localhost/shopdb'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:QIblI25#3@localhost/shopdb'
 app.config['SECRET_KEY'] = 'dev_key'
 db = SQLAlchemy(app)
 
@@ -16,12 +16,12 @@ def initialize():
     #get the users that will be default into the database
     create_users = [
         {
-            "full_name": "",
-            "email": "",
-            "username":"",  
+            "full_name": "Jared Slagle",
+            "email": "rogerwort25providence268@gmail.com",
+            "username":"ClayRex98",
             "user_image":"", #start from /images/your_file.png
-            "password_hash": "", #we dont have hashing yet
-            "user_type": "" #pick one of "Admin" "Vendor" "Consumer"
+            "password_hash": "TSunamI28$54", #we dont have hashing yet
+            "user_type": "Admin" #pick one of "Admin" "Vendor" "Consumer"
         },#one default user
     ]
     for signup_data in create_users:
@@ -35,11 +35,11 @@ def initialize():
     #get the items that will be default into the database
     create_items = [
         {
-            "item_name":"",
-            "item_image":"",#start from/images/your_file.png
-            "original_price": 0,#number value
-            "item_desc": "",#describe the item in 200 characters or less
-            "created_by":0 # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
+            "item_name":"Health Potion",
+            "item_image":"/items/health_potion.png",#start from/images/your_file.png
+            "original_price": 25.00,#number value
+            "item_desc": "A reinvigorating magical potion that ameliorates pain, mends wounds, and restores your vigor. Heals 30 HP.",#describe the item in 200 characters or less
+            "created_by":1 # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
         }
     ]
     for create_item in create_items:
