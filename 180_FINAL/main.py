@@ -7,12 +7,52 @@ from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:CSET155@localhost/shopdb'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:74CLpyrola!@localhost/shopdb'
 app.config['SECRET_KEY'] = 'dev_key'
 db = SQLAlchemy(app)
 
 #routes#
-
+@app.route('/init', methods=['GET'])
+def initialize():   
+    
+    #get the users that will be default into the database
+    create_users = [
+        {
+            "full_name": "",
+            "email": "",
+            "username":"",  
+            "user_image":"", #start from /images/your_file.png
+            "password_hash": "", #we dont have hashing yet
+            "user_type": "" #pick one of "Admin" "Vendor" "Consumer"
+        },#one default user
+    ]
+    for signup_data in create_users:
+        if signup_data == None:
+            break
+        db.session.execute(text("""
+                    INSERT INTO shop_user (full_name, email, username, user_image, password_hash, user_type)
+                    VALUES (:full_name, :email, :username, :user_image, :password_hash, :user_type)
+                """), signup_data)
+    db.session.commit()
+    #get the items that will be default into the database
+    create_items = [
+        {
+            "item_name":"",
+            "item_image":"",#start from/images/your_file.png
+            "original_price": 0,#number value
+            "item_desc": "",#describe the item in 200 characters or less
+            "created_by":0 # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
+        }
+    ]
+    for create_item in create_items:
+        db.session.execute(text("""
+                INSERT INTO shop_item (item_name, item_image,original_price, item_desc, created_by)
+                VALUES (:item_name, :item_image, :original_price, :item_desc, :created_by)
+            """), create_item)
+    #commit to db
+    db.session.commit()
+    #load homepage
+    redirect(url_for("all_users"))
 #test page to see everything!#
 @app.route('/', methods=['GET', 'POST'])
 def all_users():
