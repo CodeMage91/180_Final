@@ -1,6 +1,6 @@
-{%extends "base.html"%}
+<!-- {%extends "base.html"%}
 {% block extra_head %} <link rel="stylesheet" type="text/css" href="{{url_for( 'static', filename="test1.css")}}">{%endblock%}
-{% block body %}
+{% block body %} -->
 {% with messages = get_flashed_messages(with_categories=true) %}
   {% if messages %}
     <ul class="flashes">
@@ -10,6 +10,84 @@
     </ul>
   {% endif %}
 {% endwith %}
+
+<div class="skybox" id="skyBox">
+
+    <div id='header-title'>KRONOS ADVENTURE</div>
+
+
+
+<div class="nav_icons">
+    <div id="nav_00">
+        <div class="nav_text_00" id="nav_text_00">Accounts</div>
+    </div><!--account-->
+    <div id="nav_01">
+        <div class="nav_text_01" id="nav_text_01">Users</div>
+    </div><!--users-->
+    <div id="nav_02">
+        <div class="nav_text_02" id="nav_text_02">Products</div>
+    </div><!--Products-->
+    <div id="nav_03">
+        <div class="nav_text_03" id="nav_text_03">Cart</div>
+    </div><!--Cart-->
+    <div id="nav_04">
+        <div class="nav_text_04" id="nav_text_04">Orders</div>
+    </div><!--Orders-->
+    <div id="nav_05">
+        <div class="nav_text_05" id="nav_text_05">Inventory</div>
+    </div><!--Inventory-->
+    <div id="nav_06">
+        <div class="nav_text_06" id="nav_text_06">Chat</div>
+    </div><!--Chat-->
+    <div id="nav_07">
+        <div class="nav_text_07" id="nav_text_07">Log</div>
+    </div><!--logout-->
+
+    
+</div>
+
+<div class="login">
+    <!-- <div class="login_exit" id="login_exit">X</div> -->
+    <div class="login_header">Login</div>
+    <div class="login_text">Login to your account and get back to your adventure</div>
+    <div class="login_form">
+        <form method="POST" action="/">
+            <input placeholder="Email" name="login_email" required class="styled_input"><br>
+            <input placeholder="Password" name="password_hash" type="password" required class="styled_input"><br>
+            <button type="submit" class="styled_submit_00" id="login_submit">Let's Go!</button><div class="horse_cart" id="horse_cart"></div>
+        </form>
+    </div>
+</div>
+
+</div>
+
+<!-- Create Account-->
+<div class="create_user">
+    <div class="create_user_box">
+    <div class="create_header">Create Account</div>
+    <div class="create_text">New User? Create an account and get started</div>
+    <form method="POST" action="/" class="create_user_form">
+        <input name="full_name" placeholder="Full Name" required class="styled_input">
+        <input name="email" placeholder="Email" required class="styled_input">
+        <input name="username" placeholder="username" class="styled_input">
+        <input name="user_image" placeholder="Profile Image" class="styled_input">
+        <input name="password_hash" placeholder="Password" required class="styled_input"><br>
+        <label  for="user_Type" class="account_type">Account Type</label>
+        <select name="user_type" class="user_type">
+            <option value="Customer">Customer</option>
+            <option value="Vendor">Vendor</option>
+        </select>
+        <button type="submit" class="styled_submit_01">Create</button>
+    </form>
+</div>
+</div>
+
+
+
+
+
+
+
 
 <div class="user_inventory">
     <h3>User Inventory</h3>
@@ -34,21 +112,6 @@
     {% endif %}
   
 </div>
-
-{% if not login %}
-  
-<div class="login">
-    <h1>Login</h1>
-    <div class="login_form">
-        <form method="POST" action="/">
-            <input placeholder="Email" name="login_email" required><br>
-            <input placeholder="Password" name="password_hash" type="password" required><br>
-            <button type="submit">Login</button>
-        </form>
-    </div>
-</div>
-
-{% endif %}
 
 <div class="page">
 <div class="bodi">
@@ -78,33 +141,7 @@
 {% else %}
 
 {% endif %}
-<div class="nav_icons">
-    <div class="nav_login"></div>
-    <div class="nav_create_item"></div>
-    <div class="nav_shop"></div>
-    <div class="nav_cart"></div>
-    <div class="nav_order"></div>
-    <div class="nav_inventory"></div>
-    <div class="nav_chat"></div>
-</div>
 
-
-<div class="create_user">
-    <h1>Create User</h1>
-    <form method="POST" action="/">
-        <input name="full_name" placeholder="Full Name" required>
-        <input name="email" placeholder="Email" required>
-        <input name="username" placeholder="username">
-        <input name="user_image" placeholder="Profile Image">
-        <input name="password_hash" placeholder="Password" required><br>
-        <label  for="user_Type">Account Type</label>
-        <select name="user_type">
-            <option value="Customer">Customer</option>
-            <option value="Vendor">Vendor</option>
-        </select>
-        <button type="submit">Create</button>
-    </form>
-</div>
 
     <div class="box_holder">
     <div class="box">
@@ -117,7 +154,7 @@
         <div class="user_stats"></div>
        Name: {{ user.full_name }}<br>
        Username: {{user.username}}<br>
-       Email: {{user.email}}<br>
+       Email: {{user.email}}
        Type: {{user.user_type}}
     </div>
     {% endfor %}
@@ -249,6 +286,7 @@
    {% else%}
    <p>No order items</p>
    {% endif %}
+   <link href="https://fonts.googleapis.com/css2?family=Micro+5&display=swap" rel="stylesheet">
 </div>
 
 
@@ -256,5 +294,484 @@
 
 
 </div>
+<style>
+    *{
+        margin: 0px;
+        padding: 0px;
+    }
+    .skybox{
+        
+        padding: 0px;
+    }
+    .create_user{
+        height: 460px;
+        background-image: linear-gradient(rgb(1, 39, 1), rgb(202, 145, 91));
+        color: white;
+        border: 3px gold solid;
+    }
+    .account_type{
+        position: absolute;
+        border: green 1px solid;
+        left: 100px;
+        background-color: blue;
+        width: 120px;
+    }
+    .user_type{
+        border: black 3px inset;
+        position: absolute;
+        border-radius: 10px;
+        width: 120px;
+    }
+    #header-title {
+            font-family: 'Micro 5', sans-serif;
+            font-size: 80px;
+            color: rgb(255, 187, 0);
+            text-align: center;
+            margin-top: -33px;
+            background-color: rgba(0,0,0,0.4);
+           
+        }
+    .user_inventory{
+        border:red solid 1px;
+        display: none;
+    }
+    .login{
+        width: 530px;
+        height: 80px;
+        display: flex;
+        justify-content: space-evenly;
+        padding-top: 53px;
+        margin: auto;
+        margin-top: 0px;
+        background-color: rgba(0,0,0,0.6);
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0,0,0,2.4);
+        margin: 20px auto;
+    }
+    .login_exit{
+        border: goldenrod 3px inset;
+        font-family: 'Micro 5', sans-serif;
+        position: absolute;
+        top: 224px;
+        right: 670px;
+        background-color: black;
+        color:rgb(255, 187, 0);
+        border-radius: 23px;
+        font-size: 28px;
+        text-align: center;
+        width: 25px;
+        height: 27px;
+        padding-left: 3px;
+        cursor: pointer;
+    }
+    .login_exit:hover{
+        border-color: white;
+    }
+    .login_header{
+        color: white;
+        font-family: 'Micro 5', sans-serif;
+        font-size: 42px;
+        background-image: linear-gradient(black,grey);
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0,0,0,2.4);
+        position: relative;
+        top: -65px;
+        left: -240px;
+        padding: 3px;
+        margin: 0px;
+        height: 38px;
+        width: 73px;
+        text-align: center;
+    }
+    .create_header{
+        color: white;
+        font-family: 'Micro 5', sans-serif;
+        font-size: 42px;
+        background-image: linear-gradient(black,grey);
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0,0,0,2.4);
+        width: 210px;
+        padding-left: 18px;
+        position: absolute;
+        left: 570px;
+        top: 444px;
+    }
+    .create_user_box{
+        width: 730px;
+        height: 320px;
+        display: flex;
+        justify-content: space-evenly;
+        padding-top: 53px;
+        background-color: rgba(0,0,0,0.6);
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0,0,0,2.4);
+        margin: 50px auto;
+    }
+    .create_text{
+        color: white;
+        font-family: 'Micro 5', sans-serif;
+        font-size: 22px;
+        position: absolute;
+        top: 490px;
+    }
+    .create_user_form{
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        left: 620px;
+        height: 240px;
+        justify-content: space-around;
+    }
+    .login_text{
+        color: white;
+        font-family: 'Micro 5', sans-serif;
+        font-size: 22px;
+        position: absolute;
+        top: 260px;
+    }
+    .login_form{
+        width: 240px;
+        position: absolute;
+    }
+    .styled_input{
+        border-radius: 10px;
+        height: 23px;
+        margin-bottom: 7px;
+        padding-left: 9px;
+    }
+    .styled_submit_00{
+        height: 33px;
+        width: 120px;
+        border-radius: 10px;
+        font-family: 'Micro 5', sans-serif;
+        font-size: 32px;
+        cursor: pointer;
+        position: absolute;
+        left: 33px;
+        color: white;
+        background-color: black;
+    }
+    .styled_submit_01{
+        height: 33px;
+        width: 120px;
+        border-radius: 10px;
+        font-family: 'Micro 5', sans-serif;
+        font-size: 32px;
+        cursor: pointer;
+        position: absolute;
+        left: 253px;
+        color: white;
+        background-color: black;
+        top: 160px;
+    }
+    .horse_cart{
+        width: 124px;
+        height: 120px;
+        position: absolute;
+        background-image: url('../static/images/horse_cart.png');
+        background-position: center;
+        background-repeat: no-repeat;
+        right: 0px;
+        top: 16px;
+        opacity: 0;
+    }
+    .login_submit:hover{
+        color:rgb(255, 187, 0);
+    }
+    .nav_icons{
+        width: 530px;
+        height: 80px;
+        display: none;
+        justify-content: space-evenly;
+        padding-top: 53px;
+        margin: auto;
+        margin-top: 0px;
+        background-color: rgba(0,0,0,0.6);
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0,0,0,2.4);
+        margin: 20px auto;
+    }
+    #nav_00{
+        width: 32px;
+        height: 32px;
+        background-image: url('../static/images/icon_00.png');
+        background-position: center;
+        background-size: contain;
+    }
+    #nav_01{
+        width: 32px;
+        height: 32px;
+        background-image: url('../static/images/icon_01.png');
+        background-position: center;
+        background-size: contain;
+    }
+    #nav_02{
+        width: 32px;
+        height: 32px;
+        background-image: url('../static/images/icon_02.png');
+        background-position: center;
+        background-size: contain;
+    }
+    #nav_03{
+        width: 32px;
+        height: 32px;
+        background-image: url('../static/images/icon_03.png');
+        background-position: center;
+        background-size: contain;
+    }
+    #nav_04{
+        width: 32px;
+        height: 32px;
+        background-image: url('../static/images/icon_04.png');
+        background-position: center;
+        background-size: contain;
+    }
+    #nav_05{
+        width: 32px;
+        height: 32px;
+        background-image: url('../static/images/icon_05.png');
+        background-position: center;
+        background-size: contain;
+    }
+    #nav_06{
+        width: 32px;
+        height: 32px;
+        background-image: url('../static/images/icon_06.png');
+        background-position: center;
+        background-size: contain;
+    }
+    #nav_07{
+        width: 32px;
+        height: 32px;
+        background-image: url('../static/images/icon_07.png');
+        background-position: center;
+        background-size: contain;
+    }
+    .nav_text_00{
+        background-image: linear-gradient(indigo,skyblue);
+        color: white;
+        width: fit-content;
+        height: 18px;
+        padding: 10px;
+        position: relative;
+        top: 35px;
+        left: -70%;
+        border-radius: 23px;
+        display: none;
+    }
+    .nav_text_01{
+        background-image: linear-gradient(indigo,skyblue);
+        color: white;
+        width: fit-content;
+        height: 18px;
+        padding: 10px;
+        position: relative;
+        top: 35px;
+        left: -40%;
+        border-radius: 23px;
+        display: none;
+    }
+    .nav_text_02{
+        background-image: linear-gradient(indigo,skyblue);
+        color: white;
+        width: fit-content;
+        height: 18px;
+        padding: 10px;
+        position: relative;
+        top: 35px;
+        left: -65%;
+        border-radius: 23px;
+        display: none;
+    }
+    .nav_text_03{
+        background-image: linear-gradient(indigo,skyblue);
+        color: white;
+        width: fit-content;
+        height: 18px;
+        padding: 10px;
+        position: relative;
+        top: 35px;
+        left: -20%;
+        border-radius: 23px;
+        display: none;
+    }
+    .nav_text_04{
+        background-image: linear-gradient(indigo,skyblue);
+        color: white;
+        width: fit-content;
+        height: 18px;
+        padding: 10px;
+        position: relative;
+        top: 35px;
+        left: -40%;
+        border-radius: 23px;
+        display: none;
+    }
+    .nav_text_05{
+        background-image: linear-gradient(indigo,skyblue);
+        color: white;
+        width: fit-content;
+        height: 18px;
+        padding: 10px;
+        position: relative;
+        top: 35px;
+        left: -78%;
+        border-radius: 23px;
+        display: none;
+    }
+    .nav_text_06{
+        background-image: linear-gradient(indigo,skyblue);
+        color: white;
+        width: fit-content;
+        height: 18px;
+        padding: 10px;
+        position: relative;
+        top: 35px;
+        left: -8px;
+        border-radius: 23px;
+        display: none;
+    }
+    .nav_text_07{
+        background-image: linear-gradient(indigo,skyblue);
+        color: white;
+        width: fit-content;
+        height: 18px;
+        padding: 10px;
+        position: relative;
+        top: 35px;
+        left: -18%;
+        border-radius: 23px;
+        display: none;
+    }
+</style>
+<script>
+    var nav00 = document.getElementById('nav_00');
+    var navText00 = document.getElementById('nav_text_00');
 
-{%endblock%}
+    var nav01 = document.getElementById('nav_01');
+    var navText01 = document.getElementById('nav_text_01');
+
+    var nav02 = document.getElementById('nav_02');
+    var navText02 = document.getElementById('nav_text_02');
+
+    var nav03 = document.getElementById('nav_03');
+    var navText03 = document.getElementById('nav_text_03');
+
+    var nav04 = document.getElementById('nav_04');
+    var navText04 = document.getElementById('nav_text_04');
+
+    var nav05 = document.getElementById('nav_05');
+    var navText05 = document.getElementById('nav_text_05');
+
+    var nav06 = document.getElementById('nav_06');
+    var navText06 = document.getElementById('nav_text_06');
+
+    var nav07 = document.getElementById('nav_07');
+    var navText07 = document.getElementById('nav_text_07');
+//here I set up some divs and text under them in a loop to add hover, style flex to be shown 
+//and animation
+var navArray =[nav00,nav01,nav02,nav03,nav04,nav05,nav06,nav07];
+var navTextArray = [navText00,navText01,navText02,navText03,navText04,navText05,navText06,navText07];
+
+for (let i = 0; i < navArray.length; i++) {
+    navArray[i].addEventListener('mouseover', function(){
+        navArray[i].style.cursor = 'pointer';
+        navTextArray[i].style.display = 'flex';
+        navArray[i].animate(
+            [
+                {scale : '1'},
+                {scale : '1.2'},
+                {scale : '1.1'}
+            ],
+            {
+                easing: 'ease-in',
+                duration: 500,
+                fill: 'forwards'
+               
+            }
+        )
+    });
+}  
+
+for (let i = 0; i < navArray.length; i++) {
+    navArray[i].addEventListener('mouseout', function () {
+        navTextArray[i].style.display = 'none';
+        navArray[i].animate(
+            [
+                {scale : '1.1'},
+                {scale : '1'}
+            ],
+            {
+                easing: 'ease-in',
+                duration: 200,
+                fill: 'forwards'
+               
+            }
+        )
+    });
+}
+
+const navBackground = document.getElementById('skyBox');
+
+Object.assign(navBackground.style,{
+    backgroundImage: 'url(../static/images/Mountains1.png)',
+    height: '240px',
+    paddingTop: '150px',
+    backgroundRepeat: 'repeat-x',
+    backgroundPosition: '40px',
+    backgroundSize: 'contain',
+    overflow: 'hidden',
+    width: '100vw'
+   
+});
+
+navBackground.animate(
+    [
+        {backgroundPosition: '816px' },
+        {backgroundPosition:  '40px'}
+    ],
+    {
+        duration: 12000,
+        iterations: Infinity,
+        easing: 'linear'
+    }
+);
+
+var loginSubmit = document.getElementById('login_submit');
+var horseCart = document.getElementById('horse_cart');
+
+loginSubmit.addEventListener('mouseover', function(){
+    horseCart.animate(
+        [
+            { opacity: 0,right: '0px'},
+            { opacity: 1, right: '-70px'}
+        ],
+        {
+            iterations: 1,
+            easing: 'ease-in',
+            duration: 420,
+            fill: "forwards"
+        }
+    )
+});
+
+loginSubmit.addEventListener('mouseout', function(){
+    horseCart.animate(
+        [
+            { opacity: 1},
+            { opacity: 0}
+        ],
+        {
+            iterations: 1,
+            easing: 'ease-in',
+            duration: 220,
+            fill: "forwards"
+        }
+    )
+});
+
+
+    
+</script>
+
+<!-- {%endblock%} -->
