@@ -79,7 +79,19 @@
             <option value="Vendor">Vendor</option>
         </select>
     </div>
-    <div class="character_profile"></div>
+    <div class="character_profile">
+        <div class="creation_nav">
+                <div class="creation_nav_00">TYPE</div>
+                <div class="creation_nav_01">COLOR</div>
+                <div class="creation_nav_02">HAIR</div>
+                <div class="creation_nav_03">CLASS</div>
+                <div class="creation_nav_04">GIFT</div>
+        </div>
+        <div class="creation_screen">
+                <div class="creation_preview"></div>
+                <div class="creation_options_00"></div>
+        </div>
+    </div>
     <button type="submit" class="styled_submit_01">Create</button>
     </form>
 </div>
@@ -305,11 +317,80 @@
     .character_profile{
         width:480px;
         height: 253px;
-        border: red 1px solid;
-        background-color: red;
+        /* border: red 1px solid; */
+        /* background-color: red; */
         position: relative;
         top: 0px;
         left: 0px;
+        display: flex;
+        flex-direction: column;
+    }
+    .creation_nav{
+        width: 480px;
+        height: 42px;
+        border-radius: 10px;
+        background-image: linear-gradient(black,grey);
+        display: flex;
+        justify-content: space-around;
+        padding-top: 7px;
+        font-family: 'Micro 5', sans-serif;
+        font-size: 39px;
+        text-align: center;
+    }
+    .creation_nav_00{
+        border-bottom: 1px white solid;
+        width: 64px;
+        height: 32px;
+    }
+    .creation_nav_01{
+        border-bottom: 1px white solid;
+        width: 64px;
+        height: 32px;
+    }
+    .creation_nav_02{
+        border-bottom: 1px white solid;
+        width: 64px;
+        height: 32px;
+    }
+    .creation_nav_03{
+        border-bottom: 1px white solid;
+        width: 64px;
+        height: 32px;
+    }
+    .creation_nav_04{
+        border-bottom: 1px white solid;
+        width: 64px;
+        height: 32px;
+    }
+    .creation_screen{
+        width: 475px;
+        height: 200px;
+        margin-top: 5px;
+        background-image: url('../static/images/Forest.png');
+        border: gold 3px inset;
+        border-radius: 10px;
+        background-size: contain;
+        background-position: center;
+        display: flex;
+    }
+    .creation_preview{
+        width: 180px;
+        height: 200px;
+        background-color: rgba(0,0,0,0.4);
+        border-radius: 7px 0px 0px 10px;
+        background-image: url('../static/images/test_00.png');
+        background-position: center;
+        background-size: 142px;
+        background-repeat: no-repeat;
+    }
+    .creation_options_00{
+        border: 1px white solid;
+        border-radius: 0px 7px 10px 0px;
+        width: 293px;
+        height: 200px;
+        overflow-y: scroll;
+        scrollbar-width: thin;
+        scrollbar-color: gold black;
     }
     .skybox{
         
