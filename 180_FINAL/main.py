@@ -300,8 +300,6 @@ def equip_item(item_id):
     return redirect(url_for('all_users'))
 
 
-
-
 @app.route('/logout')
 def logout():
     session.clear()
@@ -315,11 +313,6 @@ def get_user_cart(user_id):
     join shop_item on shop_cart.item_id = shop_item.item_id
     where shop_cart.user_id = :user_id and is_ordered = False
 """), {'user_id': user_id}).mappings().fetchall()
-
-
-
-
-
 
 
 #run#

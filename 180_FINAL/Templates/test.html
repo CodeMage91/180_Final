@@ -15,8 +15,6 @@
 
     <div id='header-title'>KRONOS ADVENTURE</div>
 
-
-
 <div class="nav_icons">
     <div id="nav_00">
         <div class="nav_text_00" id="nav_text_00">Accounts</div>
@@ -81,15 +79,23 @@
     </div>
     <div class="character_profile">
         <div class="creation_nav">
-                <div class="creation_nav_00">TYPE</div>
-                <div class="creation_nav_01">COLOR</div>
-                <div class="creation_nav_02">HAIR</div>
-                <div class="creation_nav_03">CLASS</div>
-                <div class="creation_nav_04">GIFT</div>
+                <div class="creation_nav_00" id="_type">TYPE</div><!--gender-->
+                <div class="creation_nav_01" id="_class">CLASS</div><!--red,green,blue-->
+                <div class="creation_nav_03" id="_weapon">WEAPON</div><!--basic weapon start ups-->
+                <div class="creation_nav_04" id="_gift">GIFT</div><!--item gift-->
         </div>
         <div class="creation_screen">
-                <div class="creation_preview"></div>
-                <div class="creation_options_00"></div>
+
+                <div class="creation_preview" id="creation_preview"></div>
+                <div class="creation_options_00">
+                    <div class="type_a" id="type_a">
+                        TYPE<br>
+                        A
+                    </div>
+                    <div class="type_b" id="type_b">TYPE<br>
+                        B
+                    </div>
+                </div>
         </div>
     </div>
     <button type="submit" class="styled_submit_01">Create</button>
@@ -182,8 +188,8 @@
 <div class="box">
     <h1>Vendor Users</h1>
     {%if vendor_users%}
-
-        {% for user in vendor_users %}
+ {% for user in vendor_users %}
+       
         <div class="user_box">
             <div class="profile" id="pic"  style="background-image: url('{{ url_for('static', filename='images/' ~ user.user_image) }}');"></div>
             <div class="user_stats"></div>
@@ -378,7 +384,6 @@
         height: 200px;
         background-color: rgba(0,0,0,0.4);
         border-radius: 7px 0px 0px 10px;
-        background-image: url('../static/images/test_00.png');
         background-position: center;
         background-size: 142px;
         background-repeat: no-repeat;
@@ -391,6 +396,26 @@
         overflow-y: scroll;
         scrollbar-width: thin;
         scrollbar-color: gold black;
+        display: flex;
+        background-image: linear-gradient(rgba(0,0,0,0.8),rgba(0,0,0,0.2));
+    }
+    .type_a{
+        height: 200px;
+        width: 146px;
+        font-family: 'Micro 5', sans-serif;
+        cursor: pointer;
+        text-align: center;
+        font-size: 75px;
+        color: pink;
+    }
+    .type_b{
+        height: 200px;
+        width: 146px;
+        font-family: 'Micro 5', sans-serif;
+        color: blue;
+        cursor: pointer;
+        text-align: center;
+        font-size: 75px;
     }
     .skybox{
         
@@ -400,7 +425,7 @@
         height: 460px;
         background-image: linear-gradient(rgb(1, 39, 1), rgb(202, 145, 91));
         color: white;
-        border: 3px gold solid;
+        border-top: 3px solid gold;
     }
     .account_type{
         position: relative;
@@ -524,7 +549,6 @@
         left: 0px;
         height: 260px;
         justify-content: space-between;
-        /* border: orange 1px solid; */
         width: 680px;
         margin-left: 25px;
         top: -60px;
@@ -855,6 +879,7 @@ var loginSubmit = document.getElementById('login_submit');
 var horseCart = document.getElementById('horse_cart');
 
 loginSubmit.addEventListener('mouseover', function(){
+    loginSubmit.style.color = 'gold';
     horseCart.animate(
         [
             { opacity: 0,right: '0px'},
@@ -870,6 +895,7 @@ loginSubmit.addEventListener('mouseover', function(){
 });
 
 loginSubmit.addEventListener('mouseout', function(){
+    loginSubmit.style.color = 'white';
     horseCart.animate(
         [
             { opacity: 1},
@@ -883,6 +909,36 @@ loginSubmit.addEventListener('mouseout', function(){
         }
     )
 });
+
+var _type = document.getElementById('_type');
+var _class = document.getElementById('_class');
+var _weapon = document.getElementById('_weapon');
+var _gift = document.getElementById('_gift');
+
+var create_array = [_type,_class,_weapon,_gift]
+
+for(let i = 0; i < create_array.length; i++){
+    create_array[i].style.cursor = 'pointer';
+    create_array[i].addEventListener('mouseover', function(){
+    create_array[i].style.color = 'gold';
+});
+create_array[i].addEventListener('mouseout', function(){
+    create_array[i].style.color = 'white';
+});
+}
+
+var creation_preview = document.getElementById('creation_preview');
+creation_preview.style.backgroundImage = 'url(../static/images/blue_guy_idle.gif)';
+
+var type_a = document.getElementById('type_a');
+var type_b = document.getElementById('type_b');
+
+type_a.onclick = function(){
+    creation_preview.style.backgroundImage = 'url(../static/images/blue_gal_idle.gif)';
+}
+type_b.onclick = function(){
+    creation_preview.style.backgroundImage = 'url(../static/images/blue_guy_idle.gif)';
+}
 
 
     
