@@ -7,10 +7,12 @@ from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:CSET155@localhost/shopdb'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:74CLpyrola!@localhost/shopdb'
 app.config['SECRET_KEY'] = 'dev_key'
 db = SQLAlchemy(app)
 
+
+initialized = False
 #routes#
 @app.route('/init', methods=['GET'])
 def initialize():   
@@ -18,13 +20,30 @@ def initialize():
     #get the users that will be default into the database
     create_users = [
         {
-            "full_name": "",
-            "email": "",
-            "username":"",  
-            "user_image":"", #start from /images/your_file.png
-            "password_hash": "", #we dont have hashing yet
-            "user_type": "" #pick one of "Admin" "Vendor" "Consumer"
+            "full_name": "Admin Account",
+            "email": "admin@account.com",
+            "username":"Admin",  
+            "user_image":"/users/character.png", #start from /images/your_file.png
+            "password_hash": "admin", #we dont have hashing yet
+            "user_type": "Admin" #pick one of "Admin" "Vendor" "Customer"
         },#one default user
+        {
+            "full_name": "Phobius Heathstone",
+            "email": "pheathstone@account.com",
+            "username":"Phobius",  
+            "user_image":"/users/character.png", #start from /images/your_file.png
+            "password_hash": "123", #we dont have hashing yet
+            "user_type": "Vendor" #pick one of "Admin" "Vendor" "Customer"
+        },
+        
+        {
+            "full_name": "Player One",
+            "email": "protagonist@account.com",
+            "username":"Consumer",  
+            "user_image":"/users/devin.png", #start from /images/your_file.png
+            "password_hash": "123", #we dont have hashing yet
+            "user_type": "Customer" #pick one of "Admin" "Vendor" "Customer"
+        }
     ]
     for signup_data in create_users:
         if signup_data == None:
@@ -35,16 +54,28 @@ def initialize():
                 """), signup_data)
     db.session.commit()
     #get the items that will be default into the database
+    defaultVendor = db.session.execute(text("""
+                    SELECT user_id FROM shop_user WHERE user_type = "Vendor" 
+                                            """)).fetchone()
     create_items = [
         {
-            "item_name":"",
-            "item_image":"",#start from/images/your_file.png
-            "original_price": 0,#number value
-            "item_desc": "",#describe the item in 200 characters or less
-            "created_by":0 # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
+            "item_name":"Bastard Sword",
+            "item_image":"/weapons/bastard_sword.png",#start from/images/your_file.png
+            "original_price": 15,#number value
+            "item_desc": "A basic arming sword",#describe the item in 200 characters or less
+            "created_by": defaultVendor.user_id # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
+        },
+        {
+            "item_name":"Apprentice Ice Wand",
+            "item_image":"/weapons/wand.png",#start from/images/your_file.png
+            "original_price": 15,#number value
+            "item_desc": "A basic arming sword",#describe the item in 200 characters or less
+            "created_by": defaultVendor.user_id # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
         }
     ]
     for create_item in create_items:
+        if create_item == None:
+            break
         db.session.execute(text("""
                 INSERT INTO shop_item (item_name, item_image,original_price, item_desc, created_by)
                 VALUES (:item_name, :item_image, :original_price, :item_desc, :created_by)
@@ -52,10 +83,22 @@ def initialize():
     #commit to db
     db.session.commit()
     #load homepage
-    redirect(url_for("all_users"))
+    global initialized
+    initialized = True
+    print("Finished Initializing")
+    return redirect(url_for("all_users"))
 #test page to see everything!#
 @app.route('/', methods=['GET', 'POST'])
 def all_users():
+    
+    global initialized
+    if initialized == False:
+        firstAdmin = db.session.execute(text("SELECT email FROM shop_user WHERE user_type ='Admin' and email = 'admin@account.com'")).fetchone()
+        if firstAdmin:
+            initialized = True
+        else:
+            print("initializing")
+            return redirect(url_for("initialize"))
     login = None
     admin_users = db.session.execute(text("SELECT * FROM shop_user WHERE user_type = 'Admin'")).mappings().fetchall()
     vendor_users = db.session.execute(text("SELECT * FROM shop_user WHERE user_type = 'Vendor'")).mappings().fetchall()
@@ -66,6 +109,7 @@ def all_users():
     order_items = get_user_order(session['user_id']) if 'user_id' in session else []
     inventory_items = get_user_inventory(session['user_id']) if 'user_id' in session else []
 
+    
     if request.method == 'POST':
         if 'full_name' in request.form:  # This means the Create User form was submitted
             signup_data = {
@@ -97,11 +141,7 @@ def all_users():
              
              if login_data:
                  session['user_id'] = login_data['user_id']
-                 
                                                                  #where's mah wallet
-              
-                 
-                 
                  login = login_data
                  flash('login success!')
                  return redirect(url_for('all_users'))
