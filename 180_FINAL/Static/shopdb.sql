@@ -53,3 +53,15 @@ user_id int not null,
 foreign key (user_id) references shop_user(user_id),
 wallet_amount decimal(10,2) null
 );
+create table chat(
+chatid int primary key auto_increment,
+user1 int,
+user2 int
+);
+create table message(
+conversation varchar(255),
+forchat int,
+comment_date datetime,
+comment_image varchar(100),
+FOREIGN KEY (forchat) references chat(chatid)
+);
