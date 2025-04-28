@@ -269,6 +269,11 @@ def get_user_cart(user_id):
     join shop_item on shop_cart.item_id = shop_item.item_id
     where shop_cart.user_id = :user_id
 """), {'user_id': user_id}).mappings().fetchall()
+@app.route("/chat", methods=['GET','POST'])
+def chatting():
+    chat=db.session.execute(text("SELECT * FROM chat"))
+    return render_template("chat.html",chat=chat)
+
 
 
 
