@@ -92,7 +92,6 @@
             scrollbar-color: gold black;
         }
         .skybox{
-            
             padding: 0px;
         }
         .create_user{
@@ -457,167 +456,7 @@
             display: none;
         }
     </style>
-    <script>
-        var nav00 = document.getElementById('nav_00');
-        var navText00 = document.getElementById('nav_text_00');
-
-        var nav01 = document.getElementById('nav_01');
-        var navText01 = document.getElementById('nav_text_01');
-
-        var nav02 = document.getElementById('nav_02');
-        var navText02 = document.getElementById('nav_text_02');
-
-        var nav03 = document.getElementById('nav_03');
-        var navText03 = document.getElementById('nav_text_03');
-
-        var nav04 = document.getElementById('nav_04');
-        var navText04 = document.getElementById('nav_text_04');
-
-        var nav05 = document.getElementById('nav_05');
-        var navText05 = document.getElementById('nav_text_05');
-
-        var nav06 = document.getElementById('nav_06');
-        var navText06 = document.getElementById('nav_text_06');
-
-        var nav07 = document.getElementById('nav_07');
-        var navText07 = document.getElementById('nav_text_07');
-    //here I set up some divs and text under them in a loop to add hover, style flex to be shown 
-    //and animation
-    var navArray =[nav00,nav01,nav02,nav03,nav04,nav05,nav06,nav07];
-    var navTextArray = [navText00,navText01,navText02,navText03,navText04,navText05,navText06,navText07];
-
-    for (let i = 0; i < navArray.length; i++) {
-        navArray[i].addEventListener('mouseover', function(){
-            navArray[i].style.cursor = 'pointer';
-            navTextArray[i].style.display = 'flex';
-            navArray[i].animate(
-                [
-                    {scale : '1'},
-                    {scale : '1.2'},
-                    {scale : '1.1'}
-                ],
-                {
-                    easing: 'ease-in',
-                    duration: 500,
-                    fill: 'forwards'
-                
-                }
-            )
-        });
-    }  
-
-    for (let i = 0; i < navArray.length; i++) {
-        navArray[i].addEventListener('mouseout', function () {
-            navTextArray[i].style.display = 'none';
-            navArray[i].animate(
-                [
-                    {scale : '1.1'},
-                    {scale : '1'}
-                ],
-                {
-                    easing: 'ease-in',
-                    duration: 200,
-                    fill: 'forwards'
-                
-                }
-            )
-        });
-    }
-
-    const navBackground = document.getElementById('skyBox');
-
-    Object.assign(navBackground.style,{
-        backgroundImage: 'url(../static/images/Mountains1.png)',
-        height: '240px',
-        paddingTop: '150px',
-        backgroundRepeat: 'repeat-x',
-        backgroundPosition: '40px',
-        backgroundSize: 'contain',
-        overflow: 'hidden',
-        width: '100vw'
     
-    });
-
-    navBackground.animate(
-        [
-            {backgroundPosition: '816px' },
-            {backgroundPosition:  '40px'}
-        ],
-        {
-            duration: 12000,
-            iterations: Infinity,
-            easing: 'linear'
-        }
-    );
-
-    var loginSubmit = document.getElementById('login_submit');
-    var horseCart = document.getElementById('horse_cart');
-
-loginSubmit.addEventListener('mouseover', function(){
-    loginSubmit.style.color = 'gold';
-    horseCart.animate(
-        [
-            { opacity: 0,right: '0px'},
-            { opacity: 1, right: '-70px'}
-        ],
-        {
-            iterations: 1,
-            easing: 'ease-in',
-            duration: 420,
-            fill: "forwards"
-        }
-    )
-});
-
-loginSubmit.addEventListener('mouseout', function(){
-    loginSubmit.style.color = 'white';
-    horseCart.animate(
-        [
-            { opacity: 1},
-            { opacity: 0}
-        ],
-        {
-            iterations: 1,
-            easing: 'ease-in',
-            duration: 220,
-            fill: "forwards"
-        }
-    )
-});
-
-var _type = document.getElementById('_type');
-var _class = document.getElementById('_class');
-var _weapon = document.getElementById('_weapon');
-var _gift = document.getElementById('_gift');
-
-var create_array = [_type,_class,_weapon,_gift]
-
-for(let i = 0; i < create_array.length; i++){
-    create_array[i].style.cursor = 'pointer';
-    create_array[i].addEventListener('mouseover', function(){
-    create_array[i].style.color = 'gold';
-});
-create_array[i].addEventListener('mouseout', function(){
-    create_array[i].style.color = 'white';
-});
-}
-
-var creation_preview = document.getElementById('creation_preview');
-creation_preview.style.backgroundImage = 'url(../static/images/blue_guy_idle.gif)';
-
-var type_a = document.getElementById('type_a');
-var type_b = document.getElementById('type_b');
-
-type_a.onclick = function(){
-    creation_preview.style.backgroundImage = 'url(../static/images/blue_gal_idle.gif)';
-}
-type_b.onclick = function(){
-    creation_preview.style.backgroundImage = 'url(../static/images/blue_guy_idle.gif)';
-}
-
-
-        
-    </script>
     </head>
     <body>
     {% with messages = get_flashed_messages(with_categories=true) %}
@@ -636,31 +475,31 @@ type_b.onclick = function(){
 
 
 
-    <div class="nav_icons">
-        <div id="nav_00">
-            <div class="nav_text_00" id="nav_text_00">Accounts</div>
-        </div><!--account-->
-        <div id="nav_01">
-            <div class="nav_text_01" id="nav_text_01">Users</div>
-        </div><!--users-->
-        <div id="nav_02">
-            <div class="nav_text_02" id="nav_text_02">Products</div>
-        </div><!--Products-->
-        <div id="nav_03">
-            <div class="nav_text_03" id="nav_text_03">Cart</div>
-        </div><!--Cart-->
-        <div id="nav_04">
-            <div class="nav_text_04" id="nav_text_04">Orders</div>
-        </div><!--Orders-->
-        <div id="nav_05">
-            <div class="nav_text_05" id="nav_text_05">Inventory</div>
-        </div><!--Inventory-->
-        <div id="nav_06">
-            <div class="nav_text_06" id="nav_text_06">Chat</div>
-        </div><!--Chat-->
-        <div id="nav_07">
-            <div class="nav_text_07" id="nav_text_07">Log</div>
-        </div><!--logout-->
+        
+            <div id="nav_00">
+                <div class="nav_text_00" id="nav_text_00">Accounts</div>
+            </div><!--account-->
+            <div id="nav_01">
+                <div class="nav_text_01" id="nav_text_01">Users</div>
+            </div><!--users-->
+            <div id="nav_02">
+                <div class="nav_text_02" id="nav_text_02">Products</div>
+            </div><!--Products-->
+            <div id="nav_03">
+                <div class="nav_text_03" id="nav_text_03">Cart</div>
+            </div><!--Cart-->
+            <div id="nav_04">
+                <div class="nav_text_04" id="nav_text_04">Orders</div>
+            </div><!--Orders-->
+            <div id="nav_05">
+                <div class="nav_text_05" id="nav_text_05">Inventory</div>
+            </div><!--Inventory-->
+            <div id="nav_06">
+                <div class="nav_text_06" id="nav_text_06">Chat</div>
+            </div><!--Chat-->
+            <div id="nav_07">
+                <div class="nav_text_07" id="nav_text_07">Log</div>
+            </div><!--logout-->
 
         
     </div>
@@ -928,4 +767,165 @@ type_b.onclick = function(){
         <p>&copy; 2025 KRONOS ADVENTURE TEAM</p>
     </footer>
     </body>
+    <script>
+        var nav00 = document.getElementById('nav_00');
+        var navText00 = document.getElementById('nav_text_00');
+
+        var nav01 = document.getElementById('nav_01');
+        var navText01 = document.getElementById('nav_text_01');
+
+        var nav02 = document.getElementById('nav_02');
+        var navText02 = document.getElementById('nav_text_02');
+
+        var nav03 = document.getElementById('nav_03');
+        var navText03 = document.getElementById('nav_text_03');
+
+        var nav04 = document.getElementById('nav_04');
+        var navText04 = document.getElementById('nav_text_04');
+
+        var nav05 = document.getElementById('nav_05');
+        var navText05 = document.getElementById('nav_text_05');
+
+        var nav06 = document.getElementById('nav_06');
+        var navText06 = document.getElementById('nav_text_06');
+
+        var nav07 = document.getElementById('nav_07');
+        var navText07 = document.getElementById('nav_text_07');
+    //here I set up some divs and text under them in a loop to add hover, style flex to be shown 
+    //and animation
+    var navArray =[nav00,nav01,nav02,nav03,nav04,nav05,nav06,nav07];
+    var navTextArray = [navText00,navText01,navText02,navText03,navText04,navText05,navText06,navText07];
+
+    for (let i = 0; i < navArray.length; i++) {
+        navArray[i].addEventListener('mouseover', function(){
+            navArray[i].style.cursor = 'pointer';
+            navTextArray[i].style.display = 'flex';
+            navArray[i].animate(
+                [
+                    {scale : '1'},
+                    {scale : '1.2'},
+                    {scale : '1.1'}
+                ],
+                {
+                    easing: 'ease-in',
+                    duration: 500,
+                    fill: 'forwards'
+                
+                }
+            )
+        });
+    }  
+
+    for (let i = 0; i < navArray.length; i++) {
+        navArray[i].addEventListener('mouseout', function () {
+            navTextArray[i].style.display = 'none';
+            navArray[i].animate(
+                [
+                    {scale : '1.1'},
+                    {scale : '1'}
+                ],
+                {
+                    easing: 'ease-in',
+                    duration: 200,
+                    fill: 'forwards'
+                
+                }
+            )
+        });
+    }
+
+    const skyBox = document.getElementById('skyBox');
+
+    Object.assign(skyBox.style,{
+        backgroundImage: 'url(../static/images/Mountains1.png)',
+        height: '240px',
+        paddingTop: '150px',
+        backgroundRepeat: 'repeat-x',
+        backgroundPosition: '40px',
+        backgroundSize: 'contain',
+        overflow: 'hidden',
+        width: '100vw'
+    
+    });
+
+    skyBox.animate(
+        [
+            {backgroundPosition: '816px' },
+            {backgroundPosition:  '40px'}
+        ],
+        {
+            duration: 12000,
+            iterations: Infinity,
+            easing: 'linear'
+        }
+    );
+
+    var loginSubmit = document.getElementById('login_submit');
+    var horseCart = document.getElementById('horse_cart');
+
+loginSubmit.addEventListener('mouseover', function(){
+    loginSubmit.style.color = 'gold';
+    horseCart.animate(
+        [
+            { opacity: 0,right: '0px'},
+            { opacity: 1, right: '-70px'}
+        ],
+        {
+            iterations: 1,
+            easing: 'ease-in',
+            duration: 420,
+            fill: "forwards"
+        }
+    )
+});
+
+loginSubmit.addEventListener('mouseout', function(){
+    loginSubmit.style.color = 'white';
+    horseCart.animate(
+        [
+            { opacity: 1},
+            { opacity: 0}
+        ],
+        {
+            iterations: 1,
+            easing: 'ease-in',
+            duration: 220,
+            fill: "forwards"
+        }
+    )
+});
+
+var _type = document.getElementById('_type');
+var _class = document.getElementById('_class');
+var _weapon = document.getElementById('_weapon');
+var _gift = document.getElementById('_gift');
+
+var create_array = [_type,_class,_weapon,_gift]
+
+for(let i = 0; i < create_array.length; i++){
+    create_array[i].style.cursor = 'pointer';
+    create_array[i].addEventListener('mouseover', function(){
+    create_array[i].style.color = 'gold';
+});
+create_array[i].addEventListener('mouseout', function(){
+    create_array[i].style.color = 'white';
+});
+}
+
+var creation_preview = document.getElementById('creation_preview');
+creation_preview.style.backgroundImage = 'url(../static/images/blue_guy_idle.gif)';
+
+var type_a = document.getElementById('type_a');
+var type_b = document.getElementById('type_b');
+
+type_a.onclick = function(){
+    creation_preview.style.backgroundImage = 'url(../static/images/blue_gal_idle.gif)';
+}
+type_b.onclick = function(){
+    creation_preview.style.backgroundImage = 'url(../static/images/blue_guy_idle.gif)';
+}
+
+
+        
+    </script>
 </html>
