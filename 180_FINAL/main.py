@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:password@localhost/shopdb'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:74CLpyrola!@localhost/shopdb'
 app.config['SECRET_KEY'] = 'dev_key'
 db = SQLAlchemy(app)
 
@@ -90,10 +90,15 @@ def initialize():
 #test page to see everything!#
 @app.route('/', methods=['GET', 'POST'])
 def all_users():
+    
     global initialized
     if initialized == False:
-        print("initializing")
-        return redirect(url_for("initialize"))
+        firstAdmin = db.session.execute(text("SELECT email FROM shop_user WHERE user_type ='Admin' and email = 'admin@account.com'")).fetchone()
+        if firstAdmin:
+            initialized = True
+        else:
+            print("initializing")
+            return redirect(url_for("initialize"))
     login = None
     admin_users = db.session.execute(text("SELECT * FROM shop_user WHERE user_type = 'Admin'")).mappings().fetchall()
     vendor_users = db.session.execute(text("SELECT * FROM shop_user WHERE user_type = 'Vendor'")).mappings().fetchall()
@@ -104,6 +109,7 @@ def all_users():
     order_items = get_user_order(session['user_id']) if 'user_id' in session else []
     inventory_items = get_user_inventory(session['user_id']) if 'user_id' in session else []
 
+    
     if request.method == 'POST':
         if 'full_name' in request.form:  # This means the Create User form was submitted
             signup_data = {
