@@ -1,12 +1,4 @@
-<html>
-<head>
-    <title>{% block title %}Kronos Adventurer{% endblock %}</title>
-    <link rel="stylesheet" type="text/css" href="{{url_for( 'static', filename='css/styles.css' )}}">
-    <script src="{{url_for( 'static', filename='js/scripts.js' )}}"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Micro+5&display=swap" rel="stylesheet">
-    {% block extra_head %}{% endblock %}
+<!--This will extend from base-->
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -461,17 +453,6 @@
 
         });
     </script>
-</head>
-<body>
-    <header>
-        <h1 id='header-title'>KRONOS ADVENTURE</h1>
-        <nav>
-            <ul>
-                <li><a href="">LOGOUT</a></li>
-                <li><a href="">ACHIEVEMENTS</a></li>
-            </ul>
-        </nav>
-    </header>
     <div class="game-container">
         <div class="game-window">
             <div class="game-level">
@@ -518,16 +499,6 @@
         </div>
     </div>
     <ion-icon name="chevron-down-outline" id='drop-down-tag'></ion-icon>
-    <main>
-        {% block body %}
-        
-        {% endblock %}
-    </main>
 
-    <footer>
-        <p>&copy; 2025 KRONOS ADVENTURE TEAM</p>
-    </footer>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-</body>
-</html>
