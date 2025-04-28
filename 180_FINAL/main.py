@@ -270,9 +270,13 @@ def get_user_cart(user_id):
     where shop_cart.user_id = :user_id
 """), {'user_id': user_id}).mappings().fetchall()
 @app.route("/chat", methods=['GET','POST'])
-def chatting():
-    chat=db.session.execute(text("SELECT * FROM chat"))
+def chat():
+    _chat = db.session.execute(text("SELECT * FROM chat")).mappings().fetchall()
+    if request.form:
+        if request.form["response"]:
+            db.session.execute(text("INSERT INTO message SET (conversation,comment_date,userfrom,userto) with VALUES(request_form['response'], NOW(), request_form['user'], request_form['recipient'] commit()"))
     return render_template("chat.html",chat=chat)
+
 
 
 
