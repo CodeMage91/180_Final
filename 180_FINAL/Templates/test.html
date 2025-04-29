@@ -23,34 +23,34 @@
 
         <div id='header-title'>KRONOS ADVENTURE</div>
 
-
-
             <div class="user_navigation" style="display: none;">
-            <div id="nav_00">
-                <div class="nav_text_00" id="nav_text_00">Accounts</div>
-            </div><!--account-->
-            <div id="nav_01">
-                <div class="nav_text_01" id="nav_text_01">Users</div>
-            </div><!--users-->
-            <div id="nav_02">
-                <div class="nav_text_02" id="nav_text_02">Products</div>
-            </div><!--Products-->
-            <div id="nav_03">
-                <div class="nav_text_03" id="nav_text_03">Cart</div>
-            </div><!--Cart-->
-            <div id="nav_04">
-                <div class="nav_text_04" id="nav_text_04">Orders</div>
-            </div><!--Orders-->
-            <div id="nav_05">
-                <div class="nav_text_05" id="nav_text_05">Inventory</div>
-            </div><!--Inventory-->
-            <div id="nav_06">
-                <div class="nav_text_06" id="nav_text_06">Chat</div>
-            </div><!--Chat-->
-            <div id="nav_07">
-                <div class="nav_text_07" id="nav_text_07">Log</div>
-            </div><!--logout-->
-        </div>
+                <div id="nav_00">
+                    <div class="nav_text_00" id="nav_text_00">Accounts</div>
+                </div><!--account-->
+                <div id="nav_01">
+                    <div class="nav_text_01" id="nav_text_01">Users</div>
+                </div><!--users-->
+                <div id="nav_02">
+                    <div class="nav_text_02" id="nav_text_02">Products</div>
+                </div><!--Products-->
+                <div id="nav_03">
+                    <div class="nav_text_03" id="nav_text_03">Cart</div>
+                </div><!--Cart-->
+                <div id="nav_04">
+                    <div class="nav_text_04" id="nav_text_04">Orders</div>
+                </div><!--Orders-->
+                <div id="nav_05">
+                    <div class="nav_text_05" id="nav_text_05">Inventory</div>
+                </div><!--Inventory-->
+                <div id="nav_06">
+                    <div class="nav_text_06" id="nav_text_06">Chat</div>
+                </div><!--Chat-->
+                <div id="nav_07">
+                    <div class="nav_text_07" id="nav_text_07">Log</div>
+                </div><!--logout-->
+            </div>
+
+        {% if not login %}
 
         <div class="login">
             <!-- <div class="login_exit" id="login_exit">X</div> -->
@@ -64,79 +64,81 @@
                 </form>
             </div>
         </div>
+
+        {% endif %}
         
     </div>
 
     
 
     </div>
-
+    {% if not login %}
     <!-- Create Account-->
     <div class="create_user">
         <div class="create_user_box">
-        <div class="create_header">Create Account</div>
-        <div class="create_text">New User? Create an account and get started</div>
-        <form method="POST" action="/" class="create_user_form">
-            <div class="create_user_form_inputs">
-            <input name="full_name" placeholder="Full Name" required class="styled_input">
-            <input name="email" placeholder="Email" required class="styled_input">
-            <input name="username" placeholder="username" class="styled_input">
-            <input name="user_image" placeholder="Profile Image" class="styled_input">
-            <input name="password_hash" placeholder="Password" required class="styled_input"><br>
-            <label  for="user_Type" class="account_type">Account Type</label>
-            <select name="user_type" class="user_type">
-                <option value="Customer">Customer</option>
-                <option value="Vendor">Vendor</option>
-            </select>
-        </div>
-        <div class="character_profile">
-            <div class="creation_nav">
-                    <div class="creation_nav_00" id="_type">TYPE</div>
-                    <div class="creation_nav_01" id="_weapon">WEAPON</div>
-                    <div class="creation_nav_02" id="_gift">GIFT</div>
-            </div>
-            <div class="creation_screen">
-                    <div class="creation_preview" id="creation_preview"></div>
+            <div class="create_header">Create Account</div>
+            <div class="create_text">New User? Create an account and get started</div>
+                        <form method="POST" action="/" class="create_user_form">
+                <div class="create_user_form_inputs">
+                    <input name="full_name" placeholder="Full Name" required class="styled_input">
+                    <input name="email" placeholder="Email" required class="styled_input">
+                    <input name="username" placeholder="username" class="styled_input">
+                    <input name="user_image" placeholder="Profile Image" class="styled_input">
+                    <input name="password_hash" placeholder="Password" required class="styled_input"><br>
+                    <label  for="user_Type" class="account_type">Account Type</label>
+                    <select name="user_type" class="user_type">
+                        <option value="Customer">Customer</option>
+                        <option value="Vendor">Vendor</option>
+                    </select>
+                </div>
+            <div class="character_profile">
+                <div class="creation_nav">
+                        <div class="creation_nav_00" id="_type">TYPE</div>
+                        <div class="creation_nav_01" id="_weapon">WEAPON</div>
+                        <div class="creation_nav_02" id="_gift">GIFT</div>
+                </div>
+                <div class="creation_screen">
+                        <div class="creation_preview" id="creation_preview"></div>
 
-                    <div class="creation_options_00" id="creation_options_00">
-                        <div class="create_desc_00">Choose Character Type.</div>
-                       
-                        <div style="display: flex; justify-content: space-around;padding-top: 7px; flex-wrap: wrap;">
-                        <div class="type_a" id="type_a" style="border-color:red;">RED<br>A</div>
-                        <div class="type_b" id="type_b" style="border-color: green;">GREEN<br>A</div>
-                      
-                        <div class="type_a" id="type_c" style="border-color: blue;">BLUE<br>A</div>
-                        <div class="type_b" id="type_d" style="border-color: red;">RED<br>B</div>
-                               
-                        <div class="type_a" id="type_e" style="border-color:green">GREEN<br>B</div>
-                        <div class="type_b" id="type_f">BLUE<br>B</div>
+                        <div class="creation_options_00" id="creation_options_00">
+                            <div class="create_desc_00">Choose Character Type.</div>
+                        
+                            <div style="display: flex; justify-content: space-around;padding-top: 7px; flex-wrap: wrap;">
+                            <div class="type_a" id="type_a" style="border-color:red;">RED<br>A</div>
+                            <div class="type_b" id="type_b" style="border-color: green;">GREEN<br>A</div>
+                        
+                            <div class="type_a" id="type_c" style="border-color: blue;">BLUE<br>A</div>
+                            <div class="type_b" id="type_d" style="border-color: red;">RED<br>B</div>
+                                
+                            <div class="type_a" id="type_e" style="border-color:green">GREEN<br>B</div>
+                            <div class="type_b" id="type_f">BLUE<br>B</div>
+                            </div>
+
                         </div>
 
-                    </div>
+                        <div class="creation_options_01" style="display: none;" id="creation_options_01">
+                            <div class="create_desc_00">Choose Starting Weapon.</div>
+                        </div>
 
-                    <div class="creation_options_01" style="display: none;" id="creation_options_01">
-                        <div class="create_desc_00">Choose Starting Weapon.</div>
-                    </div>
-
-                    <div class="creation_options_02" style="display: none;" id="creation_options_02">
-                        <div class="create_desc_00">Choose Starting Gift.</div>
-                    </div>
-
+                        <div class="creation_options_02" style="display: none;" id="creation_options_02">
+                            <div class="create_desc_00">Choose Starting Gift.</div>
+                        </div>
+                </div>
             </div>
-        </div>
         <button type="submit" class="styled_submit_01">Create</button>
         </form>
-    </div>
-    </div>
-    <div class="types_desc" id="types_desc" style="position: relative; flex-direction: column;">
-        <h3 style="color: red;">Red Type:</h3><p>Red types can regenerate health.</p>
+        <div class="types_desc" id="types_desc" style="position: relative; flex-direction: column;">
+            <h3 style="color: red;">Red Type:</h3><p>Red types can regenerate health.</p>
 
-        <h3 style="color: green">Green Type:</h3><p>Green types don't need stamina to attcak.</p>
+            <h3 style="color: green">Green Type:</h3><p>Green types don't need stamina to attcak.</p>
 
-        <h3 style="color:blue">Blue Type:</h3><p>Blue types regenerate magic.</p>
+            <h3 style="color:blue">Blue Type:</h3><p>Blue types regenerate magic.</p>
+        </div>
+    </div>
+    {% endif %}
     </div>
 
-    <div class="user_inventory">
+    <!-- <div class="user_inventory">
         <h3>User Inventory</h3>
         {% if inventory_items %}
             <ul>
@@ -155,193 +157,181 @@
             </ul>
         {% else %}
             <p>No items in inventory</p>
-        
         {% endif %}
-    
-    </div>
-
+    </div> -->
     <div class="page">
-    <div class="bodi">
-        <a href="{{ url_for('logout') }}">Logout</a>
+        <div class="bodi">
+            {% if login %}
+            <a href="{{ url_for('logout') }}">Logout</a>
+            <div class="login_nav">
 
-    {% if login %}
-    <div class="login_nav">
+                <div class="login_profile">
+                    <div class="login_profile_pic" style="background-image: url('{{ url_for('static', filename='images/' ~ login.user_image) }}');"></div>
 
-        <div class="login_profile">
-            <div class="login_profile_pic" style="background-image: url('{{ url_for('static', filename='images/' ~ login.user_image) }}');"></div>
+                    <div class="login_name"></div>
 
-        <div class="login_name"></div>
-
-            <div class="login_stats">
-                <div class="wallet">${{login.wallet_amount or 0.00}}</div>
-                Name: {{login.full_name}}<br>
-                Username: {{login.username}}
-                Email: {{login.email}}<br>
-                Class: {{login.user_type}}<br>
+                    <div class="login_stats">
+                        <div class="wallet">${{login.wallet_amount or 0.00}}</div>
+                        Name: {{login.full_name}}<br>
+                        Username: {{login.username}}
+                        Email: {{login.email}}<br>
+                        Class: {{login.user_type}}<br>
+                    </div>
+                </div>
             </div>
-            
-            
-            
-        </div>
-    </div>
+                <div class="box_holder">
+                <div class="box">
+            <h1>  Admin Users</h1><br>
+            {% if admin_users %}
 
-    {% else %}
-
-    {% endif %}
-
-
-        <div class="box_holder">
-        <div class="box">
-    <h1>  Admin Users</h1><br>
-    {% if admin_users %}
-
-        {% for user in admin_users %}
-        <div class="user_box">
-            <div class="profile" id="pic"  style="background-image: url('{{ url_for('static', filename='images/' ~ user.user_image) }}');"></div>
-            <div class="user_stats"></div>
-        Name: {{ user.full_name }}<br>
-        Username: {{user.username}}<br>
-        Email: {{user.email}}
-        Type: {{user.user_type}}
-        </div>
-        {% endfor %}
-    {% else %}
-        <p>no admin_users found</p>
-
-    {% endif %}
-    </div>
-
-    <div class="box">
-        <h1>Vendor Users</h1>
-        {%if vendor_users%}
-
-            {% for user in vendor_users %}
-            <div class="user_box">
-                <div class="profile" id="pic"  style="background-image: url('{{ url_for('static', filename='images/' ~ user.user_image) }}');"></div>
-                <div class="user_stats"></div>
-            Name: {{ user.full_name }}<br>
-            Username: {{user.username}}<br>
-            Email: {{user.email}}<br>
-            Type: {{user.user_type}}
-            </div>
-
-            {% endfor%}
-        {% else %}
-            <p> no vendors found</p>
-        {% endif %}
-    </div>
-
-    <div class="box">
-        <h1>Customer Users</h1>
-        {%if customer_users%}
-
-            {% for user in customer_users %}
-            <div class="user_box">
-                <div class="profile"  style="background-image: url('{{ url_for('static', filename='images/' ~ user.user_image) }}');"></div>
-                <div class="user_stats"></div>
-            Name: {{ user.full_name }}<br>
-            Username: {{user.username}}<br>
-            Email: {{user.email}}<br>
-            Type: {{user.user_type}}
-            </div>
-
-            {% endfor%}
-        {% else %}
-            <p> no customers found</p>
-        {% endif %}
-    </div>
-
-
-    <div class="create_item">
-        <h2>Create Item</h2>
-        <div class="item_form">
-            <form method="POST" action="/">
-            <input placeholder="Item Name" name="item_name">
-            <input placeholder="item_image" name="item_image">
-            <input placeholder="Item Price" name="original_price">
-            <textarea placeholder="Item Description" name="item_desc"></textarea>
-            <button type="submit">Create</button>
-        </form>
-
-        </div>
-
-    <div class="box">
-        <h1>Items</h1>
-        {%if items%}
-
-        {% for item in items %}
-        <div class="item_box">
-            <div class="profile" style="background-image: url('{{ url_for('static', filename='images/' ~ item.item_image) }}');"></div>
-
-            <div class="item_stats">
-                <form method="POST" action="{{ url_for('to_cart') }}">
-            Item: {{ item.item_name}}<br>
-            <input type="hidden" name="item_id" value="{{item.item_id}}">
-            Price: ${{ item.original_price}}<br>
-            Description: {{item.item_desc}}<br>
-            Created By: {{creator.full_name}}<br>
-
-
-            <button type="submit">Add to Cart</button>
-        </form>
-        </div>
-
-        </div>
-        {% endfor%}
-    {% else %}
-        <p> no items found</p>
-    {% endif %}
-    </div>
-    <div class="cart">
-        CART: {{login.cart_id}}<br>
-        name: {{login.fullname}}<br>
-        <div class="cart_inventory">
-            {% if cart_items %}
-            <ul>
-            {% for item in cart_items %}
-            <li>{{item.item_name}} - {{item.original_price}} - {{item.item_desc}}<button>Remove</button></li><br>
-            
-            {% endfor %}
-            </ul>
+                {% for user in admin_users %}
+                <div class="user_box">
+                    <div class="profile" id="pic"  style="background-image: url('{{ url_for('static', filename='images/' ~ user.user_image) }}');"></div>
+                    <div class="user_stats"></div>
+                Name: {{ user.full_name }}<br>
+                Username: {{user.username}}<br>
+                Email: {{user.email}}
+                Type: {{user.user_type}}
+                </div>
+                {% endfor %}
             {% else %}
-            <p>empty cart</p>
+                <p>no admin_users found</p>
+
             {% endif %}
+            </div>
 
-        </div>
-        <div class="cart_total">Total: ${{login.cart_total}}</div>
-        <div class="orders">
+            <div class="box">
+                <h1>Vendor Users</h1>
+                {%if vendor_users%}
+
+                    {% for user in vendor_users %}
+                    <div class="user_box">
+                        <div class="profile" id="pic"  style="background-image: url('{{ url_for('static', filename='images/' ~ user.user_image) }}');"></div>
+                        <div class="user_stats"></div>
+                    Name: {{ user.full_name }}<br>
+                    Username: {{user.username}}<br>
+                    Email: {{user.email}}<br>
+                    Type: {{user.user_type}}
+                    </div>
+
+                    {% endfor%}
+                {% else %}
+                    <p> no vendors found</p>
+                {% endif %}
+            </div>
+
+            <div class="box">
+                <h1>Customer Users</h1>
+                {%if customer_users%}
+
+                    {% for user in customer_users %}
+                    <div class="user_box">
+                        <div class="profile"  style="background-image: url('{{ url_for('static', filename='images/' ~ user.user_image) }}');"></div>
+                        <div class="user_stats"></div>
+                    Name: {{ user.full_name }}<br>
+                    Username: {{user.username}}<br>
+                    Email: {{user.email}}<br>
+                    Type: {{user.user_type}}
+                    </div>
+
+                    {% endfor%}
+                {% else %}
+                    <p> no customers found</p>
+                {% endif %}
+            </div>
+
+
+            <div class="create_item">
+                <h2>Create Item</h2>
+                <div class="item_form">
+                    <form method="POST" action="/">
+                    <input placeholder="Item Name" name="item_name">
+                    <input placeholder="item_image" name="item_image">
+                    <input placeholder="Item Price" name="original_price">
+                    <textarea placeholder="Item Description" name="item_desc"></textarea>
+                    <button type="submit">Create</button>
+                </form>
+
+                </div>
+
+            <div class="box">
+                <h1>Items</h1>
+                {%if items%}
+
+                {% for item in items %}
+                <div class="item_box">
+                    <div class="profile" style="background-image: url('{{ url_for('static', filename='images/' ~ item.item_image) }}');"></div>
+
+                    <div class="item_stats">
+                        <form method="POST" action="{{ url_for('to_cart') }}">
+                    Item: {{ item.item_name}}<br>
+                    <input type="hidden" name="item_id" value="{{item.item_id}}">
+                    Price: ${{ item.original_price}}<br>
+                    Description: {{item.item_desc}}<br>
+                    Created By: {{creator.full_name}}<br>
+
+
+                    <button type="submit">Add to Cart</button>
+                </form>
+                </div>
+
+                </div>
+                {% endfor%}
+            {% else %}
+                <p> no items found</p>
+            {% endif %}
+            </div>
+            <div class="cart">
+                CART: {{login.cart_id}}<br>
+                name: {{login.fullname}}<br>
+                <div class="cart_inventory">
+                    {% if cart_items %}
+                    <ul>
+                    {% for item in cart_items %}
+                    <li>{{item.item_name}} - {{item.original_price}} - {{item.item_desc}}<button>Remove</button></li><br>
+                    
+                    {% endfor %}
+                    </ul>
+                    {% else %}
+                    <p>empty cart</p>
+                    {% endif %}
+
+                </div>
+                <div class="cart_total">Total: ${{login.cart_total}}</div>
+                <div class="orders">
+                    
+                        <button onclick="startOrderStatusAnimation({{order_id}})">Submit Order</button>
+                        
+                </div>
+                <div>
+            {% if order_items %}
             
-                <button onclick="startOrderStatusAnimation({{order_id}})">Submit Order</button>
-                
-        </div>
-        <div>
-    {% if order_items %}
-    
-    {% for item in order_items %}
-        {{item.item_name}} - {{item.original_price}} - {{item.status}} - {{item.last_status_update}}
-        <form method="POST" action="{{url_for('update_order_status')}}">
-            <input type="hidden" name="item_id" value={{item.item_id}}>
-        <label for="status">Status:<select name="status">
-            <option value="Pending" {% if item.status == 'Pending' %}selected{% endif %}>Pending</option>
-            <option value="Shipped" {% if item.status == 'Shipped' %}selected{% endif %}>Shipped</option>
-            <option value="Delivered" {% if item.status == 'Delivered' %}selected{% endif %}>Delivered</option>
-        </select></label><button type="submit">Update</button><br><br>
-        </form>
-    
+            {% for item in order_items %}
+                {{item.item_name}} - {{item.original_price}} - {{item.status}} - {{item.last_status_update}}
+                <form method="POST" action="{{url_for('update_order_status')}}">
+                    <input type="hidden" name="item_id" value={{item.item_id}}>
+                <label for="status">Status:<select name="status">
+                    <option value="Pending" {% if item.status == 'Pending' %}selected{% endif %}>Pending</option>
+                    <option value="Shipped" {% if item.status == 'Shipped' %}selected{% endif %}>Shipped</option>
+                    <option value="Delivered" {% if item.status == 'Delivered' %}selected{% endif %}>Delivered</option>
+                </select></label><button type="submit">Update</button><br><br>
+                </form>
+            
 
-    {% endfor%}
-    {% else%}
-    <p>No order items</p>
-    {% endif %}
-    <link href="https://fonts.googleapis.com/css2?family=Micro+5&display=swap" rel="stylesheet">
-    </div>
-    </div>
+            {% endfor%}
+            {% else%}
+            <p>No order items</p>
+            {% endif %}
+            <link href="https://fonts.googleapis.com/css2?family=Micro+5&display=swap" rel="stylesheet">
+            </div>
+        </div>
     </div>
     {% if battle %}
     <main>
         {% block body%}
         {% endblock%}
     </main>
+    {% endif %}
     {% endif %}
     <footer>
         <p>&copy; 2025 KRONOS ADVENTURE TEAM</p>
@@ -438,7 +428,11 @@
             height: 460px;
             background-image: linear-gradient(rgb(1, 39, 1), rgb(202, 145, 91));
             color: white;
-            border: 3px gold solid;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
         }
         .account_type{
             position: relative;
@@ -542,7 +536,6 @@
             background-color: rgba(0,0,0,0.6);
             border-radius: 10px;
             box-shadow: 0 2px 5px rgba(0,0,0,2.4);
-            margin: 50px auto;
         }
         .create_text{
             color: white;

@@ -378,7 +378,8 @@
                 attackImage.style.display = "block"; // Show the attack image
                 console.log(time.toFixed(2));
                 healthBar = getEnemyHealthBar();
-                if (time.toFixed(2) % 0.35 == 0 && time.toFixed(2) != 0) { // Show player attack image every 0.75 seconds
+                if (time > .35) { // Show player attack image every 0.75 seconds
+                    reset_time()
                     console.log("Attack");
                     fill = healthBar.querySelector(".hp-bar-fill");
                     var currentHP = parseInt(healthBar.getAttribute("value"));
@@ -425,6 +426,9 @@
             }
         }
         var time = 0; // Initialize time variable
+        function reset_time(){
+            time = 0
+        }
         document.addEventListener("DOMContentLoaded", function() {
             var hpBarFill = document.getElementById("hp-bar-fill");
             var currentHP = 100; // Example current HP value

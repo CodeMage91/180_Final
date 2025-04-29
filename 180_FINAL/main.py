@@ -7,17 +7,13 @@ from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:CSET155@localhost/shopdb'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:74CLpyrola!@localhost/shopdb'
 app.config['SECRET_KEY'] = 'dev_key'
 db = SQLAlchemy(app)
 
 
 initialized = False
 #routes#
-
-@app.route("/battle", methods=['GET', "POST"])
-def battle_screen():
-    return render_template("battle.html")
 @app.route('/init', methods=['GET'])
 def initialize():   
     
