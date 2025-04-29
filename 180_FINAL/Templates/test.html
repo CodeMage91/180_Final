@@ -83,7 +83,7 @@
                     <input name="full_name" placeholder="Full Name" required class="styled_input">
                     <input name="email" placeholder="Email" required class="styled_input">
                     <input name="username" placeholder="username" class="styled_input">
-                    <input name="user_image" placeholder="Profile Image" class="styled_input">
+                    <!-- <input name="user_image" placeholder="Profile Image" class="styled_input"> -->
                     <input name="password_hash" placeholder="Password" required class="styled_input"><br>
                     <label  for="user_Type" class="account_type">Account Type</label>
                     <select name="user_type" class="user_type">
@@ -118,6 +118,9 @@
 
                         <div class="creation_options_01" style="display: none;" id="creation_options_01">
                             <div class="create_desc_00">Choose Starting Weapon.</div>
+                            <div class="starter_sword"></div>
+                            <div class="starter_wand"></div>
+                            <div class=""></div>
                         </div>
 
                         <div class="creation_options_02" style="display: none;" id="creation_options_02">
@@ -822,6 +825,17 @@
         }
         .type_b:hover{
             color: gold;
+        }
+        .types_desc{
+            width: 280px;
+            height: 140px;
+            border-radius: 10px;
+            background-color: black;
+            padding: 13px;
+            top: -320px;
+            left: 750px;
+            position: relative;
+            justify-content: space-evenly;
         }
         
         main {
