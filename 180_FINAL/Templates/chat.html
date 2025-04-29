@@ -1,17 +1,19 @@
-{% if chat %}
-{% for ch in chat %}
-<p>{%chat.user1%}</p>
-<p>{%chat.user2%}</p>
+{% extends "base.html" %}
+{% block body %}
+{% if _chat %}
+{% for ch in _chat %}
+<form action="/chat" method="POST">
+<p><input id="whichchat" type="submit" name="whichchat" value="{{ch['forchat']}}" placeholder="{{ch['forchat']}}"></p>
+</form>
 {% endfor %}
 <form action="/chat" method="POST">
     <p><input type="number" name="as"></p>
     <p><input type="number" name="to"></p>
 <textarea id="response" name="response" rows="5" cols="70"></textarea>
     <p><input type="submit" name="submit" placeholder="Respond"></p>
-
 </form>
 {% else %}
 <p>No chats</p>
 {% endif %}
-
+{% endblock %}
 

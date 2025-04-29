@@ -271,11 +271,16 @@ def get_user_cart(user_id):
 """), {'user_id': user_id}).mappings().fetchall()
 @app.route("/chat", methods=['GET','POST'])
 def chat():
-    _chat = db.session.execute(text("SELECT * FROM chat")).mappings().fetchall()
+    user_id=session['user_id']
+    _chat = db.session.execute(text(f"SELECT * FROM chat WHERE userfrom={user_id} OR userto={user_id}")).mappings().fetchall()
+    conversation=None
     if request.form:
+        if request.form["whichchat"]:
+            conversation=db.session(text("SELECT conversation, comment_image,comment_date FROM message WHERE forchat=request.form['whichchat']"))
         if request.form["response"]:
-            db.session.execute(text("INSERT INTO message SET (conversation,comment_date,userfrom,userto) with VALUES(request_form['response'], NOW(), request_form['user'], request_form['recipient'] commit()"))
-    return render_template("chat.html",chat=chat)
+            db.session.execute(text("INSERT INTO message SET (conversation,comment_date,userfrom,userto) with VALUES(request_form['response'], NOW(), request_form['to'], request_form['from']"))
+            db.session.commit()
+    return render_template("chat.html",_chat=_chat, conversation=conversation)
 
 
 
