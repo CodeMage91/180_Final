@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:CSET155@localhost/shopdb'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:QIblI25#3@localhost/shopdb'
 app.config['SECRET_KEY'] = 'dev_key'
 db = SQLAlchemy(app)
 
@@ -353,7 +353,18 @@ def get_user_cart(user_id):
     join shop_item on shop_cart.item_id = shop_item.item_id
     where shop_cart.user_id = :user_id and is_ordered = False
 """), {'user_id': user_id}).mappings().fetchall()
-
+@app.route("/chat", methods=['GET','POST'])
+def chat():
+    user_id=session['user_id']
+    _chat = db.session.execute(text(f"SELECT * FROM chat WHERE user1={user_id} OR user2={user_id}")).mappings().fetchall()
+    conversation=None
+    if request.form:
+        if request.form["whichchat"]:
+            conversation=db.session(text("SELECT conversation, comment_image,comment_date FROM message WHERE forchat=request.form['whichchat']"))
+        if request.form["response"]:
+            db.session.execute(text("INSERT INTO message SET (conversation,comment_date,userfrom,userto) with VALUES(request_form['response'], NOW(), request_form['to'], request_form['from']"))
+            db.session.commit()
+    return render_template("chat.html",_chat=_chat, conversation=conversation)
 
 #run#
 if __name__ == '__main__':
