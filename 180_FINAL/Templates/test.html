@@ -97,7 +97,8 @@
             </div>
             <div class="creation_screen">
                     <div class="creation_preview" id="creation_preview"></div>
-                    <div class="creation_options_00">
+
+                    <div class="creation_options_00" id="creation_options_00">
                         <div class="create_desc_00">Choose Character Type.</div>
                        
                         <div style="display: flex; justify-content: space-around;padding-top: 7px; flex-wrap: wrap;">
@@ -111,13 +112,27 @@
                         <div class="type_b" id="type_f">BLUE<br>B</div>
                         </div>
 
-
-
+                        
+                    <div class="creation_options_01" style="display: none;" id="creation_options_01">
+                        <div class="create_desc_01">Choose Starting Weapon.</div>
                     </div>
+
+                    <div class="creation_options_02" style="display: none;" id="creation_options_02">
+                        <div class="create_desc_02">Choose Starting Gift.</div>
+                    </div>
+
             </div>
         </div>
         <button type="submit" class="styled_submit_01">Create</button>
         </form>
+        <div class="types_desc" id="types_desc" style="position: relative; flex-direction: column;">
+            <h3 style="color: red;">Red Type:</h3><p>Red types can regenerate health.</p>
+
+            <h3 style="color: green">Green Type:</h3><p>Green types don't need stamina to attcak.</p>
+
+            <h3 style="color:blue">Blue Type:</h3><p>Blue types regenerate magic.</p>
+        </div>
+    </div>
     </div>
     </div>
 
@@ -332,8 +347,20 @@
             margin: 0px;
             padding: 0px;
         }
+        .types_desc{
+            border: white 1px solid;
+            left: 540px;
+            width: 280px;
+            height: 200px;
+            top: -200px;
+            background-color: black;
+            border-radius: 10px;
+            padding: 13px;
+            font-family: 'Micro 5', sans-serif;
+            font-size: 24px;
+        }
         .character_profile{
-            width:480px;
+            width:486px;
             height: 253px;
             /* border: red 1px solid; */
             /* background-color: red; */
@@ -408,6 +435,7 @@
             overflow-y: scroll;
             scrollbar-width: thin;
             scrollbar-color: gold black;
+            flex-direction: column;
         }
         .skybox{
             padding: 0px;
@@ -954,6 +982,11 @@ create_array[i].addEventListener('mouseout', function(){
 });
 }
 
+
+var creation_options_00 = document.getElementById('creation_options_00');
+var creation_options_01 = document.getElementById('creation_options_01');
+var creation_options_02 = document.getElementById('creation_options_02');
+
 var creation_preview = document.getElementById('creation_preview');
 creation_preview.style.backgroundImage = 'url(../static/images/blue_guy_idle.gif)';
 
@@ -983,7 +1016,27 @@ type_f.onclick = function(){
     creation_preview.style.backgroundImage = 'url(../static/images/blue_guy_idle.gif)';
 }
 
+var types_desc = document.getElementById('types_desc');
 
-        
+_type.onclick = function(){
+    creation_options_00.style.display = 'flex';
+    creation_options_01.style.display = 'none';
+    creation_options_02.style.display = 'none';
+    types_desc.style.display = 'flex';
+}
+    
+_weapon.onclick = function(){
+    creation_options_00.style.display = 'none';
+    creation_options_01.style.display = 'flex';
+    creation_options_02.style.display = 'none';
+    types_desc.style.display = 'none';
+}
+
+_gift.onclick = function(){
+    creation_options_00.style.display = 'none';
+    creation_options_01.style.display = 'none';
+    creation_options_02.style.display = 'flex';
+    types_desc.style.display = 'none';
+}
     </script>
 </html>
