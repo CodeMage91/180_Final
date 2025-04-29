@@ -77,3 +77,15 @@ foreign key (item_id) references shop_item(item_id)
 );
 insert into user_inventory(user_id, item_id)
 values(1,1);
+create table chat(
+chatid int primary key auto_increment,
+user1 int,
+user2 int
+);
+create table message(
+conversation varchar(255),
+forchat int,
+comment_date datetime,
+comment_image varchar(100),
+FOREIGN KEY (forchat) references chat(chatid)
+);
