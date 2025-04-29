@@ -14,6 +14,10 @@ db = SQLAlchemy(app)
 
 initialized = False
 #routes#
+
+@app.route("/battle", methods=['GET', "POST"])
+def battle_screen():
+    return render_template("battle.html")
 @app.route('/init', methods=['GET'])
 def initialize():   
     
@@ -108,7 +112,7 @@ def all_users():
     cart_items = get_user_cart(session['user_id']) if 'user_id' in session else []
     order_items = get_user_order(session['user_id']) if 'user_id' in session else []
     inventory_items = get_user_inventory(session['user_id']) if 'user_id' in session else []
-
+    battle = False
     
     if request.method == 'POST':
         if 'full_name' in request.form:  # This means the Create User form was submitted
@@ -163,7 +167,7 @@ def all_users():
             db.session.commit()
 
 
-    return render_template('test.html',
+    return render_template('battle.html',
                            admin_users=admin_users,
                            vendor_users=vendor_users,
                            customer_users=customer_users,
@@ -172,7 +176,8 @@ def all_users():
                            login=login,
                            cart_items=cart_items,
                            order_items=order_items,
-                           inventory_items=inventory_items
+                           inventory_items=inventory_items,
+                           battle=battle
                            )
 
 @app.route('/to_cart/', methods=['POST'])

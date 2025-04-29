@@ -456,6 +456,20 @@
             border-radius: 23px;
             display: none;
         }
+        
+        main {
+            padding: 20px;
+        }
+        footer {
+            text-align: center;
+            padding: 10px 0;
+            background-color: #333;
+            color: white;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            z-index: 400;
+        }
     </style>
     <script>
         var nav00 = document.getElementById('nav_00');
@@ -717,12 +731,6 @@ type_b.onclick = function(){
     </div>
 
 
-
-
-
-
-
-
     <div class="user_inventory">
         <h3>User Inventory</h3>
         {% if inventory_items %}
@@ -924,6 +932,12 @@ type_b.onclick = function(){
     </div>
     </div>
     </div>
+    {% if battle %}
+    <main>
+        {% block body%}
+        {% endblock%}
+    </main>
+    {% endif %}
     <footer>
         <p>&copy; 2025 KRONOS ADVENTURE TEAM</p>
     </footer>

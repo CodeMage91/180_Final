@@ -1,6 +1,8 @@
 <!--This will extend from base-->
+{% extends "test.html" %}
+{% block body %}
     <style>
-        body {
+        .body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
@@ -28,18 +30,6 @@
         nav ul li a {
             color: white;
             text-decoration: none;
-        }
-        main {
-            padding: 20px;
-        }
-        footer {
-            text-align: center;
-            padding: 10px 0;
-            background-color: #333;
-            color: white;
-            position: fixed;
-            width: 100%;
-            bottom: 0;
         }
         .game-container {
             background-image: url("{{url_for( 'static', filename='images/pixelframe.png') }}");
@@ -453,6 +443,7 @@
 
         });
     </script>
+<div class="body">
     <div class="game-container">
         <div class="game-window">
             <div class="game-level">
@@ -498,7 +489,8 @@
                     </form>
         </div>
     </div>
-    <ion-icon name="chevron-down-outline" id='drop-down-tag'></ion-icon>
 
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</div>
+{% endblock %}
