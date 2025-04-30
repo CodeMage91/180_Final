@@ -373,13 +373,15 @@ def chat():
 @app.route("/reviews", methods=['GET','POST'])
 def reviewing():
     items=db.session.execute(text("SELECT * FROM shop_item")).all()
+    comments=None
     if request.form:
         user_id=session['user_id']
-        if request.form["object"]:
-            comments=db.session.execute(text("SELECT rating, statement, review_image, review_date FROM review WHERE for_item=requestform['object']")),all()
-        if request.form["review"]:
-            db.session.execute(text(f"INSERT INTO review (from_user,for_item,rating,review_date,statement) VALUES ({user_id},{request.form['iditem']},{request.form["rating"]},NOW(),{request.form["statement"]}"))
-    return render_template("reviews.html",comments=comments)
+        if "object" in request.form:
+            comments=db.session.execute(text(f"SELECT rating, statement, review_image, review_date FROM review WHERE for_item={request.form['object']}")).all()
+        if "review" in request.form:
+            db.session.execute(text(f"INSERT INTO review (from_user,for_item,rating,review_date,statement) VALUES ({user_id},{request.form['iditem']},{request.form["rating"]}, NOW(),'{request.form["review"]}')"))
+            db.session.commit()
+    return render_template("reviews.html", items=items,comments=comments)
 #run#
 if __name__ == '__main__':
     app.run(debug=True)
