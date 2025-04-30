@@ -118,26 +118,63 @@
 
                         <div class="creation_options_01" style="display: none;" id="creation_options_01">
                             <div class="create_desc_00">Choose Starting Weapon.</div>
-                            <div class="starter_sword"></div>
-                            <div class="starter_wand"></div>
-                            <div class="starter_mace"></div>
-                            <div class=""></div>
+
+                            <div style="display:flex; flex-direction: row; justify-content: space-evenly; padding-top: 13px;">
+                            <div class="starter_sword">SWORD</div>
+                            <div class="starter_staff">STAFF</div>
+                            <div class="starter_mace">MACE</div>
+                            </div>
                         </div>
 
-                        <div class="creation_options_02" style="display: none;" id="creation_options_02">
+                        <div class="creation_options_02" style="display: none; flex-direction: column;" id="creation_options_02">
                             <div class="create_desc_00">Choose Starting Gift.</div>
+
+                            <div style="display:flex; flex-direction: row; flex-wrap: wrap;">
+                                <div class="gift_00">Shield</div>
+                                <div class="gift_01">Potion</div>
+                                <div class="gift_02">Ether</div>
+                                <div class="gift_03">Evade Shoes</div>
+                                <div class="gift_04">Hardy Hat</div>
+                                <div class="gift_05">Rabbits Foot</div>
+                            </div>
+
                         </div>
                 </div>
             </div>
         <button type="submit" class="styled_submit_01">Create</button>
         </form>
+       
         <div class="types_desc" id="types_desc" style="position: relative; flex-direction: column;">
             <h3 style="color: red;">Red Type:</h3><p>Red types can regenerate health.</p>
 
-            <h3 style="color: green">Green Type:</h3><p>Green types don't need stamina to attcak.</p>
+            <h3 style="color: green">Green Type:</h3><p>Green types don't need stamina to attack.</p>
 
             <h3 style="color:blue">Blue Type:</h3><p>Blue types regenerate magic.</p>
         </div>
+
+        <div class="types_desc_01" id="weapon_desc" style="position: relative; flex-direction: column; display: none;">
+                <h3>Sword</h3><br><div style="display: flex;"><p>Size: Large</p>
+                    <p>Color: None</p>
+                </div>
+                <h3>Staff</h3><br><div style="display: flex;"><p>Size: Medium</p>
+                    <p>Color: None</p>
+                </div>
+                <h3>Mace</h3><br><div style="display: flex;"><p>Size: Medium</p>
+                    <p>Color: None</p>
+                </div>
+        </div>
+
+        <div class="types_desc_02" id="gift_desc" style="position: relative; flex-direction: column; display: none;">
+            <ul style="list-style: none;">
+                <li>Shield</li>
+                <li>x5 Potions</li>
+                <li>x5 Ethers</li>
+                <li>Evade Shoes</li>
+                <li>Hardy Hat</li>
+                <li>Rabbits Foot</li>
+            </ul>
+    </div>
+
     </div>
     {% endif %}
     </div>
@@ -347,6 +384,63 @@
             margin: 0px;
             padding: 0px;
         }
+        .starter_sword{
+            width: 88px;
+            height: 135px;
+            border: outset 3px white;
+            border-radius: 10px;
+            background-color: black;
+            font-family: 'Micro 5', sans-serif;
+            font-size: 21px;
+            text-align: center;
+            background-image: url('../static/images/sword_00.png');
+            background-position: center;
+            background-size: contain;
+            background-repeat: no-repeat;
+            cursor: pointer;
+        }
+        .starter_staff{
+            width: 88px;
+            height: 135px;
+            border: outset 3px white;
+            border-radius: 10px;
+            background-color: black;
+            font-family: 'Micro 5', sans-serif;
+            font-size: 21px;
+            text-align: center;
+            background-image: url('../static/images/staff_00.png');
+            background-position: center;
+            background-size: contain;
+            background-repeat: no-repeat;
+            cursor: pointer;
+        }
+        .starter_mace{
+            width: 88px;
+            height: 135px;
+            border: outset 3px white;
+            border-radius: 10px;
+            background-color: black;
+            font-family: 'Micro 5', sans-serif;
+            font-size: 21px;
+            text-align: center;
+            background-image: url('../static/images/mace_00.png');
+            background-position: center;
+            background-size: contain;
+            background-repeat: no-repeat;
+            cursor: pointer;
+        }
+        .starter_sword:hover{
+            color: gold;
+            border-color: gold;
+        }
+        .starter_staff:hover{
+            color: gold;
+            border-color: gold;
+        }
+        .starter_mace:hover{
+            color: gold;
+            border-color: gold;
+        }
         .character_profile{
             width:480px;
             height: 253px;
@@ -420,8 +514,28 @@
             border-radius: 0px 7px 10px 0px;
             width: 293px;
             height: 200px;
-            overflow-y: scroll;
-            scrollbar-width: thin;
+            /* overflow-y: scroll;
+            scrollbar-width: thin; */
+            scrollbar-color: gold black;
+            flex-direction: column;
+        }
+        .creation_options_01{
+            border: 1px white solid;
+            border-radius: 0px 7px 10px 0px;
+            width: 293px;
+            height: 200px;
+            /* overflow-y: scroll;
+            scrollbar-width: thin; */
+            scrollbar-color: gold black;
+            flex-direction: column;
+        }
+        .creation_options_02{
+            border: 1px white solid;
+            border-radius: 0px 7px 10px 0px;
+            width: 293px;
+            height: 200px;
+            /* overflow-y: scroll;
+            scrollbar-width: thin; */
             scrollbar-color: gold black;
             flex-direction: column;
         }
@@ -838,7 +952,28 @@
             position: relative;
             justify-content: space-evenly;
         }
-        
+        .types_desc_01{
+            width: 280px;
+            height: 180px;
+            border-radius: 10px;
+            background-color: black;
+            padding: 13px;
+            top: -320px;
+            left: 750px;
+            position: relative;
+            justify-content: space-evenly;
+        }
+        .types_desc_02{
+            width: 280px;
+            height: 180px;
+            border-radius: 10px;
+            background-color: black;
+            padding: 13px;
+            top: -320px;
+            left: 750px;
+            position: relative;
+            justify-content: space-evenly;
+        }
         main {
             padding: 20px;
         }
@@ -1012,6 +1147,9 @@ var type_c = document.getElementById('type_c');
 var type_d = document.getElementById('type_d');
 var type_f = document.getElementById('type_f');
 
+var  types_desc = document.getElementById('types_desc');
+var weapon_desc = document.getElementById('weapon_desc');
+var gift_gift = document.getElementById('gift_desc');
 
 type_a.onclick = function(){
     creation_preview.style.backgroundImage = 'url(../static/images/red_gal_idle.gif)';
@@ -1036,18 +1174,27 @@ _type.onclick = function(){
     creation_options_00.style.display = 'flex';
     creation_options_01.style.display = 'none';
     creation_options_02.style.display = 'none';
+    types_desc.style.display = 'flex';
+    weapon_desc.style.display = 'none';
+    gift_desc.style.display = 'none';
 }
     
 _weapon.onclick = function(){
     creation_options_00.style.display = 'none';
     creation_options_01.style.display = 'flex';
     creation_options_02.style.display = 'none';
+    types_desc.style.display = 'none';
+    weapon_desc.style.display = 'flex';
+    gift_desc.style.display = 'none';
 }
 
 _gift.onclick = function(){
     creation_options_00.style.display = 'none';
     creation_options_01.style.display = 'none';
     creation_options_02.style.display = 'flex';
+    types_desc.style.display = 'none';
+    weapon_desc.style.display = 'none';
+    gift_desc.style.display = 'flex';
 }
     </script>
     <footer>
