@@ -376,9 +376,10 @@ def reviewing():
     if request.form:
         user_id=session['user_id']
         if request.form["object"]:
-            comments=db.session.execute(text("SELECT rating, statement, review_image, reviewdate FROM review WHERE for_item=requestform['object']"))
+            comments=db.session.execute(text("SELECT rating, statement, review_image, review_date FROM review WHERE for_item=requestform['object']")),all()
         if request.form["review"]:
-            db.session.execute(text("INSERT INTO review (from_user,for_item,rating,review_date_statement) VALUES (request"))
+            db.session.execute(text(f"INSERT INTO review (from_user,for_item,rating,review_date,statement) VALUES ({user_id},{request.form['iditem']},{request.form["rating"]},NOW(),{request.form["statement"]}"))
+    return render_template("reviews.html",comments=comments)
 #run#
 if __name__ == '__main__':
     app.run(debug=True)

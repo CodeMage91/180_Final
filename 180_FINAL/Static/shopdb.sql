@@ -106,3 +106,5 @@ drop table review;
 select * from chat;
 drop table message;
 truncate table chat;
+select * from message;
+select * from shop_user;
