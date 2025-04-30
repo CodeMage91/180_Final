@@ -1,7 +1,7 @@
 <html>
     <head>
         <title>{% block title %}Kronos Adventurer{% endblock %}</title>
-        <link rel="stylesheet" type="text/css" href="{{url_for( 'static', filename='css/styles.css' )}}">
+        <link rel="stylesheet" type="text/css" href="{{url_for( 'static', filename='test1.css' )}}">
         <script src="{{url_for( 'static', filename='js/scripts.js' )}}"></script>
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -166,11 +166,15 @@
     <div class="page">
         <div class="bodi">
             {% if login %}
+            <!--saving login info-->
+            <p style="visibility: hidden; position: fixed; top:0; left:0;">{{ login.user_type }}</p>
+
+            <!--login page-->
             <a href="{{ url_for('logout') }}">Logout</a>
             <div class="login_nav">
 
                 <div class="login_profile">
-                    <div class="login_profile_pic" style="background-image: url('{{ url_for('static', filename='images/' ~ login.user_image) }}');"></div>
+                    <div class="login_profile_pic" style="background-image: url('{{ url_for('static', filename='images' ~ login.user_image) }}');"></div>
 
                     <div class="login_name"></div>
 
@@ -184,66 +188,66 @@
                 </div>
             </div>
                 <div class="box_holder">
+                    <div class="box">
+                        <h1>  Admin Users</h1><br>
+                        {% if admin_users %}
+
+                            {% for user in admin_users %}
+                            <div class="user_box">
+                                <div class="profile" id="pic"  style="background-image: url('{{ url_for('static', filename='images/' ~ user.user_image) }}');"></div>
+                                <div class="user_stats"></div>
+                            Name: {{ user.full_name }}<br>
+                            Username: {{user.username}}<br>
+                            Email: {{user.email}}
+                            Type: {{user.user_type}}
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            <p>no admin_users found</p>
+
+                        {% endif %}
+                    </div>
+
                 <div class="box">
-            <h1>  Admin Users</h1><br>
-            {% if admin_users %}
+                    <h1>Vendor Users</h1>
+                    {%if vendor_users%}
 
-                {% for user in admin_users %}
-                <div class="user_box">
-                    <div class="profile" id="pic"  style="background-image: url('{{ url_for('static', filename='images/' ~ user.user_image) }}');"></div>
-                    <div class="user_stats"></div>
-                Name: {{ user.full_name }}<br>
-                Username: {{user.username}}<br>
-                Email: {{user.email}}
-                Type: {{user.user_type}}
+                        {% for user in vendor_users %}
+                        <div class="user_box">
+                            <div class="profile" id="pic"  style="background-image: url('{{ url_for('static', filename='images/' ~ user.user_image) }}');"></div>
+                            <div class="user_stats"></div>
+                        Name: {{ user.full_name }}<br>
+                        Username: {{user.username}}<br>
+                        Email: {{user.email}}<br>
+                        Type: {{user.user_type}}
+                        </div>
+
+                        {% endfor%}
+                    {% else %}
+                        <p> no vendors found</p>
+                    {% endif %}
                 </div>
-                {% endfor %}
-            {% else %}
-                <p>no admin_users found</p>
 
-            {% endif %}
+                <div class="box">
+                    <h1>Customer Users</h1>
+                    {%if customer_users%}
+
+                        {% for user in customer_users %}
+                        <div class="user_box">
+                            <div class="profile"  style="background-image: url('{{ url_for('static', filename='images/' ~ user.user_image) }}');"></div>
+                            <div class="user_stats"></div>
+                        Name: {{ user.full_name }}<br>
+                        Username: {{user.username}}<br>
+                        Email: {{user.email}}<br>
+                        Type: {{user.user_type}}
+                        </div>
+
+                        {% endfor%}
+                    {% else %}
+                        <p> no customers found</p>
+                    {% endif %}
+                </div>
             </div>
-
-            <div class="box">
-                <h1>Vendor Users</h1>
-                {%if vendor_users%}
-
-                    {% for user in vendor_users %}
-                    <div class="user_box">
-                        <div class="profile" id="pic"  style="background-image: url('{{ url_for('static', filename='images/' ~ user.user_image) }}');"></div>
-                        <div class="user_stats"></div>
-                    Name: {{ user.full_name }}<br>
-                    Username: {{user.username}}<br>
-                    Email: {{user.email}}<br>
-                    Type: {{user.user_type}}
-                    </div>
-
-                    {% endfor%}
-                {% else %}
-                    <p> no vendors found</p>
-                {% endif %}
-            </div>
-
-            <div class="box">
-                <h1>Customer Users</h1>
-                {%if customer_users%}
-
-                    {% for user in customer_users %}
-                    <div class="user_box">
-                        <div class="profile"  style="background-image: url('{{ url_for('static', filename='images/' ~ user.user_image) }}');"></div>
-                        <div class="user_stats"></div>
-                    Name: {{ user.full_name }}<br>
-                    Username: {{user.username}}<br>
-                    Email: {{user.email}}<br>
-                    Type: {{user.user_type}}
-                    </div>
-
-                    {% endfor%}
-                {% else %}
-                    <p> no customers found</p>
-                {% endif %}
-            </div>
-
 
             <div class="create_item">
                 <h2>Create Item</h2>
@@ -337,10 +341,6 @@
     </main>
     {% endif %}
     {% endif %}
-    <footer>
-        <p>&copy; 2025 KRONOS ADVENTURE TEAM</p>
-    </footer>
-    </body>
 
     <style>
         *{
@@ -1050,4 +1050,8 @@ _gift.onclick = function(){
     creation_options_02.style.display = 'flex';
 }
     </script>
+    <footer>
+        <p>&copy; 2025 KRONOS ADVENTURE TEAM</p>
+    </footer>
+    </body>
 </html>

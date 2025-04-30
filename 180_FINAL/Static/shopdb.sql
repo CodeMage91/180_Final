@@ -75,5 +75,3 @@ equipped boolean default false,
 foreign key (user_id) references shop_user(user_id),
 foreign key (item_id) references shop_item(item_id)
 );
-insert into user_inventory(user_id, item_id)
-values(1,1);

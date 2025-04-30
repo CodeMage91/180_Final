@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:CSET155@localhost/shopdb'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:[password]@localhost/shopdb'
 app.config['SECRET_KEY'] = 'dev_key'
 db = SQLAlchemy(app)
 
@@ -85,6 +85,7 @@ def initialize():
     #load homepage
     global initialized
     initialized = True
+    session['user_id'] = None
     print("Finished Initializing")
     return redirect(url_for("all_users"))
 #test page to see everything!#
@@ -100,6 +101,8 @@ def all_users():
             print("initializing")
             return redirect(url_for("initialize"))
     login = None
+    if session['user_id']:
+        login = db.session.execute(text("SELECT * FROM shop_user WHERE user_id = :user_id"), {"user_id": session["user_id"]}).first()
     admin_users = db.session.execute(text("SELECT * FROM shop_user WHERE user_type = 'Admin'")).mappings().fetchall()
     vendor_users = db.session.execute(text("SELECT * FROM shop_user WHERE user_type = 'Vendor'")).mappings().fetchall()
     customer_users = db.session.execute(text("SELECT * FROM shop_user WHERE user_type = 'Customer'")).mappings().fetchall()
@@ -144,7 +147,6 @@ def all_users():
                                                                  #where's mah wallet
                  login = login_data
                  flash('login success!')
-                 return redirect(url_for('all_users'))
              else:
                 flash('Invalid email or password')
               
@@ -343,7 +345,10 @@ def equip_item(item_id):
 
 @app.route('/logout')
 def logout():
-    session.clear()
+    print(session.items())
+    for key in session.keys():
+        session[key] = None
+    print(session.items())
     flash('logged out.','info')
     return redirect(url_for('all_users'))
 
