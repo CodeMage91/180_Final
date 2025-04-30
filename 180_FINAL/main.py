@@ -362,10 +362,14 @@ def chat():
         if request.form["whichchat"]:
             conversation=db.session(text("SELECT conversation, comment_image,comment_date FROM message WHERE forchat=request.form['whichchat']"))
         if request.form["response"]:
-            db.session.execute(text("INSERT INTO message SET (conversation,comment_date,userfrom,userto) with VALUES(request_form['response'], NOW(), request_form['to'], request_form['from']"))
+            db.session.execute(text("INSERT INTO message (conversation,comment_date,userfrom,userto) VALUES(request_form['response'], NOW(), request_form['to'], request_form['from']"))
             db.session.commit()
     return render_template("chat.html",_chat=_chat, conversation=conversation)
-
+@app.route("reviews", methods=['GET','POST'])
+def reviewing():
+    items=db.session.execute(text("SELECT * FROM shop_item")).all()
+    if request.form:
+        if request.form[]
 #run#
 if __name__ == '__main__':
     app.run(debug=True)
