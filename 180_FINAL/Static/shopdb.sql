@@ -75,3 +75,28 @@ equipped boolean default false,
 foreign key (user_id) references shop_user(user_id),
 foreign key (item_id) references shop_item(item_id)
 );
+create table chat(
+chatid int primary key auto_increment,
+user1 int,
+user2 int
+);
+create table message(
+conversation varchar(255),
+forchat int,
+to_user int,
+from_user int,
+comment_date datetime,
+comment_image varchar(100),
+FOREIGN KEY (forchat) references chat(chatid)
+);
+create table review(
+review_id int primary key auto_increment,
+from_user int,
+for_item int,
+rating int,
+review_image varchar(100),
+review_date datetime,
+statement varchar(255),
+FOREIGN KEY (from_user) references shop_user(user_id),
+FOREIGN KEY (for_item) references shop_item(item_id)
+);

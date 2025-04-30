@@ -1,0 +1,27 @@
+{% block body %}
+{% if items %}
+{% for it in items %}
+<form action="/reviews" method="POST">
+<div><input type="submit" name="object" value="{{it['item_id']}}"></div>
+</form>
+{% endfor %}
+{% if comments %}
+{% for comment in comments %}
+<div>Review by: {{comment['from_user']}}</div>
+<div>Rating: {{comment['rating']}}/5</div>
+<div>{{comment['statement']}}</div>
+<div>{{comment['review_image']}}</div>
+<div>{{comment['review_date']}}</div>
+{% endfor %}
+{% else %}
+{% endif %}
+<form action="/reviews" method="POST">
+    <div>Item ID: <input type="number" name="iditem"></div>
+    <div><input type="number" name="rating">/5</div>
+    <div><textarea name="review" rows="4" cols="50"></textarea></div>
+    <div><input type="submit" name="submit"></div>
+</form>
+{% else %}
+<p>No items.</p>
+{% endif %}
+{% endblock %}

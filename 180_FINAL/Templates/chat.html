@@ -1,0 +1,27 @@
+{% block body %}
+{% if _chat %}
+{% for ch in _chat %}
+<form action="/chat" method="POST">
+<p>{{ch['forchat']}}<input id="whichchat" type="submit" name="whichchat" value="{{ch['chatid']}}" placeholder="{{ch['chatid']}}"></p>
+</form>
+{% endfor %}
+{% if conversation %}
+{% for con in conversation %}
+<p>Sent by: {{con["from_user"]}}</p>
+<p>{{con['conversation']}}</p>
+<p>{{con['comment_image']}}</p>
+<p>{{con['comment_date']}}</p>
+{% endfor %}
+{% else %}
+{% endif %}
+<form action="/chat" method="POST">
+    <p><input type="number" name="as"></p>
+    <p><input type="number" name="to"></p>
+<textarea id="response" name="response" rows="5" cols="70"></textarea>
+    <p><input type="submit" name="submit" placeholder="Respond"></p>
+</form>
+{% else %}
+<p>No chats</p>
+{% endif %}
+{% endblock %}
+

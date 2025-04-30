@@ -359,8 +359,35 @@ def get_user_cart(user_id):
     join shop_item on shop_cart.item_id = shop_item.item_id
     where shop_cart.user_id = :user_id and is_ordered = False
 """), {'user_id': user_id}).mappings().fetchall()
+@app.route("/chat", methods=['GET','POST'])
+def chat():
+    user_id=session['user_id']
+    _chat = db.session.execute(text(f"SELECT * FROM chat WHERE user1={user_id} OR user2={user_id}")).mappings().fetchall()
+    conversation=None
+    if request.form:
+        if "whichchat" in request.form:
+            conversation=db.session.execute(text(f"SELECT * FROM message WHERE forchat={request.form["whichchat"]}")).mappings().fetchall()
+        if "response" in request.form:
+            chatid=db.session.execute(text(f"SELECT * FROM chat WHERE (user1={request.form["to"]} AND user2={request.form["as"]}) OR (user1={request.form["as"]} AND user2={request.form["to"]})")).first()
+            if chatid==None:
+                db.session.execute(text(f"INSERT INTO chat (user1, user2) VALUES ({request.form["as"]},{request.form["to"]}"))
+            db.session.execute(text(
+                f"INSERT INTO message (forchat,conversation,comment_date,from_user,to_user) VALUES({chatid.chatid},'{request.form['response']}', NOW(), {request.form['as']}, {request.form['to']})"))
+            db.session.commit()
 
-
+    return render_template("chat.html",_chat=_chat, conversation=conversation)
+@app.route("/reviews", methods=['GET','POST'])
+def reviewing():
+    items=db.session.execute(text("SELECT * FROM shop_item")).all()
+    comments=None
+    if request.form:
+        user_id=session['user_id']
+        if "object" in request.form:
+            comments=db.session.execute(text(f"SELECT rating, statement, review_image, review_date FROM review WHERE for_item={request.form['object']}")).all()
+        if "review" in request.form:
+            db.session.execute(text(f"INSERT INTO review (from_user,for_item,rating,review_date,statement) VALUES ({user_id},{request.form['iditem']},{request.form["rating"]}, NOW(),'{request.form["review"]}')"))
+            db.session.commit()
+    return render_template("reviews.html", items=items,comments=comments)
 #run#
 if __name__ == '__main__':
     app.run(debug=True)
