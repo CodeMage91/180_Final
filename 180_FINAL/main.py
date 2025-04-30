@@ -369,7 +369,8 @@ def chat():
 def reviewing():
     items=db.session.execute(text("SELECT * FROM shop_item")).all()
     if request.form:
-        if request.form[]
+        if request.form["object"]:
+            comments=db.session.execute(text("SELECT "))
 #run#
 if __name__ == '__main__':
     app.run(debug=True)
