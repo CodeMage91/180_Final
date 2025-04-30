@@ -1,10 +1,12 @@
-{% extends "base.html" %}
 {% block body %}
 {% if _chat %}
 {% for ch in _chat %}
 <form action="/chat" method="POST">
-<p><input id="whichchat" type="submit" name="whichchat" value="{{ch['forchat']}}" placeholder="{{ch['forchat']}}"></p>
+<p>{{ch['forchat']}}<input id="whichchat" type="submit" name="whichchat" value="{{ch['forchat']}}" placeholder="{{ch['forchat']}}"></p>
 </form>
+{% endfor %}
+{% for con in conversation %}
+<p>Sent by: {{con[""]}}</p>
 {% endfor %}
 <form action="/chat" method="POST">
     <p><input type="number" name="as"></p>

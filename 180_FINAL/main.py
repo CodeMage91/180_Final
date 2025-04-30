@@ -359,18 +359,26 @@ def chat():
     _chat = db.session.execute(text(f"SELECT * FROM chat WHERE user1={user_id} OR user2={user_id}")).mappings().fetchall()
     conversation=None
     if request.form:
-        if request.form["whichchat"]:
-            conversation=db.session(text("SELECT conversation, comment_image,comment_date FROM message WHERE forchat=request.form['whichchat']"))
-        if request.form["response"]:
-            db.session.execute(text("INSERT INTO message (conversation,comment_date,userfrom,userto) VALUES(request_form['response'], NOW(), request_form['to'], request_form['from']"))
+        if "whichchat" in request.form:
+            conversation=db.session.execute(text(f"SELECT * FROM message WHERE forchat={request.form['whichchat']}")).mappings().fetchall()
+        if "response" in request.form:
+            chatid=db.session.execute(text(f"SELECT * FROM chat WHERE (user1={request.form["to"]} AND user2={request.form["as"]}) OR (user1={request.form["as"]} AND user2={request.form["to"]})")).first()
+            if chatid==None:
+                db.session.execute(text(f"INSERT INTO chat (user1, user2) VALUES ({request.form["as"]},{request.form["to"]}"))
+            db.session.execute(text(
+                f"INSERT INTO message (forchat,conversation,comment_date,from_user,to_user) VALUES({chatid.chatid},'{request.form['response']}', NOW(), {request.form['to']}, {request.form['as']})"))
             db.session.commit()
+
     return render_template("chat.html",_chat=_chat, conversation=conversation)
-@app.route("reviews", methods=['GET','POST'])
+@app.route("/reviews", methods=['GET','POST'])
 def reviewing():
     items=db.session.execute(text("SELECT * FROM shop_item")).all()
     if request.form:
+        user_id=session['user_id']
         if request.form["object"]:
-            comments=db.session.execute(text("SELECT "))
+            comments=db.session.execute(text("SELECT rating, statement, review_image, reviewdate FROM review WHERE for_item=requestform['object']"))
+        if request.form["review"]:
+            db.session.execute(text("INSERT INTO review (from_user,for_item,rating,review_date_statement) VALUES (request"))
 #run#
 if __name__ == '__main__':
     app.run(debug=True)
