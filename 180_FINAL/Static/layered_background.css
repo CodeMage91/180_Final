@@ -1,0 +1,22 @@
+
+
+.page {
+    background-image: 
+        url("../static/images/layered_background/6.png"),
+        url("../static/images/layered_background/5.png"),
+        url("../static/images/layered_background/4.png"),
+        url("../static/images/layered_background/3.png"),
+        url("../static/images/layered_background/2.png"),
+        url("../static/images/layered_background/1.png");
+    background-size: contain, contain, contain, contain, contain, cover;
+    background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
+    background-position: bottom center, bottom center, bottom center, bottom center, bottom center, center;
+    position: relative;
+}
+/* .page {
+    background-image: url("../static/images/layered_background/1.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative;
+} */
