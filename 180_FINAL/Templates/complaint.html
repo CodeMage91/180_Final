@@ -1,3 +1,57 @@
+<style>
+    @font-face{
+    font-family: Alagard
+    src: url(alagard.ttf)
+    }
+    .background{
+    display:flex;
+    background-color:darkgreen;
+    justify-content:center;
+    }
+    .complaint-holder{
+    display:flex;
+    flex-direction:column;
+    background-color:brown;
+    border-radius:5px;
+    border:2px gold solid;
+    justify-content:center;
+    width:70%;
+    height:50%;
+    align-text:center;
+    }
+    input{
+    border-radius: 5px;
+    }
+    .submit{
+    border-radius:5px;
+    border: 1px gold solid;
+    background-color:darktan;
+    color:gold;
+    font-family:Alagard;
+    }
+    h1{
+    font-family:Alagard;
+    color:gold;
+    }
+    h5{
+    font-family: Alagard;
+    color:gold;
+    }
+    .holder{
+    display:flex;
+    justify-content:center;
+    }
+</style>
 {% block body %}
+<div class="background">
+    <div class="complaint-holder">
+        <h5>Fill Out Your Complaint:</h5>
+        <form action="/admin" method="POST">
+            <div class="holder"><span style="color:gold">For Item: </span><input style="number" name="item"></div>
+    <div class="holder"><textarea placeholder="Describe your complaint" name="complaint" rows="5" cols="50"></textarea></div>
+    <div class="holder"><input type="submit" name="submit" style="submit"></div>
+    </form>
+    </div>
+</div>
 
 {% endblock %}

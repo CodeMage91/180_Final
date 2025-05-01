@@ -1,0 +1,10 @@
+{% block body %}
+<h1>Complaints</h1>
+{% for complaint in complaints %}
+<p>Complaint Lodged By: {{complaint['by_user']}}</p>
+<p>Complaint About: {{complaint['for_product'}}</p>
+<p>{{complaint['complaint']}}</p>
+<p>{{complaint['complaint_image']}}</p>
+<p>{{complaint['complaint_date']}}</p>
+{% endfor %}
+{% endblock %}

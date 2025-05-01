@@ -382,6 +382,17 @@ def reviewing():
             db.session.execute(text(f"INSERT INTO review (from_user,for_item,rating,review_date,statement) VALUES ({user_id},{request.form['iditem']},{request.form["rating"]}, NOW(),'{request.form["review"]}')"))
             db.session.commit()
     return render_template("reviews.html", items=items,comments=comments)
-#run#
+@app.route("/complaint",methods=['GET','POST'])
+def complaint():
+    user_id=session['user_id']
+    if request.form:
+        db.session.execute(text(f"INSERT INTO complaint (for_product,by_user,complaint,complaint_date) VALUES ({request.form["item"]},{user_id},{request.form['complaint']},NOW()"))
+    return render_template("complaint.html")
+@app.route("/admin",methods=['GET'])
+def admin():
+    complaints=("SELECT * FROM complaint").all()
+    return render_template("admin.html",complaints=complaints)
+
+# run#
 if __name__ == '__main__':
     app.run(debug=True)
