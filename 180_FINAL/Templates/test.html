@@ -254,6 +254,8 @@
                 </div>
             </div>
                 <div class="box_holder">
+                    {% if not (login.user_type == "Customer") %}
+                    {% if (login.user_type == "Admin") %}
                     <div class="box">
                         <h1>  Admin Users</h1><br>
                         {% if admin_users %}
@@ -272,6 +274,7 @@
                             <p>No admin_users found</p>
                         {% endif %}
                     </div>
+                    {%endif%}
 
                 <div class="box">
                     <h1>Vendor Users</h1>
@@ -312,9 +315,10 @@
                         <p> no customers found</p>
                     {% endif %}
                 </div>
+                {% endif %}
             </div>
-
             <div class="create_item">
+                {% if not (login.user_type == "Customer") %}
                 <h2>Create Item</h2>
                 <div class="item_form">
                     <form method="POST" action="/">
@@ -324,9 +328,8 @@
                     <textarea placeholder="Item Description" name="item_desc"></textarea>
                     <button type="submit">Create</button>
                 </form>
-
                 </div>
-
+                {% endif %}
             <div class="box">
                 <h1>Items</h1>
                 {%if items%}
@@ -343,20 +346,22 @@
                     Description: {{item.item_desc}}<br>
                     Created By: {{creator.full_name}}<br>
 
-
+                {% if not (login.user_type == "Vendor") %}
                     <button type="submit">Add to Cart</button>
+                {% endif %}
                 </form>
                 </div>
 
                 </div>
                 {% endfor%}
             {% else %}
-                <p> no items found</p>
+                <p> No items found</p>
             {% endif %}
             </div>
             <div class="cart">
+            {% if not (login.user_type == "Vendor") %}
                 CART: {{login.cart_id}}<br>
-                name: {{login.fullname}}<br>
+                Name: {{login.fullname}}<br>
                 <div class="cart_inventory">
                     {% if cart_items %}
                     <ul>
@@ -371,12 +376,14 @@
 
                 </div>
                 <div class="cart_total">Total: ${{login.cart_total}}</div>
+
                 <div class="orders">
                     
                         <button onclick="startOrderStatusAnimation({{order_id}})">Submit Order</button>
                         
                 </div>
                 <div>
+            {% endif %}
             {% if order_items %}
             
             {% for item in order_items %}
@@ -384,9 +391,9 @@
                 <form method="POST" action="{{url_for('update_order_status')}}">
                     <input type="hidden" name="item_id" value={{item.item_id}}>
                 <label for="status">Status:<select name="status">
-                    <option value="Pending" {% if item.status == 'Pending' %}selected{% endif %}>Pending</option>
-                    <option value="Shipped" {% if item.status == 'Shipped' %}selected{% endif %}>Shipped</option>
-                    <option value="Delivered" {% if item.status == 'Delivered' %}selected{% endif %}>Delivered</option>
+                    <option value="Pending" {% if login.user_type == "Customer" %}readonly{% endif %} {% if item.status == 'Pending' %}selected{% endif %}>Pending</option>
+                    <option value="Shipped" {% if login.user_type == "Customer" %}readonly{% endif %} {% if item.status == 'Shipped' %}selected{% endif %}>Shipped</option>
+                    <option value="Delivered" {% if login.user_type == "Customer" %}readonly{% endif %} {% if item.status == 'Delivered' %}selected{% endif %}>Delivered</option>
                 </select></label><button type="submit">Update</button><br><br>
                 </form>
             
@@ -1046,189 +1053,189 @@
 
         var nav07 = document.getElementById('nav_07');
         var navText07 = document.getElementById('nav_text_07');
-    //here I set up some divs and text under them in a loop to add hover, style flex to be shown 
-    //and animation
-    var navArray =[nav00,nav01,nav02,nav03,nav04,nav05,nav06,nav07];
-    var navTextArray = [navText00,navText01,navText02,navText03,navText04,navText05,navText06,navText07];
+            //here I set up some divs and text under them in a loop to add hover, style flex to be shown 
+            //and animation
+            var navArray =[nav00,nav01,nav02,nav03,nav04,nav05,nav06,nav07];
+            var navTextArray = [navText00,navText01,navText02,navText03,navText04,navText05,navText06,navText07];
 
-    for (let i = 0; i < navArray.length; i++) {
-        navArray[i].addEventListener('mouseover', function(){
-            navArray[i].style.cursor = 'pointer';
-            navTextArray[i].style.display = 'flex';
-            navArray[i].animate(
+            for (let i = 0; i < navArray.length; i++) {
+                navArray[i].addEventListener('mouseover', function(){
+                    navArray[i].style.cursor = 'pointer';
+                    navTextArray[i].style.display = 'flex';
+                    navArray[i].animate(
+                        [
+                            {scale : '1'},
+                            {scale : '1.2'},
+                            {scale : '1.1'}
+                        ],
+                        {
+                            easing: 'ease-in',
+                            duration: 500,
+                            fill: 'forwards'
+                        
+                        }
+                    )
+                });
+            }  
+
+            for (let i = 0; i < navArray.length; i++) {
+                navArray[i].addEventListener('mouseout', function () {
+                    navTextArray[i].style.display = 'none';
+                    navArray[i].animate(
+                        [
+                            {scale : '1.1'},
+                            {scale : '1'}
+                        ],
+                        {
+                            easing: 'ease-in',
+                            duration: 200,
+                            fill: 'forwards'
+                        
+                        }
+                    )
+                });
+            }
+
+            const skyBox = document.getElementById('skyBox');
+
+            Object.assign(skyBox.style,{
+                backgroundImage: 'url(../static/images/Mountains1.png)',
+                height: '240px',
+                paddingTop: '150px',
+                backgroundRepeat: 'repeat-x',
+                backgroundPosition: '40px',
+                backgroundSize: 'contain',
+                overflow: 'hidden',
+                width: '100%'
+            
+            });
+
+            skyBox.animate(
                 [
-                    {scale : '1'},
-                    {scale : '1.2'},
-                    {scale : '1.1'}
+                    {backgroundPosition: '816px' },
+                    {backgroundPosition:  '40px'}
                 ],
                 {
+                    duration: 12000,
+                    iterations: Infinity,
+                    easing: 'linear'
+                }
+            );
+
+            var loginSubmit = document.getElementById('login_submit');
+            var horseCart = document.getElementById('horse_cart');
+
+        loginSubmit.addEventListener('mouseover', function(){
+            loginSubmit.style.color = 'gold';
+            horseCart.animate(
+                [
+                    { opacity: 0,right: '0px'},
+                    { opacity: 1, right: '-70px'}
+                ],
+                {
+                    iterations: 1,
                     easing: 'ease-in',
-                    duration: 500,
-                    fill: 'forwards'
-                
+                    duration: 420,
+                    fill: "forwards"
                 }
             )
         });
-    }  
 
-    for (let i = 0; i < navArray.length; i++) {
-        navArray[i].addEventListener('mouseout', function () {
-            navTextArray[i].style.display = 'none';
-            navArray[i].animate(
+        loginSubmit.addEventListener('mouseout', function(){
+            loginSubmit.style.color = 'white';
+            horseCart.animate(
                 [
-                    {scale : '1.1'},
-                    {scale : '1'}
+                    { opacity: 1},
+                    { opacity: 0}
                 ],
                 {
+                    iterations: 1,
                     easing: 'ease-in',
-                    duration: 200,
-                    fill: 'forwards'
-                
+                    duration: 220,
+                    fill: "forwards"
                 }
             )
         });
-    }
 
-    const skyBox = document.getElementById('skyBox');
+        var _type = document.getElementById('_type');
+        var _weapon = document.getElementById('_weapon');
+        var _gift = document.getElementById('_gift');
 
-    Object.assign(skyBox.style,{
-        backgroundImage: 'url(../static/images/Mountains1.png)',
-        height: '240px',
-        paddingTop: '150px',
-        backgroundRepeat: 'repeat-x',
-        backgroundPosition: '40px',
-        backgroundSize: 'contain',
-        overflow: 'hidden',
-        width: '100%'
-    
-    });
+        var create_array = [_type,_weapon,_gift]
 
-    skyBox.animate(
-        [
-            {backgroundPosition: '816px' },
-            {backgroundPosition:  '40px'}
-        ],
-        {
-            duration: 12000,
-            iterations: Infinity,
-            easing: 'linear'
+        for(let i = 0; i < create_array.length; i++){
+            create_array[i].style.cursor = 'pointer';
+            create_array[i].addEventListener('mouseover', function(){
+            create_array[i].style.color = 'gold';
+        });
+        create_array[i].addEventListener('mouseout', function(){
+            create_array[i].style.color = 'white';
+        });
         }
-    );
 
-    var loginSubmit = document.getElementById('login_submit');
-    var horseCart = document.getElementById('horse_cart');
 
-loginSubmit.addEventListener('mouseover', function(){
-    loginSubmit.style.color = 'gold';
-    horseCart.animate(
-        [
-            { opacity: 0,right: '0px'},
-            { opacity: 1, right: '-70px'}
-        ],
-        {
-            iterations: 1,
-            easing: 'ease-in',
-            duration: 420,
-            fill: "forwards"
+        var creation_options_00 = document.getElementById('creation_options_00');
+        var creation_options_01 = document.getElementById('creation_options_01');
+        var creation_options_02 = document.getElementById('creation_options_02');
+
+        var creation_preview = document.getElementById('creation_preview');
+        creation_preview.style.backgroundImage = 'url(../static/images/blue_guy_idle_gif.gif)';
+
+        var type_a = document.getElementById('type_a');
+        var type_b = document.getElementById('type_b');
+        var type_c = document.getElementById('type_c');
+        var type_d = document.getElementById('type_d');
+        var type_f = document.getElementById('type_f');
+
+        var  types_desc = document.getElementById('types_desc');
+        var weapon_desc = document.getElementById('weapon_desc');
+        var gift_gift = document.getElementById('gift_desc');
+
+        type_a.onclick = function(){
+            creation_preview.style.backgroundImage = 'url(../static/images/red_gal_idle.gif)';
         }
-    )
-});
-
-loginSubmit.addEventListener('mouseout', function(){
-    loginSubmit.style.color = 'white';
-    horseCart.animate(
-        [
-            { opacity: 1},
-            { opacity: 0}
-        ],
-        {
-            iterations: 1,
-            easing: 'ease-in',
-            duration: 220,
-            fill: "forwards"
+        type_b.onclick = function(){
+            creation_preview.style.backgroundImage = 'url(../static/images/green_gal_idle.gif)';
         }
-    )
-});
+        type_c.onclick = function(){
+            creation_preview.style.backgroundImage = 'url(../static/images/blue_gal_idle.gif)';
+        }
+        type_d.onclick = function(){
+            creation_preview.style.backgroundImage = 'url(../static/images/red_guy_idle.gif)';
+        }
+        type_e.onclick = function(){
+            creation_preview.style.backgroundImage = 'url(../static/images/green_guy_idle.gif)';
+        }
+        type_f.onclick = function(){
+            creation_preview.style.backgroundImage = 'url(../static/images/blue_guy_idle_gif.gif)';
+        }
 
-var _type = document.getElementById('_type');
-var _weapon = document.getElementById('_weapon');
-var _gift = document.getElementById('_gift');
+        _type.onclick = function(){
+            creation_options_00.style.display = 'flex';
+            creation_options_01.style.display = 'none';
+            creation_options_02.style.display = 'none';
+            types_desc.style.display = 'flex';
+            weapon_desc.style.display = 'none';
+            gift_desc.style.display = 'none';
+        }
+            
+        _weapon.onclick = function(){
+            creation_options_00.style.display = 'none';
+            creation_options_01.style.display = 'flex';
+            creation_options_02.style.display = 'none';
+            types_desc.style.display = 'none';
+            weapon_desc.style.display = 'flex';
+            gift_desc.style.display = 'none';
+        }
 
-var create_array = [_type,_weapon,_gift]
-
-for(let i = 0; i < create_array.length; i++){
-    create_array[i].style.cursor = 'pointer';
-    create_array[i].addEventListener('mouseover', function(){
-    create_array[i].style.color = 'gold';
-});
-create_array[i].addEventListener('mouseout', function(){
-    create_array[i].style.color = 'white';
-});
-}
-
-
-var creation_options_00 = document.getElementById('creation_options_00');
-var creation_options_01 = document.getElementById('creation_options_01');
-var creation_options_02 = document.getElementById('creation_options_02');
-
-var creation_preview = document.getElementById('creation_preview');
-creation_preview.style.backgroundImage = 'url(../static/images/blue_guy_idle_gif.gif)';
-
-var type_a = document.getElementById('type_a');
-var type_b = document.getElementById('type_b');
-var type_c = document.getElementById('type_c');
-var type_d = document.getElementById('type_d');
-var type_f = document.getElementById('type_f');
-
-var  types_desc = document.getElementById('types_desc');
-var weapon_desc = document.getElementById('weapon_desc');
-var gift_gift = document.getElementById('gift_desc');
-
-type_a.onclick = function(){
-    creation_preview.style.backgroundImage = 'url(../static/images/red_gal_idle.gif)';
-}
-type_b.onclick = function(){
-    creation_preview.style.backgroundImage = 'url(../static/images/green_gal_idle.gif)';
-}
-type_c.onclick = function(){
-    creation_preview.style.backgroundImage = 'url(../static/images/blue_gal_idle.gif)';
-}
-type_d.onclick = function(){
-    creation_preview.style.backgroundImage = 'url(../static/images/red_guy_idle.gif)';
-}
-type_e.onclick = function(){
-    creation_preview.style.backgroundImage = 'url(../static/images/green_guy_idle.gif)';
-}
-type_f.onclick = function(){
-    creation_preview.style.backgroundImage = 'url(../static/images/blue_guy_idle_gif.gif)';
-}
-
-_type.onclick = function(){
-    creation_options_00.style.display = 'flex';
-    creation_options_01.style.display = 'none';
-    creation_options_02.style.display = 'none';
-    types_desc.style.display = 'flex';
-    weapon_desc.style.display = 'none';
-    gift_desc.style.display = 'none';
-}
-    
-_weapon.onclick = function(){
-    creation_options_00.style.display = 'none';
-    creation_options_01.style.display = 'flex';
-    creation_options_02.style.display = 'none';
-    types_desc.style.display = 'none';
-    weapon_desc.style.display = 'flex';
-    gift_desc.style.display = 'none';
-}
-
-_gift.onclick = function(){
-    creation_options_00.style.display = 'none';
-    creation_options_01.style.display = 'none';
-    creation_options_02.style.display = 'flex';
-    types_desc.style.display = 'none';
-    weapon_desc.style.display = 'none';
-    gift_desc.style.display = 'flex';
-}
+        _gift.onclick = function(){
+            creation_options_00.style.display = 'none';
+            creation_options_01.style.display = 'none';
+            creation_options_02.style.display = 'flex';
+            types_desc.style.display = 'none';
+            weapon_desc.style.display = 'none';
+            gift_desc.style.display = 'flex';
+        }
     </script>
     <footer>
         <p>&copy; 2025 KRONOS ADVENTURE TEAM</p>
