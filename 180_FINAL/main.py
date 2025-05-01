@@ -54,25 +54,35 @@ def initialize():
                 """), signup_data)
     db.session.commit()
     #get the items that will be default into the database
-    defaultVendor = db.session.execute(text("""
+    vendors = db.session.execute(text("""
                     SELECT user_id FROM shop_user WHERE user_type = "Vendor" 
-                                            """)).fetchone()
+                                            """)).mappings().fetchall()
+    print(vendors)
     create_items = [
         {
             "item_name":"Bastard Sword",
             "item_image":"/weapons/bastard_sword.png",#start from/images/your_file.png
             "original_price": 15,#number value
             "item_desc": "A basic arming sword",#describe the item in 200 characters or less
-            "created_by": defaultVendor.user_id # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
+            "created_by": 0 # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
         },
         {
             "item_name":"Apprentice Ice Wand",
             "item_image":"/weapons/wand.png",#start from/images/your_file.png
             "original_price": 15,#number value
             "item_desc": "A basic arming sword",#describe the item in 200 characters or less
-            "created_by": defaultVendor.user_id # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
+            "created_by": 0 # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
         }
     ]
+    vendorNum = 0
+    for i, item in enumerate(create_items):
+        if i % 5 == 0:
+            vendorNum+=1
+        if vendorNum == len(vendors):
+            vendorNum = 0
+        vendor = vendors[vendorNum]
+        item["created_by"] = vendor["user_id"]
+    
     for create_item in create_items:
         if create_item == None:
             break
