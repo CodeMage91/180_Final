@@ -99,7 +99,10 @@
                 </div>
                 <div class="creation_screen">
                         <div class="creation_preview" id="creation_preview">
-                            <div class="prev_type"></div>
+
+                            <div class="prev_type" style="width:32px;height:64px;border: white solid 1px;position:relative;font-family: 'Micro 5', sans-serif;text-align: center;background-color: black;">Type
+                            <div class="prev_type_pic"  style="width:32px;height:32px;border: red solid 1px;background-color: black;padding-top:16px"></div>
+                            </div>
                             <div class="prev_weapon"></div>
                             <div class="prev_gift"></div>
                         </div>
@@ -187,15 +190,7 @@
         </div>
 
         <div class="types_desc_01" id="weapon_desc" style="position: relative; flex-direction: column; display: none;">
-                <h3>Sword</h3><br><div style="display: flex;"><p>Size: Large</p>
-                    <p>Color: None</p>
-                </div>
-                <h3>Staff</h3><br><div style="display: flex;"><p>Size: Medium</p>
-                    <p>Color: None</p>
-                </div>
-                <h3>Mace</h3><br><div style="display: flex;"><p>Size: Medium</p>
-                    <p>Color: None</p>
-                </div>
+                Choose a starting weapon from this fine selection. Yes there are monsters that want to eat you up, so arm yourself with what suits you best.
         </div>
 
         <div class="types_desc_02" id="gift_desc" style="position: relative; flex-direction: column; display: none;">
@@ -372,7 +367,7 @@
                 <div class="cart_total">Total: ${{login.cart_total}}</div>
                 <div class="orders">
                     
-                        <button onclick="startOrderStatusAnimation({{order_id}})">Submit Order</button>
+                        <button>Submit Order</button>
                         
                 </div>
                 <div>
