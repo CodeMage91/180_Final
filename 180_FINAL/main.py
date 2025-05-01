@@ -71,6 +71,70 @@ def initialize():
             "original_price": 15,#number value
             "item_desc": "A basic arming sword",#describe the item in 200 characters or less
             "created_by": defaultVendor.user_id # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
+        },
+        {
+            "item_name": "Health Potion",
+            "item_image": "/items/health_potion.png",  # start from/images/your_file.png
+            "original_price": 25,  # number value
+            "item_desc": "A reinvigorating magical potion that mends your wounds, ameliorates your pain, and restores your vigor. Heals your HP by 30 points.",  # describe the item in 200 characters or less
+            "created_by": defaultVendor.user_id  # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
+        },
+        {
+            "item_name": "Iron Sword",
+            "item_image": "/weapons/iron_bladed_weapon.png",  # start from/images/your_file.png
+            "original_price": 100,  # number value
+            "item_desc": "A simple iron blade that will prove proficient in dispatching your foes. Deals 80 points of damage.",  # describe the item in 200 characters or less
+            "created_by": defaultVendor.user_id  # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
+        },
+        {
+            "item_name": "Throwable Acid Potion",
+            "item_image": "/weapons/throwable_acid_potion.png",  # start from/images/your_file.png
+            "original_price": 15,  # number value
+            "item_desc": "This toxic magical concoction is excellent at burning your opponents with acidic liquid. Does 10 points of damage on hot, and 1 point of damage per second for the next 10 seconds.",
+            # describe the item in 200 characters or less
+            "created_by": defaultVendor.user_id  # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
+        },
+        {
+            "item_name": "Guinness",
+            "item_image": "/items/Guinness_(1).png",  # start from/images/your_file.png
+            "original_price": 5,  # number value
+            "item_desc": "A refreshing liquor, whether your 1% Irish or 99% Irish.",  # describe the item in 200 characters or less
+            "created_by": defaultVendor.user_id  # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
+        },
+        {
+            "item_name": "Iron Mace",
+            "item_image": "/weapons/iron_mace.png",  # start from/images/your_file.png
+            "original_price": 100,  # number value
+            "item_desc": "A well-forged bludgeon made of fine steel, perfect for discombobulating your opponents. Deals 50 points of damage, with a 25% chance to stun your target.",  # describe the item in 200 characters or less
+            "created_by": defaultVendor.user_id  # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
+        },
+        {
+            "item_name": "Throwable Iron Dagger",
+            "item_image": "/weapons/throwable_iron_dagger.png",  # start from/images/your_file.png
+            "original_price": 40,  # number value
+            "item_desc": "A small iron dagger, this dimunitive blade compensates for its small size with a nasty coating of acid. Deals 15 points of damage on hit, and does 2 points of damage every second.",  # describe the item in 200 characters or less
+            "created_by": defaultVendor.user_id  # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
+        },
+        {
+            "item_name": "Mithril Sword",
+            "item_image": "/weapons/mithril_bladed_weapon.png",  # start from/images/your_file.png
+            "original_price": 200,  # number value
+            "item_desc": "A blade forged from the ore of legends, this mighty sword will prove beyond capable of vanquishing your foes. Deals 120 points of damage",  # describe the item in 200 characters or less
+            "created_by": defaultVendor.user_id  # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
+        },
+        {
+            "item_name": "Bomb",
+            "item_image": "/weapons/Bomb.png",  # start from/images/your_file.png
+            "original_price": 75,  # number value
+            "item_desc": "Alongside lamp-oil and rope, these explosive weapons are a must-have for adventurers. Deals 80 points of damage per hit.",  # describe the item in 200 characters or less
+            "created_by": defaultVendor.user_id  # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
+        },
+        {
+            "item_name": "Potion of Draconic Strength",
+            "item_image": "/items/potion_of_draconic_strength.png",  # start from/images/your_file.png
+            "original_price": 80,  # number value
+            "item_desc": "Brewed by the dragons to help other species, this fiery and sweet magical elixir grants the drinker strength verging on that of the dragons themselves. Gives the player a 100 point melee damage buff.",  # describe the item in 200 characters or less
+            "created_by": defaultVendor.user_id  # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
         }
     ]
     for create_item in create_items:
