@@ -102,6 +102,16 @@ statement varchar(255),
 FOREIGN KEY (from_user) references shop_user(user_id),
 FOREIGN KEY (for_item) references shop_item(item_id)
 );
+create table complaint(
+complaint_id int primary key auto_increment,
+for_product int,
+by_user int,
+complaint varchar(255),
+complaint_image varchar(100),
+complaint_date datetime,
+FOREIGN KEY (for_product) REFERENCES shop_item(item_id),
+FOREIGN KEY (by_user) REFERENCES shop_user(user_id)
+);
 drop table review;
 select * from chat;
 drop table message;
