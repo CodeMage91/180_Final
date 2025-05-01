@@ -101,11 +101,18 @@
                 <div class="creation_screen">
                         <div class="creation_preview" id="creation_preview">
 
-                            <div class="prev_type" style="width:32px;height:64px;border: white solid 1px;position:relative;font-family: 'Micro 5', sans-serif;text-align: center;background-color: black;">Type
-                            <div class="prev_type_pic"  style="width:32px;height:32px;border: red solid 1px;background-color: black;padding-top:16px"></div>
+                            <div class="prev_type" style="width:40px;height:64px;border: white solid 1px;position:relative;font-family: 'Micro 5', sans-serif;text-align: center;background-color: black;">Type
+                            <div class="prev_type_pic"  style="width:30px;height:30px;border: goldenrod solid 1px;background-color: black;margin-top:12px;margin-left:4px;"></div>
                             </div>
-                            <div class="prev_weapon"></div>
-                            <div class="prev_gift"></div>
+                            
+                            <div class="prev_weapon" style="width:40px;height:64px;border: white solid 1px;position:relative;font-family: 'Micro 5', sans-serif;text-align: center;background-color: black;">Weapon
+                                <div class="prev_weapon_pic"  style="width:30px;height:30px;border: goldenrod solid 1px;background-color: black;margin-top:12px; margin-left:4px;"></div>
+                                </div>
+
+                                <div class="prev_gift" style="width:40px;height:64px;border: white solid 1px;position:relative;font-family: 'Micro 5', sans-serif;text-align: center;background-color: black;">Gift
+                                    <div class="prev_gift_pic"  style="width:32px;height:30px;border: goldenrod solid 1px;background-color: black;margin-top:12px;margin-left:4px"></div>
+                                    </div>
+
                         </div>
 
                         <div class="creation_options_00" id="creation_options_00">
@@ -135,44 +142,74 @@
                         </div>
 
                         <div class="creation_options_02" style="display: none; flex-direction: column;" id="creation_options_02">
-                            <div class="create_desc_00">Choose Starting Gift.</div>
+                            <div class="create_desc_00">Select Starting Gift.</div>
 
                             <div style="display:flex; flex-direction: column;overflow-y: scroll;">
                               
                                 <div class="gift_00" style="display: flex;"><div style="background-image: url(../static/images/icon_13.png); width:32px;height: 32px;margin-top: 8px;"></div>
-                                <div style="border: 1px solid white;width:248px;height:86px;background-color: rgba(0,0,0,0.4);margin-bottom: 8px; margin-top: 8px;padding-left:8px;">
+                                <div style="border: 1px solid white;width:248px;height:130px;background-color: rgba(0,0,0,0.4);margin-bottom: 8px; margin-top: 8px;padding-left:8px;">
                                     <div style="font-family: 'Micro 5', sans-serif;font-size: 32px;margin: 0px;">Starter Shield:</div>
-                                    This shield is perfect for new adventurers that prioritize defense over maneverability. 
+                                    This shield is perfect for new adventurers that prioritize defense over maneverability.
+                                        
+                                    <div class="choose_00" id="gift_00"
+                                        style="height:28px;width:64px;border:outset 3px black;background-color: black;color:white;
+                                        position: relative;font-family: 'Micro 5', sans-serif;text-align:center;font-size:24px;margin:auto;margin-top:4px;cursor:pointer">Select</div>
+
                                 </div></div>
 
                                 <div class="gift_01" style="display: flex;"><div style="background-image: url(../static/images/icon_02.png); width:32px;height: 32px;"></div>
-                                <div style="border: 1px solid white;width:248px;height:80px;background-color: rgba(0,0,0,0.4);margin-bottom: 8px;padding-left:8px;">
+                                <div style="border: 1px solid white;width:248px;height:110px;background-color: rgba(0,0,0,0.4);margin-bottom: 8px;padding-left:8px;">
                                     <div style="font-family: 'Micro 5', sans-serif;font-size: 32px;margin: 0px;">Merri Potion:</div>
                                     A potion that will heal all injuries and bring you to perfect health.
-                                </div></div>
+                                    
+                                        <div class="choose_01" id="gift_01"
+                                        style="height:28px;width:64px;border:outset 3px black;background-color: black;color:white;
+                                        position: relative;font-family: 'Micro 5', sans-serif;text-align:center;font-size:24px;margin:auto;margin-top:4px;cursor:pointer">Select</div>
+
+                                    </div></div>
 
                                 <div class="gift_02" style="display: flex;"><div style="background-image: url(../static/images/icon_08.png); width:32px;height: 32px;"></div>
-                                <div style="border: 1px solid white;width:248px;height:80px;background-color: rgba(0,0,0,0.4);margin-bottom: 8px;padding-left:8px;">
+                                <div style="border: 1px solid white;width:248px;height:110px;background-color: rgba(0,0,0,0.4);margin-bottom: 8px;padding-left:8px;">
                                     <div style="font-family: 'Micro 5', sans-serif;font-size: 32px;margin: 0px;">Tasty Ether:</div>
                                     A fizzy drink that leaves you feeling magical.
+
+                                    <div class="choose_02" id="gift_02"
+                                    style="height:28px;width:64px;border:outset 3px black;background-color: black;color:white;
+                                    position: relative;font-family: 'Micro 5', sans-serif;text-align:center;font-size:24px;margin:auto;margin-top:4px;cursor:pointer">Select</div>
+
                                 </div></div>
 
                                 <div class="gift_03" style="display: flex;"><div style="background-image: url(../static/images/icon_09.png); width:32px;height: 32px;"></div>
-                                <div style="border: 1px solid white;width:248px;height:80px;background-color: rgba(0,0,0,0.4);margin-bottom: 8px;padding-left:8px;">
+                                <div style="border: 1px solid white;width:248px;height:110px;background-color: rgba(0,0,0,0.4);margin-bottom: 8px;padding-left:8px;">
                                     <div style="font-family: 'Micro 5', sans-serif;font-size: 32px;margin: 0px;">Fresh Swifties:</div>   
                                     A pair of shoes that allow you to move swiftly.
+
+                                    <div class="choose_03" id="gift_03"
+                                        style="height:28px;width:64px;border:outset 3px black;background-color: black;color:white;
+                                        position: relative;font-family: 'Micro 5', sans-serif;text-align:center;font-size:24px;margin:auto;margin-top:4px;cursor:pointer">Select</div>
+
                                 </div></div>
 
                                 <div class="gift_04" style="display: flex;"><div style="background-image: url(../static/images/icon_11.png); width:32px;height: 32px;"></div>
-                                <div style="border: 1px solid white;width:248px;height:86px;background-color: rgba(0,0,0,0.4);margin-bottom: 8px;padding-left:8px;">
+                                <div style="border: 1px solid white;width:248px;height:130px;background-color: rgba(0,0,0,0.4);margin-bottom: 8px;padding-left:8px;">
                                     <div style="font-family: 'Micro 5', sans-serif;font-size: 32px;margin: 0px;">Hardy Hat:</div>
                                     T hat that gives you a little bit of confidence and boost you max health.
+
+                                    <div class="choose_04" id="gift_04"
+                                    style="height:28px;width:64px;border:outset 3px black;background-color: black;color:white;
+                                    position: relative;font-family: 'Micro 5', sans-serif;text-align:center;font-size:24px;margin:auto;margin-top:4px;cursor:pointer">Select</div>
+
                                 </div></div>
 
                                 <div class="gift_05" style="display: flex;"><div style="background-image: url(../static/images/icon_12.png); width:32px;height: 32px;"></div>
-                                <div style="border: 1px solid white;width:248px;height:80px;background-color: rgba(0,0,0,0.4);margin-bottom: 8px;padding-left:8px;">
-                                    <div style="font-family: 'Micro 5', sans-serif;font-size: 32px;margin: 0px;">Rabbits Foot:</div>
+                                <div style="border: 1px solid white;width:248px;height:110px;background-color: rgba(0,0,0,0.4);margin-bottom: 8px;padding-left:8px;">
+                                    <div style="font-family: 'Micro 5', sans-serif;font-size:32px;margin: 0px;">Rabbits Foot:</div>
                                     This lucky charm is supposed to be lucky. 
+
+                                    <div class="choose_05" id="gift_05"
+                                        style="height:28px;width:64px;border:outset 3px black;background-color: black;color:white;
+                                        position: relative;font-family: 'Micro 5', sans-serif;text-align:center;font-size:24px;margin:auto;margin-top:4px;cursor:pointer">Select</div>
+
                                 </div></div>
                             </div>
 
