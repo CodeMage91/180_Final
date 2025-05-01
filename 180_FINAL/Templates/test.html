@@ -6,6 +6,7 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Micro+5&display=swap" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="{{url_for( 'static', filename="layered_background.css" )}}">
         {% block extra_head %}{% endblock %}
     </head>
     <body>
@@ -133,13 +134,43 @@
                         <div class="creation_options_02" style="display: none; flex-direction: column;" id="creation_options_02">
                             <div class="create_desc_00">Choose Starting Gift.</div>
 
-                            <div style="display:flex; flex-direction: row; flex-wrap: wrap;justify-content: space-around;">
-                                <div class="gift_00"><div style="background-image: url(../static/images/icon_13.png); width:32px;height: 32px;"></div>Shield</div>
-                                <div class="gift_01"><div style="background-image: url(../static/images/icon_02.png); width:32px;height: 32px;"></div>Potion</div>
-                                <div class="gift_02"><div style="background-image: url(../static/images/icon_08.png); width:32px;height: 32px;"></div>Ether</div>
-                                <div class="gift_03"><div style="background-image: url(../static/images/icon_09.png); width:32px;height: 32px;"></div>Evade Shoes</div>
-                                <div class="gift_04"><div style="background-image: url(../static/images/icon_11.png); width:32px;height: 32px;"></div>Hardy Hat</div>
-                                <div class="gift_05"><div style="background-image: url(../static/images/icon_12.png); width:32px;height: 32px;"></div>Rabbits Foot</div>
+                            <div style="display:flex; flex-direction: column;overflow-y: scroll;">
+                              
+                                <div class="gift_00" style="display: flex;"><div style="background-image: url(../static/images/icon_13.png); width:32px;height: 32px;margin-top: 8px;"></div>
+                                <div style="border: 1px solid white;width:248px;height:86px;background-color: rgba(0,0,0,0.4);margin-bottom: 8px; margin-top: 8px;padding-left:8px;">
+                                    <div style="font-family: 'Micro 5', sans-serif;font-size: 32px;margin: 0px;">Starter Shield:</div>
+                                    This shield is perfect for new adventurers that prioritize defense over maneverability. 
+                                </div></div>
+
+                                <div class="gift_01" style="display: flex;"><div style="background-image: url(../static/images/icon_02.png); width:32px;height: 32px;"></div>
+                                <div style="border: 1px solid white;width:248px;height:80px;background-color: rgba(0,0,0,0.4);margin-bottom: 8px;padding-left:8px;">
+                                    <div style="font-family: 'Micro 5', sans-serif;font-size: 32px;margin: 0px;">Merri Potion:</div>
+                                    A potion that will heal all injuries and bring you to perfect health.
+                                </div></div>
+
+                                <div class="gift_02" style="display: flex;"><div style="background-image: url(../static/images/icon_08.png); width:32px;height: 32px;"></div>
+                                <div style="border: 1px solid white;width:248px;height:80px;background-color: rgba(0,0,0,0.4);margin-bottom: 8px;padding-left:8px;">
+                                    <div style="font-family: 'Micro 5', sans-serif;font-size: 32px;margin: 0px;">Tasty Ether:</div>
+                                    A fizzy drink that leaves you feeling magical.
+                                </div></div>
+
+                                <div class="gift_03" style="display: flex;"><div style="background-image: url(../static/images/icon_09.png); width:32px;height: 32px;"></div>
+                                <div style="border: 1px solid white;width:248px;height:80px;background-color: rgba(0,0,0,0.4);margin-bottom: 8px;padding-left:8px;">
+                                    <div style="font-family: 'Micro 5', sans-serif;font-size: 32px;margin: 0px;">Fresh Swifties:</div>   
+                                    A pair of shoes that allow you to move swiftly.
+                                </div></div>
+
+                                <div class="gift_04" style="display: flex;"><div style="background-image: url(../static/images/icon_11.png); width:32px;height: 32px;"></div>
+                                <div style="border: 1px solid white;width:248px;height:86px;background-color: rgba(0,0,0,0.4);margin-bottom: 8px;padding-left:8px;">
+                                    <div style="font-family: 'Micro 5', sans-serif;font-size: 32px;margin: 0px;">Hardy Hat:</div>
+                                    T hat that gives you a little bit of confidence and boost you max health.
+                                </div></div>
+
+                                <div class="gift_05" style="display: flex;"><div style="background-image: url(../static/images/icon_12.png); width:32px;height: 32px;"></div>
+                                <div style="border: 1px solid white;width:248px;height:80px;background-color: rgba(0,0,0,0.4);margin-bottom: 8px;padding-left:8px;">
+                                    <div style="font-family: 'Micro 5', sans-serif;font-size: 32px;margin: 0px;">Rabbits Foot:</div>
+                                    This lucky charm is supposed to be lucky. 
+                                </div></div>
                             </div>
 
                         </div>
@@ -169,14 +200,7 @@
         </div>
 
         <div class="types_desc_02" id="gift_desc" style="position: relative; flex-direction: column; display: none;">
-            <ul style="list-style: none;">
-                <li>Shield</li>
-                <li>x5 Potions</li>
-                <li>x5 Ethers</li>
-                <li>Evade Shoes</li>
-                <li>Hardy Hat</li>
-                <li>Rabbits Foot</li>
-            </ul>
+            <p>Every new adventurer is allowed to choose one gift from this fine selection.</p>
     </div>
 
     </div>
@@ -204,6 +228,7 @@
             <p>No items in inventory</p>
         {% endif %}
     </div> -->
+    
     <div class="page">
         <div class="bodi">
             {% if login %}
@@ -244,8 +269,7 @@
                             </div>
                             {% endfor %}
                         {% else %}
-                            <p>no admin_users found</p>
-
+                            <p>No admin_users found</p>
                         {% endif %}
                     </div>
 
@@ -384,6 +408,7 @@
     {% endif %}
 
     <style>
+        
         *{
             margin: 0px;
             padding: 0px;
