@@ -386,11 +386,12 @@ def reviewing():
 def complaint():
     user_id=session['user_id']
     if request.form:
-        db.session.execute(text(f"INSERT INTO complaint (for_product,by_user,complaint,complaint_date) VALUES ({request.form["item"]},{user_id},{request.form['complaint']},NOW()"))
+        db.session.execute(text(f"INSERT INTO complaint (for_product,by_user,shop_complaint,complaint_date,warranty) VALUES ({request.form["item"]},{user_id},'{request.form['complaint']}',NOW(),{request.form["warranty"]})"))
+        db.session.commit()
     return render_template("complaint.html")
 @app.route("/admin",methods=['GET'])
 def admin():
-    complaints=("SELECT * FROM complaint").all()
+    complaints=db.session.execute(text("SELECT * FROM complaint")).all()
     return render_template("admin.html",complaints=complaints)
 
 # run#

@@ -45,8 +45,9 @@
 {% block body %}
 <div class="background">
     <div class="complaint-holder">
-        <h5>Fill Out Your Complaint:</h5>
-        <form action="/admin" method="POST">
+        <h5 style="text-align: center">Fill Out Your Complaint:</h5>
+        <form action="/complaint" method="POST">
+            <div class="holder"><span style="color: gold">Has a Warranty?: </span><select name="warranty"><option value="False">False</option><option value="True">True</option></select></div>
             <div class="holder"><span style="color:gold">For Item: </span><input style="number" name="item"></div>
     <div class="holder"><textarea placeholder="Describe your complaint" name="complaint" rows="5" cols="50"></textarea></div>
     <div class="holder"><input type="submit" name="submit" style="submit"></div>
