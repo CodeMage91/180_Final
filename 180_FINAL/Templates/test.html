@@ -6,6 +6,7 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Micro+5&display=swap" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="{{url_for( 'static', filename="layered_background.css" )}}">
         {% block extra_head %}{% endblock %}
     </head>
     <body>
@@ -222,6 +223,7 @@
             <p>No items in inventory</p>
         {% endif %}
     </div> -->
+    
     <div class="page">
         <div class="bodi">
             {% if login %}
@@ -262,8 +264,7 @@
                             </div>
                             {% endfor %}
                         {% else %}
-                            <p>no admin_users found</p>
-
+                            <p>No admin_users found</p>
                         {% endif %}
                     </div>
 
@@ -402,6 +403,7 @@
     {% endif %}
 
     <style>
+        
         *{
             margin: 0px;
             padding: 0px;
@@ -563,6 +565,7 @@
         }
         .skybox{
             padding: 0px;
+            margin: 0px;
         }
         .create_user{
             height: 460px;
@@ -996,6 +999,9 @@
             position: relative;
             justify-content: space-evenly;
         }
+        .page{
+            padding-bottom: 100px;
+        }
         main {
             padding: 20px;
         }
@@ -1088,7 +1094,7 @@
         backgroundPosition: '40px',
         backgroundSize: 'contain',
         overflow: 'hidden',
-        width: '100vw'
+        width: '100%'
     
     });
 
