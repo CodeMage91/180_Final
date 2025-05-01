@@ -312,7 +312,7 @@
                 </div>
                 {% endif %}
             </div>
-            <div class="create_item">
+            <div class="shop_holder">
                 {% if not (login.user_type == "Customer") %}
                 <h2>Create Item</h2>
                 <div class="item_form">
@@ -339,7 +339,7 @@
                     <input type="hidden" name="item_id" value="{{item.item_id}}">
                     Price: ${{ item.original_price}}<br>
                     Description: {{item.item_desc}}<br>
-                    Created By: {{creator.full_name}}<br>
+                    Created By: {{item.created_by}}<br>
 
                 {% if not (login.user_type == "Vendor") %}
                     <button type="submit">Add to Cart</button>
@@ -408,7 +408,27 @@
     </main>
     {% endif %}
     {% endif %}
+    {% if login.user_type == "Customer" %}
+        <style>
+            .shop_holder{
+                font-family: 'Micro 5', sans serif;
+                font-size: 24;
+                color: white;
+                max-width: 50vw;
+                background-image: url("../static/images/pixelframe.png"), url("../static/images/table1.png"),url("../static/images/shop_background1.png");
+                background-size:100% 100%, 100%, 100% 100%;
+                background-repeat: no-repeat, no-repeat, no-repeat;
+                background-position: center, bottom 13% center, center;
+                padding: 15%;
+                position: relative;
+            }
+            .box{
+                background-color: transparent;
+            }
 
+            
+        </style>
+    {% endif %}
     <style>
         
         *{

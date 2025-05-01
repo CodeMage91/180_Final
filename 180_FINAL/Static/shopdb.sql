@@ -1,6 +1,8 @@
 #create database shopdb;
 use shopdb;
-
+drop table if exists message;
+drop table if exists chat;
+drop table if exists review;
 drop table if exists user_inventory;
 drop table if exists order_item;
 drop table if exists shop_order;
