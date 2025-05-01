@@ -98,7 +98,11 @@
                         <div class="creation_nav_02" id="_gift">GIFT</div>
                 </div>
                 <div class="creation_screen">
-                        <div class="creation_preview" id="creation_preview"></div>
+                        <div class="creation_preview" id="creation_preview">
+                            <div class="prev_type"></div>
+                            <div class="prev_weapon"></div>
+                            <div class="prev_gift"></div>
+                        </div>
 
                         <div class="creation_options_00" id="creation_options_00">
                             <div class="create_desc_00">Choose Character Type.</div>
@@ -129,13 +133,13 @@
                         <div class="creation_options_02" style="display: none; flex-direction: column;" id="creation_options_02">
                             <div class="create_desc_00">Choose Starting Gift.</div>
 
-                            <div style="display:flex; flex-direction: row; flex-wrap: wrap;">
-                                <div class="gift_00">Shield</div>
-                                <div class="gift_01">Potion</div>
-                                <div class="gift_02">Ether</div>
-                                <div class="gift_03">Evade Shoes</div>
-                                <div class="gift_04">Hardy Hat</div>
-                                <div class="gift_05">Rabbits Foot</div>
+                            <div style="display:flex; flex-direction: row; flex-wrap: wrap;justify-content: space-around;">
+                                <div class="gift_00"><div style="background-image: url(../static/images/icon_13.png); width:32px;height: 32px;"></div>Shield</div>
+                                <div class="gift_01"><div style="background-image: url(../static/images/icon_02.png); width:32px;height: 32px;"></div>Potion</div>
+                                <div class="gift_02"><div style="background-image: url(../static/images/icon_08.png); width:32px;height: 32px;"></div>Ether</div>
+                                <div class="gift_03"><div style="background-image: url(../static/images/icon_09.png); width:32px;height: 32px;"></div>Evade Shoes</div>
+                                <div class="gift_04"><div style="background-image: url(../static/images/icon_11.png); width:32px;height: 32px;"></div>Hardy Hat</div>
+                                <div class="gift_05"><div style="background-image: url(../static/images/icon_12.png); width:32px;height: 32px;"></div>Rabbits Foot</div>
                             </div>
 
                         </div>
@@ -1139,7 +1143,7 @@ var creation_options_01 = document.getElementById('creation_options_01');
 var creation_options_02 = document.getElementById('creation_options_02');
 
 var creation_preview = document.getElementById('creation_preview');
-creation_preview.style.backgroundImage = 'url(../static/images/blue_guy_idle.gif)';
+creation_preview.style.backgroundImage = 'url(../static/images/blue_guy_idle_gif.gif)';
 
 var type_a = document.getElementById('type_a');
 var type_b = document.getElementById('type_b');
@@ -1167,7 +1171,7 @@ type_e.onclick = function(){
     creation_preview.style.backgroundImage = 'url(../static/images/green_guy_idle.gif)';
 }
 type_f.onclick = function(){
-    creation_preview.style.backgroundImage = 'url(../static/images/blue_guy_idle.gif)';
+    creation_preview.style.backgroundImage = 'url(../static/images/blue_guy_idle_gif.gif)';
 }
 
 _type.onclick = function(){
