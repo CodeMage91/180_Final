@@ -158,21 +158,21 @@ def initialize():
             "item_image":"/images/sword_00.png",#start from/images/your_file.png
             "original_price": 5,#number value
             "item_desc": "Balanced in weight, swift like a branch. This sword prioritizes swinging over stabbing.",#describe the item in 200 characters or less
-            "created_by": 0 # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
+            "created_by": 14 # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
         },
         {
         "item_name":"Starter Staff",
             "item_image":"/images/staff_00.png",#start from/images/your_file.png
             "original_price": 5,#number value
             "item_desc": "Surprisingly sturdy and weighted. It could also be used as a hammer.",#describe the item in 200 characters or less
-            "created_by": 0 # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
+            "created_by": 14 # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
         },
         {
         "item_name":"Starter Mace",
             "item_image":"/images/mace_00.png",#start from/images/your_file.png
             "original_price": 5,#number value
             "item_desc": "This was made for smashing, it lands with a thud. Though is is a little heavy to pick up.",#describe the item in 200 characters or less
-            "created_by": 0 # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
+            "created_by": 14 # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
         }
     ]
     vendorNum = 0
