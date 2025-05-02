@@ -102,15 +102,15 @@
                         <div class="creation_preview" id="creation_preview">
 
                             <div class="prev_type" style="width:40px;height:64px;border: white solid 1px;position:relative;font-family: 'Micro 5', sans-serif;text-align: center;background-color: black;">Type
-                            <div class="prev_type_pic"  style="width:30px;height:30px;border: goldenrod solid 1px;background-color: black;margin-top:12px;margin-left:4px;"></div>
+                            <div id="prev_type_pic"  style="width:30px;height:30px;border: goldenrod solid 1px;background-color: black;margin-top:12px;margin-left:4px;font-size:32px;"></div>
                             </div>
                             
                             <div class="prev_weapon" style="width:40px;height:64px;border: white solid 1px;position:relative;font-family: 'Micro 5', sans-serif;text-align: center;background-color: black;">Weapon
-                                <div class="prev_weapon_pic"  style="width:30px;height:30px;border: goldenrod solid 1px;background-color: black;margin-top:12px; margin-left:4px;"></div>
+                                <div id="prev_weapon_pic"  style="width:30px;height:30px;border: goldenrod solid 1px;background-color: black;margin-top:12px; margin-left:4px;"></div>
                                 </div>
 
                                 <div class="prev_gift" style="width:40px;height:64px;border: white solid 1px;position:relative;font-family: 'Micro 5', sans-serif;text-align: center;background-color: black;">Gift
-                                    <div class="prev_gift_pic"  style="width:32px;height:30px;border: goldenrod solid 1px;background-color: black;margin-top:12px;margin-left:4px"></div>
+                                    <div id="prev_gift_pic"  style="width:32px;height:30px;border: goldenrod solid 1px;background-color: black;margin-top:12px;margin-left:4px"></div>
                                     </div>
 
                         </div>
@@ -135,9 +135,9 @@
                             <div class="create_desc_00">Choose Starting Weapon.</div>
 
                             <div style="display:flex; flex-direction: row; justify-content: space-evenly; padding-top: 13px;">
-                            <div class="starter_sword">SWORD</div>
-                            <div class="starter_staff">STAFF</div>
-                            <div class="starter_mace">MACE</div>
+                            <div class="starter_sword" id="starter_sword">SWORD</div>
+                            <div class="starter_staff" id="starter_staff">STAFF</div>
+                            <div class="starter_mace" id="starter_mace">MACE</div>
                             </div>
                         </div>
 
@@ -1243,23 +1243,46 @@
         var weapon_desc = document.getElementById('weapon_desc');
         var gift_gift = document.getElementById('gift_desc');
 
+        var prev_type_pic = document.getElementById('prev_type_pic');
+        prev_type_pic.style.backgroundImage = 'linear-gradient(blue,black)';
+        prev_type_pic.innerHTML = 'B';
+
+        var prev_weapon_pic = document.getElementById('prev_weapon_pic');
+        var prev_gift_pic = document.getElementById('prev_gift_pic');
+
+        var starter_sword = document.getElementById('starter_sword');
+        var starter_staff = document.getElementById('starter_staff');
+        var starter_mace = document.getElementById('starter_mace');
+
         type_a.onclick = function(){
             creation_preview.style.backgroundImage = 'url(../static/images/red_gal_idle.gif)';
+            prev_type_pic.style.backgroundImage = 'linear-gradient(red,black)';
+            prev_type_pic.innerHTML = 'A';
         }
         type_b.onclick = function(){
             creation_preview.style.backgroundImage = 'url(../static/images/green_gal_idle.gif)';
+            prev_type_pic.style.backgroundImage = 'linear-gradient(green,black)';
+            prev_type_pic.innerHTML = 'A';
         }
         type_c.onclick = function(){
             creation_preview.style.backgroundImage = 'url(../static/images/blue_gal_idle.gif)';
+            prev_type_pic.style.backgroundImage = 'linear-gradient(blue,black)';
+            prev_type_pic.innerHTML = 'A';
         }
         type_d.onclick = function(){
             creation_preview.style.backgroundImage = 'url(../static/images/red_guy_idle.gif)';
+            prev_type_pic.style.backgroundImage = 'linear-gradient(red,black)';
+            prev_type_pic.innerHTML = 'B';
         }
         type_e.onclick = function(){
             creation_preview.style.backgroundImage = 'url(../static/images/green_guy_idle.gif)';
+            prev_type_pic.style.backgroundImage = 'linear-gradient(green,black)';
+            prev_type_pic.innerHTML = 'B';
         }
         type_f.onclick = function(){
             creation_preview.style.backgroundImage = 'url(../static/images/blue_guy_idle_gif.gif)';
+            prev_type_pic.style.backgroundImage = 'linear-gradient(blue,black)';
+            prev_type_pic.innerHTML = 'B';
         }
 
         _type.onclick = function(){
@@ -1288,6 +1311,67 @@
             weapon_desc.style.display = 'none';
             gift_desc.style.display = 'flex';
         }
+
+        starter_sword.onclick = function(){
+            prev_weapon_pic.style.backgroundImage='url(../static/images/sword_00.png)';
+            prev_weapon_pic.style.backgroundPosition='center';
+            prev_weapon_pic.style.backgroundSize='95%'
+        }
+
+        starter_staff.onclick = function(){
+            prev_weapon_pic.style.backgroundImage='url(../static/images/staff_00.png)';
+            prev_weapon_pic.style.backgroundPosition='center';
+            prev_weapon_pic.style.backgroundSize='95%'
+        }
+
+        starter_mace.onclick = function(){
+            prev_weapon_pic.style.backgroundImage='url(../static/images/mace_00.png)';
+            prev_weapon_pic.style.backgroundPosition='center';
+            prev_weapon_pic.style.backgroundSize='95%'
+        }
+        
+    var gift_00 = document.getElementById('gift_00');
+    var gift_01 = document.getElementById('gift_01');
+    var gift_02 = document.getElementById('gift_02');
+    var gift_03 = document.getElementById('gift_03');
+    var gift_04 = document.getElementById('gift_04');
+    var gift_05 = document.getElementById('gift_05');
+
+    gift_btn_array = [gift_00,gift_01,gift_02,gift_03,gift_04,gift_05];
+    for(let i = 0; i < gift_btn_array.length;i++){
+        gift_btn_array[i].addEventListener('mouseover',function(){
+            gift_btn_array[i].style.color = 'gold';
+        });
+        gift_btn_array[i].addEventListener('mouseout',function(){
+            gift_btn_array[i].style.color = 'white';
+        });
+    }
+
+
+    gift_00.onclick = function(){
+        prev_gift_pic.style.backgroundImage='url(../static/images/icon_13.png)';
+    }
+
+    gift_01.onclick = function(){
+        prev_gift_pic.style.backgroundImage='url(../static/images/icon_02.png)';
+    }
+
+    gift_02.onclick = function(){
+        prev_gift_pic.style.backgroundImage='url(../static/images/icon_08.png)';
+    }
+
+    gift_03.onclick = function(){
+        prev_gift_pic.style.backgroundImage='url(../static/images/icon_09.png)';
+    }
+
+    gift_04.onclick = function(){
+        prev_gift_pic.style.backgroundImage='url(../static/images/icon_11.png)';
+    }
+
+    gift_05.onclick = function(){
+        prev_gift_pic.style.backgroundImage='url(../static/images/icon_12.png)';
+    }
+
     </script>
     <footer>
         <p>&copy; 2025 KRONOS ADVENTURE TEAM</p>
