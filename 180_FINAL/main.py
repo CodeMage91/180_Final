@@ -78,7 +78,7 @@ def initialize():
             "item_name":"Apprentice Ice Wand",
             "item_image":"/weapons/wand.png",#start from/images/your_file.png
             "original_price": 15,#number value
-            "item_desc": "A basic arming sword",#describe the item in 200 characters or less
+            "item_desc": "A basic wand tied to ice elemental magic.",#describe the item in 200 characters or less
             "created_by": 0 # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
         },
         {
