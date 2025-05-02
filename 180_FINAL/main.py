@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:CSET155@localhost/shopdb'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:[password]@localhost/shopdb'
 app.config['SECRET_KEY'] = 'dev_key'
 db = SQLAlchemy(app)
 
@@ -94,7 +94,7 @@ def initialize():
             "item_name": "Health Potion",
             "item_image": "/items/health_potion.png",  # start from/images/your_file.png
             "original_price": 25,  # number value
-            "item_desc": "A reinvigorating magical potion that mends your wounds, ameliorates your pain, and restores your vigor. Heals your HP by 30 points.",
+            "item_desc": "A magical potion that mends your wounds.", # heals 30 points
             # describe the item in 200 characters or less
             "created_by": 0  # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
         },
@@ -102,7 +102,7 @@ def initialize():
             "item_name": "Iron Sword",
             "item_image": "/weapons/iron_bladed_weapon.png",  # start from/images/your_file.png
             "original_price": 100,  # number value
-            "item_desc": "A simple iron blade that will prove proficient in dispatching your foes. Deals 80 points of damage.",
+            "item_desc": "A simple iron blade that will prove proficient in dispatching your foes.",#80 damage
             # describe the item in 200 characters or less
             "created_by": 0  # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
         },
@@ -110,7 +110,7 @@ def initialize():
             "item_name": "Throwable Acid Potion",
             "item_image": "/items/throwable_acid_potion.png",  # start from/images/your_file.png
             "original_price": 15,  # number value
-            "item_desc": "This toxic magical concoction is excellent at burning your opponents with acidic liquid. Does 10 points of damage on hot, and 1 point of damage per second for the next 10 seconds.",
+            "item_desc": "This toxic magical concoction is excellent at burning your opponents.", #10 points on hit, 1 per second for 5 seconds
             # describe the item in 200 characters or less
             "created_by": 0  # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
         },
@@ -126,7 +126,7 @@ def initialize():
             "item_name": "Iron Mace",
             "item_image": "/weapons/iron_mace.png",  # start from/images/your_file.png
             "original_price": 100,  # number value
-            "item_desc": "A well-forged bludgeon made of fine steel, perfect for discombobulating your opponents. Deals 50 points of damage, with a 25% chance to stun your target.",
+            "item_desc": "A well-forged bludgeon made of fine steel.", #50 damage, 25% chance to stun
             # describe the item in 200 characters or less
             "created_by": 0  # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
         },
@@ -134,7 +134,7 @@ def initialize():
             "item_name": "Poisoned Throwing Knife",
             "item_image": "/weapons/poisoned_throwing_knife.png",  # start from/images/your_file.png
             "original_price": 30,  # number value
-            "item_desc": "A small iron dagger, this dimunitive blade compensates for its small size with a nasty coating of acid. Deals 15 points of damage on hit, and does 2 points of damage every second.",
+            "item_desc": "A small iron dagger with a nasty coating of acid.", # 15 damage on hit, 2 damage every 1 second for 10 seconds
             # describe the item in 200 characters or less
             "created_by": 0  # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
         },
@@ -142,7 +142,7 @@ def initialize():
             "item_name": "Mithril Sword",
             "item_image": "/weapons/mithril_bladed_weapon.png",  # start from/images/your_file.png
             "original_price": 200,  # number value
-            "item_desc": "A blade forged from the ore of legends, this mighty sword will prove beyond capable of vanquishing your foes. Deals 120 points of damage",
+            "item_desc": "A mithril blade adept at dispatching your opponents.", #120 damage
             # describe the item in 200 characters or less
             "created_by": 0  # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
         },
@@ -150,7 +150,7 @@ def initialize():
             "item_name": "Bomb",
             "item_image": "/weapons/Bomb.png",  # start from/images/your_file.png
             "original_price": 75,  # number value
-            "item_desc": "Alongside lamp-oil and rope, these explosive weapons are a must-have for adventurers. Deals 80 points of damage per hit.",
+            "item_desc": "An incredibly destructive explosive weapon.", # 80 damage
             # describe the item in 200 characters or less
             "created_by": 0  # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
         },
@@ -158,7 +158,7 @@ def initialize():
             "item_name": "Potion of Draconic Strength",
             "item_image": "/items/potion_of_draconic_strength.png",  # start from/images/your_file.png
             "original_price": 80,  # number value
-            "item_desc": "Brewed by the dragons to help other species, this fiery and sweet magical elixir grants the drinker strength verging on that of the dragons themselves. Gives the player a 100 point melee damage buff.",
+            "item_desc": "Gives you dragon-like strength.", # 100 point melee damage buff
             # describe the item in 200 characters or less
             "created_by": 0  # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
         },
@@ -187,7 +187,7 @@ def initialize():
             "item_name": "Leather Armor",
             "item_image": "/equipment/leather_armor.png",  # start from/images/your_file.png
             "original_price": 80,  # number value
-            "item_desc": "A basic set of armor crafted from leather and studded with some metal. Perfect for adventurers who are just beginning their career. Increases defense modifier by 25 points.",
+            "item_desc": "A simple set of leather armor, studded with metal.", #25 defensive points
             # describe the item in 200 characters or less
             "created_by": 0  # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
         },
@@ -195,7 +195,7 @@ def initialize():
             "item_name": "Chainmail Armor",
             "item_image": "/equipment/chainmail_armor.png",  # start from/images/your_file.png
             "original_price": 120,  # number value
-            "item_desc": "This well-crafted suit of interwoven metal rings provides excellent protection for blooded warriors. Increases defense modifier by 50 points.",
+            "item_desc": "A protective mesh suit.", #50 defensive points
             # describe the item in 200 characters or less
             "created_by": 0  # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
         },
@@ -203,7 +203,7 @@ def initialize():
             "item_name": "Iron Armor",
             "item_image": "/equipment/iron_armor.png",  # start from/images/your_file.png
             "original_price": 200,  # number value
-            "item_desc": "A fine-forged plate armor, excellent for skilled adventurers. Increases defense modifier by 75 points.",
+            "item_desc": "A set of iron plated armor.", # 75 defensive points
             # describe the item in 200 characters or less
             "created_by": 0  # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
         },
@@ -211,7 +211,7 @@ def initialize():
             "item_name": "Mithril Chain Shirt",
             "item_image": "/equipment/mithril_chain_shirt.png",  # start from/images/your_file.png
             "original_price": 280,  # number value
-            "item_desc": "Light as a feather and as durable as a dragon's scales, this shirt of interwoven mithril rings provides excellent protection for veteran adventurers. Increases defense modifier by 100 points.",
+            "item_desc": "A rare mithril chain shirt", # 100 defensive points
             # describe the item in 200 characters or less
             "created_by": 0  # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
         },
@@ -219,7 +219,7 @@ def initialize():
             "item_name": "Mithril Plate Armor",
             "item_image": "/equipment/mithril_armor.png",  # start from/images/your_file.png
             "original_price": 350,  # number value
-            "item_desc": "Forged using ancient dwarven techniques, this mithril plated suit of armor is perfect for legendary adventurers. Increases defense modifier by 200 points.",
+            "item_desc": "An expensive and durable set of mithril plate armor.", # 200 points of defensive armor
             # describe the item in 200 characters or less
             "created_by": 0  # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
         }
@@ -568,18 +568,35 @@ def chat():
             db.session.commit()
 
     return render_template("chat.html",_chat=_chat, conversation=conversation)
-@app.route("/reviews", methods=['GET','POST'])
-def reviewing():
-    items=db.session.execute(text("SELECT * FROM shop_item")).all()
-    comments=None
-    if request.form:
+@app.route("/reviews/<item_id>", methods=['GET','POST'])
+def reviewing(item_id):
+    login=None;
+    if session['user_id']:
+        login = db.session.execute(text("SELECT * FROM shop_user WHERE user_id = :user_id"), {"user_id": session["user_id"]}).first()
+    admin_users = db.session.execute(text("SELECT * FROM shop_user WHERE user_type = 'Admin'")).mappings().fetchall()
+    vendor_users = db.session.execute(text("SELECT * FROM shop_user WHERE user_type = 'Vendor'")).mappings().fetchall()
+    customer_users = db.session.execute(text("SELECT * FROM shop_user WHERE user_type = 'Customer'")).mappings().fetchall()
+    items = db.session.execute(text("SELECT * FROM shop_item")).mappings().fetchall()
+    creator = db.session.execute(text("SELECT * FROM shop_user WHERE user_id = 1")).mappings().fetchone()
+    cart_items = get_user_cart(session['user_id']) if 'user_id' in session else []
+    order_items = get_user_order(session['user_id']) if 'user_id' in session else []
+    inventory_items = get_user_inventory(session['user_id']) if 'user_id' in session else []
+    battle = False
+    comments=db.session.execute(text(f"SELECT * FROM review WHERE for_item={item_id}")).all()
+    if "review" in request.form:
         user_id=session['user_id']
-        if "object" in request.form:
-            comments=db.session.execute(text(f"SELECT rating, statement, review_image, review_date FROM review WHERE for_item={request.form['object']}")).all()
-        if "review" in request.form:
-            db.session.execute(text(f"INSERT INTO review (from_user,for_item,rating,review_date,statement) VALUES ({user_id},{request.form['iditem']},{request.form["rating"]}, NOW(),'{request.form["review"]}')"))
-            db.session.commit()
-    return render_template("reviews.html", items=items,comments=comments)
+        db.session.execute(text(f"INSERT INTO review (from_user,for_item,rating,review_date,statement) VALUES ({user_id},{item_id},{request.form["rating"]}, NOW(),'{request.form["review"]}')"))
+        db.session.commit()
+    return render_template("reviews.html",comments=comments, item_id=item_id,admin_users=admin_users,
+                           vendor_users=vendor_users,
+                           customer_users=customer_users,
+                           items=items,
+                           creator=creator,
+                           login=login,
+                           cart_items=cart_items,
+                           order_items=order_items,
+                           inventory_items=inventory_items,
+                           battle=battle)
 #run#
 if __name__ == '__main__':
     app.run(debug=True)
