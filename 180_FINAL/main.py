@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:CSET155@localhost/shopdb'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:QCSET155@localhost/shopdb'
 app.config['SECRET_KEY'] = 'dev_key'
 db = SQLAlchemy(app)
 
@@ -180,7 +180,7 @@ def initialize():
             "original_price": 80,  # number value
             "item_desc": "A basic set of armor crafted from leather and studded with some metal. Perfect for adventurers who are just beginning their career. Increases defense modifier by 25 points.",
             # describe the item in 200 characters or less
-            "created_by": defaultVendor.user_id  # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
+            "created_by": 0  # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
         },
         {
             "item_name": "Chainmail Armor",
@@ -188,7 +188,7 @@ def initialize():
             "original_price": 120,  # number value
             "item_desc": "This well-crafted suit of interwoven metal rings provides excellent protection for blooded warriors. Increases defense modifier by 50 points.",
             # describe the item in 200 characters or less
-            "created_by": defaultVendor.user_id  # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
+            "created_by": 0  # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
         },
         {
             "item_name": "Iron Armor",
@@ -196,7 +196,7 @@ def initialize():
             "original_price": 200,  # number value
             "item_desc": "A fine-forged plate armor, excellent for skilled adventurers. Increases defense modifier by 75 points.",
             # describe the item in 200 characters or less
-            "created_by": defaultVendor.user_id  # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
+            "created_by": 0  # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
         },
         {
             "item_name": "Mithril Chain Shirt",
@@ -204,7 +204,7 @@ def initialize():
             "original_price": 280,  # number value
             "item_desc": "Light as a feather and as durable as a dragon's scales, this shirt of interwoven mithril rings provides excellent protection for veteran adventurers. Increases defense modifier by 100 points.",
             # describe the item in 200 characters or less
-            "created_by": defaultVendor.user_id  # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
+            "created_by": 0  # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
         },
         {
             "item_name": "Mithril Plate Armor",
@@ -212,7 +212,7 @@ def initialize():
             "original_price": 350,  # number value
             "item_desc": "Forged using ancient dwarven techniques, this mithril plated suit of armor is perfect for legendary adventurers. Increases defense modifier by 200 points.",
             # describe the item in 200 characters or less
-            "created_by": defaultVendor.user_id  # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
+            "created_by": 0  # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
         }
     ]
     vendorNum = 0
