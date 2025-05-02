@@ -1306,6 +1306,8 @@
         var type_f = document.getElementById('type_f');
 
         const hidden_input_user_image = document.getElementById('user_image');
+        const hidden_input_user_weapon = document.getElementById('starter_weapon_choice');
+        const hidden_input_user_gift = document.getElementById('starter_gift_choice');
 
         var  types_desc = document.getElementById('types_desc');
         var weapon_desc = document.getElementById('weapon_desc');
@@ -1316,11 +1318,19 @@
         prev_type_pic.innerHTML = 'B';
 
         var prev_weapon_pic = document.getElementById('prev_weapon_pic');
+        prev_weapon_pic.style.backgroundImage= 'url(../static/images/sword_00.png)';
+        prev_weapon_pic.style.backgroundPosition='center';
+        prev_weapon_pic.style.backgroundSize='95%';
+
         var prev_gift_pic = document.getElementById('prev_gift_pic');
+        prev_gift_pic.style.backgroundImage= 'url(../static/images/icon_12.png)';
+        prev_gift_pic.style.backgroundPosition='center';
+        prev_gift_pic.style.backgroundSize='95%';
 
         var starter_sword = document.getElementById('starter_sword');
         var starter_staff = document.getElementById('starter_staff');
         var starter_mace = document.getElementById('starter_mace');
+        
 
         type_a.onclick = function(){
             creation_preview.style.backgroundImage = 'url(../static/images/red_gal_idle.gif)';
@@ -1389,19 +1399,22 @@
         starter_sword.onclick = function(){
             prev_weapon_pic.style.backgroundImage='url(../static/images/sword_00.png)';
             prev_weapon_pic.style.backgroundPosition='center';
-            prev_weapon_pic.style.backgroundSize='95%'
+            prev_weapon_pic.style.backgroundSize='95%';
+            hidden_input_user_weapon.value = starter_sword.getAttribute('data');
         }
 
         starter_staff.onclick = function(){
             prev_weapon_pic.style.backgroundImage='url(../static/images/staff_00.png)';
             prev_weapon_pic.style.backgroundPosition='center';
-            prev_weapon_pic.style.backgroundSize='95%'
+            prev_weapon_pic.style.backgroundSize='95%';
+            hidden_input_user_weapon.value = starter_staff.getAttribute('data');
         }
 
         starter_mace.onclick = function(){
             prev_weapon_pic.style.backgroundImage='url(../static/images/mace_00.png)';
             prev_weapon_pic.style.backgroundPosition='center';
-            prev_weapon_pic.style.backgroundSize='95%'
+            prev_weapon_pic.style.backgroundSize='95%';
+            hidden_input_user_weapon.value = starter_mace.getAttribute('data');
         }
         
     var gift_00 = document.getElementById('gift_00');
