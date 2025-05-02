@@ -43,6 +43,14 @@ def initialize():
             "user_image":"/users/devin.png", #start from /images/your_file.png
             "password_hash": "123", #we dont have hashing yet
             "user_type": "Customer" #pick one of "Admin" "Vendor" "Customer"
+        },
+        {
+            "full_name": "Wingoul",
+            "email": "flower@account.com",
+            "username":"Dippi",  
+            "user_image":"/users/wingall_img", #start from /images/your_file.png
+            "password_hash": "123", #we dont have hashing yet
+            "user_type": "Vendor" #pick one of "Admin" "Vendor" "Customer"
         }
     ]
     for signup_data in create_users:
