@@ -79,12 +79,13 @@
         <div class="create_user_box">
             <div class="create_header">Create Account</div>
             <div class="create_text">New User? Create an account and get started</div>
+
                         <form method="POST" action="/" class="create_user_form">
                 <div class="create_user_form_inputs">
                     <input name="full_name" placeholder="Full Name" required class="styled_input">
                     <input name="email" placeholder="Email" required class="styled_input">
                     <input name="username" placeholder="username" class="styled_input">
-                    <!-- <input name="user_image" placeholder="Profile Image" class="styled_input"> -->
+                    <input type="hidden" name="user_image" id="user_image" required>
                     <input name="password_hash" placeholder="Password" required class="styled_input"><br>
                     <label  for="user_Type" class="account_type">Account Type</label>
                     <select name="user_type" class="user_type">
@@ -119,15 +120,19 @@
                             <div class="create_desc_00">Choose Character Type.</div>
                         
                             <div style="display: flex; justify-content: space-around;padding-top: 7px; flex-wrap: wrap;">
-                            <div class="type_a" id="type_a" style="border-color:red;">RED<br>A</div>
-                            <div class="type_b" id="type_b" style="border-color: green;">GREEN<br>A</div>
-                        
-                            <div class="type_a" id="type_c" style="border-color: blue;">BLUE<br>A</div>
-                            <div class="type_b" id="type_d" style="border-color: red;">RED<br>B</div>
+
+                               
+                                    <div class="type_a" id="type_a" style="border-color:red;"  data-image="red_gal_idle.gif">RED<br>A</div>
+                                    <div class="type_b" id="type_b" style="border-color: green;" type="submit" data-image="green_gal_idle.gif">GREEN<br>A</div>
                                 
-                            <div class="type_a" id="type_e" style="border-color:green">GREEN<br>B</div>
-                            <div class="type_b" id="type_f">BLUE<br>B</div>
-                            </div>
+                                    <div class="type_a" id="type_c" style="border-color: blue;" data-image="blue_gal_idle.gif">BLUE<br>A</div>
+                                    <div class="type_b" id="type_d" style="border-color: red;" data-image="red_guy_idle.gif">RED<br>B</div>
+                                        
+                                    <div class="type_a" id="type_e" style="border-color:green;" data-image="green_guy_idle.gif">GREEN<br>B</div>
+                                    <div class="type_b" id="type_f"  name="user_image" data-image="blue_guy_idle_gif.gif">BLUE<br>B</div>
+
+                           
+                        </div>
 
                         </div>
 
@@ -1239,6 +1244,8 @@
         var type_d = document.getElementById('type_d');
         var type_f = document.getElementById('type_f');
 
+        const hidden_input_user_image = document.getElementById('user_image');
+
         var  types_desc = document.getElementById('types_desc');
         var weapon_desc = document.getElementById('weapon_desc');
         var gift_gift = document.getElementById('gift_desc');
@@ -1258,31 +1265,37 @@
             creation_preview.style.backgroundImage = 'url(../static/images/red_gal_idle.gif)';
             prev_type_pic.style.backgroundImage = 'linear-gradient(red,black)';
             prev_type_pic.innerHTML = 'A';
+            hidden_input_user_image.value =type_a.getAttribute('data-image');
         }
         type_b.onclick = function(){
             creation_preview.style.backgroundImage = 'url(../static/images/green_gal_idle.gif)';
             prev_type_pic.style.backgroundImage = 'linear-gradient(green,black)';
             prev_type_pic.innerHTML = 'A';
+            hidden_input_user_image.value =type_b.getAttribute('data-image');
         }
         type_c.onclick = function(){
             creation_preview.style.backgroundImage = 'url(../static/images/blue_gal_idle.gif)';
             prev_type_pic.style.backgroundImage = 'linear-gradient(blue,black)';
             prev_type_pic.innerHTML = 'A';
+            hidden_input_user_image.value =type_c.getAttribute('data-image');
         }
         type_d.onclick = function(){
             creation_preview.style.backgroundImage = 'url(../static/images/red_guy_idle.gif)';
             prev_type_pic.style.backgroundImage = 'linear-gradient(red,black)';
             prev_type_pic.innerHTML = 'B';
+            hidden_input_user_image.value =type_d.getAttribute('data-image');
         }
         type_e.onclick = function(){
             creation_preview.style.backgroundImage = 'url(../static/images/green_guy_idle.gif)';
             prev_type_pic.style.backgroundImage = 'linear-gradient(green,black)';
             prev_type_pic.innerHTML = 'B';
+            hidden_input_user_image.value =type_e.getAttribute('data-image');
         }
         type_f.onclick = function(){
             creation_preview.style.backgroundImage = 'url(../static/images/blue_guy_idle_gif.gif)';
             prev_type_pic.style.backgroundImage = 'linear-gradient(blue,black)';
             prev_type_pic.innerHTML = 'B';
+            hidden_input_user_image.value =type_f.getAttribute('data-image');
         }
 
         _type.onclick = function(){
