@@ -370,12 +370,15 @@
             <div class="box">
                 <h1>Items</h1>
                 {%if items%}
+                {% block review %}
 
+                {% endblock %}
                 {% for item in items %}
                 <div class="item_box">
                     <div class="profile" style="background-image: url('{{ url_for('static', filename='images/' ~ item.item_image) }}');"></div>
 
                     <div class="item_stats">
+                        <a href="/reviews/{{item.item_id}}">Place a Review</a>
                         <form method="POST" action="{{ url_for('to_cart') }}">
                     Item: {{ item.item_name}}<br>
                     <input type="hidden" name="item_id" value="{{item.item_id}}">
