@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:CSET155@localhost/shopdb'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:[password]@localhost/shopdb'
 app.config['SECRET_KEY'] = 'dev_key'
 db = SQLAlchemy(app)
 
@@ -51,6 +51,15 @@ def initialize():
             "user_image":"/users/wingall_img", #start from /images/your_file.png
             "password_hash": "123", #we dont have hashing yet
             "user_type": "Vendor" #pick one of "Admin" "Vendor" "Customer"
+        },
+        {
+            "full_name": "Lucius Augustus Kaiser",
+            "email": "emperor@account.com",
+            "username":"Kaiser",  
+            "user_image":"/vendor_03.png", #start from /images/your_file.png
+            "password_hash": "123", #we dont have hashing yet
+            "user_type": "Vendor" #pick one of "Admin" "Vendor" "Customer"
+            
         }
     ]
     for signup_data in create_users:
@@ -78,7 +87,7 @@ def initialize():
             "item_name":"Apprentice Ice Wand",
             "item_image":"/weapons/wand.png",#start from/images/your_file.png
             "original_price": 15,#number value
-            "item_desc": "A basic arming sword",#describe the item in 200 characters or less
+            "item_desc": "A basic wand tied to ice elemental magic.",#describe the item in 200 characters or less
             "created_by": 0 # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
         },
         {
@@ -173,6 +182,46 @@ def initialize():
             "original_price": 5,#number value
             "item_desc": "This was made for smashing, it lands with a thud. Though is is a little heavy to pick up.",#describe the item in 200 characters or less
             "created_by": 14 # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
+        },
+        {
+            "item_name": "Leather Armor",
+            "item_image": "/equipment/leather_armor.png",  # start from/images/your_file.png
+            "original_price": 80,  # number value
+            "item_desc": "A basic set of armor crafted from leather and studded with some metal. Perfect for adventurers who are just beginning their career. Increases defense modifier by 25 points.",
+            # describe the item in 200 characters or less
+            "created_by": 0  # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
+        },
+        {
+            "item_name": "Chainmail Armor",
+            "item_image": "/equipment/chainmail_armor.png",  # start from/images/your_file.png
+            "original_price": 120,  # number value
+            "item_desc": "This well-crafted suit of interwoven metal rings provides excellent protection for blooded warriors. Increases defense modifier by 50 points.",
+            # describe the item in 200 characters or less
+            "created_by": 0  # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
+        },
+        {
+            "item_name": "Iron Armor",
+            "item_image": "/equipment/iron_armor.png",  # start from/images/your_file.png
+            "original_price": 200,  # number value
+            "item_desc": "A fine-forged plate armor, excellent for skilled adventurers. Increases defense modifier by 75 points.",
+            # describe the item in 200 characters or less
+            "created_by": 0  # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
+        },
+        {
+            "item_name": "Mithril Chain Shirt",
+            "item_image": "/equipment/mithril_chain_shirt.png",  # start from/images/your_file.png
+            "original_price": 280,  # number value
+            "item_desc": "Light as a feather and as durable as a dragon's scales, this shirt of interwoven mithril rings provides excellent protection for veteran adventurers. Increases defense modifier by 100 points.",
+            # describe the item in 200 characters or less
+            "created_by": 0  # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
+        },
+        {
+            "item_name": "Mithril Plate Armor",
+            "item_image": "/equipment/mithril_armor.png",  # start from/images/your_file.png
+            "original_price": 350,  # number value
+            "item_desc": "Forged using ancient dwarven techniques, this mithril plated suit of armor is perfect for legendary adventurers. Increases defense modifier by 200 points.",
+            # describe the item in 200 characters or less
+            "created_by": 0  # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
         }
     ]
     vendorNum = 0
@@ -202,7 +251,8 @@ def initialize():
 #test page to see everything!#
 @app.route('/', methods=['GET', 'POST'])
 def all_users():
-    
+    if len(session.items()) == 0:
+        session['user_id'] = None
     global initialized
     if initialized == False:
         firstAdmin = db.session.execute(text("SELECT email FROM shop_user WHERE user_type ='Admin' and email = 'admin@account.com'")).fetchone()
