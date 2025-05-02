@@ -266,9 +266,9 @@
         {% endif %}
     </div> -->
     
+            {% if login %}
     <div class="page">
         <div class="bodi">
-            {% if login %}
             <!--saving login info-->
             <p style="visibility: hidden; position: fixed; top:0; left:0;">{{ login.user_type }}</p>
 
@@ -1156,15 +1156,14 @@
             const skyBox = document.getElementById('skyBox');
 
             Object.assign(skyBox.style,{
-                backgroundImage: 'url(../static/images/Mountains1.png)',
+                backgroundImage: 'linear-gradient(0deg,rgba(11, 38, 0, 1) 9%, rgba(11, 38, 0, 0) 51%), url(../static/images/Mountains1.png)',
                 height: '240px',
                 paddingTop: '150px',
                 backgroundRepeat: 'repeat-x',
                 backgroundPosition: '40px',
                 backgroundSize: 'contain',
                 overflow: 'hidden',
-                width: '100%'
-            
+                width: '100%',            
             });
 
             skyBox.animate(

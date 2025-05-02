@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:CSET155@localhost/shopdb'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:[password]@localhost/shopdb'
 app.config['SECRET_KEY'] = 'dev_key'
 db = SQLAlchemy(app)
 
@@ -51,6 +51,15 @@ def initialize():
             "user_image":"/users/wingall_img", #start from /images/your_file.png
             "password_hash": "123", #we dont have hashing yet
             "user_type": "Vendor" #pick one of "Admin" "Vendor" "Customer"
+        },
+        {
+            "full_name": "Lucius Augustus Kaiser",
+            "email": "emperor@account.com",
+            "username":"Kaiser",  
+            "user_image":"/vendor_03.png", #start from /images/your_file.png
+            "password_hash": "123", #we dont have hashing yet
+            "user_type": "Vendor" #pick one of "Admin" "Vendor" "Customer"
+            
         }
     ]
     for signup_data in create_users:
@@ -242,7 +251,8 @@ def initialize():
 #test page to see everything!#
 @app.route('/', methods=['GET', 'POST'])
 def all_users():
-    
+    if len(session.items()) == 0:
+        session['user_id'] = None
     global initialized
     if initialized == False:
         firstAdmin = db.session.execute(text("SELECT email FROM shop_user WHERE user_type ='Admin' and email = 'admin@account.com'")).fetchone()
