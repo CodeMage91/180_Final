@@ -23,7 +23,7 @@
     <div class="skybox" id="skyBox">
 
         <div id='header-title'>KRONOS ADVENTURE</div>
-
+       
             <div class="user_navigation" style="display: none;">
                 <div id="nav_00">
                     <div class="nav_text_00" id="nav_text_00">Accounts</div>
@@ -86,6 +86,8 @@
                     <input name="email" placeholder="Email" required class="styled_input">
                     <input name="username" placeholder="username" class="styled_input">
                     <input type="hidden" name="user_image" id="user_image" required>
+                    <input type="hidden" name="starter_weapon_id" id="starter_weapon_choice">
+                    <input type="hidden" name="starter_gift_id" id="starter_gift_choice">
                     <input name="password_hash" placeholder="Password" required class="styled_input"><br>
                     <label  for="user_Type" class="account_type">Account Type</label>
                     <select name="user_type" class="user_type">
@@ -95,6 +97,7 @@
                 </div>
             <div class="character_profile">
                 <div class="creation_nav">
+
                         <div class="creation_nav_00" id="_type">TYPE</div>
                         <div class="creation_nav_01" id="_weapon">WEAPON</div>
                         <div class="creation_nav_02" id="_gift">GIFT</div>
@@ -129,7 +132,7 @@
                                     <div class="type_b" id="type_d" style="border-color: red;" data-image="red_guy_idle.gif">RED<br>B</div>
                                         
                                     <div class="type_a" id="type_e" style="border-color:green;" data-image="green_guy_idle.gif">GREEN<br>B</div>
-                                    <div class="type_b" id="type_f"  name="user_image" data-image="blue_guy_idle_gif.gif">BLUE<br>B</div>
+                                    <div class="type_b" id="type_f"  data-image="blue_guy_idle_gif.gif">BLUE<br>B</div>
 
                            
                         </div>
@@ -140,9 +143,9 @@
                             <div class="create_desc_00">Choose Starting Weapon.</div>
 
                             <div style="display:flex; flex-direction: row; justify-content: space-evenly; padding-top: 13px;">
-                            <div class="starter_sword" id="starter_sword">SWORD</div>
-                            <div class="starter_staff" id="starter_staff">STAFF</div>
-                            <div class="starter_mace" id="starter_mace">MACE</div>
+                            <div class="starter_sword" id="starter_sword" data=6>SWORD</div>
+                            <div class="starter_staff" id="starter_staff" data=7>STAFF</div>
+                            <div class="starter_mace" id="starter_mace" data=8>MACE</div>
                             </div>
                         </div>
 
@@ -244,12 +247,21 @@
     {% endif %}
     </div>
 
-    <!-- <div class="user_inventory">
+    
+    <div class="page">
+        <div class="bodi">
+            {% if login %}
+            <!--saving login info-->
+            <p style="visibility: hidden; position: fixed; top:0; left:0;">{{ login.user_type }}</p>
+
+            
+    <div class="user_inventory">
         <h3>User Inventory</h3>
         {% if inventory_items %}
-            <ul>
+            
             {% for item in inventory_items %}
-                <li>
+                
+                    <div class="inventory_item_pic" style="background-image: url('{{ url_for('static', filename='images/' ~ item.item_image) }}');"></div><br>
                     <strong>{{ item.item_name }}</strong><br>
                     Description: {{ item.item_desc }}<br>
                     Quantity: {{ item.quantity or 1 }}<br>
@@ -257,20 +269,14 @@
                     <form method="POST" action="{{ url_for('equip_item', item_id=item.item_id) }}">
                         <button type="submit">Equip</button>
                     </form>
-                </li>
+                
             {% endfor %}
             
             </ul>
         {% else %}
             <p>No items in inventory</p>
         {% endif %}
-    </div> -->
-    
-    <div class="page">
-        <div class="bodi">
-            {% if login %}
-            <!--saving login info-->
-            <p style="visibility: hidden; position: fixed; top:0; left:0;">{{ login.user_type }}</p>
+    </div>
 
             <!--login page-->
             <a href="{{ url_for('logout') }}">Logout</a>
@@ -451,7 +457,7 @@
     {% endif %}
     {% endif %}
     {% if login.user_type == "Customer" %}
-        <style>
+        
             .shop_holder{
                 font-family: 'Micro 5', sans serif;
                 font-size: 24;
@@ -472,7 +478,17 @@
         </style>
     {% endif %}
     <style>
-        
+        <style>
+            .inventory_item_pic{
+                width: 64px;
+                height: 64px;
+                border: 1px white solid;
+            }
+        .user_inventory{
+            width: 100%;
+           
+            background-color: salmon;
+        }
         *{
             margin: 0px;
             padding: 0px;
@@ -673,10 +689,6 @@
                 background-color: rgba(0,0,0,0.4);
             
             }
-        .user_inventory{
-            border:red solid 1px;
-            display: none;
-        }
         .login{
             width: 530px;
             height: 80px;
@@ -1245,6 +1257,8 @@
         var type_f = document.getElementById('type_f');
 
         const hidden_input_user_image = document.getElementById('user_image');
+        const hidden_input_user_weapon = document.getElementById('starter_weapon_choice');
+        const hidden_input_user_gift = document.getElementById('starter_gift_choice');
 
         var  types_desc = document.getElementById('types_desc');
         var weapon_desc = document.getElementById('weapon_desc');
@@ -1255,11 +1269,19 @@
         prev_type_pic.innerHTML = 'B';
 
         var prev_weapon_pic = document.getElementById('prev_weapon_pic');
+        prev_weapon_pic.style.backgroundImage= 'url(../static/images/sword_00.png)';
+        prev_weapon_pic.style.backgroundPosition='center';
+        prev_weapon_pic.style.backgroundSize='95%';
+
         var prev_gift_pic = document.getElementById('prev_gift_pic');
+        prev_gift_pic.style.backgroundImage= 'url(../static/images/icon_12.png)';
+        prev_gift_pic.style.backgroundPosition='center';
+        prev_gift_pic.style.backgroundSize='95%';
 
         var starter_sword = document.getElementById('starter_sword');
         var starter_staff = document.getElementById('starter_staff');
         var starter_mace = document.getElementById('starter_mace');
+        
 
         type_a.onclick = function(){
             creation_preview.style.backgroundImage = 'url(../static/images/red_gal_idle.gif)';
@@ -1328,19 +1350,22 @@
         starter_sword.onclick = function(){
             prev_weapon_pic.style.backgroundImage='url(../static/images/sword_00.png)';
             prev_weapon_pic.style.backgroundPosition='center';
-            prev_weapon_pic.style.backgroundSize='95%'
+            prev_weapon_pic.style.backgroundSize='95%';
+            hidden_input_user_weapon.value = starter_sword.getAttribute('data');
         }
 
         starter_staff.onclick = function(){
             prev_weapon_pic.style.backgroundImage='url(../static/images/staff_00.png)';
             prev_weapon_pic.style.backgroundPosition='center';
-            prev_weapon_pic.style.backgroundSize='95%'
+            prev_weapon_pic.style.backgroundSize='95%';
+            hidden_input_user_weapon.value = starter_staff.getAttribute('data');
         }
 
         starter_mace.onclick = function(){
             prev_weapon_pic.style.backgroundImage='url(../static/images/mace_00.png)';
             prev_weapon_pic.style.backgroundPosition='center';
-            prev_weapon_pic.style.backgroundSize='95%'
+            prev_weapon_pic.style.backgroundSize='95%';
+            hidden_input_user_weapon.value = starter_mace.getAttribute('data');
         }
         
     var gift_00 = document.getElementById('gift_00');

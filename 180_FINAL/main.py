@@ -230,10 +230,9 @@ def all_users():
                 'full_name': request.form['full_name'],
                 'email': request.form['email'],
                 'username': request.form['username'],
-                'password_hash': generate_password_hash(request.form['password_hash']),
+                'password_hash': request.form['password_hash'],
                 'user_type': request.form['user_type']
             }
-
             if 'user_image' in request.form and request.form['user_image']:
                 signup_data['user_image'] = request.form['user_image']
             else:
@@ -243,9 +242,35 @@ def all_users():
                 INSERT INTO shop_user (full_name, email, username, user_image, password_hash, user_type)
                 VALUES (:full_name, :email, :username, :user_image, :password_hash, :user_type)
             """), signup_data)
+
+            
             db.session.commit()
 
+            user_result = db.session.execute(text("SELECT user_id FROM shop_user WHERE username = :username"), {'username': signup_data['username']})
+            user_id = user_result.fetchone()[0]
 
+            starter_weapon_id = request.form.get('starter_weapon_id') or '6'#default weapon sword
+            starter_weapon = {
+                'user_id': user_id,
+                'item_id': starter_weapon_id
+            }
+
+            starter_gift_id = request.form.get('starter_gift_id') or '14'#default gift rabbits foot
+            gift_item = {
+                'user_id':user_id,
+                'item_id':starter_gift_id
+            }
+ 
+            db.session.execute(text("""
+                INSERT INTO user_inventory (user_id,item_id)
+                VALUES (:user_id,:item_id)
+                                    """),starter_weapon)
+            
+            db.session.execute(text("""
+                INSERT INTO user_inventory (user_id,item_id)
+                VALUES (:user_id,:item_id)
+                                    """),gift_item)
+            db.session.commit()
 
             #login stuff
 
@@ -475,6 +500,7 @@ def get_user_cart(user_id):
     join shop_item on shop_cart.item_id = shop_item.item_id
     where shop_cart.user_id = :user_id and is_ordered = False
 """), {'user_id': user_id}).mappings().fetchall()
+
 @app.route("/chat", methods=['GET','POST'])
 def chat():
     user_id=session['user_id']
