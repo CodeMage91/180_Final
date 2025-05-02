@@ -152,6 +152,27 @@ def initialize():
             "item_desc": "Brewed by the dragons to help other species, this fiery and sweet magical elixir grants the drinker strength verging on that of the dragons themselves. Gives the player a 100 point melee damage buff.",
             # describe the item in 200 characters or less
             "created_by": 0  # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
+        },
+        {
+            "item_name":"Starter Sword",
+            "item_image":"/images/sword_00.png",#start from/images/your_file.png
+            "original_price": 5,#number value
+            "item_desc": "Balanced in weight, swift like a branch. This sword prioritizes swinging over stabbing.",#describe the item in 200 characters or less
+            "created_by": 0 # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
+        },
+        {
+        "item_name":"Starter Staff",
+            "item_image":"/images/staff_00.png",#start from/images/your_file.png
+            "original_price": 5,#number value
+            "item_desc": "Surprisingly sturdy and weighted. It could also be used as a hammer.",#describe the item in 200 characters or less
+            "created_by": 0 # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
+        },
+        {
+        "item_name":"Starter Mace",
+            "item_image":"/images/mace_00.png",#start from/images/your_file.png
+            "original_price": 5,#number value
+            "item_desc": "This was made for smashing, it lands with a thud. Though is is a little heavy to pick up.",#describe the item in 200 characters or less
+            "created_by": 0 # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
         }
     ]
     vendorNum = 0
