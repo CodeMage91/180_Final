@@ -1017,7 +1017,7 @@
                 {% endif %}
                 <div class="cart">
                     {% if not (login.user_type == "Vendor") %}
-                    Name: {{login.fullname}}<br>
+                    Name: {{login.full_name}}<br>
                     <div class="cart_inventory">
                         {% if cart_items %}
                         <ul>
