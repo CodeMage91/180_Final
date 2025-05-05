@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:CSET155@localhost/shopdb'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:74CLpyrola!@localhost/shopdb'
 app.config['SECRET_KEY'] = 'dev_key'
 db = SQLAlchemy(app)
 
@@ -286,7 +286,7 @@ def all_users():
             if 'user_image' in request.form and request.form['user_image']:
                 signup_data['user_image'] = request.form['user_image']
             else:
-                signup_data['user_image'] = '/users/blue_guy_idle_gif.gif'
+                signup_data['user_image'] = 'blue_guy_idle_gif.gif'
 
             db.session.execute(text("""
                 INSERT INTO shop_user (full_name, email, username, user_image, password_hash, user_type)
