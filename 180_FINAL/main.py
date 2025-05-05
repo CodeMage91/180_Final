@@ -438,7 +438,7 @@ def to_order():
         db.session.execute(text("""
                                 update shop_cart
                                 set is_ordered = true
-                                where user_id = :user_id and is_ordered = false;
+                                where user_id = :user_id and is_ordered = true;
                                 """), {'user_id':user_id})
         db.session.commit()
         flash('Order Placed!')
