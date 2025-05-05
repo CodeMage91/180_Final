@@ -9,49 +9,54 @@
         {% block extra_head %}{% endblock %}
     </head>
     <body>
+
+       
     {% with messages = get_flashed_messages(with_categories=true) %}
+   
     {% if messages %}
-        <ul class="flashes">
-        {% for category, message in messages %}
-        <li class="{{ category }}">{{ message }}</li>
-        {% endfor %}
-        </ul>
+        <div id="goon_box"  style=" width:350px;height:88px;background-color: rgb(204, 159, 204);position: absolute;border-radius: 10px;margin:7px; display:flex;">
+            <div id="goon" style="width:84px;height:80px;border: 4px outset ghostwhite;background-image: url(../static/images/users/ghoulie_face_01.png);background-color: black;background-size: contain;"></div>
+            <ul class="flashes" style="padding-top: 13px;padding-left:7px; width:180px;" >
+            {% for category, message in messages %}
+            <div style=" font-family: 'Micro 5', sans-serif;font-size: 23px;">Spryte:</div>
+            <li style="list-style: none;font-size: 12px;" class="{{ category }}">{{ message }}</li>
+            {% endfor %}
+            </ul>
+        </div>
+
     {% endif %}
     {% endwith %}
 
+    <div class="user_navigation" style="display: none;">
+        <div id="nav_00">
+            <div class="nav_text_00" id="nav_text_00">Accounts</div>
+        </div><!--account-->
+        <div id="nav_01">
+            <div class="nav_text_01" id="nav_text_01">Users</div>
+        </div><!--users-->
+        <div id="nav_02">
+            <div class="nav_text_02" id="nav_text_02">Products</div>
+        </div><!--Products-->
+        <div id="nav_03">
+            <div class="nav_text_03" id="nav_text_03">Cart</div>
+        </div><!--Cart-->
+        <div id="nav_04">
+            <div class="nav_text_04" id="nav_text_04">Orders</div>
+        </div><!--Orders-->
+        <div id="nav_05">
+            <div class="nav_text_05" id="nav_text_05">Inventory</div>
+        </div><!--Inventory-->
+        <div id="nav_06">
+            <div class="nav_text_06" id="nav_text_06">Chat</div>
+        </div><!--Chat-->
+        <div id="nav_07">
+            <div class="nav_text_07" id="nav_text_07">Log</div>
+        </div><!--logout-->
+    </div>
+
+    {% if not login %}
     <div class="skybox" id="skyBox">
-
         <div id='header-title'>KRONOS ADVENTURE</div>
-       
-            <div class="user_navigation" style="display: none;">
-                <div id="nav_00">
-                    <div class="nav_text_00" id="nav_text_00">Accounts</div>
-                </div><!--account-->
-                <div id="nav_01">
-                    <div class="nav_text_01" id="nav_text_01">Users</div>
-                </div><!--users-->
-                <div id="nav_02">
-                    <div class="nav_text_02" id="nav_text_02">Products</div>
-                </div><!--Products-->
-                <div id="nav_03">
-                    <div class="nav_text_03" id="nav_text_03">Cart</div>
-                </div><!--Cart-->
-                <div id="nav_04">
-                    <div class="nav_text_04" id="nav_text_04">Orders</div>
-                </div><!--Orders-->
-                <div id="nav_05">
-                    <div class="nav_text_05" id="nav_text_05">Inventory</div>
-                </div><!--Inventory-->
-                <div id="nav_06">
-                    <div class="nav_text_06" id="nav_text_06">Chat</div>
-                </div><!--Chat-->
-                <div id="nav_07">
-                    <div class="nav_text_07" id="nav_text_07">Log</div>
-                </div><!--logout-->
-            </div>
-
-        {% if not login %}
-
         <div class="login">
             <!-- <div class="login_exit" id="login_exit">X</div> -->
             <div class="login_header">Login</div>
@@ -65,14 +70,14 @@
             </div>
         </div>
 
-        {% endif %}
+        
         
     </div>
-
+   
     
 
     </div>
-    {% if not login %}
+  
     <!-- Create Account-->
     <div class="create_user">
         <div class="create_user_box">
@@ -124,14 +129,14 @@
                             <div style="display: flex; justify-content: space-around;padding-top: 7px; flex-wrap: wrap;">
 
                                
-                                    <div class="type_a" id="type_a" style="border-color:red;"  data-image="red_gal_idle.gif">RED<br>A</div>
-                                    <div class="type_b" id="type_b" style="border-color: green;" type="submit" data-image="green_gal_idle.gif">GREEN<br>A</div>
+                                    <div class="type_a" id="type_a" style="border-color:red;"  data-image="/users/red_gal_idle.gif">RED<br>A</div>
+                                    <div class="type_b" id="type_b" style="border-color: green;" type="submit" data-image="/users/green_gal_idle.gif">GREEN<br>A</div>
                                 
-                                    <div class="type_a" id="type_c" style="border-color: blue;" data-image="blue_gal_idle.gif">BLUE<br>A</div>
-                                    <div class="type_b" id="type_d" style="border-color: red;" data-image="red_guy_idle.gif">RED<br>B</div>
+                                    <div class="type_a" id="type_c" style="border-color: blue;" data-image="/users/blue_gal_idle.gif">BLUE<br>A</div>
+                                    <div class="type_b" id="type_d" style="border-color: red;" data-image="/users/red_guy_idle.gif">RED<br>B</div>
                                         
-                                    <div class="type_a" id="type_e" style="border-color:green;" data-image="green_guy_idle.gif">GREEN<br>B</div>
-                                    <div class="type_b" id="type_f"  data-image="blue_guy_idle_gif.gif">BLUE<br>B</div>
+                                    <div class="type_a" id="type_e" style="border-color:green;" data-image="/users/green_guy_idle.gif">GREEN<br>B</div>
+                                    <div class="type_b" id="type_f"  data-image="/users/blue_guy_idle_gif.gif">BLUE<br>B</div>
 
                            
                         </div>
@@ -153,7 +158,7 @@
 
                             <div style="display:flex; flex-direction: column;overflow-y: scroll;">
                               
-                                <div class="gift_00" style="display: flex;"><div style="background-image: url(../static/images/icon_13.png); width:32px;height: 32px;margin-top: 8px;"></div>
+                                <div class="gift_00" style="display: flex;"><div style="background-image: url(../static/images/icons/icon_13.png); width:32px;height: 32px;margin-top: 8px;"></div>
                                 <div style="border: 1px solid white;width:248px;height:130px;background-color: rgba(0,0,0,0.8);margin-bottom: 8px; margin-top: 8px;padding-left:8px;">
                                     <div style="font-family: 'Micro 5', sans-serif;font-size: 32px;margin: 0px;">Starter Shield:</div>
                                     This shield is perfect for new adventurers that prioritize defense over maneverability.
@@ -164,7 +169,7 @@
 
                                 </div></div>
 
-                                <div class="gift_01" style="display: flex;"><div style="background-image: url(../static/images/icon_02.png); width:32px;height: 32px;"></div>
+                                <div class="gift_01" style="display: flex;"><div style="background-image: url(../static/images/icons/icon_02.png); width:32px;height: 32px;"></div>
                                 <div style="border: 1px solid white;width:248px;height:110px;background-color: rgba(0,0,0,0.8);margin-bottom: 8px;padding-left:8px;">
                                     <div style="font-family: 'Micro 5', sans-serif;font-size: 32px;margin: 0px;">Merri Potion:</div>
                                     A potion that will heal all injuries and bring you to perfect health.
@@ -175,7 +180,7 @@
 
                                     </div></div>
 
-                                <div class="gift_02" style="display: flex;"><div style="background-image: url(../static/images/icon_08.png); width:32px;height: 32px;"></div>
+                                <div class="gift_02" style="display: flex;"><div style="background-image: url(../static/images/icons/icon_08.png); width:32px;height: 32px;"></div>
                                 <div style="border: 1px solid white;width:248px;height:110px;background-color: rgba(0,0,0,0.8);margin-bottom: 8px;padding-left:8px;">
                                     <div style="font-family: 'Micro 5', sans-serif;font-size: 32px;margin: 0px;">Tasty Ether:</div>
                                     A fizzy drink that leaves you feeling magical.
@@ -186,7 +191,7 @@
 
                                 </div></div>
 
-                                <div class="gift_03" style="display: flex;"><div style="background-image: url(../static/images/icon_09.png); width:32px;height: 32px;"></div>
+                                <div class="gift_03" style="display: flex;"><div style="background-image: url(../static/images/icons/icon_09.png); width:32px;height: 32px;"></div>
                                 <div style="border: 1px solid white;width:248px;height:110px;background-color: rgba(0,0,0,0.8);margin-bottom: 8px;padding-left:8px;">
                                     <div style="font-family: 'Micro 5', sans-serif;font-size: 32px;margin: 0px;">Fresh Swifties:</div>   
                                     A pair of shoes that allow you to move swiftly.
@@ -197,7 +202,7 @@
 
                                 </div></div>
 
-                                <div class="gift_04" style="display: flex;"><div style="background-image: url(../static/images/icon_11.png); width:32px;height: 32px;"></div>
+                                <div class="gift_04" style="display: flex;"><div style="background-image: url(../static/images/icons/icon_11.png); width:32px;height: 32px;"></div>
                                 <div style="border: 1px solid white;width:248px;height:130px;background-color: rgba(0,0,0,0.8);margin-bottom: 8px;padding-left:8px;">
                                     <div style="font-family: 'Micro 5', sans-serif;font-size: 32px;margin: 0px;">Hardy Hat:</div>
                                     A hat that gives you a little bit of confidence and boost you max health.
@@ -208,7 +213,7 @@
 
                                 </div></div>
 
-                                <div class="gift_05" style="display: flex;"><div style="background-image: url(../static/images/icon_12.png); width:32px;height: 32px;"></div>
+                                <div class="gift_05" style="display: flex;"><div style="background-image: url(../static/images/icons/icon_12.png); width:32px;height: 32px;"></div>
                                 <div style="border: 1px solid white;width:248px;height:110px;background-color: rgba(0,0,0,0.8);margin-bottom: 8px;padding-left:8px;">
                                     <div style="font-family: 'Micro 5', sans-serif;font-size:32px;margin: 0px;">Rabbits Foot:</div>
                                     This lucky charm is supposed to be lucky. 
@@ -243,40 +248,125 @@
     </div>
 
     </div>
-    {% endif %}
     </div>
+    <script src="{{url_for( 'static', filename='js/start.js' )}}"></script>
+    {% endif %}
+    
 
     
     <div class="page">
         <div class="bodi">
+            
+            
             {% if login %}
-            <!--saving login info-->
-            <p style="visibility: hidden; position: fixed; top:0; left:0;">{{ login.user_type }}</p>
+             <!--saving login info-->
+             {% if login.user_type == 'Admin'%}
 
-            
-    <div class="user_inventory">
-        <h3>User Inventory</h3>
-        {% if inventory_items %}
-            
-            {% for item in inventory_items %}
-                
-                    <div class="inventory_item_pic" style="background-image: url('{{ url_for('static', filename='images/' ~ item.item_image) }}');"></div><br>
-                    <strong>{{ item.item_name }}</strong><br>
-                    Description: {{ item.item_desc }}<br>
-                    Quantity: {{ item.quantity or 1 }}<br>
-                    Equipped: {{ 'Yes' if item.equipped else 'No' }}<br>
-                    <form method="POST" action="{{ url_for('equip_item', item_id=item.item_id) }}">
-                        <button type="submit">Equip</button>
-                    </form>
-                
-            {% endfor %}
-            
-            </ul>
-        {% else %}
-            <p>No items in inventory</p>
-        {% endif %}
-    </div>
+                <div class="star_box" id="star_box">
 
+                    <div id="inventory_card" style="display: none;width:100%;height:540px;background-color:rgba(0,0,120,0.4);position:absolute;top:100px;">
+                        {% if inventory_items %}
+                        <p>{{inventory_items.length}}</p>
+                            {% for item in inventory_items %}
+                                
+                                    <div class="inventory_item_pic" style="background-image: url('{{ url_for('static', filename='images/' ~ item.item_image) }}');"></div><br>
+                                    <strong>{{ item.item_name }}</strong><br>
+                                    Description: {{ item.item_desc }}<br>
+                                    Quantity: {{ item.quantity or 1 }}<br>
+                                    Equipped: {{ 'Yes' if item.equipped else 'No' }}<br>
+                                    <form method="POST" action="{{ url_for('equip_item', item_id=item.item_id) }}">
+                                        <button type="submit">Equip</button>
+                                    </form>
+                                    
+                            {% endfor %}
+                            
+                            </ul>
+                        {% else %}
+                            <p>No items in inventory</p>
+                            <p>{{inventory_items.length}}</p>
+                        {% endif %}
+                    </div>
+
+
+                      <div style="color:white;font-size: 100px;font-family: 'Micro 5', sans-serif;margin: auto;text-align: center;">{{login.user_type}} Page</div>
+
+                        <div style="width:1240px;height: 420px;border:1px red solid; margin:auto;display: flex;">
+
+                            <div class="user_space" style="height: 393px;width: 420px;border:blue 1px solid;margin: auto;">
+                                <div style="width:220px;height: 220px;background-image: url(../static/images/layered_background/patch_o_grass.png);margin:auto;background-size: contain;margin-top: 160px;"></div>
+                            </div>
+
+                            <div class="user_space" style="height: 393px;width: 420px;border:blue 1px solid;margin: auto;">
+                                <div style="width:220px;height: 220px;background-image: url(../static/images/layered_background/patch_o_grass.png);margin:auto;background-size: contain;margin-top: 160px;">
+                                 <div id="chest" style="width: 64px;height: 64px;position: relative;background-image: url(../static/images/misc/chest_00.png);background-position: center;background-size: contain;"></div>
+                                    
+                                    <!--Inventory-->
+                                    <div class="user_inventory" id="inventory_text" style="display:none;height:30px;position: relative;width: 120px;top:0px;left:-30px;text-align:center;font-size:23px;padding-top:4px;background-image: linear-gradient(black,grey);color:white;
+                                    border-radius: 10px;flex-direction: column;">
+                                        <div style="font-family: 'Micro 5', sans-serif;">User Inventory</div>
+                                    </div></div>
+
+                                    
+                                 </div>
+                                 <div class="user_space" style="height: 393px;width: 420px;border:blue 1px solid;margin: auto;">
+                                    <div style="width:220px;height: 220px;background-image: url(../static/images/layered_background/patch_o_grass.png);margin:auto;background-size: contain;margin-top: 160px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+                
+
+                <!-- <script src="{{url_for( 'static', filename='js/admin.js' )}}"></script> -->
+            
+             <script>
+                    var star_box = document.getElementById('star_box');
+
+                    Object.assign(star_box.style,{
+                        backgroundImage: 'linear-gradient(0deg,rgba(11, 38, 0, 1) 9%, rgba(11, 38, 0, 0) 51%), url(../static/images/starlitSky.png)',
+                        height: '540px',
+                        backgroundRepeat: 'repeat-x',
+                        backgroundPosition: '40px',
+                        backgroundSize: 'contain',
+                        overflow: 'hidden',
+                        width: '100%',            
+                    });
+
+                    star_box.animate(
+                        [
+                            {backgroundPosition: '816px' },
+                            {backgroundPosition:  '40px'}
+                        ],
+                        {
+                            duration: 12000,
+                            iterations: Infinity,
+                            easing: 'linear'
+                        }
+                    );
+
+                    var chest = document.getElementById('chest');
+                    var inventory_text = document.getElementById('inventory_text');
+                    Object.assign(chest.style,{
+                    cursor: 'pointer'
+                    });
+                    chest.addEventListener('mouseover',function(){
+                        chest.style.backgroundImage = 'url(../static/images/misc/chest_open_00.png)';
+                        inventory_text.style.display = 'flex';
+                    });
+                    chest.addEventListener('mouseout',function(){
+                        chest.style.backgroundImage = 'url(../static/images/misc/chest_00.png)';
+                        inventory_text.style.display = 'none';
+                    });
+
+                    var inventory_card = document.getElementById('inventory_card');
+                    chest.onclick = function(){
+                        inventory_card.style.display = 'flex';
+                    }
+
+             </script>
+                {%endif%}
+                 
+        </div>
+            
             <!--login page-->
             <a href="{{ url_for('logout') }}">Logout</a>
             <div class="login_nav">
@@ -440,25 +530,29 @@
                     <option value="Shipped" {% if login.user_type == "Customer" %}readonly{% endif %} {% if item.status == 'Shipped' %}selected{% endif %}>Shipped</option>
                     <option value="Delivered" {% if login.user_type == "Customer" %}readonly{% endif %} {% if item.status == 'Delivered' %}selected{% endif %}>Delivered</option>
                 </select></label><button type="submit">Update</button><br><br>
-                </form>
-            
+                    </form>
+                
 
-            {% endfor%}
-            {% else%}
-            <p>No order items</p>
+                {% endfor%}
+                {% else%}
+                <p>No order items</p>
             {% endif %}
+
+        
             <link href="https://fonts.googleapis.com/css2?family=Micro+5&display=swap" rel="stylesheet">
             </div>
-        </div>
-    </div>
-    {% if battle %}
-    <main>
-        {% block body%}
-        {% endblock%}
-    </main>
-    {% endif %}
-    {% endif %}
-    {% if login.user_type == "Customer" %}
+         </div>
+         </div>
+        
+
+          {% if battle %}
+         <main>
+          {% block body%}
+         {% endblock%}
+         </main>
+         {% endif %}
+         {% endif %}
+     {% if login.user_type == "Customer" %}
         
             .shop_holder{
                 font-family: 'Micro 5', sans serif;
@@ -478,6 +572,7 @@
 
             
         </style>
+         
     {% endif %}
     <style>
         <style>
@@ -686,1251 +781,414 @@
                 background-color: rgba(0,0,0,0.4);
             
             }
-            .login{
-                width: 530px;
-                height: 80px;
-                display: flex;
-                justify-content: space-evenly;
-                padding-top: 53px;
-                margin: auto;
-                margin-top: 0px;
-                background-color: rgba(0,0,0,0.6);
-                border-radius: 10px;
-                box-shadow: 0 2px 5px rgba(0,0,0,2.4);
-                margin: 20px auto;
-            }
-            .login_exit{
-                border: goldenrod 3px inset;
-                font-family: 'Micro 5', sans-serif;
-                position: absolute;
-                top: 224px;
-                right: 670px;
-                background-color: black;
-                color:rgb(255, 187, 0);
-                border-radius: 23px;
-                font-size: 28px;
-                text-align: center;
-                width: 25px;
-                height: 27px;
-                padding-left: 3px;
-                cursor: pointer;
-            }
-            .login_exit:hover{
-                border-color: white;
-            }
-            .login_header{
-                color: white;
-                font-family: 'Micro 5', sans-serif;
-                font-size: 42px;
-                background-image: linear-gradient(black,grey);
-                border-radius: 10px;
-                box-shadow: 0 2px 5px rgba(0,0,0,2.4);
-                position: relative;
-                top: -65px;
-                left: -240px;
-                padding: 3px;
-                margin: 0px;
-                height: 38px;
-                width: 73px;
-                text-align: center;
-            }
-            .create_header{
-                color: white;
-                font-family: 'Micro 5', sans-serif;
-                font-size: 42px;
-                background-image: linear-gradient(black,grey);
-                border-radius: 10px;
-                box-shadow: 0 2px 5px rgba(0,0,0,2.4);
-                width: 210px;
-                padding-left: 18px;
-                position: relative;
-                left: -13px;
-                top: -80px;
-                height: 42px;
-            }
-            .create_user_box{
-                width: 730px;
-                height: 320px;
-                display: flex; 
-                flex-direction: column;
-                padding-top: 53px;
-                background-color: rgba(0,0,0,0.6);
-                border-radius: 10px;
-                box-shadow: 0 2px 5px rgba(0,0,0,2.4);
-            }
-            .create_text{
-                color: white;
-                font-family: 'Micro 5', sans-serif;
-                font-size: 22px;
-                position: relative;
-                top: -75px;
-                left: 240px;
-                width: 350px;
-                /* border: red 1px solid; */
-                height: 23px;
-            }
-            .create_user_form{
-                display: flex;
-                flex-direction: row;
-                position: relative;
-                left: 0px;
-                height: 260px;
-                justify-content: space-between;
-                /* border: orange 1px solid; */
-                width: 680px;
-                margin-left: 25px;
-                top: -60px;
-            }
-            .create_user_form_inputs{
-                display: flex;
-                /* border: blue solid 1px; */
-                height: 240px;
-                flex-direction: column;
-                width: 190px;
-            }
-            .login_text{
-                color: white;
-                font-family: 'Micro 5', sans-serif;
-                font-size: 22px;
-                position: absolute;
-                top: 250px;
-            }
-            .login_form{
-                width: 240px;
-                position: absolute;
-                top: 280px;
-            }
-            .styled_input{
-                border-radius: 10px;
-                height: 23px;
-                margin-bottom: 7px;
-                padding-left: 9px;
-            }
-            .styled_submit_00{
-                height: 33px;
-                width: 120px;
-                border-radius: 10px;
-                font-family: 'Micro 5', sans-serif;
-                font-size: 32px;
-                cursor: pointer;
-                position: absolute;
-                left: 33px;
-                color: white;
-                background-color: black;
-            }
-            .styled_submit_01{
-                height: 33px;
-                width: 120px;
-                border-radius: 10px;
-                font-family: 'Micro 5', sans-serif;
-                font-size: 32px;
-                cursor: pointer;
-                position: absolute;
-                left: 273px;
-                color: white;
-                background-color: black;
-                top: 295px; 
-            }
-            .horse_cart{
-                width: 124px;
-                height: 120px;
-                position: absolute;
-                background-image: url('../static/images/horse_cart.png');
-                background-position: center;
-                background-repeat: no-repeat;
-                right: 0px;
-                top: 16px;
-                opacity: 0;
-            }
-            .login_submit:hover{
-                color:rgb(255, 187, 0);
-            }
-            .nav_icons{
-                width: 530px;
-                height: 80px;
-                display: none;
-                justify-content: space-evenly;
-                padding-top: 53px;
-                margin: auto;
-                margin-top: 0px;
-                background-color: rgba(0,0,0,0.6);
-                border-radius: 10px;
-                box-shadow: 0 2px 5px rgba(0,0,0,2.4);
-                margin: 20px auto;
-            }
-            #nav_00{
-                width: 32px;
-                height: 32px;
-                background-image: url('../static/images/icon_00.png');
-                background-position: center;
-                background-size: contain;
-            }
-            #nav_01{
-                width: 32px;
-                height: 32px;
-                background-image: url('../static/images/icon_01.png');
-                background-position: center;
-                background-size: contain;
-            }
-            #nav_02{
-                width: 32px;
-                height: 32px;
-                background-image: url('../static/images/icon_02.png');
-                background-position: center;
-                background-size: contain;
-            }
-            #nav_03{
-                width: 32px;
-                height: 32px;
-                background-image: url('../static/images/icon_03.png');
-                background-position: center;
-                background-size: contain;
-            }
-            #nav_04{
-                width: 32px;
-                height: 32px;
-                background-image: url('../static/images/icon_04.png');
-                background-position: center;
-                background-size: contain;
-            }
-            #nav_05{
-                width: 32px;
-                height: 32px;
-                background-image: url('../static/images/icon_05.png');
-                background-position: center;
-                background-size: contain;
-            }
-            #nav_06{
-                width: 32px;
-                height: 32px;
-                background-image: url('../static/images/icon_06.png');
-                background-position: center;
-                background-size: contain;
-            }
-            #nav_07{
-                width: 32px;
-                height: 32px;
-                background-image: url('../static/images/icon_07.png');
-                background-position: center;
-                background-size: contain;
-            }
-            .nav_text_00{
-                background-image: linear-gradient(indigo,skyblue);
-                color: white;
-                width: fit-content;
-                height: 18px;
-                padding: 10px;
-                position: relative;
-                top: 35px;
-                left: -70%;
-                border-radius: 23px;
-                display: none;
-            }
-            .nav_text_01{
-                background-image: linear-gradient(indigo,skyblue);
-                color: white;
-                width: fit-content;
-                height: 18px;
-                padding: 10px;
-                position: relative;
-                top: 35px;
-                left: -40%;
-                border-radius: 23px;
-                display: none;
-            }
-            .nav_text_02{
-                background-image: linear-gradient(indigo,skyblue);
-                color: white;
-                width: fit-content;
-                height: 18px;
-                padding: 10px;
-                position: relative;
-                top: 35px;
-                left: -65%;
-                border-radius: 23px;
-                display: none;
-            }
-            .nav_text_03{
-                background-image: linear-gradient(indigo,skyblue);
-                color: white;
-                width: fit-content;
-                height: 18px;
-                padding: 10px;
-                position: relative;
-                top: 35px;
-                left: -20%;
-                border-radius: 23px;
-                display: none;
-            }
-            .nav_text_04{
-                background-image: linear-gradient(indigo,skyblue);
-                color: white;
-                width: fit-content;
-                height: 18px;
-                padding: 10px;
-                position: relative;
-                top: 35px;
-                left: -40%;
-                border-radius: 23px;
-                display: none;
-            }
-            .nav_text_05{
-                background-image: linear-gradient(indigo,skyblue);
-                color: white;
-                width: fit-content;
-                height: 18px;
-                padding: 10px;
-                position: relative;
-                top: 35px;
-                left: -78%;
-                border-radius: 23px;
-                display: none;
-            }
-            .nav_text_06{
-                background-image: linear-gradient(indigo,skyblue);
-                color: white;
-                width: fit-content;
-                height: 18px;
-                padding: 10px;
-                position: relative;
-                top: 35px;
-                left: -8px;
-                border-radius: 23px;
-                display: none;
-            }
-            .nav_text_07{
-                background-image: linear-gradient(indigo,skyblue);
-                color: white;
-                width: fit-content;
-                height: 18px;
-                padding: 10px;
-                position: relative;
-                top: 35px;
-                left: -18%;
-                border-radius: 23px;
-                display: none;
-            }
-            .create_desc_00{
-                text-align: center;
-                font-family: 'Micro 5', sans-serif;
-                font-size: 33px;
-                background-image: linear-gradient(black, grey);
-            }
-            .type_a{
-                border: red 3px outset;
-                text-align: center;
-                height: 69px;
-                width: 69px;
-                font-family: 'Micro 5', sans-serif;
-                font-size: 33px;
-                border-radius: 10px;
-                background-color: black;
-                cursor: pointer;
-            }
-            .type_b{
-                border:blue 3px outset;
-                text-align: center;
-                height: 69px;
-                width: 69px;
-                font-family: 'Micro 5', sans-serif;
-                font-size: 33px;
-                border-radius: 10px;
-                background-color: black;
-                cursor: pointer;
-            }
-            .type_a:hover{
-                color: gold;
-            }
-            .type_b:hover{
-                color: gold;
-            }
-            .types_desc{
-                width: 280px;
-                height: 140px;
-                border-radius: 10px;
-                background-color: black;
-                padding: 13px;
-                top: -320px;
-                left: 750px;
-                position: relative;
-                justify-content: space-evenly;
-            }
-            .types_desc_01{
-                width: 280px;
-                height: 180px;
-                border-radius: 10px;
-                background-color: black;
-                padding: 13px;
-                top: -320px;
-                left: 750px;
-                position: relative;
-                justify-content: space-evenly;
-            }
-            .types_desc_02{
-                width: 280px;
-                height: 180px;
-                border-radius: 10px;
-                background-color: black;
-                padding: 13px;
-                top: -320px;
-                left: 750px;
-                position: relative;
-                justify-content: space-evenly;
-            }
-            .page{
-                padding-bottom: 100px;
-            }
-            main {
-                padding: 20px;
-            }
-            footer {
-                text-align: center;
-                padding: 10px 0;
-                background-color: #333;
-                color: white;
-                position: fixed;
-                width: 100%;
-                bottom: 0;
-                z-index: 400;
-            }
-        </style>
-    
-    </head>
-    <body>
-    {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-        <ul class="flashes">
-        {% for category, message in messages %}
-        <li class="{{ category }}">{{ message }}</li>
-        {% endfor %}
-        </ul>
-    {% endif %}
-    {% endwith %}
-
-    <div class="skybox" id="skyBox">
-
-        <div id='header-title'>KRONOS ADVENTURE</div>
-
-            <div class="user_navigation" style="display: none;">
-                <div id="nav_00">
-                    <div class="nav_text_00" id="nav_text_00">Accounts</div>
-                </div><!--account-->
-                <div id="nav_01">
-                    <div class="nav_text_01" id="nav_text_01">Users</div>
-                </div><!--users-->
-                <div id="nav_02">
-                    <div class="nav_text_02" id="nav_text_02">Products</div>
-                </div><!--Products-->
-                <div id="nav_03">
-                    <div class="nav_text_03" id="nav_text_03">Cart</div>
-                </div><!--Cart-->
-                <div id="nav_04">
-                    <div class="nav_text_04" id="nav_text_04">Orders</div>
-                </div><!--Orders-->
-                <div id="nav_05">
-                    <div class="nav_text_05" id="nav_text_05">Inventory</div>
-                </div><!--Inventory-->
-                <div id="nav_06">
-                    <div class="nav_text_06" id="nav_text_06">Chat</div>
-                </div><!--Chat-->
-                <div id="nav_07">
-                    <div class="nav_text_07" id="nav_text_07">Log</div>
-                </div><!--logout-->
-            </div>
-
-        {% if not login %}
-
-        <div class="login">
-            <!-- <div class="login_exit" id="login_exit">X</div> -->
-            <div class="login_header">Login</div>
-            <div class="login_text">Login to your account and get back to your adventure</div>
-            <div class="login_form">
-                <form method="POST" action="/">
-                    <input placeholder="Email" name="login_email" required class="styled_input"><br>
-                    <input placeholder="Password" name="password_hash" type="password" required class="styled_input"><br>
-                    <button type="submit" class="styled_submit_00" id="login_submit">Let's Go!</button><div class="horse_cart" id="horse_cart"></div>
-                </form>
-            </div>
-        </div>
-
-        {% endif %}
-        
-    </div>
-
-    
-
-    </div>
-    {% if not login %}
-    <!-- Create Account-->
-    <div class="create_user">
-        <div class="create_user_box">
-            <div class="create_header">Create Account</div>
-            <div class="create_text">New User? Create an account and get started</div>
-
-                        <form method="POST" action="/" class="create_user_form">
-                <div class="create_user_form_inputs">
-                    <input name="full_name" placeholder="Full Name" required class="styled_input">
-                    <input name="email" placeholder="Email" required class="styled_input">
-                    <input name="username" placeholder="username" class="styled_input">
-                    <input type="hidden" name="user_image" id="user_image" required>
-                    <input name="password_hash" placeholder="Password" required class="styled_input"><br>
-                    <label  for="user_Type" class="account_type">Account Type</label>
-                    <select name="user_type" class="user_type">
-                        <option value="Customer">Customer</option>
-                        <option value="Vendor">Vendor</option>
-                    </select>
-                </div>
-            <div class="character_profile">
-                <div class="creation_nav">
-                        <div class="creation_nav_00" id="_type">TYPE</div>
-                        <div class="creation_nav_01" id="_weapon">WEAPON</div>
-                        <div class="creation_nav_02" id="_gift">GIFT</div>
-                </div>
-                <div class="creation_screen">
-                        <div class="creation_preview" id="creation_preview">
-
-                            <div class="prev_type" style="width:40px;height:64px;border: white solid 1px;position:relative;font-family: 'Micro 5', sans-serif;text-align: center;background-color: black;">Type
-                            <div id="prev_type_pic"  style="width:30px;height:30px;border: goldenrod solid 1px;background-color: black;margin-top:12px;margin-left:4px;font-size:32px;"></div>
-                            </div>
-                            
-                            <div class="prev_weapon" style="width:40px;height:64px;border: white solid 1px;position:relative;font-family: 'Micro 5', sans-serif;text-align: center;background-color: black;">Weapon
-                                <div id="prev_weapon_pic"  style="width:30px;height:30px;border: goldenrod solid 1px;background-color: black;margin-top:12px; margin-left:4px;"></div>
-                                </div>
-
-                                <div class="prev_gift" style="width:40px;height:64px;border: white solid 1px;position:relative;font-family: 'Micro 5', sans-serif;text-align: center;background-color: black;">Gift
-                                    <div id="prev_gift_pic"  style="width:32px;height:30px;border: goldenrod solid 1px;background-color: black;margin-top:12px;margin-left:4px"></div>
-                                    </div>
-
-                        </div>
-
-                        <div class="creation_options_00" id="creation_options_00">
-                            <div class="create_desc_00">Choose Character Type.</div>
-                        
-                            <div style="display: flex; justify-content: space-around;padding-top: 7px; flex-wrap: wrap;">
-
-                               
-                                    <div class="type_a" id="type_a" style="border-color:red;"  data-image="red_gal_idle.gif">RED<br>A</div>
-                                    <div class="type_b" id="type_b" style="border-color: green;" type="submit" data-image="green_gal_idle.gif">GREEN<br>A</div>
-                                
-                                    <div class="type_a" id="type_c" style="border-color: blue;" data-image="blue_gal_idle.gif">BLUE<br>A</div>
-                                    <div class="type_b" id="type_d" style="border-color: red;" data-image="red_guy_idle.gif">RED<br>B</div>
-                                        
-                                    <div class="type_a" id="type_e" style="border-color:green;" data-image="green_guy_idle.gif">GREEN<br>B</div>
-                                    <div class="type_b" id="type_f"  name="user_image" data-image="blue_guy_idle_gif.gif">BLUE<br>B</div>
-
-                           
-                        </div>
-
-                        </div>
-
-                        <div class="creation_options_01" style="display: none;" id="creation_options_01">
-                            <div class="create_desc_00">Choose Starting Weapon.</div>
-
-                            <div style="display:flex; flex-direction: row; justify-content: space-evenly; padding-top: 13px;">
-                            <div class="starter_sword" id="starter_sword">SWORD</div>
-                            <div class="starter_staff" id="starter_staff">STAFF</div>
-                            <div class="starter_mace" id="starter_mace">MACE</div>
-                            </div>
-                        </div>
-
-                        <div class="creation_options_02" style="display: none; flex-direction: column;" id="creation_options_02">
-                            <div class="create_desc_00">Select Starting Gift.</div>
-
-                            <div style="display:flex; flex-direction: column;overflow-y: scroll;">
-                              
-                                <div class="gift_00" style="display: flex;"><div style="background-image: url(../static/images/icon_13.png); width:32px;height: 32px;margin-top: 8px;"></div>
-                                <div style="border: 1px solid white;width:248px;height:130px;background-color: rgba(0,0,0,0.8);margin-bottom: 8px; margin-top: 8px;padding-left:8px;">
-                                    <div style="font-family: 'Micro 5', sans-serif;font-size: 32px;margin: 0px;">Starter Shield:</div>
-                                    This shield is perfect for new adventurers that prioritize defense over maneverability.
-                                        
-                                    <div class="choose_00" id="gift_00"
-                                        style="height:28px;width:64px;border:outset 3px black;background-color: black;color:white;
-                                        position: relative;font-family: 'Micro 5', sans-serif;text-align:center;font-size:24px;margin:auto;margin-top:4px;cursor:pointer">Select</div>
-
-                                </div></div>
-
-                                <div class="gift_01" style="display: flex;"><div style="background-image: url(../static/images/icon_02.png); width:32px;height: 32px;"></div>
-                                <div style="border: 1px solid white;width:248px;height:110px;background-color: rgba(0,0,0,0.8);margin-bottom: 8px;padding-left:8px;">
-                                    <div style="font-family: 'Micro 5', sans-serif;font-size: 32px;margin: 0px;">Merri Potion:</div>
-                                    A potion that will heal all injuries and bring you to perfect health.
-                                    
-                                        <div class="choose_01" id="gift_01"
-                                        style="height:28px;width:64px;border:outset 3px black;background-color: black;color:white;
-                                        position: relative;font-family: 'Micro 5', sans-serif;text-align:center;font-size:24px;margin:auto;margin-top:4px;cursor:pointer">Select</div>
-
-                                    </div></div>
-
-                                <div class="gift_02" style="display: flex;"><div style="background-image: url(../static/images/icon_08.png); width:32px;height: 32px;"></div>
-                                <div style="border: 1px solid white;width:248px;height:110px;background-color: rgba(0,0,0,0.8);margin-bottom: 8px;padding-left:8px;">
-                                    <div style="font-family: 'Micro 5', sans-serif;font-size: 32px;margin: 0px;">Tasty Ether:</div>
-                                    A fizzy drink that leaves you feeling magical.
-
-                                    <div class="choose_02" id="gift_02"
-                                    style="height:28px;width:64px;border:outset 3px black;background-color: black;color:white;
-                                    position: relative;font-family: 'Micro 5', sans-serif;text-align:center;font-size:24px;margin:auto;margin-top:4px;cursor:pointer">Select</div>
-
-                                </div></div>
-
-                                <div class="gift_03" style="display: flex;"><div style="background-image: url(../static/images/icon_09.png); width:32px;height: 32px;"></div>
-                                <div style="border: 1px solid white;width:248px;height:110px;background-color: rgba(0,0,0,0.8);margin-bottom: 8px;padding-left:8px;">
-                                    <div style="font-family: 'Micro 5', sans-serif;font-size: 32px;margin: 0px;">Fresh Swifties:</div>   
-                                    A pair of shoes that allow you to move swiftly.
-
-                                    <div class="choose_03" id="gift_03"
-                                        style="height:28px;width:64px;border:outset 3px black;background-color: black;color:white;
-                                        position: relative;font-family: 'Micro 5', sans-serif;text-align:center;font-size:24px;margin:auto;margin-top:4px;cursor:pointer">Select</div>
-
-                                </div></div>
-
-                                <div class="gift_04" style="display: flex;"><div style="background-image: url(../static/images/icon_11.png); width:32px;height: 32px;"></div>
-                                <div style="border: 1px solid white;width:248px;height:130px;background-color: rgba(0,0,0,0.8);margin-bottom: 8px;padding-left:8px;">
-                                    <div style="font-family: 'Micro 5', sans-serif;font-size: 32px;margin: 0px;">Hardy Hat:</div>
-                                    A hat that gives you a little bit of confidence and boost you max health.
-
-                                    <div class="choose_04" id="gift_04"
-                                    style="height:28px;width:64px;border:outset 3px black;background-color: black;color:white;
-                                    position: relative;font-family: 'Micro 5', sans-serif;text-align:center;font-size:24px;margin:auto;margin-top:4px;cursor:pointer">Select</div>
-
-                                </div></div>
-
-                                <div class="gift_05" style="display: flex;"><div style="background-image: url(../static/images/icon_12.png); width:32px;height: 32px;"></div>
-                                <div style="border: 1px solid white;width:248px;height:110px;background-color: rgba(0,0,0,0.8);margin-bottom: 8px;padding-left:8px;">
-                                    <div style="font-family: 'Micro 5', sans-serif;font-size:32px;margin: 0px;">Rabbits Foot:</div>
-                                    This lucky charm is supposed to be lucky. 
-
-                                    <div class="choose_05" id="gift_05"
-                                        style="height:28px;width:64px;border:outset 3px black;background-color: black;color:white;
-                                        position: relative;font-family: 'Micro 5', sans-serif;text-align:center;font-size:24px;margin:auto;margin-top:4px;cursor:pointer">Select</div>
-
-                                </div></div>
-                            </div>
-
-                        </div>
-                </div>
-            </div>
-        <button type="submit" class="styled_submit_01">Create</button>
-        </form>
-       
-        <div class="types_desc" id="types_desc" style="position: relative; flex-direction: column;">
-            <h3 style="color: red;">Red Type:</h3><p>Red types can regenerate health.</p>
-
-            <h3 style="color: green">Green Type:</h3><p>Green types don't need stamina to attack.</p>
-
-            <h3 style="color:blue">Blue Type:</h3><p>Blue types regenerate magic.</p>
-        </div>
-
-        <div class="types_desc_01" id="weapon_desc" style="position: relative; flex-direction: column; display: none;">
-                Choose a starting weapon from this fine selection. Yes there are monsters that want to eat you up, so arm yourself with what suits you best.
-        </div>
-
-        <div class="types_desc_02" id="gift_desc" style="position: relative; flex-direction: column; display: none;">
-            <p>Every new adventurer is allowed to choose one gift from this fine selection.</p>
-    </div>
-
-    </div>
-    {% endif %}
-    </div>
-
-    <!-- <div class="user_inventory">
-        <h3>User Inventory</h3>
-        {% if inventory_items %}
-            <ul>
-            {% for item in inventory_items %}
-                <li>
-                    <strong>{{ item.item_name }}</strong><br>
-                    Description: {{ item.item_desc }}<br>
-                    Quantity: {{ item.quantity or 1 }}<br>
-                    Equipped: {{ 'Yes' if item.equipped else 'No' }}<br>
-                    <form method="POST" action="{{ url_for('equip_item', item_id=item.item_id) }}">
-                        <button type="submit">Equip</button>
-                    </form>
-                </li>
-            {% endfor %}
-            
-            </ul>
-        {% else %}
-            <p>No items in inventory</p>
-        {% endif %}
-    </div> -->
-    
-            {% if login %}
-    <div class="page">
-        <div class="bodi">
-            <!--saving login info-->
-            <p style="visibility: hidden; position: fixed; top:0; left:0;">{{ login.user_type }}</p>
-
-            <!--login page-->
-            <a href="{{ url_for('logout') }}">Logout</a>
-            <div class="login_nav">
-
-                <div class="login_profile">
-                    <div class="login_profile_pic" style="background-image: url('{{ url_for('static', filename='images' ~ login.user_image) }}');"></div>
-
-                    <div class="login_name"></div>
-
-                    <div class="login_stats">
-                        <div class="wallet">${{login.wallet_amount or 0.00}}</div>
-                        Name: {{login.full_name}}<br>
-                        Username: {{login.username}}
-                        Email: {{login.email}}<br>
-                        Class: {{login.user_type}}<br>
-                    </div>
-                </div>
-            </div>
-                <div class="box_holder">
-                    {% if not (login.user_type == "Customer") %}
-                    {% if (login.user_type == "Admin") %}
-                    <div class="box">
-                        <h1>  Admin Users</h1><br>
-                        {% if admin_users %}
-
-                            {% for user in admin_users %}
-                            <div class="user_box">
-                                <div class="profile" id="pic"  style="background-image: url('{{ url_for('static', filename='images/' ~ user.user_image) }}');"></div>
-                                <div class="user_stats"></div>
-                            Name: {{ user.full_name }}<br>
-                            Username: {{user.username}}<br>
-                            Email: {{user.email}}
-                            Type: {{user.user_type}}
-                            </div>
-                            {% endfor %}
-                        {% else %}
-                            <p>No admin_users found</p>
-                        {% endif %}
-                    </div>
-                    {%endif%}
-
-                <div class="box">
-                    <h1>Vendor Users</h1>
-                    {%if vendor_users%}
-
-                        {% for user in vendor_users %}
-                        <div class="user_box">
-                            <div class="profile" id="pic"  style="background-image: url('{{ url_for('static', filename='images/' ~ user.user_image) }}');"></div>
-                            <div class="user_stats"></div>
-                        Name: {{ user.full_name }}<br>
-                        Username: {{user.username}}<br>
-                        Email: {{user.email}}<br>
-                        Type: {{user.user_type}}
-                        </div>
-
-                        {% endfor%}
-                    {% else %}
-                        <p> no vendors found</p>
-                    {% endif %}
-                </div>
-
-                <div class="box">
-                    <h1>Customer Users</h1>
-                    {%if customer_users%}
-
-                        {% for user in customer_users %}
-                        <div class="user_box">
-                            <div class="profile"  style="background-image: url('{{ url_for('static', filename='images/' ~ user.user_image) }}');"></div>
-                            <div class="user_stats"></div>
-                        Name: {{ user.full_name }}<br>
-                        Username: {{user.username}}<br>
-                        Email: {{user.email}}<br>
-                        Type: {{user.user_type}}
-                        </div>
-
-                        {% endfor%}
-                    {% else %}
-                        <p> no customers found</p>
-                    {% endif %}
-                </div>
-                {% endif %}
-            </div>
-            <div class="shop_holder">
-                {% if not (login.user_type == "Customer") %}
-                <h2>Create Item</h2>
-                <div class="item_form">
-                    <form method="POST" action="/">
-                    <input placeholder="Item Name" name="item_name">
-                    <input placeholder="item_image" name="item_image">
-                    <input placeholder="Item Price" name="original_price">
-                    <textarea placeholder="Item Description" name="item_desc"></textarea>
-                    <button type="submit">Create</button>
-                </form>
-                </div>
-                <div class="box">
-                {% endif %}
-                    <h1>Items</h1>
-                    <br>
-                    {%if items%}
-                    <div class="item_holder">
-                        {% for item in items %}
-                        <div class="item_box">
-                            <form method="POST" action="{{ url_for('to_cart') }}">
-                            <div class="item_image" style="background-image: url('{{ url_for('static', filename='images/' ~ item.item_image) }}');">  
-                                <div class="item_stats">
-                                    Item: {{ item.item_name}}<br>
-                                    <input type="hidden" name="item_id" value="{{item.item_id}}">
-                                    Price: ${{ item.original_price}}<br>
-                                    Description: {{item.item_desc}}<br>
-                                    Created By: {{item.created_by}}<br>
-                                </div>
-                            </div>
-                            <p>Rating: <span>X</span>/5</p>
-                            {% if not (login.user_type == "Vendor") %}
-                                <button type="submit">Add to Cart</button>
-                            {% endif %}
-                            </form>
-                        </div>
-                    {% endfor%}
-                    </div>
-                {% else %}
-                    <p> No items found</p>
-                {% endif %}
-                <div class="cart">
-                    {% if not (login.user_type == "Vendor") %}
-                    CART: {{login.cart_id}}<br>
-                    Name: {{login.fullname}}<br>
-                    <div class="cart_inventory">
-                        {% if cart_items %}
-                        <ul>
-                        {% for item in cart_items %}
-                        <li>{{item.item_name}} - {{item.original_price}} - {{item.item_desc}}<button>Remove</button></li><br>
-                        
-                        {% endfor %}
-                        </ul>
-                        {% else %}
-                        <p>empty cart</p>
-                        {% endif %}
-
-                    </div>
-                    <div class="cart_total">Total: ${{login.cart_total}}</div>
-
-                    <div class="orders">
-                        
-                            <button>Submit Order</button>
-                            
-                    </div>
-                <div>
-            {% endif %}
-            {% if order_items %}
-            
-            {% for item in order_items %}
-                {{item.item_name}} - {{item.original_price}} - {{item.status}} - {{item.last_status_update}}
-                <form method="POST" action="{{url_for('update_order_status')}}">
-                    <input type="hidden" name="item_id" value={{item.item_id}}>
-                <label for="status">Status:<select name="status">
-                    <option value="Pending" {% if login.user_type == "Customer" %}readonly{% endif %} {% if item.status == 'Pending' %}selected{% endif %}>Pending</option>
-                    <option value="Shipped" {% if login.user_type == "Customer" %}readonly{% endif %} {% if item.status == 'Shipped' %}selected{% endif %}>Shipped</option>
-                    <option value="Delivered" {% if login.user_type == "Customer" %}readonly{% endif %} {% if item.status == 'Delivered' %}selected{% endif %}>Delivered</option>
-                </select></label><button type="submit">Update</button><br><br>
-                </form>
-            {% endfor%}
-            {% else%}
-            <p>No order items</p>
-            {% endif %}
-            <link href="https://fonts.googleapis.com/css2?family=Micro+5&display=swap" rel="stylesheet">
-            </div>
-        </div>
-        </div>
-    </div>
-    {% if battle %}
-    <main>
-        {% block body%}
-        {% endblock%}
-    </main>
-    {% endif %}
-    {% endif %}
-    {% if login.user_type == "Customer" %}
-        <style>
-            .shop_holder{
-                display:flex;
-                flex-direction:column;
-                justify-content:space-between;
-                font-family: 'Micro 5', sans serif;
-                font-size: 24;
-                color: white;
-                max-width: 70vw;
-                height: 700px;
-                background-image: url("../static/images/pixelframe.png"), url("../static/images/table1.png"),url("../static/images/shop_background1.png");
-                background-size:100% 100%, 100%, 100% 100%;
-                background-repeat: no-repeat, no-repeat, no-repeat;
-                background-position: center, bottom 13% center, center;
-                padding: 10%;
-                position: relative;
-                button, input{
-                    background-color: rgb(110, 28, 66);
-                    transition: 0.3s ease all;
-                }
-            }
-            .box{
-                background-color: transparent;
-                margin: 0px;
-            }
-            .skybox{
-                height: 100px;
-            }
-            .item_box{
-                display: flex;
-                flex-direction: column;
-                position: relative;
-                width: 100px;
-                height: 100px;
-                overflow: visible;
-                border-bottom: none;
-                border-radius: 20px;
-                background-color: rgba(100,100,100, 0.4);
-                .item_image{
-                    height: 50px;
-                    width: 50px;
-                    background-size: contain;
-                    background-position: center;
-                    background-repeat: no-repeat;
-                &:hover{
-                    .item_stats{
-                        display: flex;
-                    }
-                }
-                }
-            }
-            .item_stats{
-                position: absolute;
-                font-size: 24;
-                top: 10px;
-                left: 95px;
-                right: -150px;
-                display: None;
-                border: 3px solid rgba(200,200,200, 0.8);
-                border-radius: 10px;
-                padding: 5px;
-                max-height: 200px;
-                width: auto;
-                background-color: rgba(0,0,0,0.8);
-                z-index:5;
-            }
-            .item_holder{
-                margin-top: 40px;
-                display: flex;
-                flex-wrap: wrap;
-                position: absolute;
-                max-height: 500px;
-                width: 700px;
-                gap: 10px;
-                align-items: flex-start;
-                justify-content: flex-start;
-            }
-            .cart{
-                position: relative;
-            }
-        </style>
-    {% endif %}
-   
-    <script>
-        var nav00 = document.getElementById('nav_00');
-        var navText00 = document.getElementById('nav_text_00');
-
-        var nav01 = document.getElementById('nav_01');
-        var navText01 = document.getElementById('nav_text_01');
-
-        var nav02 = document.getElementById('nav_02');
-        var navText02 = document.getElementById('nav_text_02');
-
-        var nav03 = document.getElementById('nav_03');
-        var navText03 = document.getElementById('nav_text_03');
-
-        var nav04 = document.getElementById('nav_04');
-        var navText04 = document.getElementById('nav_text_04');
-
-        var nav05 = document.getElementById('nav_05');
-        var navText05 = document.getElementById('nav_text_05');
-
-        var nav06 = document.getElementById('nav_06');
-        var navText06 = document.getElementById('nav_text_06');
-
-        var nav07 = document.getElementById('nav_07');
-        var navText07 = document.getElementById('nav_text_07');
-            //here I set up some divs and text under them in a loop to add hover, style flex to be shown 
-            //and animation
-            var navArray =[nav00,nav01,nav02,nav03,nav04,nav05,nav06,nav07];
-            var navTextArray = [navText00,navText01,navText02,navText03,navText04,navText05,navText06,navText07];
-
-            for (let i = 0; i < navArray.length; i++) {
-                navArray[i].addEventListener('mouseover', function(){
-                    navArray[i].style.cursor = 'pointer';
-                    navTextArray[i].style.display = 'flex';
-                    navArray[i].animate(
-                        [
-                            {scale : '1'},
-                            {scale : '1.2'},
-                            {scale : '1.1'}
-                        ],
-                        {
-                            easing: 'ease-in',
-                            duration: 500,
-                            fill: 'forwards'
-                        
-                        }
-                    )
-                });
-            }  
-
-            for (let i = 0; i < navArray.length; i++) {
-                navArray[i].addEventListener('mouseout', function () {
-                    navTextArray[i].style.display = 'none';
-                    navArray[i].animate(
-                        [
-                            {scale : '1.1'},
-                            {scale : '1'}
-                        ],
-                        {
-                            easing: 'ease-in',
-                            duration: 200,
-                            fill: 'forwards'
-                        
-                        }
-                    )
-                });
-            }
-
-            const skyBox = document.getElementById('skyBox');
-
-            Object.assign(skyBox.style,{
-                backgroundImage: 'linear-gradient(0deg,rgba(11, 38, 0, 1) 9%, rgba(11, 38, 0, 0) 51%), url(../static/images/Mountains1.png)',
-                paddingTop: '150px',
-                backgroundRepeat: 'repeat-x',
-                backgroundPosition: '40px',
-                backgroundSize: 'contain',
-                overflow: 'hidden',
-                width: '100%',            
-            });
-
-            skyBox.animate(
-                [
-                    {backgroundPosition: '816px' },
-                    {backgroundPosition:  '40px'}
-                ],
-                {
-                    duration: 12000,
-                    iterations: Infinity,
-                    easing: 'linear'
-                }
-            );
-
-            var loginSubmit = document.getElementById('login_submit');
-            var horseCart = document.getElementById('horse_cart');
-
-        loginSubmit.addEventListener('mouseover', function(){
-            loginSubmit.style.color = 'gold';
-            horseCart.animate(
-                [
-                    { opacity: 0,right: '0px'},
-                    { opacity: 1, right: '-70px'}
-                ],
-                {
-                    iterations: 1,
-                    easing: 'ease-in',
-                    duration: 420,
-                    fill: "forwards"
-                }
-            )
-        });
-
-        loginSubmit.addEventListener('mouseout', function(){
-            loginSubmit.style.color = 'white';
-            horseCart.animate(
-                [
-                    { opacity: 1},
-                    { opacity: 0}
-                ],
-                {
-                    iterations: 1,
-                    easing: 'ease-in',
-                    duration: 220,
-                    fill: "forwards"
-                }
-            )
-        });
-
-        var _type = document.getElementById('_type');
-        var _weapon = document.getElementById('_weapon');
-        var _gift = document.getElementById('_gift');
-
-        var create_array = [_type,_weapon,_gift]
-
-        for(let i = 0; i < create_array.length; i++){
-            create_array[i].style.cursor = 'pointer';
-            create_array[i].addEventListener('mouseover', function(){
-            create_array[i].style.color = 'gold';
-        });
-        create_array[i].addEventListener('mouseout', function(){
-            create_array[i].style.color = 'white';
-        });
+        .login{
+            width: 530px;
+            height: 80px;
+            display: flex;
+            justify-content: space-evenly;
+            padding-top: 53px;
+            margin: auto;
+            margin-top: 0px;
+            background-color: rgba(0,0,0,0.6);
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,2.4);
+            margin: 20px auto;
         }
-
-
-        var creation_options_00 = document.getElementById('creation_options_00');
-        var creation_options_01 = document.getElementById('creation_options_01');
-        var creation_options_02 = document.getElementById('creation_options_02');
-
-        var creation_preview = document.getElementById('creation_preview');
-        creation_preview.style.backgroundImage = 'url(../static/images/users/blue_guy_idle_gif.gif)';
-
-        var type_a = document.getElementById('type_a');
-        var type_b = document.getElementById('type_b');
-        var type_c = document.getElementById('type_c');
-        var type_d = document.getElementById('type_d');
-        var type_f = document.getElementById('type_f');
-
-        const hidden_input_user_image = document.getElementById('user_image');
-        const hidden_input_user_weapon = document.getElementById('starter_weapon_choice');
-        const hidden_input_user_gift = document.getElementById('starter_gift_choice');
-
-        var  types_desc = document.getElementById('types_desc');
-        var weapon_desc = document.getElementById('weapon_desc');
-        var gift_gift = document.getElementById('gift_desc');
-
-        var prev_type_pic = document.getElementById('prev_type_pic');
-        prev_type_pic.style.backgroundImage = 'linear-gradient(blue,black)';
-        prev_type_pic.innerHTML = 'B';
-
-        var prev_weapon_pic = document.getElementById('prev_weapon_pic');
-        prev_weapon_pic.style.backgroundImage= 'url(../static/images/weapons/sword_00.png)';
-        prev_weapon_pic.style.backgroundPosition='center';
-        prev_weapon_pic.style.backgroundSize='95%';
-
-        var prev_gift_pic = document.getElementById('prev_gift_pic');
-        prev_gift_pic.style.backgroundImage= 'url(../static/images/icons/icon_12.png)';
-        prev_gift_pic.style.backgroundPosition='center';
-        prev_gift_pic.style.backgroundSize='95%';
-
-        var starter_sword = document.getElementById('starter_sword');
-        var starter_staff = document.getElementById('starter_staff');
-        var starter_mace = document.getElementById('starter_mace');
-        
-
-        type_a.onclick = function(){
-            creation_preview.style.backgroundImage = 'url(../static/images/users/red_gal_idle.gif)';
-            prev_type_pic.style.backgroundImage = 'linear-gradient(red,black)';
-            prev_type_pic.innerHTML = 'A';
-            hidden_input_user_image.value =type_a.getAttribute('data-image');
+        .login_exit{
+            border: goldenrod 3px inset;
+            font-family: 'Micro 5', sans-serif;
+            position: absolute;
+            top: 224px;
+            right: 670px;
+            background-color: black;
+            color:rgb(255, 187, 0);
+            border-radius: 23px;
+            font-size: 28px;
+            text-align: center;
+            width: 25px;
+            height: 27px;
+            padding-left: 3px;
+            cursor: pointer;
         }
-        type_b.onclick = function(){
-            creation_preview.style.backgroundImage = 'url(../static/images/users/green_gal_idle.gif)';
-            prev_type_pic.style.backgroundImage = 'linear-gradient(green,black)';
-            prev_type_pic.innerHTML = 'A';
-            hidden_input_user_image.value =type_b.getAttribute('data-image');
+        .login_exit:hover{
+            border-color: white;
         }
-        type_c.onclick = function(){
-            creation_preview.style.backgroundImage = 'url(../static/images/users/blue_gal_idle.gif)';
-            prev_type_pic.style.backgroundImage = 'linear-gradient(blue,black)';
-            prev_type_pic.innerHTML = 'A';
-            hidden_input_user_image.value =type_c.getAttribute('data-image');
+        .login_header{
+            color: white;
+            font-family: 'Micro 5', sans-serif;
+            font-size: 42px;
+            background-image: linear-gradient(black,grey);
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,2.4);
+            position: relative;
+            top: -65px;
+            left: -240px;
+            padding: 3px;
+            margin: 0px;
+            height: 38px;
+            width: 73px;
+            text-align: center;
         }
-        type_d.onclick = function(){
-            creation_preview.style.backgroundImage = 'url(../static/images/users/red_guy_idle.gif)';
-            prev_type_pic.style.backgroundImage = 'linear-gradient(red,black)';
-            prev_type_pic.innerHTML = 'B';
-            hidden_input_user_image.value =type_d.getAttribute('data-image');
+        .create_header{
+            color: white;
+            font-family: 'Micro 5', sans-serif;
+            font-size: 42px;
+            background-image: linear-gradient(black,grey);
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,2.4);
+            width: 210px;
+            padding-left: 18px;
+            position: relative;
+            left: -13px;
+            top: -80px;
+            height: 42px;
         }
-        type_e.onclick = function(){
-            creation_preview.style.backgroundImage = 'url(../static/images/users/green_guy_idle.gif)';
-            prev_type_pic.style.backgroundImage = 'linear-gradient(green,black)';
-            prev_type_pic.innerHTML = 'B';
-            hidden_input_user_image.value =type_e.getAttribute('data-image');
+        .create_user_box{
+            width: 730px;
+            height: 320px;
+            display: flex; 
+            flex-direction: column;
+            padding-top: 53px;
+            background-color: rgba(0,0,0,0.6);
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,2.4);
         }
-        type_f.onclick = function(){
-            creation_preview.style.backgroundImage = 'url(../static/images/users/blue_guy_idle_gif.gif)';
-            prev_type_pic.style.backgroundImage = 'linear-gradient(blue,black)';
-            prev_type_pic.innerHTML = 'B';
-            hidden_input_user_image.value =type_f.getAttribute('data-image');
+        .create_text{
+            color: white;
+            font-family: 'Micro 5', sans-serif;
+            font-size: 22px;
+            position: relative;
+            top: -75px;
+            left: 240px;
+            width: 350px;
+            /* border: red 1px solid; */
+            height: 23px;
         }
-
-        _type.onclick = function(){
-            creation_options_00.style.display = 'flex';
-            creation_options_01.style.display = 'none';
-            creation_options_02.style.display = 'none';
-            types_desc.style.display = 'flex';
-            weapon_desc.style.display = 'none';
-            gift_desc.style.display = 'none';
+        .create_user_form{
+            display: flex;
+            flex-direction: row;
+            position: relative;
+            left: 0px;
+            height: 260px;
+            justify-content: space-between;
+            /* border: orange 1px solid; */
+            width: 680px;
+            margin-left: 25px;
+            top: -60px;
         }
-            
-        _weapon.onclick = function(){
-            creation_options_00.style.display = 'none';
-            creation_options_01.style.display = 'flex';
-            creation_options_02.style.display = 'none';
-            types_desc.style.display = 'none';
-            weapon_desc.style.display = 'flex';
-            gift_desc.style.display = 'none';
+        .create_user_form_inputs{
+            display: flex;
+            /* border: blue solid 1px; */
+            height: 240px;
+            flex-direction: column;
+            width: 190px;
         }
-
-        _gift.onclick = function(){
-            creation_options_00.style.display = 'none';
-            creation_options_01.style.display = 'none';
-            creation_options_02.style.display = 'flex';
-            types_desc.style.display = 'none';
-            weapon_desc.style.display = 'none';
-            gift_desc.style.display = 'flex';
+        .login_text{
+            color: white;
+            font-family: 'Micro 5', sans-serif;
+            font-size: 22px;
+            position: absolute;
+            top: 250px;
         }
-
-        starter_sword.onclick = function(){
-            prev_weapon_pic.style.backgroundImage='url(../static/images/weapons/sword_00.png)';
-            prev_weapon_pic.style.backgroundPosition='center';
-            prev_weapon_pic.style.backgroundSize='95%';
-            hidden_input_user_weapon.value = starter_sword.getAttribute('data');
+        .login_form{
+            width: 240px;
+            position: absolute;
+            top: 280px;
         }
-
-        starter_staff.onclick = function(){
-            prev_weapon_pic.style.backgroundImage='url(../static/images/weapons/staff_00.png)';
-            prev_weapon_pic.style.backgroundPosition='center';
-            prev_weapon_pic.style.backgroundSize='95%';
-            hidden_input_user_weapon.value = starter_staff.getAttribute('data');
+        .styled_input{
+            border-radius: 10px;
+            height: 23px;
+            margin-bottom: 7px;
+            padding-left: 9px;
         }
-
-        starter_mace.onclick = function(){
-            prev_weapon_pic.style.backgroundImage='url(../static/images/weapons/mace_00.png)';
-            prev_weapon_pic.style.backgroundPosition='center';
-            prev_weapon_pic.style.backgroundSize='95%';
-            hidden_input_user_weapon.value = starter_mace.getAttribute('data');
+        .styled_submit_00{
+            height: 33px;
+            width: 120px;
+            border-radius: 10px;
+            font-family: 'Micro 5', sans-serif;
+            font-size: 32px;
+            cursor: pointer;
+            position: absolute;
+            left: 33px;
+            color: white;
+            background-color: black;
         }
-        
-    var gift_00 = document.getElementById('gift_00');
-    var gift_01 = document.getElementById('gift_01');
-    var gift_02 = document.getElementById('gift_02');
-    var gift_03 = document.getElementById('gift_03');
-    var gift_04 = document.getElementById('gift_04');
-    var gift_05 = document.getElementById('gift_05');
-
-    gift_btn_array = [gift_00,gift_01,gift_02,gift_03,gift_04,gift_05];
-    for(let i = 0; i < gift_btn_array.length;i++){
-        gift_btn_array[i].addEventListener('mouseover',function(){
-            gift_btn_array[i].style.color = 'gold';
-        });
-        gift_btn_array[i].addEventListener('mouseout',function(){
-            gift_btn_array[i].style.color = 'white';
-        });
-    }
-
-
-    gift_00.onclick = function(){
-        prev_gift_pic.style.backgroundImage='url(../static/images/icons/icon_13.png)';
-    }
-
-    gift_01.onclick = function(){
-        prev_gift_pic.style.backgroundImage='url(../static/images/icons/icon_02.png)';
-    }
-
-    gift_02.onclick = function(){
-        prev_gift_pic.style.backgroundImage='url(../static/images/icons/icon_08.png)';
-    }
-
-    gift_03.onclick = function(){
-        prev_gift_pic.style.backgroundImage='url(../static/images/icons/icon_09.png)';
-    }
-
-    gift_04.onclick = function(){
-        prev_gift_pic.style.backgroundImage='url(../static/images/icons/icon_11.png)';
-    }
-
-    gift_05.onclick = function(){
-        prev_gift_pic.style.backgroundImage='url(../static/images/icons/icon_12.png)';
-    }
-
-    </script>
+        .styled_submit_01{
+            height: 33px;
+            width: 120px;
+            border-radius: 10px;
+            font-family: 'Micro 5', sans-serif;
+            font-size: 32px;
+            cursor: pointer;
+            position: absolute;
+            left: 273px;
+            color: white;
+            background-color: black;
+            top: 295px; 
+        }
+        .horse_cart{
+            width: 124px;
+            height: 120px;
+            position: absolute;
+            background-image: url('../static/images/horse_cart.png');
+            background-position: center;
+            background-repeat: no-repeat;
+            right: 0px;
+            top: 16px;
+            opacity: 0;
+        }
+        .login_submit:hover{
+            color:rgb(255, 187, 0);
+        }
+        .nav_icons{
+            width: 530px;
+            height: 80px;
+            display: none;
+            justify-content: space-evenly;
+            padding-top: 53px;
+            margin: auto;
+            margin-top: 0px;
+            background-color: rgba(0,0,0,0.6);
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,2.4);
+            margin: 20px auto;
+        }
+        #nav_00{
+            width: 32px;
+            height: 32px;
+            background-image: url('../static/images/icon_00.png');
+            background-position: center;
+            background-size: contain;
+        }
+        #nav_01{
+            width: 32px;
+            height: 32px;
+            background-image: url('../static/images/icon_01.png');
+            background-position: center;
+            background-size: contain;
+        }
+        #nav_02{
+            width: 32px;
+            height: 32px;
+            background-image: url('../static/images/icon_02.png');
+            background-position: center;
+            background-size: contain;
+        }
+        #nav_03{
+            width: 32px;
+            height: 32px;
+            background-image: url('../static/images/icon_03.png');
+            background-position: center;
+            background-size: contain;
+        }
+        #nav_04{
+            width: 32px;
+            height: 32px;
+            background-image: url('../static/images/icon_04.png');
+            background-position: center;
+            background-size: contain;
+        }
+        #nav_05{
+            width: 32px;
+            height: 32px;
+            background-image: url('../static/images/icon_05.png');
+            background-position: center;
+            background-size: contain;
+        }
+        #nav_06{
+            width: 32px;
+            height: 32px;
+            background-image: url('../static/images/icon_06.png');
+            background-position: center;
+            background-size: contain;
+        }
+        #nav_07{
+            width: 32px;
+            height: 32px;
+            background-image: url('../static/images/icon_07.png');
+            background-position: center;
+            background-size: contain;
+        }
+        .nav_text_00{
+            background-image: linear-gradient(indigo,skyblue);
+            color: white;
+            width: fit-content;
+            height: 18px;
+            padding: 10px;
+            position: relative;
+            top: 35px;
+            left: -70%;
+            border-radius: 23px;
+            display: none;
+        }
+        .nav_text_01{
+            background-image: linear-gradient(indigo,skyblue);
+            color: white;
+            width: fit-content;
+            height: 18px;
+            padding: 10px;
+            position: relative;
+            top: 35px;
+            left: -40%;
+            border-radius: 23px;
+            display: none;
+        }
+        .nav_text_02{
+            background-image: linear-gradient(indigo,skyblue);
+            color: white;
+            width: fit-content;
+            height: 18px;
+            padding: 10px;
+            position: relative;
+            top: 35px;
+            left: -65%;
+            border-radius: 23px;
+            display: none;
+        }
+        .nav_text_03{
+            background-image: linear-gradient(indigo,skyblue);
+            color: white;
+            width: fit-content;
+            height: 18px;
+            padding: 10px;
+            position: relative;
+            top: 35px;
+            left: -20%;
+            border-radius: 23px;
+            display: none;
+        }
+        .nav_text_04{
+            background-image: linear-gradient(indigo,skyblue);
+            color: white;
+            width: fit-content;
+            height: 18px;
+            padding: 10px;
+            position: relative;
+            top: 35px;
+            left: -40%;
+            border-radius: 23px;
+            display: none;
+        }
+        .nav_text_05{
+            background-image: linear-gradient(indigo,skyblue);
+            color: white;
+            width: fit-content;
+            height: 18px;
+            padding: 10px;
+            position: relative;
+            top: 35px;
+            left: -78%;
+            border-radius: 23px;
+            display: none;
+        }
+        .nav_text_06{
+            background-image: linear-gradient(indigo,skyblue);
+            color: white;
+            width: fit-content;
+            height: 18px;
+            padding: 10px;
+            position: relative;
+            top: 35px;
+            left: -8px;
+            border-radius: 23px;
+            display: none;
+        }
+        .nav_text_07{
+            background-image: linear-gradient(indigo,skyblue);
+            color: white;
+            width: fit-content;
+            height: 18px;
+            padding: 10px;
+            position: relative;
+            top: 35px;
+            left: -18%;
+            border-radius: 23px;
+            display: none;
+        }
+        .create_desc_00{
+            text-align: center;
+            font-family: 'Micro 5', sans-serif;
+            font-size: 33px;
+            background-image: linear-gradient(black, grey);
+        }
+        .type_a{
+            border: red 3px outset;
+            text-align: center;
+            height: 69px;
+            width: 69px;
+            font-family: 'Micro 5', sans-serif;
+            font-size: 33px;
+            border-radius: 10px;
+            background-color: black;
+            cursor: pointer;
+        }
+        .type_b{
+            border:blue 3px outset;
+            text-align: center;
+            height: 69px;
+            width: 69px;
+            font-family: 'Micro 5', sans-serif;
+            font-size: 33px;
+            border-radius: 10px;
+            background-color: black;
+            cursor: pointer;
+        }
+        .type_a:hover{
+            color: gold;
+        }
+        .type_b:hover{
+            color: gold;
+        }
+        .types_desc{
+            width: 280px;
+            height: 140px;
+            border-radius: 10px;
+            background-color: black;
+            padding: 13px;
+            top: -320px;
+            left: 750px;
+            position: relative;
+            justify-content: space-evenly;
+        }
+        .types_desc_01{
+            width: 280px;
+            height: 180px;
+            border-radius: 10px;
+            background-color: black;
+            padding: 13px;
+            top: -320px;
+            left: 750px;
+            position: relative;
+            justify-content: space-evenly;
+        }
+        .types_desc_02{
+            width: 280px;
+            height: 180px;
+            border-radius: 10px;
+            background-color: black;
+            padding: 13px;
+            top: -320px;
+            left: 750px;
+            position: relative;
+            justify-content: space-evenly;
+        }
+        .page{
+            padding-bottom: 100px;
+        }
+        main {
+            padding: 20px;
+        }
+        footer {
+            text-align: center;
+            padding: 10px 0;
+            background-color: #333;
+            color: white;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            z-index: 400;
+        }
+    </style>
     <footer>
         <p>&copy; 2025 KRONOS ADVENTURE TEAM</p>
     </footer>
