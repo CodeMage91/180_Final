@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:CSET155@localhost/shopdb'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:74CLpyrola!@localhost/shopdb'
 app.config['SECRET_KEY'] = 'dev_key'
 db = SQLAlchemy(app)
 
@@ -251,7 +251,7 @@ def initialize():
 #test page to see everything!#
 @app.route('/', methods=['GET', 'POST'])
 def all_users():
-    if len(session.items()) == 0:
+    if 'user_id' not in session:
         session['user_id'] = None
     global initialized
     if initialized == False:
@@ -286,7 +286,7 @@ def all_users():
             if 'user_image' in request.form and request.form['user_image']:
                 signup_data['user_image'] = request.form['user_image']
             else:
-                signup_data['user_image'] = '/users/blue_guy_idle_gif.gif'
+                signup_data['user_image'] = 'blue_guy_idle_gif.gif'
 
             db.session.execute(text("""
                 INSERT INTO shop_user (full_name, email, username, user_image, password_hash, user_type)
@@ -385,7 +385,36 @@ def to_cart():
                                 """),cart_data)
      db.session.commit()
      return redirect(url_for('all_users'))
-
+@app.route('/remove_item_from_cart', methods=['POST'])
+def remove_item():
+    if 'user_id' in session:
+        user_id = session['user_id']
+        try: 
+            print("user_id - ", user_id, "item_id - ",request.form["item_id"])
+            allCartThatMatches = db.session.execute(text("""
+                                    SELECT * FROM shop_cart WHERE item_id = :item_id AND user_id = :user_id LIMIT 1
+                                    """), 
+                               {
+                                   "user_id": user_id, 
+                                   "item_id": int(request.form["item_id"])
+                                }).all()
+            print(allCartThatMatches)
+            db.session.execute(text("""
+                        DELETE FROM shop_cart WHERE item_id = :item_id AND user_id = :user_id LIMIT 1
+                                    """), 
+                               {
+                                   "user_id": user_id, 
+                                   "item_id": int(request.form["item_id"])
+                                })
+            db.session.commit()
+            flash("Deleted")
+        except Exception as e:
+            db.session.rollback()
+            flash(f'Error placeing order:{e}')
+    return redirect(url_for('all_users'))
+            
+        
+        
 @app.route('/to_order', methods=['GET','POST'])
 def to_order():
     if request.method == 'GET':
