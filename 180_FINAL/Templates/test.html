@@ -463,37 +463,38 @@
                 </div>
                 {% endif %}
             <div class="box">
-                <h1>Items</h1>
-                {%if items%}
                 {% block review %}
 
                 {% endblock %}
-                <div class="item_holder">
-                {% for item in items %}
-                <div class="item_box">
-                    <div class="profile" style="background-image: url('{{ url_for('static', filename='images/' ~ item.item_image) }}');">
-
-                    <div class="item_stats">
+                <h1>Items</h1>
+                    <br>
+                    {%if items%}
+                    <div class="item_holder">
+                        {% for item in items %}
+                        <div class="item_box">
+                            <form method="POST" action="{{ url_for('to_cart') }}">
+                            <div class="item_image" style="background-image: url('{{ url_for('static', filename='images/' ~ item.item_image) }}');">  
+                                <div class="item_stats">
+                                    Item: {{ item.item_name}}<br>
+                                    <input type="hidden" name="item_id" value="{{item.item_id}}">
+                                    Price: ${{ item.original_price}}<br>
+                                    Description: {{item.item_desc}}<br>
+                                    Created By: {{item.created_by}}<br>
+                                </div>
+                            </div>
                         <a href="/reviews/{{item.item_id}}">Place a Review</a>
                         <form method="POST" action="{{ url_for('to_cart') }}">
-                    Item: {{ item.item_name}}<br>
-                    <input type="hidden" name="item_id" value="{{item.item_id}}">
-                    Price: ${{ item.original_price}}<br>
-                    Description: {{item.item_desc}}<br>
-                    Created By: {{item.created_by}}<br>
-                </div>
-                {% if not (login.user_type == "Vendor") %}
-                    <button type="submit">Add to Cart</button>
+                            <p>Rating: <span>X</span>/5</p>
+                            {% if not (login.user_type == "Vendor") %}
+                                <button type="submit">Add to Cart</button>
+                            {% endif %}
+                            </form>
+                        </div>
+                    {% endfor%}
+                    </div>
+                {% else %}
+                    <p> No items found</p>
                 {% endif %}
-                </form>
-                </div>
-
-                </div>
-                {% endfor%}
-                </div>
-            {% else %}
-                <p> No items found</p>
-            {% endif %}
             </div>
             <div class="cart">
             {% if not (login.user_type == "Vendor") %}
@@ -556,6 +557,31 @@
          {% endif %}
      {% if login.user_type == "Customer" %}
         <style>
+
+            .shop_holder{
+                display:flex;
+                flex-direction:column;
+                justify-content:space-between;
+                font-family: 'Micro 5', sans serif;
+                font-size: 24;
+                color: white;
+                max-width: 70vw;
+                height: 700px;
+                background-image: url("../static/images/pixelframe.png"), url("../static/images/table1.png"),url("../static/images/shop_background1.png");
+                background-size:100% 100%, 100%, 100% 100%;
+                background-repeat: no-repeat, no-repeat, no-repeat;
+                background-position: center, bottom 13% center, center;
+                padding: 10%;
+                position: relative;
+                button, input{
+                    background-color: rgb(110, 28, 66);
+                    transition: 0.3s ease all;
+                }
+            }
+            .box{
+                background-color: transparent;
+                margin: 0px;
+            }
             .skybox{
                 height: 100px;
             }
@@ -611,23 +637,6 @@
             .cart{
                 position: relative;
             }
-
-            .shop_holder{
-                font-family: 'Micro 5', sans serif;
-                font-size: 24;
-                color: white;
-                max-width: 50vw;
-                background-image: url("../static/images/pixelframe.png"), url("../static/images/table1.png"),url("../static/images/shop_background1.png");
-                background-size:100% 100%, 100%, 100% 100%;
-                background-repeat: no-repeat, no-repeat, no-repeat;
-                background-position: center, bottom 13% center, center;
-                padding: 15%;
-                position: relative;
-            }
-            .box{
-                background-color: transparent;
-            }
-
             
         </style>
          
