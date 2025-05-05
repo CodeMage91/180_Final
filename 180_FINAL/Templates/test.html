@@ -1017,18 +1017,19 @@
                 {% endif %}
                 <div class="cart">
                     {% if not (login.user_type == "Vendor") %}
-                    CART: {{login.cart_id}}<br>
                     Name: {{login.fullname}}<br>
                     <div class="cart_inventory">
                         {% if cart_items %}
                         <ul>
                         {% for item in cart_items %}
-                        <li>{{item.item_name}} - {{item.original_price}} - {{item.item_desc}}<button>Remove</button></li><br>
-                        
+                        <form action="/remove_item_from_cart" method="POST">
+                            <input type='hidden' name="item_id" value="{{item.item_id}}">
+                            <li>{{item.item_name}} - {{item.original_price}}<input type="submit" name="submit" value="Remove"></li><br>
+                        </form>
                         {% endfor %}
                         </ul>
                         {% else %}
-                        <p>empty cart</p>
+                        <p>No Items</p>
                         {% endif %}
 
                     </div>

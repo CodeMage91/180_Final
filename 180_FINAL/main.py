@@ -251,7 +251,7 @@ def initialize():
 #test page to see everything!#
 @app.route('/', methods=['GET', 'POST'])
 def all_users():
-    if len(session.items()) == 0:
+    if 'user_id' not in session:
         session['user_id'] = None
     global initialized
     if initialized == False:
@@ -385,7 +385,36 @@ def to_cart():
                                 """),cart_data)
      db.session.commit()
      return redirect(url_for('all_users'))
-
+@app.route('/remove_item_from_cart', methods=['POST'])
+def remove_item():
+    if 'user_id' in session:
+        user_id = session['user_id']
+        try: 
+            print("user_id - ", user_id, "item_id - ",request.form["item_id"])
+            allCartThatMatches = db.session.execute(text("""
+                                    SELECT * FROM shop_cart WHERE item_id = :item_id AND user_id = :user_id LIMIT 1
+                                    """), 
+                               {
+                                   "user_id": user_id, 
+                                   "item_id": int(request.form["item_id"])
+                                }).all()
+            print(allCartThatMatches)
+            db.session.execute(text("""
+                        DELETE FROM shop_cart WHERE item_id = :item_id AND user_id = :user_id LIMIT 1
+                                    """), 
+                               {
+                                   "user_id": user_id, 
+                                   "item_id": int(request.form["item_id"])
+                                })
+            db.session.commit()
+            flash("Deleted")
+        except Exception as e:
+            db.session.rollback()
+            flash(f'Error placeing order:{e}')
+    return redirect(url_for('all_users'))
+            
+        
+        
 @app.route('/to_order', methods=['GET','POST'])
 def to_order():
     if request.method == 'GET':
