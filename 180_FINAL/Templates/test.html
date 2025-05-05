@@ -468,9 +468,10 @@
                 {% block review %}
 
                 {% endblock %}
+                <div class="item_holder">
                 {% for item in items %}
                 <div class="item_box">
-                    <div class="profile" style="background-image: url('{{ url_for('static', filename='images/' ~ item.item_image) }}');"></div>
+                    <div class="profile" style="background-image: url('{{ url_for('static', filename='images/' ~ item.item_image) }}');">
 
                     <div class="item_stats">
                         <a href="/reviews/{{item.item_id}}">Place a Review</a>
@@ -480,7 +481,7 @@
                     Price: ${{ item.original_price}}<br>
                     Description: {{item.item_desc}}<br>
                     Created By: {{item.created_by}}<br>
-
+                </div>
                 {% if not (login.user_type == "Vendor") %}
                     <button type="submit">Add to Cart</button>
                 {% endif %}
@@ -489,6 +490,7 @@
 
                 </div>
                 {% endfor%}
+                </div>
             {% else %}
                 <p> No items found</p>
             {% endif %}
@@ -553,7 +555,63 @@
          {% endif %}
          {% endif %}
      {% if login.user_type == "Customer" %}
-        
+        <style>
+            .skybox{
+                height: 100px;
+            }
+            .item_box{
+                display: flex;
+                flex-direction: column;
+                position: relative;
+                width: 100px;
+                height: 100px;
+                overflow: visible;
+                border-bottom: none;
+                border-radius: 20px;
+                background-color: rgba(100,100,100, 0.4);
+                .item_image{
+                    height: 50px;
+                    width: 50px;
+                    background-size: contain;
+                    background-position: center;
+                    background-repeat: no-repeat;
+                &:hover{
+                    .item_stats{
+                        display: flex;
+                    }
+                }
+                }
+            }
+            .item_stats{
+                position: absolute;
+                font-size: 24;
+                top: 10px;
+                left: 95px;
+                right: -150px;
+                display: None;
+                border: 3px solid rgba(200,200,200, 0.8);
+                border-radius: 10px;
+                padding: 5px;
+                max-height: 200px;
+                width: auto;
+                background-color: rgba(0,0,0,0.8);
+                z-index:5;
+            }
+            .item_holder{
+                margin-top: 40px;
+                display: flex;
+                flex-wrap: wrap;
+                position: absolute;
+                max-height: 500px;
+                width: 700px;
+                gap: 10px;
+                align-items: flex-start;
+                justify-content: flex-start;
+            }
+            .cart{
+                position: relative;
+            }
+
             .shop_holder{
                 font-family: 'Micro 5', sans serif;
                 font-size: 24;
