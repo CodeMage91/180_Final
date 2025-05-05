@@ -2,7 +2,7 @@ var skyBox = document.getElementById('skyBox');
 
 Object.assign(skyBox.style,{
     backgroundImage: 'linear-gradient(0deg,rgba(11, 38, 0, 1) 9%, rgba(11, 38, 0, 0) 51%), url(../static/images/Mountains1.png)',
-    height: '240px',
+    height: '100px',
     paddingTop: '150px',
     backgroundRepeat: 'repeat-x',
     backgroundPosition: '40px',
@@ -241,3 +241,19 @@ prev_gift_pic.style.backgroundImage='url(../static/images/icons/icon_11.png)';
 gift_05.onclick = function(){
 prev_gift_pic.style.backgroundImage='url(../static/images/icons/icon_12.png)';
 }
+
+var goon_box = document.getElementById('goon_box');
+goon_box.animate(
+    [
+        {opacity: 1,display:'flex'},
+        {opacity: 1,display:'flex'},
+        {opacity: 1,display:'flex'},
+        {opacity:0,display:'none'}
+    ],
+    {
+        duration: 4200,
+        easing: 'linear',
+        iterations: '1',
+        fill: 'forwards'
+    }
+);

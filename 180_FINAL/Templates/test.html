@@ -14,15 +14,16 @@
     {% with messages = get_flashed_messages(with_categories=true) %}
    
     {% if messages %}
-        <div id="goon_box"  style=" width:350px;height:88px;background-color: rgb(204, 159, 204);position: absolute;border-radius: 10px;margin:7px; display:flex;">
+        <div id="goon_box"  style=" width:max-content;height:88px;background-color: rgb(204, 159, 204);position: absolute;border-radius: 10px;margin:7px; display:flex;">
             <div id="goon" style="width:84px;height:80px;border: 4px outset ghostwhite;background-image: url(../static/images/users/ghoulie_face_01.png);background-color: black;background-size: contain;"></div>
-            <ul class="flashes" style="padding-top: 13px;padding-left:7px; width:180px;" >
-            {% for category, message in messages %}
             <div style=" font-family: 'Micro 5', sans-serif;font-size: 23px;">Spryte:</div>
-            <li style="list-style: none;font-size: 12px;" class="{{ category }}">{{ message }}</li>
+            <ul class="flashes" style="display:flex; align-items: center; justify-content: center; min-width: 100px; text-transform: capitalize; padding: 20px;" >
+            {% for category, message in messages %}
+            <li style="list-style: none;font-size: 12px; font-family: monospace;" class="{{ category }}">{{ message }}</li>
             {% endfor %}
             </ul>
         </div>
+        <script src={{url_for( 'static', filename='js/flash_animate.js' )}}></script>
 
     {% endif %}
     {% endwith %}
@@ -53,7 +54,12 @@
             <div class="nav_text_07" id="nav_text_07">Log</div>
         </div><!--logout-->
     </div>
-
+    {% if login%}
+    {% if login.user_type == "Customer"%}
+    <div class="skybox" id="skyBox">
+        <div id='header-title'>KRONOS ADVENTURE</div>
+    </div>
+    {% endif %} {% endif%}
     {% if not login %}
     <div class="skybox" id="skyBox">
         <div id='header-title'>KRONOS ADVENTURE</div>
@@ -69,14 +75,10 @@
                 </form>
             </div>
         </div>
-
-        
-        
     </div>
-   
     
 
-    </div>
+    </div><!--WHAT IS THIS END DIV FOR???? WE NEED BETTER INDENTATION-->
   
     <!-- Create Account-->
     <div class="create_user">
@@ -248,9 +250,9 @@
     </div>
 
     </div>
-    </div>
-    <script src="{{url_for( 'static', filename='js/start.js' )}}"></script>
+    </div><script src="{{url_for( 'static', filename='js/start.js' )}}"></script>
     {% endif %}
+    {% if login.user_type == "Customer" %}<script src="{{url_for( 'static', filename='js/start_small.js' )}}"></script>{% endif %}
     
 
     
@@ -504,7 +506,11 @@
                     {% if cart_items %}
                     <ul>
                     {% for item in cart_items %}
-                    <li>{{item.item_name}} - {{item.original_price}} - {{item.item_desc}}<button>Remove</button></li><br>
+                    <form action="/remove_item_from_cart" method="POST">
+                        <input type="hidden" name="item_id" value="{{item.item_id}}">
+                        <li><h1 style="display: inline">{{item.quantity}}x</h1> - {{item.item_name}} - {{item.original_price}} - {{item.item_desc}}<input style="color:white; border:none;" type="submit" value="Remove">Remove</li>
+                        <br>
+                    </form>
                     
                     {% endfor %}
                     </ul>
@@ -516,9 +522,7 @@
                 <div class="cart_total">Total: ${{login.cart_total}}</div>
 
                 <div class="orders">
-                    
                         <button>Submit Order</button>
-                        
                 </div>
                 <div>
             {% endif %}
@@ -590,7 +594,7 @@
                 flex-direction: column;
                 position: relative;
                 width: 100px;
-                height: 100px;
+                height: 200px;
                 overflow: visible;
                 border-bottom: none;
                 border-radius: 20px;

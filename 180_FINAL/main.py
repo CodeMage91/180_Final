@@ -574,10 +574,15 @@ def logout():
 
 def get_user_cart(user_id):
     return db.session.execute(text("""
-    select shop_item.*
-    from shop_cart
-    join shop_item on shop_cart.item_id = shop_item.item_id
+    select shop_item.*, count(shop_item.item_id) as "quantity"
+    from 
+        shop_cart
+            join 
+        shop_item 
+            on shop_cart.item_id = shop_item.item_id
     where shop_cart.user_id = :user_id and is_ordered = False
+    group by shop_item.item_id
+    
 """), {'user_id': user_id}).mappings().fetchall()
 
 @app.route("/chat", methods=['GET','POST'])
