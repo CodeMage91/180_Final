@@ -1,0 +1,64 @@
+<style>
+ .card{
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-text:center;
+height: fit-content;
+width:150px;
+background-color:brown;
+border: 2px solid gold;
+border-radius:5px;
+margin:2%;
+padding:10px;
+color: gold;
+}
+.card-holder{
+display:flex;
+flex-direction:row;
+}
+.pagination_bar {
+        display: flex;
+        justify-content: flex-end;
+        width: 1140px;
+        margin: auto;
+    }
+    .pagination_button {
+        font-size: 20px;
+        background-color:brown;
+        border: none;
+        color: gold;
+        padding: 2px 2px 4px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        width: 30px;
+        border: 1px solid gold;
+    }
+</style>
+<div class="card-holder">
+    {% for user in users %}
+<div class="card">
+    <div>{{user['user_image']}}</div>
+    <p>Name: {{user['full_name']}}</p>
+    <p>User Type: {{user['user_type']}}</p>
+    <form action=f"/chat/<{{user['user_id']}}">
+        <input type="submit" value="{{user['user_id']}}">
+    </form>
+    </div>
+{% endfor %}
+    </div>
+            <a href= {% if page==1 %}"/users/1" {% else %} "{{ "/users/"+ (page - 1) | string }}"{% endif %} class="pagination_button"> < </a>
+            <a class="pagination_button" style="background-color: rgb(108, 3, 3);"> {{page}} </a>
+            {% if (not (page>=max_pages-2)) %}
+            <a href="{{ "/users/"+ (page + 1) | string }}" class="pagination_button" > {{ page + 1 }} </a>
+            {% endif %}
+            {% if (not (page>=max_pages-1)) %}
+            <a href="{{ "/users/"+ (page + 2) | string }}" class="pagination_button"> {{ page + 2 }} </a>
+            {% endif %}
+            {% if not (page==max_pages) %}
+            <div class="pagination_button">...</div>
+            <a href={{"/users/"+(max_pages) | string}} class="pagination_button">{{max_pages}}</a>
+            {% endif %}
+            <a href="{{ "/users/"+ (page + 1) | string }}" class="pagination_button"> > </a>
+        </div>

@@ -1,13 +1,14 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
+import math
 import threading
 import time
 from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:CSET155@localhost/shopdb'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:QIblI25#3@localhost/shopdb'
 app.config['SECRET_KEY'] = 'dev_key'
 db = SQLAlchemy(app)
 
@@ -598,6 +599,57 @@ def reviewing(item_id):
                            inventory_items=inventory_items,
                            battle=battle)
 
+<<<<<<< Updated upstream
+=======
+
+app.route("/items/<page>")
+
+
+def viewing_items(page=1):
+    login = None;
+    if session['user_id']:
+        login = db.session.execute(text("SELECT * FROM shop_user WHERE user_id = :user_id"),
+                                   {"user_id": session["user_id"]}).first()
+    admin_users = db.session.execute(text("SELECT * FROM shop_user WHERE user_type = 'Admin'")).mappings().fetchall()
+    vendor_users = db.session.execute(text("SELECT * FROM shop_user WHERE user_type = 'Vendor'")).mappings().fetchall()
+    customer_users = db.session.execute(
+        text("SELECT * FROM shop_user WHERE user_type = 'Customer'")).mappings().fetchall()
+    items = db.session.execute(text("SELECT * FROM shop_item")).mappings().fetchall()
+    creator = db.session.execute(text("SELECT * FROM shop_user WHERE user_id = 1")).mappings().fetchone()
+    cart_items = get_user_cart(session['user_id']) if 'user_id' in session else []
+    order_items = get_user_order(session['user_id']) if 'user_id' in session else []
+    inventory_items = get_user_inventory(session['user_id']) if 'user_id' in session else []
+    battle = False
+    try:
+        page = int(page)
+    except Exception as e:
+        page = 1
+    per_page = 10
+    items = db.session.execute(text(f"SELECT * FROM shop_item LIMIT {per_page} OFFSET {(page - 1) * per_page}")).all()
+    return render_template('battle.html',
+                           admin_users=admin_users,
+                           vendor_users=vendor_users,
+                           customer_users=customer_users,
+                           items=items,
+                           creator=creator,
+                           login=login,
+                           cart_items=cart_items,
+                           order_items=order_items,
+                           inventory_items=inventory_items,
+                           battle=battle
+                           )
+
+
+@app.route("/users/<page>")
+def viewing_users(page=1):
+    page = int(page)
+    per_page = 10
+    num_of_items=db.session.execute(text("SELECT count(user_id) as 'num_of_items' from shop_user group by user_id")).mappings().fetchone()
+    max_pages=math.ceil(num_of_items['num_of_items']/per_page)
+    users=db.session.execute(text(f"SELECT * FROM shop_user LIMIT {per_page} OFFSET {(page-1)*per_page}")).all()
+    return render_template("users.html", page=page,per_page=per_page,users=users,max_pages=max_pages)
+
+>>>>>>> Stashed changes
 #run#
 if __name__ == '__main__':
     app.run(debug=True)
