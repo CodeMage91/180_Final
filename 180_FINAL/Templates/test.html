@@ -370,7 +370,20 @@
         </div>
             
             <!--login page-->
-            <a href="{{ url_for('logout') }}">Logout</a>
+            <div class="user-panel">
+                <div class="user-info">
+                    <div class="greeting">Hello, Admin!</div>
+                    <div class="info-row"><strong>Balance:</strong> $0.0</div>
+                    <div class="info-row"><strong>Name:</strong> Admin Account</div>
+                    <div class="info-row"><strong>Username:</strong> Admin</div>
+                    <div class="info-row"><strong>Email:</strong> admin@account.com</div>
+                    <div class="info-row"><strong>Class:</strong> Admin</div>
+                    <a href="{{ url_for('logout') }}" class="logout-button">Logout</a>
+                </div>
+            </div>
+            
+            
+           
             <div class="login_nav">
 
                 <div class="login_profile">
