@@ -648,8 +648,6 @@ def viewing_users(page=1):
     max_pages=math.ceil(num_of_items['num_of_items']/per_page)
     users=db.session.execute(text(f"SELECT * FROM shop_user LIMIT {per_page} OFFSET {(page-1)*per_page}")).all()
     return render_template("users.html", page=page,per_page=per_page,users=users,max_pages=max_pages)
-
->>>>>>> Stashed changes
 #run#
 if __name__ == '__main__':
     app.run(debug=True)

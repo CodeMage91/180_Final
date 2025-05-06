@@ -56,8 +56,10 @@ flex-direction:row;
             {% if (not (page>=max_pages-1)) %}
             <a href="{{ "/users/"+ (page + 2) | string }}" class="pagination_button"> {{ page + 2 }} </a>
             {% endif %}
-            {% if not (page==max_pages) %}
+            {% if (not(page>=max_pages-2)) %}
             <div class="pagination_button">...</div>
+            {% endif %}
+            {% if not (page==max_pages) %}
             <a href={{"/users/"+(max_pages) | string}} class="pagination_button">{{max_pages}}</a>
             {% endif %}
             <a href="{{ "/users/"+ (page + 1) | string }}" class="pagination_button"> > </a>
