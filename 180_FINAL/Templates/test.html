@@ -27,32 +27,7 @@
     {% endif %}
     {% endwith %}
 
-    <div class="user_navigation" style="display: none;">
-        <div id="nav_00">
-            <div class="nav_text_00" id="nav_text_00">Accounts</div>
-        </div><!--account-->
-        <div id="nav_01">
-            <div class="nav_text_01" id="nav_text_01">Users</div>
-        </div><!--users-->
-        <div id="nav_02">
-            <div class="nav_text_02" id="nav_text_02">Products</div>
-        </div><!--Products-->
-        <div id="nav_03">
-            <div class="nav_text_03" id="nav_text_03">Cart</div>
-        </div><!--Cart-->
-        <div id="nav_04">
-            <div class="nav_text_04" id="nav_text_04">Orders</div>
-        </div><!--Orders-->
-        <div id="nav_05">
-            <div class="nav_text_05" id="nav_text_05">Inventory</div>
-        </div><!--Inventory-->
-        <div id="nav_06">
-            <div class="nav_text_06" id="nav_text_06">Chat</div>
-        </div><!--Chat-->
-        <div id="nav_07">
-            <div class="nav_text_07" id="nav_text_07">Log</div>
-        </div><!--logout-->
-    </div>
+  
 
     {% if not login %}
     <div class="skybox" id="skyBox">
@@ -264,44 +239,47 @@
 
                 <div class="star_box" id="star_box">
 
-                    <div id="inventory_card" style="display: none;width:100%;height:540px;background-color:rgba(0,0,120,0.4);position:absolute;top:100px;">
-                        {% if inventory_items %}
-                        <p>{{inventory_items.length}}</p>
-                            {% for item in inventory_items %}
-                                
-                                    <div class="inventory_item_pic" style="background-image: url('{{ url_for('static', filename='images/' ~ item.item_image) }}');"></div><br>
-                                    <strong>{{ item.item_name }}</strong><br>
-                                    Description: {{ item.item_desc }}<br>
-                                    Quantity: {{ item.quantity or 1 }}<br>
-                                    Equipped: {{ 'Yes' if item.equipped else 'No' }}<br>
-                                    <form method="POST" action="{{ url_for('equip_item', item_id=item.item_id) }}">
-                                        <button type="submit">Equip</button>
-                                    </form>
-                                    
-                            {% endfor %}
-                            
-                            </ul>
-                        {% else %}
-                            <p>No items in inventory</p>
-                            <p>{{inventory_items.length}}</p>
-                        {% endif %}
+                      <div style="color:white;font-size: 100px;font-family: 'Micro 5', sans-serif;margin: auto;text-align: center;">{{login.user_type}} Page</div>
+                      <div style="display: flex; background-image: linear-gradient(black,grey);padding:4px;padding-top: 4px;width: 300px;justify-content: space-around;border-radius: 10px;
+                      position:relative;left: 800px;">
+                          <div id="nav_00">
+                              <div class="nav_text_00" id="nav_text_00">Accounts</div>
+                          </div><!--account-->
+                          <div id="nav_01">
+                              <div class="nav_text_01" id="nav_text_01">Users</div>
+                          </div><!--users-->
+                          <div id="nav_02">
+                              <div class="nav_text_02" id="nav_text_02">Products</div>
+                          </div><!--Products-->
+                          <div id="nav_03">
+                              <div class="nav_text_03" id="nav_text_03">Cart</div>
+                          </div><!--Cart-->
+                          <div id="nav_04">
+                              <div class="nav_text_04" id="nav_text_04">Orders</div>
+                          </div><!--Orders-->
+                          <div id="nav_05">
+                              <div class="nav_text_05" id="nav_text_05">Inventory</div>
+                          </div><!--Inventory-->
+                          <div id="nav_06">
+                              <div class="nav_text_06" id="nav_text_06">Chat</div>
+                          </div><!--Chat-->
+                          <div id="nav_07">
+                              <div class="nav_text_07" id="nav_text_07">Log</div>
+                          </div><!--logout-->
                     </div>
 
-
-                      <div style="color:white;font-size: 100px;font-family: 'Micro 5', sans-serif;margin: auto;text-align: center;">{{login.user_type}} Page</div>
-
-                        <div style="width:1240px;height: 420px;border:1px red solid; margin:auto;display: flex;">
+                        <div style="width:1240px;height: 420px; margin:auto;display: flex;">
 
                             <div class="user_space" style="height: 393px;width: 420px;border:blue 1px solid;margin: auto;">
-                                <div style="width:220px;height: 220px;background-image: url(../static/images/layered_background/patch_o_grass.png);margin:auto;background-size: contain;margin-top: 160px;"></div>
+                                <div style="width:220px;height: 220px;background-image: url(../static/images/layered_background/carpet_00.png);margin:auto;background-size: contain;margin-top: 160px;"></div>
                             </div>
 
                             <div class="user_space" style="height: 393px;width: 420px;border:blue 1px solid;margin: auto;">
                                 <div style="width:220px;height: 220px;background-image: url(../static/images/layered_background/patch_o_grass.png);margin:auto;background-size: contain;margin-top: 160px;">
-                                 <div id="chest" style="width: 64px;height: 64px;position: relative;background-image: url(../static/images/misc/chest_00.png);background-position: center;background-size: contain;"></div>
+                           
                                     
                                     <!--Inventory-->
-                                    <div class="user_inventory" id="inventory_text" style="display:none;height:30px;position: relative;width: 120px;top:0px;left:-30px;text-align:center;font-size:23px;padding-top:4px;background-image: linear-gradient(black,grey);color:white;
+                                    <div class="user_inventory" id="inventory_text" style="display:none;height:30px;position: relative;width: 120px;top:130px;left:-30px;text-align:center;font-size:23px;padding-top:4px;background-image: linear-gradient(black,grey);color:white;
                                     border-radius: 10px;flex-direction: column;">
                                         <div style="font-family: 'Micro 5', sans-serif;">User Inventory</div>
                                     </div></div>
@@ -309,21 +287,110 @@
                                     
                                  </div>
                                  <div class="user_space" style="height: 393px;width: 420px;border:blue 1px solid;margin: auto;">
-                                    <div style="width:220px;height: 220px;background-image: url(../static/images/layered_background/patch_o_grass.png);margin:auto;background-size: contain;margin-top: 160px;"></div>
+                                    <div style="width:220px;border-radius:10px;height: 220px;background-image: url(../static/images/layered_background/stone_ground_00.png);margin:auto;background-size: contain;margin-top: 160px;"></div>
                                 </div>
                             </div>
                         </div>
                 </div>
+                <div id="inventory_card" style="display: none;width:100%;height:540px;background-color:rgba(0,0,120,0.4);position:absolute;top:100px;">
+                    {% if inventory_items %}
+                    <p>{{inventory_items.length}}</p>
+                        {% for item in inventory_items %}
+                            
+                                <div class="inventory_item_pic" style="background-image: url('{{ url_for('static', filename='images/' ~ item.item_image) }}');"></div><br>
+                                <strong>{{ item.item_name }}</strong><br>
+                                Description: {{ item.item_desc }}<br>
+                                Quantity: {{ item.quantity or 1 }}<br>
+                                Equipped: {{ 'Yes' if item.equipped else 'No' }}<br>
+                                <form method="POST" action="{{ url_for('equip_item', item_id=item.item_id) }}">
+                                    <button type="submit">Equip</button>
+                                </form>
+                                
+                        {% endfor %}
+                        
+                        </ul>
+                    {% else %}
+                        <p>No items in inventory</p>
+                        <p>{{inventory_items.length}}</p>
+                  
+                        {% endif %}
                 
-
+                        
+                    </div>
+                
+    
                 <!-- <script src="{{url_for( 'static', filename='js/admin.js' )}}"></script> -->
             
              <script>
+                var nav00 = document.getElementById('nav_00');
+var navText00 = document.getElementById('nav_text_00');
+
+var nav01 = document.getElementById('nav_01');
+var navText01 = document.getElementById('nav_text_01');
+
+var nav02 = document.getElementById('nav_02');
+var navText02 = document.getElementById('nav_text_02');
+
+var nav03 = document.getElementById('nav_03');
+var navText03 = document.getElementById('nav_text_03');
+
+var nav04 = document.getElementById('nav_04');
+var navText04 = document.getElementById('nav_text_04');
+
+var nav05 = document.getElementById('nav_05');
+var navText05 = document.getElementById('nav_text_05');
+
+var nav06 = document.getElementById('nav_06');
+var navText06 = document.getElementById('nav_text_06');
+
+var nav07 = document.getElementById('nav_07');
+var navText07 = document.getElementById('nav_text_07');
+    //here I set up some divs and text under them in a loop to add hover, style flex to be shown 
+    //and animation
+    var navArray =[nav00,nav01,nav02,nav03,nav04,nav05,nav06,nav07];
+    var navTextArray = [navText00,navText01,navText02,navText03,navText04,navText05,navText06,navText07];
+
+    for (let i = 0; i < navArray.length; i++) {
+        navArray[i].addEventListener('mouseover', function(){
+            navArray[i].style.cursor = 'pointer';
+            navTextArray[i].style.display = 'flex';
+            navArray[i].animate(
+                [
+                    {scale : '1'},
+                    {scale : '1.2'},
+                    {scale : '1.1'}
+                ],
+                {
+                    easing: 'ease-in',
+                    duration: 500,
+                    fill: 'forwards'
+                
+                }
+            )
+        });
+    }  
+
+    for (let i = 0; i < navArray.length; i++) {
+        navArray[i].addEventListener('mouseout', function () {
+            navTextArray[i].style.display = 'none';
+            navArray[i].animate(
+                [
+                    {scale : '1.1'},
+                    {scale : '1'}
+                ],
+                {
+                    easing: 'ease-in',
+                    duration: 200,
+                    fill: 'forwards'
+                }
+            )
+        });
+    }
                     var star_box = document.getElementById('star_box');
 
                     Object.assign(star_box.style,{
                         backgroundImage: 'linear-gradient(0deg,rgba(11, 38, 0, 1) 9%, rgba(11, 38, 0, 0) 51%), url(../static/images/starlitSky.png)',
-                        height: '540px',
+                        height: '600px',
                         backgroundRepeat: 'repeat-x',
                         backgroundPosition: '40px',
                         backgroundSize: 'contain',
@@ -943,7 +1010,8 @@
         .nav_icons{
             width: 530px;
             height: 80px;
-            display: none;
+           display: flex;
+           flex-direction: column;
             justify-content: space-evenly;
             padding-top: 53px;
             margin: auto;
@@ -952,60 +1020,61 @@
             border-radius: 10px;
             box-shadow: 0 2px 5px rgba(0,0,0,2.4);
             margin: 20px auto;
+            position: absolute;
         }
         #nav_00{
             width: 32px;
             height: 32px;
-            background-image: url('../static/images/icon_00.png');
+            background-image: url('../static/images/icons/icon_00.png');
             background-position: center;
             background-size: contain;
         }
         #nav_01{
             width: 32px;
             height: 32px;
-            background-image: url('../static/images/icon_01.png');
+            background-image: url('../static/images/icons/icon_01.png');
             background-position: center;
             background-size: contain;
         }
         #nav_02{
             width: 32px;
             height: 32px;
-            background-image: url('../static/images/icon_02.png');
+            background-image: url('../static/images/icons/icon_02.png');
             background-position: center;
             background-size: contain;
         }
         #nav_03{
             width: 32px;
             height: 32px;
-            background-image: url('../static/images/icon_03.png');
+            background-image: url('../static/images/icons/icon_03.png');
             background-position: center;
             background-size: contain;
         }
         #nav_04{
             width: 32px;
             height: 32px;
-            background-image: url('../static/images/icon_04.png');
+            background-image: url('../static/images//icons/icon_04.png');
             background-position: center;
             background-size: contain;
         }
         #nav_05{
             width: 32px;
             height: 32px;
-            background-image: url('../static/images/icon_05.png');
+            background-image: url('../static/images//icons/icon_05.png');
             background-position: center;
             background-size: contain;
         }
         #nav_06{
             width: 32px;
             height: 32px;
-            background-image: url('../static/images/icon_06.png');
+            background-image: url('../static/images/icons/icon_06.png');
             background-position: center;
             background-size: contain;
         }
         #nav_07{
             width: 32px;
             height: 32px;
-            background-image: url('../static/images/icon_07.png');
+            background-image: url('../static/images/icons/icon_07.png');
             background-position: center;
             background-size: contain;
         }
