@@ -1,4 +1,14 @@
-{% block body %}
+<style>
+    .message_bubble{
+    width: 150px;
+    height:fit-content;
+    color:gold;
+    border:2px solid gold;
+    border-radius: 5px;
+    background-color:brown;
+    }
+</style>
+{% block chat%}
 {% if _chat %}
 {% for ch in _chat %}
 <form action="/chat" method="POST">
@@ -7,21 +17,21 @@
 {% endfor %}
 {% if conversation %}
 {% for con in conversation %}
+<div class="message_bubble">
 <p>Sent by: {{con["from_user"]}}</p>
 <p>{{con['conversation']}}</p>
 <p>{{con['comment_image']}}</p>
 <p>{{con['comment_date']}}</p>
+</div>
 {% endfor %}
 {% else %}
 {% endif %}
-<form action="/chat" method="POST">
-    <p><input type="number" name="as"></p>
-    <p><input type="number" name="to"></p>
-<textarea id="response" name="response" rows="5" cols="70"></textarea>
-    <p><input type="submit" name="submit" placeholder="Respond"></p>
-</form>
 {% else %}
 <p>No chats</p>
 {% endif %}
+<form action="/chat" method="POST">
+<textarea id="response" name="response" rows="5" cols="70"></textarea>
+    <p><input type="submit" name="submit" placeholder="Respond"></p>
+</form>
 {% endblock %}
 

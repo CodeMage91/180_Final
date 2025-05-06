@@ -554,24 +554,35 @@ def get_user_cart(user_id):
 
 @app.route("/chat", methods=['GET','POST'])
 def chat():
+    to_user=None
     user_id=session['user_id']
+    if request.form:
+        if "userid" in request.form:
+            print("SAUCE.")
+            to_user=request.form['userid']
+            session['to_user']=to_user
+    if "to_user" in session:
+        to_user=session["to_user"]
+    else:
+        redirect(url_for("all_users"))
     _chat = db.session.execute(text(f"SELECT * FROM chat WHERE user1={user_id} OR user2={user_id}")).mappings().fetchall()
     conversation=None
     if request.form:
         if "whichchat" in request.form:
             conversation=db.session.execute(text(f"SELECT * FROM message WHERE forchat={request.form["whichchat"]}")).mappings().fetchall()
         if "response" in request.form:
-            chatid=db.session.execute(text(f"SELECT * FROM chat WHERE (user1={request.form["to"]} AND user2={request.form["as"]}) OR (user1={request.form["as"]} AND user2={request.form["to"]})")).first()
+            chatid=db.session.execute(text(f"SELECT * FROM chat WHERE (user1={to_user}) AND (user2={user_id}) OR (user1={user_id}) AND (user2={to_user})")).first()
             if chatid==None:
-                db.session.execute(text(f"INSERT INTO chat (user1, user2) VALUES ({request.form["as"]},{request.form["to"]}"))
+                db.session.execute(text(f"INSERT INTO chat (user1, user2) VALUES ({user_id},{to_user})"))
+                chatid = db.session.execute(text(
+                    f"SELECT * FROM chat WHERE (user1={to_user}) AND (user2={user_id}) OR (user1={user_id}) AND (user2={to_user})")).first()
             db.session.execute(text(
-                f"INSERT INTO message (forchat,conversation,comment_date,from_user,to_user) VALUES({chatid.chatid},'{request.form['response']}', NOW(), {request.form['as']}, {request.form['to']})"))
+                f"INSERT INTO message (forchat,conversation,comment_date,from_user,to_user) VALUES({chatid.chatid},'{request.form['response']}', NOW(), {user_id}, {to_user})"))
             db.session.commit()
-
-    return render_template("chat.html",_chat=_chat, conversation=conversation)
-@app.route("/reviews/<item_id>", methods=['GET','POST'])
+    return render_template("chat.html", _chat=_chat, conversation=conversation,to_user=to_user)
+@app.route("/reviews/<item_id>", methods=['GET', 'POST'])
 def reviewing(item_id):
-    login=None;
+    login = None;
     if session['user_id']:
         login = db.session.execute(text("SELECT * FROM shop_user WHERE user_id = :user_id"), {"user_id": session["user_id"]}).first()
     admin_users = db.session.execute(text("SELECT * FROM shop_user WHERE user_type = 'Admin'")).mappings().fetchall()
@@ -598,9 +609,6 @@ def reviewing(item_id):
                            order_items=order_items,
                            inventory_items=inventory_items,
                            battle=battle)
-
-<<<<<<< Updated upstream
-=======
 
 app.route("/items/<page>")
 
