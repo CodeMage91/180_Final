@@ -14,20 +14,46 @@
     {% with messages = get_flashed_messages(with_categories=true) %}
    
     {% if messages %}
-        <div id="goon_box"  style=" width:350px;height:88px;background-color: rgb(204, 159, 204);position: absolute;border-radius: 10px;margin:7px; display:flex;">
+        <div id="goon_box"  style=" width:max-content;height:88px;background-color: rgb(204, 159, 204);position: absolute;border-radius: 10px;margin:7px; display:flex;">
             <div id="goon" style="width:84px;height:80px;border: 4px outset ghostwhite;background-image: url(../static/images/users/ghoulie_face_01.png);background-color: black;background-size: contain;"></div>
-            <ul class="flashes" style="padding-top: 13px;padding-left:7px; width:180px;" >
-            {% for category, message in messages %}
             <div style=" font-family: 'Micro 5', sans-serif;font-size: 23px;">Spryte:</div>
-            <li style="list-style: none;font-size: 12px;" class="{{ category }}">{{ message }}</li>
+            <ul class="flashes" style="display:flex; align-items: center; justify-content: center; min-width: 100px; text-transform: capitalize; padding: 20px;" >
+            {% for category, message in messages %}
+            <li style="list-style: none;font-size: 12px; font-family: monospace;" class="{{ category }}">{{ message }}</li>
             {% endfor %}
             </ul>
         </div>
+        <script src={{url_for( 'static', filename='js/flash_animate.js' )}}></script>
 
     {% endif %}
     {% endwith %}
 
-  
+    <div class="user_navigation" style="display: none;">
+        <div id="nav_00">
+            <div class="nav_text_00" id="nav_text_00">Accounts</div>
+        </div><!--account-->
+        <div id="nav_01">
+            <div class="nav_text_01" id="nav_text_01">Users</div>
+        </div><!--users-->
+        <div id="nav_02">
+            <div class="nav_text_02" id="nav_text_02">Products</div>
+        </div><!--Products-->
+        <div id="nav_03">
+            <div class="nav_text_03" id="nav_text_03">Cart</div>
+        </div><!--Cart-->
+        <div id="nav_04">
+            <div class="nav_text_04" id="nav_text_04">Orders</div>
+        </div><!--Orders-->
+        <div id="nav_05">
+            <div class="nav_text_05" id="nav_text_05">Inventory</div>
+        </div><!--Inventory-->
+        <div id="nav_06">
+            <div class="nav_text_06" id="nav_text_06">Chat</div>
+        </div><!--Chat-->
+        <div id="nav_07">
+            <div class="nav_text_07" id="nav_text_07">Log</div>
+        </div><!--logout-->
+    </div>
 
     {% if not login %}
     <div class="skybox" id="skyBox">
@@ -44,14 +70,10 @@
                 </form>
             </div>
         </div>
-
-        
-        
     </div>
-   
     
 
-    </div>
+    </div><!--WHAT IS THIS END DIV FOR???? WE NEED BETTER INDENTATION-->
   
     <!-- Create Account-->
     <div class="create_user">
@@ -223,9 +245,9 @@
     </div>
 
     </div>
-    </div>
-    <script src="{{url_for( 'static', filename='js/start.js' )}}"></script>
+    </div><script src="{{url_for( 'static', filename='js/start.js' )}}"></script>
     {% endif %}
+    {% if login.user_type == "Customer" %}<script src="{{url_for( 'static', filename='js/start_small.js' )}}"></script>{% endif %}
     
 
     
@@ -521,35 +543,38 @@ var navText07 = document.getElementById('nav_text_07');
                 </div>
                 {% endif %}
             <div class="box">
-                <h1>Items</h1>
-                {%if items%}
                 {% block review %}
 
                 {% endblock %}
-                {% for item in items %}
-                <div class="item_box">
-                    <div class="profile" style="background-image: url('{{ url_for('static', filename='images/' ~ item.item_image) }}');"></div>
-
-                    <div class="item_stats">
+                <h1>Items</h1>
+                    <br>
+                    {%if items%}
+                    <div class="item_holder">
+                        {% for item in items %}
+                        <div class="item_box">
+                            <form method="POST" action="{{ url_for('to_cart') }}">
+                            <div class="item_image" style="background-image: url('{{ url_for('static', filename='images/' ~ item.item_image) }}');">  
+                                <div class="item_stats">
+                                    Item: {{ item.item_name}}<br>
+                                    <input type="hidden" name="item_id" value="{{item.item_id}}">
+                                    Price: ${{ item.original_price}}<br>
+                                    Description: {{item.item_desc}}<br>
+                                    Created By: {{item.created_by}}<br>
+                                </div>
+                            </div>
                         <a href="/reviews/{{item.item_id}}">Place a Review</a>
                         <form method="POST" action="{{ url_for('to_cart') }}">
-                    Item: {{ item.item_name}}<br>
-                    <input type="hidden" name="item_id" value="{{item.item_id}}">
-                    Price: ${{ item.original_price}}<br>
-                    Description: {{item.item_desc}}<br>
-                    Created By: {{item.created_by}}<br>
-
-                {% if not (login.user_type == "Vendor") %}
-                    <button type="submit">Add to Cart</button>
+                            <p>Rating: <span>X</span>/5</p>
+                            {% if not (login.user_type == "Vendor") %}
+                                <button type="submit">Add to Cart</button>
+                            {% endif %}
+                            </form>
+                        </div>
+                    {% endfor%}
+                    </div>
+                {% else %}
+                    <p> No items found</p>
                 {% endif %}
-                </form>
-                </div>
-
-                </div>
-                {% endfor%}
-            {% else %}
-                <p> No items found</p>
-            {% endif %}
             </div>
             <div class="cart">
             {% if not (login.user_type == "Vendor") %}
@@ -559,7 +584,11 @@ var navText07 = document.getElementById('nav_text_07');
                     {% if cart_items %}
                     <ul>
                     {% for item in cart_items %}
-                    <li>{{item.item_name}} - {{item.original_price}} - {{item.item_desc}}<button>Remove</button></li><br>
+                    <form action="/remove_item_from_cart" method="POST">
+                        <input type="hidden" name="item_id" value="{{item.item_id}}">
+                        <li><h1 style="display: inline">{{item.quantity}}x</h1> - {{item.item_name}} - {{item.original_price}} - {{item.item_desc}}<input style="color:white; border:none;" type="submit" value="Remove">Remove</li>
+                        <br>
+                    </form>
                     
                     {% endfor %}
                     </ul>
@@ -571,9 +600,7 @@ var navText07 = document.getElementById('nav_text_07');
                 <div class="cart_total">Total: ${{login.cart_total}}</div>
 
                 <div class="orders">
-                    
                         <button>Submit Order</button>
-                        
                 </div>
                 <div>
             {% endif %}
@@ -611,23 +638,87 @@ var navText07 = document.getElementById('nav_text_07');
          {% endif %}
          {% endif %}
      {% if login.user_type == "Customer" %}
-        
+        <style>
+
             .shop_holder{
+                display:flex;
+                flex-direction:column;
+                justify-content:space-between;
                 font-family: 'Micro 5', sans serif;
                 font-size: 24;
                 color: white;
-                max-width: 50vw;
+                max-width: 70vw;
+                height: 700px;
                 background-image: url("../static/images/pixelframe.png"), url("../static/images/table1.png"),url("../static/images/shop_background1.png");
                 background-size:100% 100%, 100%, 100% 100%;
                 background-repeat: no-repeat, no-repeat, no-repeat;
                 background-position: center, bottom 13% center, center;
-                padding: 15%;
+                padding: 10%;
                 position: relative;
+                button, input{
+                    background-color: rgb(110, 28, 66);
+                    transition: 0.3s ease all;
+                }
             }
             .box{
                 background-color: transparent;
+                margin: 0px;
             }
-
+            .skybox{
+                height: 100px;
+            }
+            .item_box{
+                display: flex;
+                flex-direction: column;
+                position: relative;
+                width: 100px;
+                height: 200px;
+                overflow: visible;
+                border-bottom: none;
+                border-radius: 20px;
+                background-color: rgba(100,100,100, 0.4);
+                .item_image{
+                    height: 50px;
+                    width: 50px;
+                    background-size: contain;
+                    background-position: center;
+                    background-repeat: no-repeat;
+                &:hover{
+                    .item_stats{
+                        display: flex;
+                    }
+                }
+                }
+            }
+            .item_stats{
+                position: absolute;
+                font-size: 24;
+                top: 10px;
+                left: 95px;
+                right: -150px;
+                display: None;
+                border: 3px solid rgba(200,200,200, 0.8);
+                border-radius: 10px;
+                padding: 5px;
+                max-height: 200px;
+                width: auto;
+                background-color: rgba(0,0,0,0.8);
+                z-index:5;
+            }
+            .item_holder{
+                margin-top: 40px;
+                display: flex;
+                flex-wrap: wrap;
+                position: absolute;
+                max-height: 500px;
+                width: 700px;
+                gap: 10px;
+                align-items: flex-start;
+                justify-content: flex-start;
+            }
+            .cart{
+                position: relative;
+            }
             
         </style>
          
