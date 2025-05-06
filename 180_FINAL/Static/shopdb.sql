@@ -42,17 +42,15 @@ is_ordered boolean default false,
 foreign key (user_id) references shop_user(user_id),
 foreign key (item_id) references shop_item(item_id)
 );
+
 create table shop_order(
 order_id int primary key auto_increment,
 user_id int not null,
-cart_id int not null,
-item_id int not null,
+order_total decimal(10,2) not null,
 status enum('Pending','Shipped','Delivered') not null,
 created_at timestamp default current_timestamp,
 last_status_update timestamp default current_timestamp,
 foreign key (user_id) references shop_user(user_id),
-foreign key (cart_id) references shop_cart(cart_id),
-foreign key (item_id) references shop_item(item_id)
 );
 
 create table order_item(
@@ -60,9 +58,9 @@ order_items_id int primary key auto_increment,
 order_id int not null,
 item_id int not null,
 quantity int null,
-original_price decimal(10,2) not null,
+price decimal(10,2) not null,
 color varchar(33) null,
-size varchar(33),
+size varchar(33) null,
 foreign key (order_id) references shop_order(order_id),
 foreign key (item_id) references shop_item(item_id)
 );

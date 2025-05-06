@@ -262,7 +262,7 @@
             
             {% if login %}
              <!--saving login info-->
-             {% if login.user_type == 'Admin'%}
+            {% if login.user_type == 'Admin'%}
 
                 <div class="star_box" id="star_box">
 
@@ -514,34 +514,47 @@
                     
                     {% endfor %}
                     </ul>
+                <div class="cart_total">Total: ${{cart_total.cart_total}}</div>
                     {% else %}
-                    <p>empty cart</p>
+                    <p>Empty Cart</p>
                     {% endif %}
 
                 </div>
-                <div class="cart_total">Total: ${{login.cart_total}}</div>
 
                 <div class="orders">
-                        <button>Submit Order</button>
+                    <form action="/to_order" method="POST">
+                        <input type="submit" name="submit" value="Submit Order"style="color:white; border:none;" >
+                    </form>
                 </div>
                 <div>
             {% endif %}
-            {% if order_items %}
+            {% if user_orders %}
             
-            {% for item in order_items %}
-                {{item.item_name}} - {{item.original_price}} - {{item.status}} - {{item.last_status_update}}
+            {% for order in user_orders %}
+                <h1>ORDER ID: {{order.order_id}}</h1>
+                <h3>TOTAL: ${{order.order_total}}</h3>
                 <form method="POST" action="{{url_for('update_order_status')}}">
-                    <input type="hidden" name="item_id" value={{item.item_id}}>
-                <label for="status">Status:<select name="status">
-                    <option value="Pending" {% if login.user_type == "Customer" %}readonly{% endif %} {% if item.status == 'Pending' %}selected{% endif %}>Pending</option>
-                    <option value="Shipped" {% if login.user_type == "Customer" %}readonly{% endif %} {% if item.status == 'Shipped' %}selected{% endif %}>Shipped</option>
-                    <option value="Delivered" {% if login.user_type == "Customer" %}readonly{% endif %} {% if item.status == 'Delivered' %}selected{% endif %}>Delivered</option>
-                </select></label><button type="submit">Update</button><br><br>
-                    </form>
-                
-
-                {% endfor%}
-                {% else%}
+                    <input type="hidden" name="item_id" value={{order.order_id}}>
+                <label for="status" >Status:
+                <select name="status" {% if login.user_type == "Customer" %}readonly{% endif %}>
+                    <option value="Pending" {% if login.user_type == "Customer" %}readonly{% endif %} {% if order.status == 'Pending' %}selected{% endif %}>Pending</option>
+                    <option value="Shipped" {% if login.user_type == "Customer" %}readonly{% endif %} {% if order.status == 'Shipped' %}selected{% endif %}>Shipped</option>
+                    <option value="Delivered" {% if login.user_type == "Customer" %}readonly{% endif %} {% if order.status == 'Delivered' %}selected{% endif %}>Delivered</option>
+                </select>
+                </label>
+                <input type="submit" value="Update"><br><br>
+                </form>
+                    {%if order_items %}
+                    <h1>ITEMS:</h1>
+                    <ul>
+                    {% for item in order_items%}
+                        {% if item.order_id == order.order_id%}
+                            <li><h1 style="display: inline">{{item.quantity}}x</h1> - {{item.name}} - {{item.price}}</li>
+                        {% endif %}
+                    {% endfor %}
+                    {% endif %}
+            {% endfor%}
+            {% else%}
                 <p>No order items</p>
             {% endif %}
 
