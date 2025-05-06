@@ -597,6 +597,7 @@ def reviewing(item_id):
                            order_items=order_items,
                            inventory_items=inventory_items,
                            battle=battle)
+
 #run#
 if __name__ == '__main__':
     app.run(debug=True)
