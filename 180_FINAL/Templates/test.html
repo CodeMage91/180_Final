@@ -270,29 +270,26 @@
 
                         <div style="width:1240px;height: 420px; margin:auto;display: flex;">
 
-                            <div class="user_space" style="height: 393px;width: 420px;border:blue 1px solid;margin: auto;">
+                            <div class="shop_space" style="height: 393px;width: 420px;border:transparent 1px solid;margin: auto;">
                                 <div style="width:220px;height: 220px;background-image: url(../static/images/layered_background/carpet_00.png);margin:auto;background-size: contain;margin-top: 160px;"></div>
                             </div>
 
-                            <div class="user_space" style="height: 393px;width: 420px;border:blue 1px solid;margin: auto;">
+                            <div class="user_space" style="height: 393px;width: 420px;border:transparent 1px solid;margin: auto;">
                                 <div style="width:220px;height: 220px;background-image: url(../static/images/layered_background/patch_o_grass.png);margin:auto;background-size: contain;margin-top: 160px;">
                            
                                     
-                                    <!--Inventory-->
-                                    <div class="user_inventory" id="inventory_text" style="display:none;height:30px;position: relative;width: 120px;top:130px;left:-30px;text-align:center;font-size:23px;padding-top:4px;background-image: linear-gradient(black,grey);color:white;
-                                    border-radius: 10px;flex-direction: column;">
-                                        <div style="font-family: 'Micro 5', sans-serif;">User Inventory</div>
-                                    </div></div>
+                                   </div>
 
                                     
                                  </div>
-                                 <div class="user_space" style="height: 393px;width: 420px;border:blue 1px solid;margin: auto;">
+                                 <div class="dungeon_space" style="height: 393px;width: 420px;border:transparent 1px solid;margin: auto;">
                                     <div style="width:220px;border-radius:10px;height: 220px;background-image: url(../static/images/layered_background/stone_ground_00.png);margin:auto;background-size: contain;margin-top: 160px;"></div>
                                 </div>
                             </div>
                         </div>
                 </div>
-                <div id="inventory_card" style="display: none;width:100%;height:540px;background-color:rgba(0,0,120,0.4);position:absolute;top:100px;">
+                <div id="inventory_card" style="display: none;width:100%;height:610px;background-color:rgba(0, 0, 120, 0.137);position:absolute;top:190px;">
+                    <div id="close_inventory" style="background-image: linear-gradient(black,grey);border: gold 3px outset;border-radius: 13px;position: relative;height: 20px;width:21px;color:white;text-align: center;padding-top: 3px;left:1555px;top:-5px;cursor: pointer;">X</div>
                     {% if inventory_items %}
                     <p>{{inventory_items.length}}</p>
                         {% for item in inventory_items %}
@@ -310,9 +307,10 @@
                         
                         </ul>
                     {% else %}
+                    <div id="empyty_inventory" style="border:white 1px solid;font-family: 'Micro 5', sans-serif;text-align:center;font-size:60px;color:white;width:500px;height:420px;background-image: linear-gradient(indigo,grey);margin:auto;border-radius: 10px;">
                         <p>No items in inventory</p>
-                        <p>{{inventory_items.length}}</p>
-                  
+                        <div style="background-image: url(../static/images/misc/chest_open_00.png);width:120px;height:120px;margin:auto;background-position: center;background-size: contain;margin-top: 120px;"></div>
+                    </div>
                         {% endif %}
                 
                         
@@ -322,7 +320,7 @@
                 <!-- <script src="{{url_for( 'static', filename='js/admin.js' )}}"></script> -->
             
              <script>
-                var nav00 = document.getElementById('nav_00');
+var nav00 = document.getElementById('nav_00');
 var navText00 = document.getElementById('nav_text_00');
 
 var nav01 = document.getElementById('nav_01');
@@ -390,7 +388,7 @@ var navText07 = document.getElementById('nav_text_07');
 
                     Object.assign(star_box.style,{
                         backgroundImage: 'linear-gradient(0deg,rgba(11, 38, 0, 1) 9%, rgba(11, 38, 0, 0) 51%), url(../static/images/starlitSky.png)',
-                        height: '600px',
+                        height: '700px',
                         backgroundRepeat: 'repeat-x',
                         backgroundPosition: '40px',
                         backgroundSize: 'contain',
@@ -410,24 +408,17 @@ var navText07 = document.getElementById('nav_text_07');
                         }
                     );
 
-                    var chest = document.getElementById('chest');
-                    var inventory_text = document.getElementById('inventory_text');
-                    Object.assign(chest.style,{
-                    cursor: 'pointer'
-                    });
-                    chest.addEventListener('mouseover',function(){
-                        chest.style.backgroundImage = 'url(../static/images/misc/chest_open_00.png)';
-                        inventory_text.style.display = 'flex';
-                    });
-                    chest.addEventListener('mouseout',function(){
-                        chest.style.backgroundImage = 'url(../static/images/misc/chest_00.png)';
-                        inventory_text.style.display = 'none';
-                    });
-
-                    var inventory_card = document.getElementById('inventory_card');
-                    chest.onclick = function(){
+                  
+                    
+                    nav05.onclick = function(){
                         inventory_card.style.display = 'flex';
                     }
+
+                    var close_inventory = document.getElementById('close_inventory');
+                    close_inventory.onclick=function(){
+                        inventory_card.style.display = 'none';
+                    }
+                    
 
              </script>
                 {%endif%}
