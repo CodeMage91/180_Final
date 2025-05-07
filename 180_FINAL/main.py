@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
 import threading
 import time
+import math
 from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash
 
@@ -271,7 +272,9 @@ def all_users():
     creator = db.session.execute(text("SELECT * FROM shop_user WHERE user_id = 1")).mappings().fetchone()
     cart_items = get_user_cart(session['user_id']) if 'user_id' in session else []
     cart_total = db.session.execute(text("SELECT sum(item.original_price) as 'cart_total' from shop_cart cross join shop_item as item where shop_cart.item_id = item.item_id and is_ordered = false and user_id = :user_id"), {"user_id": session["user_id"]}).first()
-    user_orders, order_items = get_user_order(session['user_id']) if 'user_id' in session else []
+    order = get_user_order(session['user_id']) if 'user_id' in session else []
+    user_order = order[0]
+    order_items = order[1]
     inventory_items = get_user_inventory(session['user_id']) if 'user_id' in session else []
     battle = False
     
@@ -355,8 +358,23 @@ def all_users():
                 VALUES (:item_name, :item_image, :original_price, :item_desc, :created_by)
             """), create_item)
             db.session.commit()
-
-
+    # Pagination for items in the shop
+    # Because we don't want to change url, we are using a session variable
+    if "item_page" not in session:
+        session["item_page"] = 1
+    item_page = session["item_page"]
+    per_page = 10
+    num_of_items=db.session.execute(text("SELECT count(item_id) as 'num_of_items' from shop_item")).mappings().fetchone()
+    max_page = math.ceil(num_of_items['num_of_items']/per_page)
+    if item_page > max_page:
+        item_page = max_page
+        session["item_page"] = item_page
+    items = db.session.execute(text(f"SELECT * FROM shop_item LIMIT {per_page} OFFSET {(item_page-1) * per_page}")).all()
+    # Page Memory to save current page status as we are on one page
+    if "memory" not in session:
+        session["memory"] = "None"
+    page_memory = session["memory"]
+    
     return render_template('battle.html',
                            admin_users=admin_users,
                            vendor_users=vendor_users,
@@ -366,11 +384,36 @@ def all_users():
                            login=login,
                            cart_items=cart_items,
                            cart_total=cart_total,
-                           user_orders=user_orders,
+                           user_orders=user_order,
                            order_items=order_items,
                            inventory_items=inventory_items,
-                           battle=battle
+                           battle=battle,
+                           item_page=item_page,
+                           max_page=max_page,
+                           memory=page_memory
                            )
+@app.route("/memory/<memory>", methods=["GET"])
+def memory_update(memory):
+    session["memory"] = memory
+    print("Updating Memory to: ", memory)
+    return redirect(url_for("all_users"))
+@app.route("/item_page_increase", methods=["GET"])
+def item_page_increase():
+    if "item_page" not in session:
+        session["item_page"] = 1
+    session["item_page"] +=1
+    print(session["item_page"])
+    return redirect(url_for("all_users"))
+
+@app.route("/item_page_decrease", methods=["GET"])
+def item_page_decrease():
+    if "item_page" not in session:
+        session["item_page"] = 1
+    session["item_page"] -=1
+    if session["item_page"] == 0:
+        session["item_page"] = 1
+    print(session["item_page"])
+    return redirect(url_for("all_users"))
 
 @app.route('/to_cart/', methods=['POST'])
 def to_cart():
@@ -425,7 +468,7 @@ def to_order():
         return redirect(url_for('all_users'))
     if 'user_id' not in session:
         flash('Login Required')
-        return redirect(url_for('all_users'))
+        return redirect(url_for('memory'))
     
     user_id = session['user_id']
 
@@ -468,19 +511,20 @@ def to_order():
                                 """), {'user_id':user_id})
         db.session.commit()
         flash('Order Placed!')
-        return redirect(url_for('all_users'))
+        return redirect(url_for('memory_update', memory="ORDERS"))
     except Exception as e:
         db.session.rollback()
         flash(f'Error placeing order:{e}')
         print(e)
-        return redirect(url_for('all_users'))
+        return redirect(url_for('memory_update', memory="None"))
     
 def get_user_order(user_id):
-    return db.session.execute(text("""
+    x = db.session.execute(text("""
     select *
     from shop_order
     where shop_order.user_id = :user_id
-"""),{'user_id':user_id}).mappings().fetchall(), db.session.execute(text("""
+"""),{'user_id':user_id}).mappings().fetchall()
+    y = db.session.execute(text("""
     select 
         shop_item.item_name as "name",
         order_item.quantity as "quantity",
@@ -501,6 +545,7 @@ def get_user_order(user_id):
             and
         shop_order.user_id = :user_id
 """), {"user_id": user_id}).mappings().fetchall()
+    return [x,y]
 
 @app.route('/update_order_status', methods=['POST','GET'])
 def update_order_status():

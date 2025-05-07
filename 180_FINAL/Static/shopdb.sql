@@ -50,7 +50,7 @@ order_total decimal(10,2) not null,
 status enum('Pending','Shipped','Delivered') not null,
 created_at timestamp default current_timestamp,
 last_status_update timestamp default current_timestamp,
-foreign key (user_id) references shop_user(user_id),
+foreign key (user_id) references shop_user(user_id)
 );
 
 create table order_item(
