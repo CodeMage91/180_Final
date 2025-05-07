@@ -611,8 +611,6 @@ def reviewing(item_id):
                            battle=battle)
 
 app.route("/items/<page>")
-
-
 def viewing_items(page=1):
     login = None;
     if session['user_id']:
