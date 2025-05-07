@@ -1,3 +1,9 @@
+<style>
+    @font-face{
+    font-family: "Alagard";
+    src: url("../static/alagard.ttf")
+    }
+</style>
 <html>
     <head>
         <title>{% block title %}Kronos Adventurer{% endblock %}</title>
@@ -552,7 +558,7 @@ var navText07 = document.getElementById('nav_text_07');
                 {% block review %}
 
                 {% endblock %}
-                <h1>Items</h1>
+                <h1 style="font-family: 'Alagard'">Items</h1>
                     <br>
                     {%if items%}
                     <div class="item_holder">
