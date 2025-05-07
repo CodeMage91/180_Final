@@ -562,11 +562,10 @@ var navText07 = document.getElementById('nav_text_07');
                 {% block review %}
 
                 {% endblock %}
-                <h1 style="font-family: 'Alagard'">Items</h1>
                     <br>
                     {%if items%}
                     <div class="vertical_split_holder" id="items">
-                    <h1>Items</h1>
+                <h1 style="font-family: 'Alagard'">Items</h1>
                         <div class="item_holder">
                             {% for item in items %}
                             <div class="item_box">
@@ -604,7 +603,7 @@ var navText07 = document.getElementById('nav_text_07');
             </div>
             <div class="cart" id="cart">
             {% if not (login.user_type == "Vendor") %}
-                <h1>Name: {{login.full_name}}</h1>
+                <h1 style="font-family: 'Alagard'">Name: {{login.full_name}}</h1>
                 <div class="cart_inventory">
                     {% if cart_items %}
                     <ul>
