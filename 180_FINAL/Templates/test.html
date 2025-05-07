@@ -54,7 +54,13 @@
             <div class="nav_text_07" id="nav_text_07">Log</div>
         </div><!--logout-->
     </div>
-
+    {% if login %}
+        {% if login.user_type == "Customer"%}
+        <div class="skybox" id="skyBox">
+            <div id='header-title'>KRONOS ADVENTURE</div>
+        </div>
+        {% endif %}
+    {% endif %}
     {% if not login %}
     <div class="skybox" id="skyBox">
         <div id='header-title'>KRONOS ADVENTURE</div>
