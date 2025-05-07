@@ -1,3 +1,7 @@
+@font-face{
+    font-family: "Alagard";
+    src: url("../static/alagard.ttf")
+    }
 .nav_icons{
     width: 520px;
     height: 42px;
@@ -337,7 +341,7 @@ margin-bottom: 7px;
 padding-left: 3px;
 }
 #header-title {
-    font-family: 'Micro 5', sans-serif;
+    font-family: 'Alagard';
     font-size: 80px;
     color: rgb(255, 187, 0);
     text-align: center;
@@ -738,6 +742,7 @@ padding-left: 3px;
 }
 .page{
     padding-bottom: 100px;
+    font-family: 'Alagard';
 }
 main {
     padding: 20px;
