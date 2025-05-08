@@ -362,6 +362,8 @@ def all_users():
     # Because we don't want to change url, we are using a session variable
     if "item_page" not in session:
         session["item_page"] = 1
+    if type(session["item_page"]) != int:
+        session["item_page"] = 1
     item_page = session["item_page"]
     per_page = 10
     num_of_items=db.session.execute(text("SELECT count(item_id) as 'num_of_items' from shop_item")).mappings().fetchone()
@@ -657,8 +659,7 @@ def equip_item(item_id):
 @app.route('/logout')
 def logout():
     print(session.items())
-    for key in session.keys():
-        session[key] = None
+    session.clear()
     print(session.items())
     flash('logged out.','info')
     return redirect(url_for('all_users'))
