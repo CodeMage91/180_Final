@@ -233,7 +233,6 @@ def initialize():
             vendorNum = 0
         vendor = vendors[vendorNum]
         item["created_by"] = vendor["user_id"]
-    
     for create_item in create_items:
         if create_item == None:
             break
@@ -433,34 +432,40 @@ def to_cart():
                                 """),cart_data)
      db.session.commit()
      return redirect(url_for('all_users'))
-@app.route('/remove_item_from_cart', methods=['POST'])
-def remove_item():
+ 
+@app.route('/item_from_cart', methods=['POST'])
+def handle_remove_warranty():
     if 'user_id' in session:
-        user_id = session['user_id']
-        try: 
-            print("user_id - ", user_id, "item_id - ",request.form["item_id"])
-            allCartThatMatches = db.session.execute(text("""
-                                    SELECT * FROM shop_cart WHERE item_id = :item_id AND user_id = :user_id LIMIT 1
-                                    """), 
-                               {
-                                   "user_id": user_id, 
-                                   "item_id": int(request.form["item_id"])
-                                }).all()
-            print(allCartThatMatches)
-            db.session.execute(text("""
-                        DELETE FROM shop_cart WHERE item_id = :item_id AND user_id = :user_id LIMIT 1
-                                    """), 
-                               {
-                                   "user_id": user_id, 
-                                   "item_id": int(request.form["item_id"])
-                                })
-            db.session.commit()
-            flash("Deleted")
-        except Exception as e:
-            db.session.rollback()
-            flash(f'Error placeing order:{e}')
+        if request.form:
+            if 'submit_remove' in request.form:
+                user_id = session['user_id']
+                try: 
+                    print("user_id - ", user_id, "item_id - ",request.form["item_id"])
+                    allCartThatMatches = db.session.execute(text("""
+                                            SELECT * FROM shop_cart WHERE item_id = :item_id AND user_id = :user_id LIMIT 1
+                                            """), 
+                                    {
+                                        "user_id": user_id, 
+                                        "item_id": int(request.form["item_id"])
+                                        }).all()
+                    print(allCartThatMatches)
+                    db.session.execute(text("""
+                                DELETE FROM shop_cart WHERE item_id = :item_id AND user_id = :user_id LIMIT 1
+                                            """), 
+                                    {
+                                        "user_id": user_id, 
+                                        "item_id": int(request.form["item_id"])
+                                        })
+                    db.session.commit()
+                    flash("Deleted")
+                except Exception as e:
+                    db.session.rollback()
+                    flash(f'Error placeing order:{e}')
+            elif 'submit_warranty' in request.form:
+                flash("INSERT CODE FOR WARRANTY HERE")
+                pass
     return redirect(url_for('all_users'))
-            
+
         
         
 @app.route('/to_order', methods=['GET','POST'])

@@ -608,9 +608,9 @@ var navText07 = document.getElementById('nav_text_07');
                     {% if cart_items %}
                     <ul>
                     {% for item in cart_items %}
-                    <form action="/remove_item_from_cart" method="POST">
+                    <form action="/item_from_cart" method="POST">
                         <input type="hidden" name="item_id" value="{{item.item_id}}">
-                        <li><h1 style="display: inline">{{item.quantity}}x</h1> - {{item.item_name}} - {{item.original_price}} - {{item.item_desc}}<input style="color:white; border:none;"  class="input"  type="submit" value="Remove">Remove</li>
+                        <li><h1 style="display: inline">{{item.quantity}}x</h1> - {{item.item_name}} - {{item.original_price}} - {{item.item_desc}}<input style="color:white; border:none;"  class="input"  type="submit" name="submit_remove" value="Remove"><input style="color:white; border:none;"  class="input"  type="submit" name="submit_warranty" value="Add A Warranty"></li>
                         <br>
                     </form>
                     

@@ -67,8 +67,8 @@ foreign key (item_id) references shop_item(item_id)
 
 create table user_inventory (
 inventory_id int primary key auto_increment,
-user_id int unique not null,
-item_id int unique null,
+user_id int not null,
+item_id int null,
 quantity int default 1,
 acquired_at timestamp default current_timestamp,
 equipped boolean default false,
