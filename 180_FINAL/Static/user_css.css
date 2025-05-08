@@ -1,0 +1,47 @@
+ .card{
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-text:center;
+height: fit-content;
+width:150px;
+background-color:brown;
+border: 2px solid gold;
+border-radius:5px;
+margin:2%;
+padding:10px;
+color: gold;
+}
+.card-holder{
+display:flex;
+flex-direction:row;
+}
+.pagination_bar {
+        display: flex;
+        justify-content: flex-end;
+        width: 1140px;
+        margin: auto;
+    }
+    .pagination_button {
+        font-size: 20px;
+        background-color:brown;
+        border: none;
+        color: gold;
+        padding: 2px 2px 4px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        width: 30px;
+        border: 1px solid gold;
+    }
+    .chat-with{
+    width:100px;
+    background-color:green;
+    color:gold;
+    border: 1px solid gold;
+    border-radius:5px;
+    align-self:center;
+    }
+    .chat-with:hover{
+    background-color:darkgreen;
+    }
