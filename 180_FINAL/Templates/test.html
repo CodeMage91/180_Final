@@ -257,11 +257,11 @@
     
     
     
+            {% if login %}
     <div class="page">
         <div class="bodi">
             
             
-            {% if login %}
              <!--saving login info-->
             {% if login.user_type == 'Admin'%}
 
@@ -741,12 +741,12 @@ var navText07 = document.getElementById('nav_text_07');
             <!--login page-->
             <div class="user-panel">
                 <div class="user-info">
-                    <div class="greeting">Hello, Admin!</div>
-                    <div class="info-row"><strong>Balance:</strong> $0.0</div>
-                    <div class="info-row"><strong>Name:</strong> Admin Account</div>
-                    <div class="info-row"><strong>Username:</strong> Admin</div>
-                    <div class="info-row"><strong>Email:</strong> admin@account.com</div>
-                    <div class="info-row"><strong>Class:</strong> Admin</div>
+                    <div class="greeting">Hello, {{login.full_name}}!</div>
+                    <div class="info-row"><strong>Balance:</strong> $</div>
+                    <div class="info-row"><strong>Name:</strong> {{login.full_name}}</div>
+                    <div class="info-row"><strong>Username:</strong> {{login.username}}</div>
+                    <div class="info-row"><strong>Email:</strong> {{login.email}}</div>
+                    <div class="info-row"><strong>Class:</strong> {{login.user_type}}</div>
                     <a href="{{ url_for('logout') }}" class="logout-button">Logout</a>
                 </div>
             </div>
@@ -1386,16 +1386,6 @@ var navText07 = document.getElementById('nav_text_07');
             padding: 0px;
             margin: 0px;
         }
-        .create_user{
-            height: 460px;
-            background-image: linear-gradient(rgb(1, 39, 1), rgb(202, 145, 91));
-                color: white;
-                display: flex;
-            flex-direction: column;
-                justify-content: center;
-                align-items: center;
-
-        }
         .account_type{
             position: relative;
             /* border: green 1px solid; */
@@ -1415,7 +1405,7 @@ var navText07 = document.getElementById('nav_text_07');
             padding-left: 3px;
         }
         #header-title {
-                font-family: 'Micro 5', sans-serif;
+                font-family: 'Alagard', sans-serif;
                 font-size: 80px;
                 color: rgb(255, 187, 0);
                 text-align: center;
