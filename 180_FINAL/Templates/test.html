@@ -757,68 +757,38 @@ var navText07 = document.getElementById('nav_text_07');
                 </div>
             </div>
                 <div class="box_holder">
-                    {% if not (login.user_type == "Customer") %}
-                    {% if (login.user_type == "Admin") %}
-                    <div class="box">
-                        <h1>  Admin Users</h1><br>
-                        {% if admin_users %}
+                    <div class="card-holder">
+    {% for user in users %}
+<div class="card">
+    <img src="{{user['user_image']}}" height="100px" width="100px" style="align-self:center">
+    <p style="text-align:center">Name: {{user['full_name']}}</p>
+    <p style="text-align:center">User Type: {{user['user_type']}}</p>
+    <form action="/chat" method="POST">
+        <input type="hidden" name="userid" value="{{user['user_id']}}">
+        <div style="margin-left:20px"><input type="submit" value="Chat with User" class="chat-with"></div>
+    </form>
+    </div>
+{% endfor %}
+    </div>
+            <a href= {% if page==1 %}"/users/1" {% else %} "{{ "/users/"+ (page - 1) | string }}"{% endif %} class="pagination_button"> < </a>
+            <a class="pagination_button" style="background-color: rgb(108, 3, 3);"> {{page}} </a>
+            {% if (not (page>=max_pages-2)) %}
+            <a href="{{ "/users/"+ (page + 1) | string }}" class="pagination_button" > {{ page + 1 }} </a>
+            {% endif %}
+            {% if (not (page>=max_pages-1)) %}
+            <a href="{{ "/users/"+ (page + 2) | string }}" class="pagination_button"> {{ page + 2 }} </a>
+            {% endif %}
+            {% if (not(page>=max_pages-2)) %}
+            <div class="pagination_button">...</div>
+            {% endif %}
+            {% if not (page==max_pages) %}
+            <a href={{"/users/"+(max_pages) | string}} class="pagination_button">{{max_pages}}</a>
+            {% endif %}
+            <a href={% if page==max_pages %}{{"/users/"+max_pages  | string }} {% else %}"{{ "/users/"+ (page + 1) | string }}"{% endif %} class="pagination_button"> > </a>
+        </div>
+{% block chat %}
 
-                            {% for user in admin_users %}
-                            <div class="user_box">
-                                <div class="profile" id="pic"  style="background-image: url('{{ url_for('static', filename='images/' ~ user.user_image) }}');"></div>
-                                <div class="user_stats"></div>
-                            Name: {{ user.full_name }}<br>
-                            Username: {{user.username}}<br>
-                            Email: {{user.email}}
-                            Type: {{user.user_type}}
-                            </div>
-                            {% endfor %}
-                        {% else %}
-                            <p>No admin_users found</p>
-                        {% endif %}
-                    </div>
-                    {%endif%}
-
-                <div class="box">
-                    <h1>Vendor Users</h1>
-                    {%if vendor_users%}
-
-                        {% for user in vendor_users %}
-                        <div class="user_box">
-                            <div class="profile" id="pic"  style="background-image: url('{{ url_for('static', filename='images/' ~ user.user_image) }}');"></div>
-                            <div class="user_stats"></div>
-                        Name: {{ user.full_name }}<br>
-                        Username: {{user.username}}<br>
-                        Email: {{user.email}}<br>
-                        Type: {{user.user_type}}
-                        </div>
-
-                        {% endfor%}
-                    {% else %}
-                        <p> no vendors found</p>
-                    {% endif %}
-                </div>
-
-                <div class="box">
-                    <h1>Customer Users</h1>
-                    {%if customer_users%}
-
-                        {% for user in customer_users %}
-                        <div class="user_box">
-                            <div class="profile"  style="background-image: url('{{ url_for('static', filename='images/' ~ user.user_image) }}');"></div>
-                            <div class="user_stats"></div>
-                        Name: {{ user.full_name }}<br>
-                        Username: {{user.username}}<br>
-                        Email: {{user.email}}<br>
-                        Type: {{user.user_type}}
-                        </div>
-
-                        {% endfor%}
-                    {% else %}
-                        <p> no customers found</p>
-                    {% endif %}
-                </div>
-                {% endif %}
+{% endblock %}
             </div>
             <div class="shop_holder shop_holder_sky">
                 {% if login.user_type == "Customer"%}
