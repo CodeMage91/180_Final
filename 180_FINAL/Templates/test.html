@@ -1109,7 +1109,72 @@ var navText07 = document.getElementById('nav_text_07');
                 justify-content: flex-start;
             }
             .cart{
+                height: 100%;
+                width: 100%;
+                display: flex;
+                padding: 5%;
+                align-items: flex-start;
+                justify-content: space-around;
+                flex-direction: column;
                 position: relative;
+            }
+            .display_button{
+                color: white;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 40%;
+                width: 20%;
+                font-size: 40pt;
+                font-family: "Micro 5";
+                transition: all 0.8s ease;
+                overflow: hidden;
+                &:hover{
+                    cursor: pointer;
+                    .display_button_layer{
+                        height: 100%;
+                        width: 120%;
+                        font-size: 50pt;
+                        text-shadow: 12px 12px rgba(0,0,0,0.15);
+                    }
+                }
+            }
+            .display_button_layer{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 120%;
+                height: 120%;
+                transition: all 0.8s ease;
+                text-shadow: 5px 5px rgba(0,0,0,0.8);
+            }
+
+            #shop_display_button{
+                background-image: url("../static/images/Clouds/Clouds1/1.png");
+                background-size: auto 100%;
+                .display_button_layer{
+                    background-image: url("../static/images/Clouds/Clouds1/4.png");
+                    background-size: auto 100%;
+                    background-position: bottom center;
+                }
+            }
+            #cart_display_button{
+                background-image: url("../static/images/Clouds/Clouds2/1.png");
+                background-size: auto 100%;
+                .display_button_layer{
+                    background-image: url("../static/images/Clouds/Clouds2/4.png");
+                    background-size: auto 100%;
+                    background-position: bottom center;
+                }
+            }
+            #order_display_button{
+                background-image: url("../static/images/Clouds/Clouds7/1.png");
+                background-size: auto 100%;
+                .display_button_layer{
+                    background-image: url("../static/images/Clouds/Clouds7/4.png");
+                    background-size: auto 100%;
+                    background-position: bottom center;
+                }
             }
             
         </style>
