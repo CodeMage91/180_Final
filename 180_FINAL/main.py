@@ -250,7 +250,9 @@ def initialize():
     return redirect(url_for("all_users"))
 #page to see everything!#
 @app.route('/', methods=['GET', 'POST'])
-def all_users():
+def all_users(html):
+    if html == None:
+        html = "battle.html"
     if 'user_id' not in session:
         session['user_id'] = None
     global initialized
