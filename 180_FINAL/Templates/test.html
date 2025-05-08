@@ -28,6 +28,32 @@
     {% endif %}
     {% endwith %}
 
+    <div class="user_navigation" style="display: none;">
+        <div id="nav_00">
+            <div class="nav_text_00" id="nav_text_00">Accounts</div>
+        </div><!--account-->
+        <div id="nav_01">
+            <div class="nav_text_01" id="nav_text_01">Users</div>
+        </div><!--users-->
+        <div id="nav_02">
+            <div class="nav_text_02" id="nav_text_02">Products</div>
+        </div><!--Products-->
+        <div id="nav_03">
+            <div class="nav_text_03" id="nav_text_03">Cart</div>
+        </div><!--Cart-->
+        <div id="nav_04">
+            <div class="nav_text_04" id="nav_text_04">Orders</div>
+        </div><!--Orders-->
+        <div id="nav_05">
+            <div class="nav_text_05" id="nav_text_05">Inventory</div>
+        </div><!--Inventory-->
+        <div id="nav_06">
+            <div class="nav_text_06" id="nav_text_06">Chat</div>
+        </div><!--Chat-->
+        <div id="nav_07">
+            <div class="nav_text_07" id="nav_text_07">Log</div>
+        </div><!--logout-->
+    </div>
 
     {% if not login %}
     <div class="skybox" id="skyBox">
@@ -231,7 +257,7 @@
             
             {% if login %}
              <!--saving login info-->
-             {% if login.user_type == 'Admin'%}
+            {% if login.user_type == 'Admin'%}
 
                 <div class="star_box" id="star_box">
 
@@ -716,88 +742,198 @@
                 <div class="login_profile">
                     <div class="login_profile_pic" style="background-image: url('{{ url_for('static', filename='images' ~ login.user_image) }}');"></div>
                     <div class="login_name"></div>
+
+                    <div class="login_stats">
+                        <div class="wallet">${{login.wallet_amount or 0.00}}</div>
+                        Name: {{login.full_name}}<br>
+                        Username: {{login.username}}
+                        Email: {{login.email}}<br>
+                        Class: {{login.user_type}}<br>
+                    </div>
                 </div>
             </div>
-       
-         
+                <div class="box_holder">
+                    {% if not (login.user_type == "Customer") %}
+                    {% if (login.user_type == "Admin") %}
+                    <div class="box">
+                        <h1>  Admin Users</h1><br>
+                        {% if admin_users %}
+
+                            {% for user in admin_users %}
+                            <div class="user_box">
+                                <div class="profile" id="pic"  style="background-image: url('{{ url_for('static', filename='images/' ~ user.user_image) }}');"></div>
+                                <div class="user_stats"></div>
+                            Name: {{ user.full_name }}<br>
+                            Username: {{user.username}}<br>
+                            Email: {{user.email}}
+                            Type: {{user.user_type}}
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            <p>No admin_users found</p>
+                        {% endif %}
+                    </div>
+                    {%endif%}
+
+                <div class="box">
+                    <h1>Vendor Users</h1>
+                    {%if vendor_users%}
+
+                        {% for user in vendor_users %}
+                        <div class="user_box">
+                            <div class="profile" id="pic"  style="background-image: url('{{ url_for('static', filename='images/' ~ user.user_image) }}');"></div>
+                            <div class="user_stats"></div>
+                        Name: {{ user.full_name }}<br>
+                        Username: {{user.username}}<br>
+                        Email: {{user.email}}<br>
+                        Type: {{user.user_type}}
+                        </div>
+
+                        {% endfor%}
+                    {% else %}
+                        <p> no vendors found</p>
+                    {% endif %}
+                </div>
+
+                <div class="box">
+                    <h1>Customer Users</h1>
+                    {%if customer_users%}
+
+                        {% for user in customer_users %}
+                        <div class="user_box">
+                            <div class="profile"  style="background-image: url('{{ url_for('static', filename='images/' ~ user.user_image) }}');"></div>
+                            <div class="user_stats"></div>
+                        Name: {{ user.full_name }}<br>
+                        Username: {{user.username}}<br>
+                        Email: {{user.email}}<br>
+                        Type: {{user.user_type}}
+                        </div>
+
+                        {% endfor%}
+                    {% else %}
+                        <p> no customers found</p>
+                    {% endif %}
+                </div>
+                {% endif %}
+            </div>
+            <div class="shop_holder">
+                {% if not (login.user_type == "Customer") %}
+                <h2>Create Item</h2>
+                <div class="item_form">
+                    <form method="POST" action="/">
+                    <input placeholder="Item Name" name="item_name">
+                    <input placeholder="item_image" name="item_image">
+                    <input placeholder="Item Price" name="original_price">
+                    <textarea placeholder="Item Description" name="item_desc"></textarea>
+                    <button type="submit">Create</button>
+                </form>
+                </div>
+                {% endif %}
             <div class="box">
                 {% block review %}
 
                 {% endblock %}
-                <h1>Items</h1>
                     <br>
                     {%if items%}
-                    <div class="item_holder">
-                        {% for item in items %}
-                        <div class="item_box">
-                            <form method="POST" action="{{ url_for('to_cart') }}">
-                            <div class="item_image" style="background-image: url('{{ url_for('static', filename='images/' ~ item.item_image) }}');">  
-                                <div class="item_stats">
-                                    Item: {{ item.item_name}}<br>
-                                    <input type="hidden" name="item_id" value="{{item.item_id}}">
-                                    Price: ${{ item.original_price}}<br>
-                                    Description: {{item.item_desc}}<br>
-                                    Created By: {{item.created_by}}<br>
+                    <div class="vertical_split_holder" id="items">
+                <h1 style="font-family: 'Alagard'">Items</h1>
+                        <div class="item_holder">
+                            {% for item in items %}
+                            <div class="item_box">
+                                <form method="POST" action="{{ url_for('to_cart') }}">
+                                <div class="item_image" style="background-image: url('{{ url_for('static', filename='images/' ~ item.item_image) }}');">  
+                                    <div class="item_stats">
+                                        Item: {{ item.item_name}}<br>
+                                        <input type="hidden" name="item_id" value="{{item.item_id}}">
+                                        Price: ${{ item.original_price}}<br>
+                                        Description: {{item.item_desc}}<br>
+                                        Created By: {{item.created_by}}<br>
+                                    </div>
                                 </div>
+                            <a href="/reviews/{{item.item_id}}">Place a Review</a>
+                            <form method="POST" action="{{ url_for('to_cart') }}">
+                                <p>Rating: <span>X</span>/5</p>
+                                {% if not (login.user_type == "Vendor") %}
+                                    <button class="input"  class="input"  type="submit">Add to Cart</button>
+                                {% endif %}
+                                </form>
                             </div>
-                        <a href="/reviews/{{item.item_id}}">Place a Review</a>
-                        <form method="POST" action="{{ url_for('to_cart') }}">
-                            <p>Rating: <span>X</span>/5</p>
-                            {% if not (login.user_type == "Vendor") %}
-                                <button type="submit">Add to Cart</button>
-                            {% endif %}
-                            </form>
+                            {% endfor%}
                         </div>
-                    {% endfor%}
-                    </div>
+                        <div>
+                            {% if not ( item_page == 1 ) %}<a class="item_page_button" href="/item_page_decrease"> PREVIOUS </a>{% endif %}
+                            <a class="item_page_button" href="/">{{item_page}}</a>
+                            {% if not ( item_page == max_page ) %}<a class="item_page_button" href="/item_page_increase"> NEXT </a>{% endif %}
+                            <button class="input" onclick="update_memory('CART')"> VIEW CART </button>
+                            <ul class="sort_by_holder">
+                            </ul>
+                        </div>
                 {% else %}
                     <p> No items found</p>
                 {% endif %}
             </div>
-            <div class="cart">
+            <div class="cart" id="cart">
             {% if not (login.user_type == "Vendor") %}
-                CART: {{login.cart_id}}<br>
-                Name: {{login.fullname}}<br>
+                <h1 style="font-family: 'Alagard'">Name: {{login.full_name}}</h1>
                 <div class="cart_inventory">
                     {% if cart_items %}
                     <ul>
                     {% for item in cart_items %}
-                    <form action="/remove_item_from_cart" method="POST">
+                    <form action="/item_from_cart" method="POST">
                         <input type="hidden" name="item_id" value="{{item.item_id}}">
-                        <li><h1 style="display: inline">{{item.quantity}}x</h1> - {{item.item_name}} - {{item.original_price}} - {{item.item_desc}}<input style="color:white; border:none;" type="submit" value="Remove">Remove</li>
+                        <li><h1 style="display: inline">{{item.quantity}}x</h1> - {{item.item_name}} - {{item.original_price}} - {{item.item_desc}}<input style="color:white; border:none;"  class="input"  type="submit" name="submit_remove" value="Remove"><input style="color:white; border:none;"  class="input"  type="submit" name="submit_warranty" value="Add A Warranty"></li>
                         <br>
                     </form>
                     
                     {% endfor %}
                     </ul>
+                <div class="cart_total">Total: ${{cart_total.cart_total}}</div>
                     {% else %}
-                    <p>empty cart</p>
+                    <p>Empty Cart</p>
                     {% endif %}
 
                 </div>
-                <div class="cart_total">Total: ${{login.cart_total}}</div>
 
-                <div class="orders">
-                        <button>Submit Order</button>
-                </div>
                 <div>
-            {% endif %}
-            {% if order_items %}
-            
-            {% for item in order_items %}
-                {{item.item_name}} - {{item.original_price}} - {{item.status}} - {{item.last_status_update}}
-                <form method="POST" action="{{url_for('update_order_status')}}">
-                    <input type="hidden" name="item_id" value={{item.item_id}}>
-                <label for="status">Status:<select name="status">
-                    <option value="Pending" {% if login.user_type == "Customer" %}readonly{% endif %} {% if item.status == 'Pending' %}selected{% endif %}>Pending</option>
-                    <option value="Shipped" {% if login.user_type == "Customer" %}readonly{% endif %} {% if item.status == 'Shipped' %}selected{% endif %}>Shipped</option>
-                    <option value="Delivered" {% if login.user_type == "Customer" %}readonly{% endif %} {% if item.status == 'Delivered' %}selected{% endif %}>Delivered</option>
-                </select></label><button type="submit">Update</button><br><br>
+                    <form action="/to_order" method="POST">
+                        <input type="submit" name="submit" class="input" value="Submit Order" style="color:white; border:none;" >
                     </form>
-                
-
-                {% endfor%}
-                {% else%}
+                </div>
+            </div>
+            <div class="cart" id="orders">
+            {% endif %}
+            {% if user_orders %}
+            
+            {% for order in user_orders %}
+                <h1>ORDER ID: {{order.order_id}}</h1>
+                <h3>TOTAL: ${{order.order_total}}</h3>
+                <form method="POST" action="{{url_for('update_order_status')}}">
+                    <input type="hidden" name="item_id" value={{order.order_id}}>
+                <label for="status" >Status: {{order.status}}
+                {% if not( login.user_type == "Customer" ) %}
+                <select name="status">
+                    <option value="Pending" {% if order.status == 'Pending' %}selected{% endif %}>Pending</option>
+                    <option value="Shipped"  {% if order.status == 'Shipped' %}selected{% endif %}>Shipped</option>
+                    <option value="Delivered" {% if order.status == 'Delivered' %}selected{% endif %}>Delivered</option>
+                </select>
+                <input type="submit" value="Update"><br><br>
+                {% endif %}
+                </label>
+                </form>
+                    {%if order_items %}
+                    <div class="order_items_holder">
+                        <h1>ITEMS <div class="order_items_holder_icon" ></div></h1>
+                        <ul>
+                        {% for item in order_items%}
+                            {% if item.order_id == order.order_id%}
+                                <li><h1 style="display: inline">{{item.quantity}}x</h1> - {{item.name}} - {{item.price}}</li>
+                            {% endif %}
+                        {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+            {% endfor%}
+            {% else%}
                 <p>No order items</p>
             {% endif %}
 
@@ -817,29 +953,92 @@
          {% endif %}
      {% if login.user_type == "Customer" %}
         <style>
-
+            #exit_shop_cart_order{
+                display: None;
+                position: absolute;
+                top: 20%;
+                right: 12%;
+                font-size: 80px;
+                background-color: transparent;
+                color: white;
+                font-family: 'Micro 5';
+                border: None;
+                &:hover{
+                    cursor: pointer;
+                    scale:1.1;
+                }
+            }
+            #items{
+                display: None;
+            }
+            #cart{
+                display: None;
+            }
+            #orders{
+                display: None;
+            }
+            .display_button_holder{
+                display: flex;
+                align-items: center;
+                justify-content: space-around;
+                height: 100%;
+            }
             .shop_holder{
                 display:flex;
-                flex-direction:column;
+                flex-direction: column;
                 justify-content:space-between;
                 font-family: 'Micro 5', sans serif;
                 font-size: 24;
                 color: white;
                 max-width: 70vw;
                 height: 700px;
+                padding: 10%;
+                position: relative;                
+                .input{
+                    background-color: rgb(110, 28, 66);
+                    transition: 0.3s ease all;
+                    font-size: 20;
+                    font-family: 'Micro 5';
+                    padding: 8px;
+                    margin: 5px 5px 10px 0;
+                    color: white;
+                    border-radius: 5px;
+                }
+            }
+            .order_items_holder{
+                ul{
+                    display: none;
+                }
+                .order_items_holder_icon{
+                    display:inline-block;
+                    width: 20px;
+                    height: 20px;
+                    background-image: url("../static/images/chevron_pixel_right.png");
+                    background-size: 100% 100%;
+                }
+                &:hover{
+                    .order_items_holder_icon{
+                        background-image: url('../static/images/chevron_pixel_down.png')
+                    }
+                    ul{
+                        display: block;
+                    }
+                }
+            }
+            .shop_background_image{
                 background-image: url("../static/images/pixelframe.png"), url("../static/images/table1.png"),url("../static/images/shop_background1.png");
                 background-size:100% 100%, 100%, 100% 100%;
                 background-repeat: no-repeat, no-repeat, no-repeat;
                 background-position: center, bottom 13% center, center;
-                padding: 10%;
-                position: relative;
-                button, input{
-                    background-color: rgb(110, 28, 66);
-                    transition: 0.3s ease all;
-                }
+            }
+            .shop_holder_sky{
+                background-image: url("../static/images/pixelframe.png"), url("../static/images/Clouds/Clouds3/3.png"),url("../static/images/Clouds/Clouds3/1.png");
+                background-size:100% 100%, 100% 40%, 100% 100%;
+                background-repeat: no-repeat, no-repeat, no-repeat;
+                background-position: center, bottom 13% center, center;
             }
             .box{
-                
+                background-color: transparent;
                 margin: 0px;
             }
             .skybox{
@@ -850,11 +1049,11 @@
                 flex-direction: column;
                 position: relative;
                 width: 100px;
-                height: 200px;
+                height: 180px;
                 overflow: visible;
                 border-bottom: none;
                 border-radius: 20px;
-                background-color: rgba(100,100,100, 0.4);
+                background-color: rgba(100,100,100, 0.6);
                 .item_image{
                     height: 50px;
                     width: 50px;
@@ -887,7 +1086,7 @@
                 margin-top: 40px;
                 display: flex;
                 flex-wrap: wrap;
-                position: absolute;
+                position: relative;
                 max-height: 500px;
                 width: 700px;
                 gap: 10px;
@@ -902,43 +1101,7 @@
          
     {% endif %}
     <style>
-       
-        .account_pic{
-            width: 120px;
-            height: 120px;
-            border-radius: 10px;
-            margin-left: 12px;
-            background-position: center;
-            background-size: contain;
-            background-color: ghostwhite;
-            box-shadow: 0 2px 5px rgba(0,0,0,2.4);
-        }
-        .avatar{
-            width:96px;
-            height: 96px;
-            background-position: center;
-            background-size: contain;
-            position: relative;
-            top: 85px;
-            left: 59px;
-            cursor: pointer;
-        }
-        .avatar_create{
-            width:96px;
-            height: 96px;
-            background-position: center;
-            background-size: contain;
-            position: relative;
-            top: 120px;
-            left: 359px;
-        }
-        .filter{
-            background-image: linear-gradient(black,grey);
-            border: 3px outset transparent;
-            padding: 7px;
-            margin: 0px;
-            border-radius: 10px;
-        }
+        <style>
             .inventory_item_pic{
                 width: 64px;
                 height: 64px;
@@ -1553,20 +1716,11 @@
             bottom: 0;
             z-index: 400;
         }
-        .box_users{
-            display: flex;
-            flex-direction: column;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0,0,0,2.4);
-            margin: auto;
-            width: 820px;
-            scrollbar-width: thin; 
-            scrollbar-color: gold black;
-        }
     </style>
     <footer>
-        <p>&copy; 2025 KRONOS ADVENTURE TEAM</p>
+        <p style="font-family: 'Alagard'">&copy; 2025 KRONOS ADVENTURE TEAM</p>
     </footer>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     </body>
 </html>

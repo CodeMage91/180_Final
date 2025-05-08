@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
 import threading
 import time
+import math
 from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash
 
@@ -232,7 +233,6 @@ def initialize():
             vendorNum = 0
         vendor = vendors[vendorNum]
         item["created_by"] = vendor["user_id"]
-    
     for create_item in create_items:
         if create_item == None:
             break
@@ -248,7 +248,7 @@ def initialize():
     session['user_id'] = None
     print("Finished Initializing")
     return redirect(url_for("all_users"))
-#test page to see everything!#
+#page to see everything!#
 @app.route('/', methods=['GET', 'POST'])
 def all_users():
     if 'user_id' not in session:
@@ -271,7 +271,10 @@ def all_users():
     items = db.session.execute(text("SELECT * FROM shop_item")).mappings().fetchall()
     creator = db.session.execute(text("SELECT * FROM shop_user WHERE user_id = 1")).mappings().fetchone()
     cart_items = get_user_cart(session['user_id']) if 'user_id' in session else []
-    order_items = get_user_order(session['user_id']) if 'user_id' in session else []
+    cart_total = db.session.execute(text("SELECT sum(item.original_price) as 'cart_total' from shop_cart cross join shop_item as item where shop_cart.item_id = item.item_id and is_ordered = false and user_id = :user_id"), {"user_id": session["user_id"]}).first()
+    order = get_user_order(session['user_id']) if 'user_id' in session else []
+    user_order = order[0]
+    order_items = order[1]
     inventory_items = get_user_inventory(session['user_id']) if 'user_id' in session else []
     battle = False
     
@@ -355,8 +358,25 @@ def all_users():
                 VALUES (:item_name, :item_image, :original_price, :item_desc, :created_by)
             """), create_item)
             db.session.commit()
-
-
+    # Pagination for items in the shop
+    # Because we don't want to change url, we are using a session variable
+    if "item_page" not in session:
+        session["item_page"] = 1
+    if type(session["item_page"]) != int:
+        session["item_page"] = 1
+    item_page = session["item_page"]
+    per_page = 10
+    num_of_items=db.session.execute(text("SELECT count(item_id) as 'num_of_items' from shop_item")).mappings().fetchone()
+    max_page = math.ceil(num_of_items['num_of_items']/per_page)
+    if item_page > max_page:
+        item_page = max_page
+        session["item_page"] = item_page
+    items = db.session.execute(text(f"SELECT * FROM shop_item LIMIT {per_page} OFFSET {(item_page-1) * per_page}")).all()
+    # Page Memory to save current page status as we are on one page
+    if "memory" not in session:
+        session["memory"] = "None"
+    page_memory = session["memory"]
+    
     return render_template('battle.html',
                            users=users,
                            admin_users=admin_users,
@@ -366,10 +386,37 @@ def all_users():
                            creator=creator,
                            login=login,
                            cart_items=cart_items,
+                           cart_total=cart_total,
+                           user_orders=user_order,
                            order_items=order_items,
                            inventory_items=inventory_items,
-                           battle=battle
+                           battle=battle,
+                           item_page=item_page,
+                           max_page=max_page,
+                           memory=page_memory
                            )
+@app.route("/memory/<memory>", methods=["GET"])
+def memory_update(memory):
+    session["memory"] = memory
+    print("Updating Memory to: ", memory)
+    return redirect(url_for("all_users"))
+@app.route("/item_page_increase", methods=["GET"])
+def item_page_increase():
+    if "item_page" not in session:
+        session["item_page"] = 1
+    session["item_page"] +=1
+    print(session["item_page"])
+    return redirect(url_for("all_users"))
+
+@app.route("/item_page_decrease", methods=["GET"])
+def item_page_decrease():
+    if "item_page" not in session:
+        session["item_page"] = 1
+    session["item_page"] -=1
+    if session["item_page"] == 0:
+        session["item_page"] = 1
+    print(session["item_page"])
+    return redirect(url_for("all_users"))
 
 @app.route('/to_cart/', methods=['POST'])
 def to_cart():
@@ -387,34 +434,40 @@ def to_cart():
                                 """),cart_data)
      db.session.commit()
      return redirect(url_for('all_users'))
-@app.route('/remove_item_from_cart', methods=['POST'])
-def remove_item():
+ 
+@app.route('/item_from_cart', methods=['POST'])
+def handle_remove_warranty():
     if 'user_id' in session:
-        user_id = session['user_id']
-        try: 
-            print("user_id - ", user_id, "item_id - ",request.form["item_id"])
-            allCartThatMatches = db.session.execute(text("""
-                                    SELECT * FROM shop_cart WHERE item_id = :item_id AND user_id = :user_id LIMIT 1
-                                    """), 
-                               {
-                                   "user_id": user_id, 
-                                   "item_id": int(request.form["item_id"])
-                                }).all()
-            print(allCartThatMatches)
-            db.session.execute(text("""
-                        DELETE FROM shop_cart WHERE item_id = :item_id AND user_id = :user_id LIMIT 1
-                                    """), 
-                               {
-                                   "user_id": user_id, 
-                                   "item_id": int(request.form["item_id"])
-                                })
-            db.session.commit()
-            flash("Deleted")
-        except Exception as e:
-            db.session.rollback()
-            flash(f'Error placeing order:{e}')
+        if request.form:
+            if 'submit_remove' in request.form:
+                user_id = session['user_id']
+                try: 
+                    print("user_id - ", user_id, "item_id - ",request.form["item_id"])
+                    allCartThatMatches = db.session.execute(text("""
+                                            SELECT * FROM shop_cart WHERE item_id = :item_id AND user_id = :user_id LIMIT 1
+                                            """), 
+                                    {
+                                        "user_id": user_id, 
+                                        "item_id": int(request.form["item_id"])
+                                        }).all()
+                    print(allCartThatMatches)
+                    db.session.execute(text("""
+                                DELETE FROM shop_cart WHERE item_id = :item_id AND user_id = :user_id LIMIT 1
+                                            """), 
+                                    {
+                                        "user_id": user_id, 
+                                        "item_id": int(request.form["item_id"])
+                                        })
+                    db.session.commit()
+                    flash("Deleted")
+                except Exception as e:
+                    db.session.rollback()
+                    flash(f'Error placeing order:{e}')
+            elif 'submit_warranty' in request.form:
+                flash("INSERT CODE FOR WARRANTY HERE")
+                pass
     return redirect(url_for('all_users'))
-            
+
         
         
 @app.route('/to_order', methods=['GET','POST'])
@@ -424,39 +477,84 @@ def to_order():
         return redirect(url_for('all_users'))
     if 'user_id' not in session:
         flash('Login Required')
-        return redirect(url_for('all_users'))
+        return redirect(url_for('memory'))
     
     user_id = session['user_id']
 
     try:
         #insert orders
+        order_total = db.session.execute(text("SELECT sum(item.original_price) as 'cart_total' from shop_cart cross join shop_item as item where shop_cart.item_id = item.item_id and user_id = :user_id"), {"user_id": user_id}).first()
         db.session.execute(text("""
-                           insert into shop_order (user_id, cart_id, item_id, status)
-                           select :user_id, cart_id, item_id, 'Pending'
-                           from shop_cart
-                           where user_id = :user_id and is_ordered = false;
-                           """), {'user_id':user_id})
+                            INSERT INTO shop_order (user_id, order_total, status)
+                            VALUES (:user_id, :order_total, "PENDING")
+                                """), 
+                           {
+                               "user_id": user_id,
+                               "order_total": order_total.cart_total
+                           })
+        db.session.commit()
+        
+        result = db.session.execute(
+            text("SELECT order_id FROM shop_order WHERE user_id = :user_id ORDER BY created_at DESC LIMIT 1"),
+                {"user_id": user_id}
+            ).first()
+        latest_order_id = result.order_id if result else None
+        cart = get_user_cart(user_id)
+        for cartItem in cart:
+            db.session.execute(text("""
+                            insert into order_item (order_id, item_id, quantity, price, color, size)
+                            VALUES (:order_id, :item_id, :quantity, :price, :item_color, :item_size)
+                            """), 
+                            {
+                                'order_id':latest_order_id,
+                                'item_id': cartItem.item_id,
+                                'quantity': cartItem.quantity,
+                                'price': cartItem.original_price,
+                                'item_color':cartItem.item_color,
+                                'item_size':cartItem.item_size
+                            })
         #then update cart!
         db.session.execute(text("""
-                                update shop_cart
-                                set is_ordered = true
-                                where user_id = :user_id and is_ordered = true;
+                                delete from shop_cart
+                                where user_id = :user_id ;
                                 """), {'user_id':user_id})
         db.session.commit()
         flash('Order Placed!')
-        return redirect(url_for('all_users'))
+        return redirect(url_for('memory_update', memory="ORDERS"))
     except Exception as e:
         db.session.rollback()
         flash(f'Error placeing order:{e}')
-        return redirect(url_for('all_users'))
+        print(e)
+        return redirect(url_for('memory_update', memory="None"))
     
 def get_user_order(user_id):
-    return db.session.execute(text("""
-    select shop_order.status,shop_item.*
+    x = db.session.execute(text("""
+    select *
     from shop_order
-    join shop_item on shop_order.item_id = shop_item.item_id
     where shop_order.user_id = :user_id
 """),{'user_id':user_id}).mappings().fetchall()
+    y = db.session.execute(text("""
+    select 
+        shop_item.item_name as "name",
+        order_item.quantity as "quantity",
+        shop_order.order_id as "order_id",
+        order_item.price as "price",
+        order_item.color as "color",
+        order_item.size as "size"
+    from 
+        order_item 
+            cross join 
+        shop_item 
+            cross join
+        shop_order
+    where 
+        shop_item.item_id = order_item.item_id
+            and 
+        order_item.order_id = shop_order.order_id
+            and
+        shop_order.user_id = :user_id
+"""), {"user_id": user_id}).mappings().fetchall()
+    return [x,y]
 
 @app.route('/update_order_status', methods=['POST','GET'])
 def update_order_status():
@@ -476,7 +574,7 @@ def update_order_status():
      try:
          
          db.session.execute(text("""
-                update shop_order set status = :status
+                update shop_order set status = :status, last_status_update = NOW()
                                  where user_id = :user_id and item_id = :item_id
                                  """),order_data)
          db.session.commit()
@@ -568,8 +666,7 @@ def equip_item(item_id):
 @app.route('/logout')
 def logout():
     print(session.items())
-    for key in session.keys():
-        session[key] = None
+    session.clear()
     print(session.items())
     flash('logged out.','info')
     return redirect(url_for('all_users'))
