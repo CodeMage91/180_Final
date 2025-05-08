@@ -54,7 +54,13 @@
             <div class="nav_text_07" id="nav_text_07">Log</div>
         </div><!--logout-->
     </div>
-
+    {% if login %}
+        {% if login.user_type == "Customer"%}
+        <div class="skybox" id="skyBox">
+            <div id='header-title'>KRONOS ADVENTURE</div>
+        </div>
+        {% endif %}
+    {% endif %}
     {% if not login %}
     <div class="skybox" id="skyBox">
         <div id='header-title'>KRONOS ADVENTURE</div>
@@ -249,7 +255,7 @@
     {% endif %}
     {% if login.user_type == "Customer" %}<script src="{{url_for( 'static', filename='js/start_small.js' )}}"></script>{% endif %}
     
-
+    
     
     <div class="page">
         <div class="bodi">
@@ -334,7 +340,7 @@
                             <div id="admin_filter" class="filter">ADMIN</div>
                             <div id="vendor_filter" class="filter">VENDOR</div>
                             <div id="customer_filter" class="filter">CUSTOMER</div>
-                        </div>
+                                   </div>
 
                         <div id="users" style="display:flex; flex-direction:row; background-color: white; width:820px; border-radius:10px; margin:auto; padding-top:9px; ">      
                             <!--Search Users-->
@@ -376,12 +382,12 @@
                                     Username: {{user.username}}<br>
                                     Email: {{user.email}}<br>
                                     Type: {{user.user_type}}
-                                </div>
+                                 </div>
                                 {% endfor %}
                             {% else %}
                                 <p>No admin_users found</p>
                             {% endif %}
-                        </div>
+                                </div>
                         {%endif%}
     
                     <div class="box_users" id="vendor_user_box" style="display:none;">
@@ -402,7 +408,7 @@
                         {% else %}
                             <p> no vendors found</p>
                         {% endif %}
-                    </div>
+                        </div>
     
                     <div class="box_users" id="customer_user_box" style="display:none;">
                         <h1 style="font-family: 'Micro 5', sans-serif;margin-left:12px;font-size: 53px;">Customer Users</h1>
@@ -416,7 +422,7 @@
                                 Username: {{user.username}}<br>
                                 Email: {{user.email}}<br>
                                 Type: {{user.user_type}}
-                            </div>
+                </div>
     
                             {% endfor%}
                         {% else %}
@@ -495,14 +501,14 @@
                         {% endfor %}
                         
                         
-                     {% else %}
-                        <div id="empyty_inventory" style="border:white 1px solid;font-family: 'Micro 5', sans-serif;text-align:center;font-size:60px;color:white;width:500px;height:420px;background-image: linear-gradient(indigo,grey);margin:auto;border-radius: 10px;">
-                            <p>No items in inventory</p>
-                            <div style="background-image: url(../static/images/misc/chest_open_00.png);width:120px;height:120px;margin:auto;background-position: center;background-size: contain;margin-top: 120px;"></div>
+                    {% else %}
+                    <div id="empyty_inventory" style="border:white 1px solid;font-family: 'Micro 5', sans-serif;text-align:center;font-size:60px;color:white;width:500px;height:420px;background-image: linear-gradient(indigo,grey);margin:auto;border-radius: 10px;">
+                        <p>No items in inventory</p>
+                        <div style="background-image: url(../static/images/misc/chest_open_00.png);width:120px;height:120px;margin:auto;background-position: center;background-size: contain;margin-top: 120px;"></div>
                     </div>
-                            {% endif %}
-                    
-                            
+                        {% endif %}
+                
+                        
                     </div>
                    
                     
@@ -541,70 +547,70 @@
                     );
 
                   
-    var nav00 = document.getElementById('nav_00');
-    var navText00 = document.getElementById('nav_text_00');
+var nav00 = document.getElementById('nav_00');
+var navText00 = document.getElementById('nav_text_00');
 
-    var nav01 = document.getElementById('nav_01');
-    var navText01 = document.getElementById('nav_text_01');
+var nav01 = document.getElementById('nav_01');
+var navText01 = document.getElementById('nav_text_01');
 
-    var nav02 = document.getElementById('nav_02');
-    var navText02 = document.getElementById('nav_text_02');
+var nav02 = document.getElementById('nav_02');
+var navText02 = document.getElementById('nav_text_02');
 
-    var nav03 = document.getElementById('nav_03');
-    var navText03 = document.getElementById('nav_text_03');
+var nav03 = document.getElementById('nav_03');
+var navText03 = document.getElementById('nav_text_03');
 
-    var nav04 = document.getElementById('nav_04');
-    var navText04 = document.getElementById('nav_text_04');
+var nav04 = document.getElementById('nav_04');
+var navText04 = document.getElementById('nav_text_04');
 
-    var nav05 = document.getElementById('nav_05');
-    var navText05 = document.getElementById('nav_text_05');
+var nav05 = document.getElementById('nav_05');
+var navText05 = document.getElementById('nav_text_05');
 
-    var nav06 = document.getElementById('nav_06');
-    var navText06 = document.getElementById('nav_text_06');
+var nav06 = document.getElementById('nav_06');
+var navText06 = document.getElementById('nav_text_06');
 
-    var nav07 = document.getElementById('nav_07');
-    var navText07 = document.getElementById('nav_text_07');
-//here I set up some divs and text under them in a loop to add hover, style flex to be shown 
-//and animation
+var nav07 = document.getElementById('nav_07');
+var navText07 = document.getElementById('nav_text_07');
+    //here I set up some divs and text under them in a loop to add hover, style flex to be shown 
+    //and animation
     var navArray =[nav00,nav01,nav02,nav03,nav04,nav05,nav06,nav07];
     var navTextArray = [navText00,navText01,navText02,navText03,navText04,navText05,navText06,navText07];
 
-        for (let i = 0; i < navArray.length; i++) {
-            navArray[i].addEventListener('mouseover', function(){
-                navArray[i].style.cursor = 'pointer';
-                navTextArray[i].style.display = 'flex';
-                navArray[i].animate(
-                    [
-                        {scale : '1'},
-                        {scale : '1.2'},
-                        {scale : '1.1'}
-                    ],
-                    {
-                        easing: 'ease-in',
-                        duration: 500,
-                        fill: 'forwards'
-                    
-                    }
-                )
-            });
-        }  
+    for (let i = 0; i < navArray.length; i++) {
+        navArray[i].addEventListener('mouseover', function(){
+            navArray[i].style.cursor = 'pointer';
+            navTextArray[i].style.display = 'flex';
+            navArray[i].animate(
+                [
+                    {scale : '1'},
+                    {scale : '1.2'},
+                    {scale : '1.1'}
+                ],
+                {
+                    easing: 'ease-in',
+                    duration: 500,
+                    fill: 'forwards'
+                
+                }
+            )
+        });
+    }  
 
-        for (let i = 0; i < navArray.length; i++) {
-            navArray[i].addEventListener('mouseout', function () {
-                navTextArray[i].style.display = 'none';
-                navArray[i].animate(
-                    [
-                        {scale : '1.1'},
-                        {scale : '1'}
-                    ],
-                    {
-                        easing: 'ease-in',
-                        duration: 200,
-                        fill: 'forwards'
-                    }
-                )
-            });
-        }
+    for (let i = 0; i < navArray.length; i++) {
+        navArray[i].addEventListener('mouseout', function () {
+            navTextArray[i].style.display = 'none';
+            navArray[i].animate(
+                [
+                    {scale : '1.1'},
+                    {scale : '1'}
+                ],
+                {
+                    easing: 'ease-in',
+                    duration: 200,
+                    fill: 'forwards'
+                }
+            )
+        });
+    }
 
         var product_card = document.getElementById('product_card');
 
@@ -668,8 +674,8 @@
                         {scale : '1'},
                         {scale : '1.2'},
                         {scale : '1.1'}
-                    ],
-                    {
+                        ],
+                        {
                         easing: 'ease-in',
                         duration: 500,
                         fill: 'forwards'
@@ -725,17 +731,20 @@
             customer_user_box.style.display = 'flex';
         }
 
-                               
                     
+
              </script>
                 {%endif%}
                  
         </div>
             
-           
+            <!--login page-->
+            <a href="{{ url_for('logout') }}">Logout</a>
+            <div class="login_nav">
 
                 <div class="login_profile">
                     <div class="login_profile_pic" style="background-image: url('{{ url_for('static', filename='images' ~ login.user_image) }}');"></div>
+
                     <div class="login_name"></div>
 
                     <div class="login_stats">
@@ -811,7 +820,17 @@
                 </div>
                 {% endif %}
             </div>
-            <div class="shop_holder">
+            <div class="shop_holder shop_holder_sky">
+                {% if login.user_type == "Customer"%}
+                    <button id="exit_shop_cart_order" onclick="update_memory('None')">X</button>
+                    <div class="display_button_holder">
+                        <button class="display_button" id="shop_display_button" onclick="update_memory('SHOP')"><div class="display_button_layer">SHOP</div></button>
+                        <button class="display_button" id="cart_display_button" onclick="update_memory('CART')"><div class="display_button_layer">CART</div></button>
+                        <button class="display_button" id="order_display_button" onclick="update_memory('ORDERS')"><div class="display_button_layer">ORDERS</div></button>
+                    </div>
+                    <p style="display:None;" id="memory_item_get">{{memory}}</p>
+                    <script src={{url_for( 'static', filename='js/shop_display.js' )}}></script> 
+                {% endif %}
                 {% if not (login.user_type == "Customer") %}
                 <h2>Create Item</h2>
                 <div class="item_form">
@@ -820,7 +839,7 @@
                     <input placeholder="item_image" name="item_image">
                     <input placeholder="Item Price" name="original_price">
                     <textarea placeholder="Item Description" name="item_desc"></textarea>
-                    <button type="submit">Create</button>
+                    <button class="input" type="submit">Create</button>
                 </form>
                 </div>
                 {% endif %}
@@ -1034,6 +1053,7 @@
             }
             .box{
                 background-color: transparent;
+                box-shadow: None;
                 margin: 0px;
             }
             .skybox{
@@ -1170,7 +1190,7 @@
             position: relative;
             top: 0px;
             left: 0px;
-            display: flex;
+                display: flex;
             flex-direction: column;
         }
         .creation_nav{
@@ -1179,7 +1199,7 @@
             border-radius: 10px;
             background-image: linear-gradient(black,grey);
             display: flex;
-            justify-content: space-around;
+                justify-content: space-around;
             padding-top: 7px;
             font-family: 'Micro 5', sans-serif;
             font-size: 39px;
@@ -1238,8 +1258,9 @@
             /* overflow-y: scroll;
             scrollbar-width: thin; */
             scrollbar-color: gold black;
-            flex-direction: column;
-        }
+                flex-direction: column;
+                
+            }
         .creation_options_01{
             border: 1px white solid;
             border-radius: 0px 7px 10px 0px;
@@ -1267,11 +1288,11 @@
         .create_user{
             height: 460px;
             background-image: linear-gradient(rgb(1, 39, 1), rgb(202, 145, 91));
-            color: white;
-            display: flex;
+                color: white;
+                display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
+                justify-content: center;
+                align-items: center;
 
         }
         .account_type{
@@ -1328,7 +1349,7 @@
             width: 25px;
             height: 27px;
             padding-left: 3px;
-            cursor: pointer;
+                    cursor: pointer;
         }
         .login_exit:hover{
             border-color: white;
@@ -1366,7 +1387,7 @@
         .create_user_box{
             width: 730px;
             height: 320px;
-            display: flex; 
+                display: flex;
             flex-direction: column;
             padding-top: 53px;
             background-color: rgba(0,0,0,0.6);
@@ -1502,7 +1523,7 @@
             background-image: url('../static/images/icons/icon_03.png');
             background-position: center;
             background-size: contain;
-        }
+            }
         #nav_04{
             width: 32px;
             height: 32px;
@@ -1709,12 +1730,12 @@
             width: 100%;
             bottom: 0;
             z-index: 400;
-        }
-    </style>
+            }
+        </style>
     <footer>
         <p style="font-family: 'Alagard'">&copy; 2025 KRONOS ADVENTURE TEAM</p>
     </footer>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     </body>
 </html>
