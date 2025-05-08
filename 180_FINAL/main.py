@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:74CLpyrola!@localhost/shopdb'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:QIblI25#3@localhost/shopdb'
 app.config['SECRET_KEY'] = 'dev_key'
 db = SQLAlchemy(app)
 
@@ -376,6 +376,8 @@ def all_users():
     if "memory" not in session:
         session["memory"] = "None"
     page_memory = session["memory"]
+    page=1
+    max_pages=1
     
     return render_template('battle.html',
                            users=users,
@@ -393,7 +395,9 @@ def all_users():
                            battle=battle,
                            item_page=item_page,
                            max_page=max_page,
-                           memory=page_memory
+                           memory=page_memory,
+                           page=page,
+                           max_pages=max_pages
                            )
 @app.route("/memory/<memory>", methods=["GET"])
 def memory_update(memory):
