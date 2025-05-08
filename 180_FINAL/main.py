@@ -67,8 +67,8 @@ def initialize():
         if signup_data == None:
             break
         db.session.execute(text("""
-                    INSERT INTO shop_user (full_name, email, username, user_image, password_hash, user_type)
-                    VALUES (:full_name, :email, :username, :user_image, :password_hash, :user_type)
+                    INSERT INTO shop_user (full_name, email, username, user_image,user_image_small,password_hash, user_type)
+                    VALUES (:full_name, :email, :username, :user_image, :user_image_small, :password_hash, :user_type)
                 """), signup_data)
     db.session.commit()
     #get the items that will be default into the database
@@ -290,11 +290,16 @@ def all_users():
             if 'user_image' in request.form and request.form['user_image']:
                 signup_data['user_image'] = request.form['user_image']
             else:
-                signup_data['user_image'] = 'blue_guy_idle_gif.gif'
+                signup_data['user_image'] = 'users/blue_guy_idle_gif.gif'
+
+            if 'user_image_small' in request.form and request.form['user_image_small']:
+                signup_data['user_image_small'] = request.form['user_image_small']
+            else:
+                signup_data['user_image_small'] = '/users/small_blue_boi'
 
             db.session.execute(text("""
-                INSERT INTO shop_user (full_name, email, username, user_image, password_hash, user_type)
-                VALUES (:full_name, :email, :username, :user_image, :password_hash, :user_type)
+                INSERT INTO shop_user (full_name, email, username, user_image, user_image_small, password_hash, user_type)
+                VALUES (:full_name, :email, :username, :user_image, :user_image_small, :password_hash, :user_type)
             """), signup_data)
 
             

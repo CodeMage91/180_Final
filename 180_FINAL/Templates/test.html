@@ -28,32 +28,6 @@
     {% endif %}
     {% endwith %}
 
-    <div class="user_navigation" style="display: none;">
-        <div id="nav_00">
-            <div class="nav_text_00" id="nav_text_00">Accounts</div>
-        </div><!--account-->
-        <div id="nav_01">
-            <div class="nav_text_01" id="nav_text_01">Users</div>
-        </div><!--users-->
-        <div id="nav_02">
-            <div class="nav_text_02" id="nav_text_02">Products</div>
-        </div><!--Products-->
-        <div id="nav_03">
-            <div class="nav_text_03" id="nav_text_03">Cart</div>
-        </div><!--Cart-->
-        <div id="nav_04">
-            <div class="nav_text_04" id="nav_text_04">Orders</div>
-        </div><!--Orders-->
-        <div id="nav_05">
-            <div class="nav_text_05" id="nav_text_05">Inventory</div>
-        </div><!--Inventory-->
-        <div id="nav_06">
-            <div class="nav_text_06" id="nav_text_06">Chat</div>
-        </div><!--Chat-->
-        <div id="nav_07">
-            <div class="nav_text_07" id="nav_text_07">Log</div>
-        </div><!--logout-->
-    </div>
 
     {% if not login %}
     <div class="skybox" id="skyBox">
@@ -87,6 +61,7 @@
                     <input name="email" placeholder="Email" required class="styled_input">
                     <input name="username" placeholder="username" class="styled_input">
                     <input type="hidden" name="user_image" id="user_image" required>
+                    <input type="hidden" name="user_image_small" id="user_image_small" required>
                     <input type="hidden" name="starter_weapon_id" id="starter_weapon_choice">
                     <input type="hidden" name="starter_gift_id" id="starter_gift_choice">
                     <input name="password_hash" placeholder="Password" required class="styled_input"><br>
@@ -94,6 +69,7 @@
                     <select name="user_type" class="user_type">
                         <option value="Customer">Customer</option>
                         <option value="Vendor">Vendor</option>
+                        <option value="Admin">Admin</option>
                     </select>
                 </div>
             <div class="character_profile">
@@ -126,14 +102,14 @@
                             <div style="display: flex; justify-content: space-around;padding-top: 7px; flex-wrap: wrap;">
 
                                
-                                    <div class="type_a" id="type_a" style="border-color:red;"  data-image="/users/red_gal_idle.gif">RED<br>A</div>
-                                    <div class="type_b" id="type_b" style="border-color: green;" type="submit" data-image="/users/green_gal_idle.gif">GREEN<br>A</div>
+                                    <div class="type_a" id="type_a" style="border-color:red;"  data-image="/users/red_gal_idle.gif" data-image-small="/users/small_red_gur.png">RED<br>A</div>
+                                    <div class="type_b" id="type_b" style="border-color: green;" type="submit" data-image="/users/green_gal_idle.gif" data-image-small="/users/small_green_gur.png">GREEN<br>A</div>
                                 
-                                    <div class="type_a" id="type_c" style="border-color: blue;" data-image="/users/blue_gal_idle.gif">BLUE<br>A</div>
-                                    <div class="type_b" id="type_d" style="border-color: red;" data-image="/users/red_guy_idle.gif">RED<br>B</div>
+                                    <div class="type_a" id="type_c" style="border-color: blue;" data-image="/users/blue_gal_idle.gif" data-image-small="/users/small_blue_gur.png">BLUE<br>A</div>
+                                    <div class="type_b" id="type_d" style="border-color: red;" data-image="/users/red_guy_idle.gif" data-image-small="/users/small_red_boi.png">RED<br>B</div>
                                         
-                                    <div class="type_a" id="type_e" style="border-color:green;" data-image="/users/green_guy_idle.gif">GREEN<br>B</div>
-                                    <div class="type_b" id="type_f"  data-image="/users/blue_guy_idle_gif.gif">BLUE<br>B</div>
+                                    <div class="type_a" id="type_e" style="border-color:green;" data-image="/users/green_guy_idle.gif" data-image-small="/users/small_green_boi.png">GREEN<br>B</div>
+                                    <div class="type_b" id="type_f"  data-image="/users/blue_guy_idle_gif.gif" data-image-small="/users/small_blue_boi.png">BLUE<br>B</div>
 
                            
                         </div>
@@ -299,7 +275,7 @@
                             <!--Admin Avatar-->
                             <div class="user_space" style="height: 393px;width: 420px;border:transparent 1px solid;margin: auto;">
                                 <div style="width:220px;height: 220px;background-image: url(../static/images/layered_background/patch_o_grass.png);margin:auto;background-size: contain;margin-top: 160px;">
-                                    <div class="avatar" id="pic"  style="background-image: url('{{ url_for('static', filename='images/' ~ login.user_image) }}');"></div>
+                                    <div class="avatar_small" id="pic"  style="background-image: url('{{ url_for('static', filename='images/' ~ login.user_image_small) }}');"></div>
                                 </div>
                             </div>
                             <div class="dungeon_space" style="height: 393px;width: 420px;border:transparent 1px solid;margin: auto;">
@@ -313,7 +289,7 @@
                 <div id="account_card" style="position: absolute;width:100%;height:610px;background-color:rgba(120, 0, 114, 0.199);top:190px;display: none;">
                     <div class="login_stats" style="width: 820px; height: 420px; background-color: white; margin: auto; border-radius: 10px; margin-top: 38px;">
                         <div style="font-family: 'Micro 5', sans-serif;font-size: 53px;margin-left:12px;">ACCOUNT</div>
-                        <div class="account_pic" id="pic"  style="background-image: url('{{ url_for('static', filename='images/' ~ login.user_image) }}');"></div>
+                        <div class="avatar_large" id="pic"  style="background-image: url('{{ url_for('static', filename='images/' ~ login.user_image) }}');"></div>
                         <div class="wallet" style="font-family: 'Micro 5', sans-serif;font-size: 33px;margin-left:18px;border-bottom: 3px gold outset;width:fit-content;background-image: linear-gradient(rgba(0,0,0,0),rgba(201, 198, 25, 0.4));">${{login.wallet_amount or 0.00}}</div>
                         <div style="display: flex;width:720px;margin-left:18px; font-family: 'Micro 5', sans-serif;font-size: 28px;"><p>Name:</p>{{login.full_name}}</div>
                         <div style="display: flex;width:720px;margin-left:18px; font-family: 'Micro 5', sans-serif;font-size: 28px;"><p>Username:</p>{{login.username}}</div>
@@ -339,8 +315,8 @@
                         <div id="users" style="display:flex; flex-direction:row; background-color: white; width:820px; border-radius:10px; margin:auto; padding-top:9px; ">      
                             <!--Search Users-->
                             <input placeholder=" Search Users" style="width:300px;margin-left: 240px;"> 
-                            <div id="search_btn" type="submit" style="width:32px;height:32px;background-image: url(../static/images/icons/icon_14.png);background-repeat: no-repeat;background-size: contain; position: relative; left:0px; top:6px;cursor: pointer;">
-                            <div id="search_text"style="position:relative; top:38px; left:-10px; background-image:linear-gradient(indigo,skyblue); width:53px; text-align:center;color:white;
+                            <div id="search_btn" type="submit" style="width:32px;height:32px;background-image: url(../static/images/icons/icon_14.png);background-repeat: no-repeat;background-size: contain; position: relative; left:3px; top:0px;cursor: pointer;">
+                            <div id="search_text"style="position:relative; top:34px; left:-10px; background-image:linear-gradient(indigo,skyblue); width:53px; text-align:center;color:white;
                             border-radius:10px;display:none;padding-left:7px;">Search</div>
                             </div>
                         </div>
@@ -365,8 +341,8 @@
                         </div>
                        
 
-                        <div class="box_users" id="admin_user_box" style="display: none;">
-                            <h1 style="font-family: 'Micro 5', sans-serif;margin-left:12px;font-size: 53px;">  Admin Users</h1><br>
+                        <div class="user_box" id="admin_user_box" style="display: none;">
+                            <h1 style="font-family: 'Micro 5', sans-serif;margin-left:12px;font-size: 53px;">Admin Users</h1><br>
                             {% if admin_users %}  
                                 {% for user in admin_users %}
                                 <div class="user_box">
@@ -450,7 +426,7 @@
                                 <textarea placeholder="Item Description" name="item_desc"></textarea>
                                 <div style="width:100%;height:250px;border:white solid 1px; background-image: url(../static/images/shop_background1.png);background-size: contain; border-bottom-right-radius: 10px;border-bottom-left-radius: 10px;
                                 background-position: center;">
-                                  <div class="avatar_create" id="pic"  style="background-image: url('{{ url_for('static', filename='images/' ~ login.user_image) }}');"></div>
+                                  <div class="avatar_create" id="pic"  style="background-image: url('{{ url_for('static', filename='images/' ~ login.user_image_small) }}');"></div>
                                   <div style="width:60px; height: 57px; background-image: url(../static/images/misc/table_00-1.png);background-size: contain;position: relative;
                                   left:380px; top: 94px;"></div>
                                     <button type="submit" style="position: relative; left: 310px; top: 93px;width: 200px;">Create</button>
@@ -744,6 +720,9 @@
                         Username: {{login.username}}
                         Email: {{login.email}}<br>
                         Class: {{login.user_type}}<br>
+                        <div id="log_card">
+                            <a href="{{ url_for('logout') }}">Logout</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1096,6 +1075,21 @@
          
     {% endif %}
         <style>
+
+
+
+            .user_box{
+                width: 100%;
+                background-color: white;
+                height: 53px;
+                flex-direction: row;
+                
+            }
+            .box_user{
+                display: flex;
+
+            }
+
             .inventory_item_pic{
                 width: 64px;
                 height: 64px;
@@ -1104,6 +1098,25 @@
         *{
             margin: 0px;
             padding: 0px;
+        }
+        .avatar_small{
+            width: 96px;
+            height: 96px;
+            /* border: red solid 1px; */
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: contain;
+            left: 60px;
+            top: 64px;
+            position: relative;
+        }
+        .avatar_large{
+            width: 192px;
+            height: 192px;
+            /* border: red solid 1px; */
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: contain;
         }
         .starter_sword{
             width: 88px;
