@@ -832,6 +832,9 @@ var navText07 = document.getElementById('nav_text_07');
                         <button class="display_button" id="shop_display_button" onclick="update_memory('SHOP')"><div class="display_button_layer">SHOP</div></button>
                         <button class="display_button" id="cart_display_button" onclick="update_memory('CART')"><div class="display_button_layer">CART</div></button>
                         <button class="display_button" id="order_display_button" onclick="update_memory('ORDERS')"><div class="display_button_layer">ORDERS</div></button>
+                        <button class="display_button" id="inventory_display_button" onclick="update_memory('INVENTORY')"><div class="display_button_layer">INVENTORY</div></button>
+                        <button class="display_button" id="dungeon_display_button" onclick="update_memory('DUNGEON')"><div class="display_button_layer">DUNGEON</div></button>
+                        <button class="display_button" id="chat_display_button" onclick="update_memory('CHATS')"><div class="display_button_layer">CHATS</div></button>
                     </div>
                     <p style="display:None;" id="memory_item_get">{{memory}}</p>
                     <script src={{url_for( 'static', filename='js/shop_display.js' )}}></script> 
@@ -1001,6 +1004,8 @@ var navText07 = document.getElementById('nav_text_07');
                 align-items: center;
                 justify-content: space-around;
                 height: 100%;
+                flex-wrap: wrap;
+                gap: 10%;
             }
             .shop_holder{
                 display:flex;
@@ -1181,7 +1186,33 @@ var navText07 = document.getElementById('nav_text_07');
                     background-position: bottom center;
                 }
             }
-            
+            #inventory_display_button{
+                background-image: url("../static/images/Clouds/Clouds4/1.png");
+                background-size: auto 100%;
+                .display_button_layer{
+                    background-image: url("../static/images/Clouds/Clouds4/4.png");
+                    background-size: auto 100%;
+                    background-position: bottom center;
+                }
+            }
+            #dungeon_display_button{
+                background-image: url("../static/images/Clouds/Clouds5/1.png");
+                background-size: auto 100%;
+                .display_button_layer{
+                    background-image: url("../static/images/Clouds/Clouds5/4.png");
+                    background-size: auto 100%;
+                    background-position: bottom center;
+                }
+            }
+            #chat_display_button{
+                background-image: url("../static/images/Clouds/Clouds8/1.png");
+                background-size: auto 100%;
+                .display_button_layer{
+                    background-image: url("../static/images/Clouds/Clouds8/4.png");
+                    background-size: auto 100%;
+                    background-position: bottom center;
+                }
+            }
         </style>
          
     {% endif %}
