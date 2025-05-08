@@ -89,6 +89,7 @@ var type_d = document.getElementById('type_d');
 var type_f = document.getElementById('type_f');
 
 const hidden_input_user_image = document.getElementById('user_image');
+const hidden_input_user_image_small = document.getElementById('user_image_small');
 const hidden_input_user_weapon = document.getElementById('starter_weapon_choice');
 const hidden_input_user_gift = document.getElementById('starter_gift_choice');
 
@@ -120,36 +121,42 @@ creation_preview.style.backgroundImage = 'url(../static/images/users/red_gal_idl
 prev_type_pic.style.backgroundImage = 'linear-gradient(red,black)';
 prev_type_pic.innerHTML = 'A';
 hidden_input_user_image.value =type_a.getAttribute('data-image');
+hidden_input_user_image_small.value =type_a.getAttribute('data-image-small');
 }
 type_b.onclick = function(){
 creation_preview.style.backgroundImage = 'url(../static/images/users/green_gal_idle.gif)';
 prev_type_pic.style.backgroundImage = 'linear-gradient(green,black)';
 prev_type_pic.innerHTML = 'A';
 hidden_input_user_image.value =type_b.getAttribute('data-image');
+hidden_input_user_image_small.value =type_b.getAttribute('data-image-small');
 }
 type_c.onclick = function(){
 creation_preview.style.backgroundImage = 'url(../static/images/users/blue_gal_idle.gif)';
 prev_type_pic.style.backgroundImage = 'linear-gradient(blue,black)';
 prev_type_pic.innerHTML = 'A';
 hidden_input_user_image.value =type_c.getAttribute('data-image');
+hidden_input_user_image_small.value =type_c.getAttribute('data-image-small');
 }
 type_d.onclick = function(){
 creation_preview.style.backgroundImage = 'url(../static/images/users/red_guy_idle.gif)';
 prev_type_pic.style.backgroundImage = 'linear-gradient(red,black)';
 prev_type_pic.innerHTML = 'B';
 hidden_input_user_image.value =type_d.getAttribute('data-image');
+hidden_input_user_image_small.value =type_d.getAttribute('data-image-small');
 }
 type_e.onclick = function(){
 creation_preview.style.backgroundImage = 'url(../static/images/users/green_guy_idle.gif)';
 prev_type_pic.style.backgroundImage = 'linear-gradient(green,black)';
 prev_type_pic.innerHTML = 'B';
 hidden_input_user_image.value =type_e.getAttribute('data-image');
+hidden_input_user_image_small.value =type_e.getAttribute('data-image-small');
 }
 type_f.onclick = function(){
 creation_preview.style.backgroundImage = 'url(../static/images/users/blue_guy_idle_gif.gif)';
 prev_type_pic.style.backgroundImage = 'linear-gradient(blue,black)';
 prev_type_pic.innerHTML = 'B';
 hidden_input_user_image.value =type_f.getAttribute('data-image');
+hidden_input_user_image_small.value =type_f.getAttribute('data-image-small');
 }
 
 _type.onclick = function(){
