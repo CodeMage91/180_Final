@@ -1,4 +1,7 @@
-
+@font-face{
+    font-family: "Alagard";
+    src: url("../static/alagard.ttf")
+    }
 
 .page {
     background-image: 
@@ -15,6 +18,8 @@
 }
 
 .logout-button {
+
+    font-family: "Alagard";
     display: inline-block;
     padding: 8px 16px;
     margin: 10px;
@@ -27,10 +32,13 @@
 }
 
 .logout-button:hover {
+        font-family: "Alagard";
+  
     background-color: #c0392b;
 }
 
 .user-panel {
+    font-family: "Alagard";
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
@@ -43,6 +51,7 @@
 }
 
 .user-info {
+    font-family: "Alagard";
     font-size: 15px;
     color: #333;
     display: flex;
@@ -51,6 +60,7 @@
 }
 
 .user-balance {
+    font-family: "Alagard";
     font-weight: bold;
     font-size: 17px;
     color: #2c3e50;
