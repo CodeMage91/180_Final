@@ -5,10 +5,10 @@ import threading
 import time
 import math
 from datetime import datetime, timedelta
-from werkzeug.security import generate_password_hash
+import bcrypt
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:CSET155@localhost/shopdb'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:74CLpyrola!@localhost/shopdb'
 app.config['SECRET_KEY'] = 'dev_key'
 db = SQLAlchemy(app)
 
@@ -59,8 +59,7 @@ def initialize():
             "username":"Kaiser",  
             "user_image":"/vendor_03.png", #start from /images/your_file.png
             "password_hash": "123", #we dont have hashing yet
-            "user_type": "Vendor" #pick one of "Admin" "Vendor" "Customer"
-            
+            "user_type": "Vendor" #pick one of "Admin" "Vendor" "Customer"   
         }
     ]
     for signup_data in create_users:
@@ -251,6 +250,9 @@ def initialize():
 #page to see everything!#
 @app.route('/', methods=['GET', 'POST'])
 def all_users():
+    if 'html' not in session:
+        session['html'] = 'battle.html'
+    html = session['html']
     if 'user_id' not in session:
         session['user_id'] = None
     global initialized
@@ -276,7 +278,13 @@ def all_users():
     user_order = order[0]
     order_items = order[1]
     inventory_items = get_user_inventory(session['user_id']) if 'user_id' in session else []
+    user_id = session['user_id']
+    _chat = None
+    if user_id:
+        _chat = db.session.execute(text(f"SELECT * FROM chat WHERE user1={user_id} OR user2={user_id}")).mappings().fetchall()
+    conversation=None
     battle = False
+    print(html)
     
     if request.method == 'POST':
         if 'full_name' in request.form:  # This means the Create User form was submitted
@@ -380,9 +388,11 @@ def all_users():
     # Page Memory to save current page status as we are on one page
     if "memory" not in session:
         session["memory"] = "None"
+    if session['memory'] == "DUNGEON":
+        battle = True
     page_memory = session["memory"]
     
-    return render_template('battle.html',
+    return render_template(html,
                            users=users,
                            admin_users=admin_users,
                            vendor_users=vendor_users,
@@ -398,7 +408,9 @@ def all_users():
                            battle=battle,
                            item_page=item_page,
                            max_page=max_page,
-                           memory=page_memory
+                           memory=page_memory,
+                           _chat=_chat,
+                           conversation=conversation
                            )
 @app.route("/memory/<memory>", methods=["GET"])
 def memory_update(memory):
@@ -704,7 +716,6 @@ def chat():
             db.session.execute(text(
                 f"INSERT INTO message (forchat,conversation,comment_date,from_user,to_user) VALUES({chatid.chatid},'{request.form['response']}', NOW(), {request.form['as']}, {request.form['to']})"))
             db.session.commit()
-
     return render_template("chat.html",_chat=_chat, conversation=conversation)
 @app.route("/reviews/<item_id>", methods=['GET','POST'])
 def reviewing(item_id):
