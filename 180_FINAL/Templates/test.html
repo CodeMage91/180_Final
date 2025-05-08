@@ -293,7 +293,6 @@
                     
 
                         <div style="width:1240px;height: 420px; margin:auto;display: flex;">
-
                             <div class="shop_space" style="height: 393px;width: 420px;border:transparent 1px solid;margin: auto;">
                                 <div style="width:220px;height: 220px;background-image: url(../static/images/layered_background/carpet_00.png);margin:auto;background-size: contain;margin-top: 160px;"></div>
                             </div>
@@ -301,31 +300,27 @@
                             <div class="user_space" style="height: 393px;width: 420px;border:transparent 1px solid;margin: auto;">
                                 <div style="width:220px;height: 220px;background-image: url(../static/images/layered_background/patch_o_grass.png);margin:auto;background-size: contain;margin-top: 160px;">
                                     <div class="avatar" id="pic"  style="background-image: url('{{ url_for('static', filename='images/' ~ login.user_image) }}');"></div>
-                                    
-                                   </div>
-
-                                    
-                                 </div>
-                                 <div class="dungeon_space" style="height: 393px;width: 420px;border:transparent 1px solid;margin: auto;">
-                                    <div style="width:220px;border-radius:10px;height: 220px;background-image: url(../static/images/layered_background/stone_ground_00.png);margin:auto;background-size: contain;margin-top: 160px;"></div>
                                 </div>
                             </div>
+                            <div class="dungeon_space" style="height: 393px;width: 420px;border:transparent 1px solid;margin: auto;">
+                                <div style="width:220px;border-radius:10px;height: 220px;background-image: url(../static/images/layered_background/stone_ground_00.png);margin:auto;background-size: contain;margin-top: 160px;"></div>
+                            </div>
                         </div>
+                    </div>
                 </div>
 
                 <!--User Account Card-->
-                    <div id="account_card" style="position: absolute;width:100%;height:610px;background-color:rgba(120, 0, 114, 0.199);top:190px;display: none;">
-                        <div class="login_stats" style="width: 820px; height: 420px; background-color: white; margin: auto; border-radius: 10px; margin-top: 38px;">
-                            <div style="font-family: 'Micro 5', sans-serif;font-size: 53px;margin-left:12px;">ACCOUNT</div>
-                            <div class="account_pic" id="pic"  style="background-image: url('{{ url_for('static', filename='images/' ~ login.user_image) }}');"></div>
-                            <div class="wallet" style="font-family: 'Micro 5', sans-serif;font-size: 33px;margin-left:18px;border-bottom: 3px gold outset;width:fit-content;background-image: linear-gradient(rgba(0,0,0,0),rgba(201, 198, 25, 0.4));">${{login.wallet_amount or 0.00}}</div>
-                                <div style="display: flex;width:720px;margin-left:18px; font-family: 'Micro 5', sans-serif;font-size: 28px;"><p>Name:</p>{{login.full_name}}</div>
-                                <div style="display: flex;width:720px;margin-left:18px; font-family: 'Micro 5', sans-serif;font-size: 28px;"><p>Username:</p>{{login.username}}</div>
-                                <div style="display: flex;width:720px;margin-left:18px; font-family: 'Micro 5', sans-serif;font-size: 28px;"><p>Email:</p>{{login.email}}</div>
-                                <div style="display: flex;width:720px;margin-left:18px; font-family: 'Micro 5', sans-serif;font-size: 28px;"><p>Class:</p>{{login.user_type}}</div>
-                           
-                        </div>
+                <div id="account_card" style="position: absolute;width:100%;height:610px;background-color:rgba(120, 0, 114, 0.199);top:190px;display: none;">
+                    <div class="login_stats" style="width: 820px; height: 420px; background-color: white; margin: auto; border-radius: 10px; margin-top: 38px;">
+                        <div style="font-family: 'Micro 5', sans-serif;font-size: 53px;margin-left:12px;">ACCOUNT</div>
+                        <div class="account_pic" id="pic"  style="background-image: url('{{ url_for('static', filename='images/' ~ login.user_image) }}');"></div>
+                        <div class="wallet" style="font-family: 'Micro 5', sans-serif;font-size: 33px;margin-left:18px;border-bottom: 3px gold outset;width:fit-content;background-image: linear-gradient(rgba(0,0,0,0),rgba(201, 198, 25, 0.4));">${{login.wallet_amount or 0.00}}</div>
+                        <div style="display: flex;width:720px;margin-left:18px; font-family: 'Micro 5', sans-serif;font-size: 28px;"><p>Name:</p>{{login.full_name}}</div>
+                        <div style="display: flex;width:720px;margin-left:18px; font-family: 'Micro 5', sans-serif;font-size: 28px;"><p>Username:</p>{{login.username}}</div>
+                        <div style="display: flex;width:720px;margin-left:18px; font-family: 'Micro 5', sans-serif;font-size: 28px;"><p>Email:</p>{{login.email}}</div>
+                        <div style="display: flex;width:720px;margin-left:18px; font-family: 'Micro 5', sans-serif;font-size: 28px;"><p>Class:</p>{{login.user_type}}</div>
                     </div>
+                </div>
 
 
                 <!--All users Card-->
@@ -342,13 +337,13 @@
                         </div>
 
                         <div id="users" style="display:flex; flex-direction:row; background-color: white; width:820px; border-radius:10px; margin:auto; padding-top:9px; ">      
-                                <!--Search Users-->
-                                 <input placeholder=" Search Users" style="width:300px;margin-left: 240px;"> 
-                                 <div id="search_btn" type="submit" style="width:32px;height:32px;background-image: url(../static/images/icons/icon_14.png);background-repeat: no-repeat;background-size: contain; position: relative; left:0px; top:6px;cursor: pointer;">
-                                    <div id="search_text"style="position:relative; top:38px; left:-10px; background-image:linear-gradient(indigo,skyblue); width:53px; text-align:center;color:white;
-                                    border-radius:10px;display:none;padding-left:7px;">Search</div>
-                                 </div>
+                            <!--Search Users-->
+                            <input placeholder=" Search Users" style="width:300px;margin-left: 240px;"> 
+                            <div id="search_btn" type="submit" style="width:32px;height:32px;background-image: url(../static/images/icons/icon_14.png);background-repeat: no-repeat;background-size: contain; position: relative; left:0px; top:6px;cursor: pointer;">
+                            <div id="search_text"style="position:relative; top:38px; left:-10px; background-image:linear-gradient(indigo,skyblue); width:53px; text-align:center;color:white;
+                            border-radius:10px;display:none;padding-left:7px;">Search</div>
                             </div>
+                        </div>
                         <div class="box_users" id="all_users_box">
                             <h1 style="font-family: 'Micro 5', sans-serif;margin-left:12px;font-size: 53px;">All Users</h1>
                             <div style="overflow-y: scroll;height: 500px;display: flex;flex-direction: column;">
@@ -357,10 +352,10 @@
                                     <div class="user_box">
                                         <div class="profile" id="pic"  style="background-image: url('{{ url_for('static', filename='images/' ~ user.user_image) }}');"></div>
                                         <div class="user_stats"></div> 
-                                    Name: {{ user.full_name }}<br>
-                                    Username: {{user.username}}<br>
-                                    Email: {{user.email}}<br>
-                                    Type: {{user.user_type}}
+                                        Name: {{ user.full_name }}<br>
+                                        Username: {{user.username}}<br>
+                                        Email: {{user.email}}<br>
+                                        Type: {{user.user_type}}
                                     </div>
                                     {% endfor %}
                                 {% else %}
@@ -377,10 +372,10 @@
                                 <div class="user_box">
                                     <div class="profile" id="pic"  style="background-image: url('{{ url_for('static', filename='images/' ~ user.user_image) }}');"></div>
                                     <div class="user_stats"></div> 
-                                Name: {{ user.full_name }}<br>
-                                Username: {{user.username}}<br>
-                                Email: {{user.email}}<br>
-                                Type: {{user.user_type}}
+                                    Name: {{ user.full_name }}<br>
+                                    Username: {{user.username}}<br>
+                                    Email: {{user.email}}<br>
+                                    Type: {{user.user_type}}
                                 </div>
                                 {% endfor %}
                             {% else %}
@@ -397,10 +392,10 @@
                             <div class="user_box">
                                 <div class="profile" id="pic"  style="background-image: url('{{ url_for('static', filename='images/' ~ user.user_image) }}');"></div>
                                 <div class="user_stats"></div>
-                            Name: {{ user.full_name }}<br>
-                            Username: {{user.username}}<br>
-                            Email: {{user.email}}<br>
-                            Type: {{user.user_type}}
+                                Name: {{ user.full_name }}<br>
+                                Username: {{user.username}}<br>
+                                Email: {{user.email}}<br>
+                                Type: {{user.user_type}}
                             </div>
     
                             {% endfor%}
@@ -417,10 +412,10 @@
                             <div class="user_box">
                                 <div class="profile"  style="background-image: url('{{ url_for('static', filename='images/' ~ user.user_image) }}');"></div>
                                 <div class="user_stats"></div>
-                            Name: {{ user.full_name }}<br>
-                            Username: {{user.username}}<br>
-                            Email: {{user.email}}<br>
-                            Type: {{user.user_type}}
+                                Name: {{ user.full_name }}<br>
+                                Username: {{user.username}}<br>
+                                Email: {{user.email}}<br>
+                                Type: {{user.user_type}}
                             </div>
     
                             {% endfor%}
@@ -1100,7 +1095,6 @@
         </style>
          
     {% endif %}
-    <style>
         <style>
             .inventory_item_pic{
                 width: 64px;
