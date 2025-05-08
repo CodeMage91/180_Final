@@ -558,7 +558,6 @@ def chat():
     user_id=session['user_id']
     if request.form:
         if "userid" in request.form:
-            print("SAUCE.")
             to_user=request.form['userid']
             session['to_user']=to_user
     if "to_user" in session:
@@ -576,6 +575,7 @@ def chat():
                 db.session.execute(text(f"INSERT INTO chat (user1, user2) VALUES ({user_id},{to_user})"))
                 chatid = db.session.execute(text(
                     f"SELECT * FROM chat WHERE (user1={to_user}) AND (user2={user_id}) OR (user1={user_id}) AND (user2={to_user})")).first()
+                db.session.commit()
             db.session.execute(text(
                 f"INSERT INTO message (forchat,conversation,comment_date,from_user,to_user) VALUES({chatid.chatid},'{request.form['response']}', NOW(), {user_id}, {to_user})"))
             db.session.commit()
