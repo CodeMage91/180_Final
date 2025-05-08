@@ -278,11 +278,7 @@ def all_users():
     user_order = order[0]
     order_items = order[1]
     inventory_items = get_user_inventory(session['user_id']) if 'user_id' in session else []
-    user_id = session['user_id']
-    _chat = None
-    if user_id:
-        _chat = db.session.execute(text(f"SELECT * FROM chat WHERE user1={user_id} OR user2={user_id}")).mappings().fetchall()
-    conversation=None
+    
     battle = False
     print(html)
     
@@ -391,7 +387,46 @@ def all_users():
     if session['memory'] == "DUNGEON":
         battle = True
     page_memory = session["memory"]
+    #Pagination of users
+    page=1
+    max_pages=1
+    #chat logic
+    to_user = None
+    user_id = session['user_id']
+    _chat = None
+    if user_id:
+        _chat = db.session.execute(text(f"SELECT * FROM chat WHERE user1={user_id} OR user2={user_id}")).mappings().fetchall()
+    if 'to_user' not in session:
+        session['to_user'] = None
+    to_user=session['to_user']
+    conversation=None
     
+    if request.form:
+        if "whichchat" in request.form:
+            conversation = db.session.execute(
+                text(f"""
+                     SELECT 
+                        message.* , 
+                        user1.username as 'username1' ,  
+                        user2.username as 'username2' 
+                    FROM 
+                        message, shop_user as user1, shop_user as user2 
+                    WHERE 
+                        message.from_user = user1.user_id AND 
+                        message.to_user = user2.user_id AND
+                        forchat={request.form["whichchat"]}
+                     """)).mappings().fetchall()
+        if "response" in request.form:
+            chatid = db.session.execute(text(
+                f"SELECT * FROM chat WHERE (user1={to_user}) AND (user2={user_id}) OR (user1={user_id}) AND (user2={to_user})")).first()
+            if chatid == None:
+                db.session.execute(text(f"INSERT INTO chat (user1, user2) VALUES ({user_id},{to_user})"))
+                db.session.commit()
+                chatid = db.session.execute(text(
+                    f"SELECT * FROM chat WHERE (user1={to_user}) AND (user2={user_id}) OR (user1={user_id}) AND (user2={to_user})")).first()
+            db.session.execute(text(
+                f"INSERT INTO message (forchat,conversation,comment_date,from_user,to_user) VALUES({chatid.chatid},'{request.form['response']}', NOW(), {user_id}, {to_user})"))
+            db.session.commit()
     return render_template(html,
                            users=users,
                            admin_users=admin_users,
@@ -409,6 +444,8 @@ def all_users():
                            item_page=item_page,
                            max_page=max_page,
                            memory=page_memory,
+                           page=page,
+                           max_pages=max_pages,
                            _chat=_chat,
                            conversation=conversation
                            )
@@ -701,22 +738,18 @@ def get_user_cart(user_id):
     
 """), {'user_id': user_id}).mappings().fetchall()
 
-@app.route("/chat", methods=['GET','POST'])
+@app.route("/chat", methods=['POST'])
 def chat():
     user_id=session['user_id']
     _chat = db.session.execute(text(f"SELECT * FROM chat WHERE user1={user_id} OR user2={user_id}")).mappings().fetchall()
     conversation=None
-    if request.form:
-        if "whichchat" in request.form:
-            conversation=db.session.execute(text(f"SELECT * FROM message WHERE forchat={request.form["whichchat"]}")).mappings().fetchall()
-        if "response" in request.form:
-            chatid=db.session.execute(text(f"SELECT * FROM chat WHERE (user1={request.form["to"]} AND user2={request.form["as"]}) OR (user1={request.form["as"]} AND user2={request.form["to"]})")).first()
-            if chatid==None:
-                db.session.execute(text(f"INSERT INTO chat (user1, user2) VALUES ({request.form["as"]},{request.form["to"]}"))
-            db.session.execute(text(
-                f"INSERT INTO message (forchat,conversation,comment_date,from_user,to_user) VALUES({chatid.chatid},'{request.form['response']}', NOW(), {request.form['as']}, {request.form['to']})"))
-            db.session.commit()
-    return render_template("chat.html",_chat=_chat, conversation=conversation)
+    chatid=db.session.execute(text(f"SELECT * FROM chat WHERE (user1={request.form["userid"]} AND user2={user_id}) OR (user1={user_id} AND user2={request.form["userid"]})")).first()
+    if chatid==None:
+        db.session.execute(text(f"INSERT INTO chat (user1, user2) VALUES ({request.form["userid"]},{user_id})"))
+    db.session.commit()
+    session['to_user'] = request.form['userid']    
+    session['html'] = 'chat.html'
+    return redirect(url_for("all_users"))
 @app.route("/reviews/<item_id>", methods=['GET','POST'])
 def reviewing(item_id):
     login=None;
