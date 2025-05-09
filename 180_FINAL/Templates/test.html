@@ -50,7 +50,7 @@
                 <form method="POST" action="/">
                     <input placeholder="Email" name="login_email" required class="styled_input"><br>
                     <input placeholder="Password" name="password_hash" type="password" required class="styled_input"><br>
-                    <button type="submit" class="styled_submit_00" id="login_submit">Let's Go!</button><div class="horse_cart" id="horse_cart"></div>
+                    <div class="horse_cart" id="horse_cart"></div><button type="submit" class="styled_submit_00" id="login_submit">Let's Go!</button>
                 </form>
             </div>
         </div>
@@ -1603,12 +1603,13 @@ var navText07 = document.getElementById('nav_text_07');
             width: 124px;
             height: 120px;
             position: absolute;
-            background-image: url('../static/images/horse_cart.png');
+            background-image: url('../static/images/horse_cart.gif');
             background-position: center;
             background-repeat: no-repeat;
             right: 0px;
             top: 16px;
             opacity: 0;
+            background-size: contain;
         }
         .login_submit:hover{
             color:rgb(255, 187, 0);
