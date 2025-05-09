@@ -28,32 +28,7 @@
     {% endif %}
     {% endwith %}
 
-    <div class="user_navigation" style="display: none;">
-        <div id="nav_00">
-            <div class="nav_text_00" id="nav_text_00">Accounts</div>
-        </div><!--account-->
-        <div id="nav_01">
-            <div class="nav_text_01" id="nav_text_01">Users</div>
-        </div><!--users-->
-        <div id="nav_02">
-            <div class="nav_text_02" id="nav_text_02">Products</div>
-        </div><!--Products-->
-        <div id="nav_03">
-            <div class="nav_text_03" id="nav_text_03">Cart</div>
-        </div><!--Cart-->
-        <div id="nav_04">
-            <div class="nav_text_04" id="nav_text_04">Orders</div>
-        </div><!--Orders-->
-        <div id="nav_05">
-            <div class="nav_text_05" id="nav_text_05">Inventory</div>
-        </div><!--Inventory-->
-        <div id="nav_06">
-            <div class="nav_text_06" id="nav_text_06">Chat</div>
-        </div><!--Chat-->
-        <div id="nav_07">
-            <div class="nav_text_07" id="nav_text_07">Log</div>
-        </div><!--logout-->
-    </div>
+
 
     {% if login %}
         {% if login.user_type == "Customer"%}
@@ -320,33 +295,33 @@
                 </div>
 
                 <!--User Account Card-->
-                <div id="account_card" style="position: absolute;width:100%;height:610px;background-color:rgba(120, 0, 114, 0.199);top:190px;display: none;">
+                <div id="account_card" style="position: absolute;width:100%;height:610px;top:190px;display: none;">
                     <div class="login_stats" style="width: 820px; height: 420px; background-color: white; margin: auto; border-radius: 10px; margin-top: 38px;">
                         <div style="font-family: 'Micro 5', sans-serif;font-size: 53px;margin-left:12px;">ACCOUNT</div>
                         <div class="avatar_large" id="pic"  style="background-image: url('{{ url_for('static', filename='images/' ~ login.user_image) }}');"></div>
                         <div class="wallet" style="font-family: 'Micro 5', sans-serif;font-size: 33px;margin-left:18px;border-bottom: 3px gold outset;width:fit-content;background-image: linear-gradient(rgba(0,0,0,0),rgba(201, 198, 25, 0.4));">${{login.wallet_amount or 0.00}}</div>
-                        <div style="display: flex;width:720px;margin-left:18px; font-family: 'Micro 5', sans-serif;font-size: 28px;"><p>Name:</p>{{login.full_name}}</div>
-                        <div style="display: flex;width:720px;margin-left:18px; font-family: 'Micro 5', sans-serif;font-size: 28px;"><p>Username:</p>{{login.username}}</div>
-                        <div style="display: flex;width:720px;margin-left:18px; font-family: 'Micro 5', sans-serif;font-size: 28px;"><p>Email:</p>{{login.email}}</div>
-                        <div style="display: flex;width:720px;margin-left:18px; font-family: 'Micro 5', sans-serif;font-size: 28px;"><p>Class:</p>{{login.user_type}}</div>
+                        <div style="display: flex;width:720px;margin-left:18px; font-size: 28px;"><p>Name: </p>{{login.full_name}}</div>
+                        <div style="display: flex;width:720px;margin-left:18px; font-size: 28px;"><p>Username: </p>{{login.username}}</div>
+                        <div style="display: flex;width:720px;margin-left:18px; font-size: 28px;"><p>Email: </p>{{login.email}}</div>
+                        <div style="display: flex;width:720px;margin-left:18px; font-size: 28px;"><p>Class: </p>{{login.user_type}}</div>
                     </div>
                 </div>
 
 
                 <!--All users Card-->
-                <div id="all_users_card" style="display:none;position: absolute;width:100%;height:610px;background-color:rgba(120, 0, 114, 0.199);top:190px;flex-direction: column;">
+                <div id="all_users_card" style="display:none;position: absolute;width:100%;height:610px;top:190px;flex-direction: column;">
 
                     <div class="box_holder">
                         {% if not (login.user_type == "Customer") %}
                         {% if (login.user_type == "Admin") %}
-                        <div id="user_filters" style="display: flex;color:white;margin: auto;width: 600px; justify-content: space-evenly;">
+                        <div id="user_filters" style="display: flex;color:white;margin: auto;width: 820px; justify-content: space-evenly;">
                             <div id="all_filter" class="filter">ALL</div>
                             <div id="admin_filter" class="filter">ADMIN</div>
                             <div id="vendor_filter" class="filter">VENDOR</div>
                             <div id="customer_filter" class="filter">CUSTOMER</div>
                                    </div>
 
-                        <div id="users" style="display:flex; flex-direction:row; background-color: white; width:820px; border-radius:10px; margin:auto; padding-top:9px; ">      
+                        <div id="users" style="display:flex; flex-direction:row; background-color: indigo; width:820px; border-top-right-radius: 10px;border-top-left-radius: 10px; margin:auto; padding-top:9px; ">      
                             <!--Search Users-->
                             <input placeholder=" Search Users" style="width:300px;margin-left: 240px;"> 
                             <div id="search_btn" type="submit" style="width:32px;height:32px;background-image: url(../static/images/icons/icon_14.png);background-repeat: no-repeat;background-size: contain; position: relative; left:3px; top:0px;cursor: pointer;">
@@ -354,18 +329,23 @@
                             border-radius:10px;display:none;padding-left:7px;">Search</div>
                             </div>
                         </div>
-                        <div class="box_users" id="all_users_box">
-                            <h1 style="font-family: 'Micro 5', sans-serif;margin-left:12px;font-size: 53px;">All Users</h1>
-                            <div style="overflow-y: scroll;height: 500px;display: flex;flex-direction: column;">
+                        <div style="width:820px; background-image:linear-gradient(indigo,skyblue); border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; height: 472px;margin:auto;flex-direction: column;" id="all_users_box">
+                            <h1 style="font-family: 'Micro 5', sans-serif;margin-left:12px;font-size: 53px;padding-left: 12px;color: gold;">All Users</h1>
+                            <div style="height: 420px;display: flex;flex-direction: column;justify-content: space-evenly;overflow-y: scroll;overflow-x: hidden;scrollbar-color: black,gold;">
                                 {% if users %}  
                                     {% for user in users %}
-                                    <div class="user_box">
+                                    <div style="display: flex;flex-direction:row;background-color:white; border-radius: 10px; margin:auto; width: 790px; margin-top:7px;">
                                         <div class="profile" id="pic"  style="background-image: url('{{ url_for('static', filename='images/' ~ user.user_image) }}');"></div>
-                                        <div class="user_stats"></div> 
-                                        Name: {{ user.full_name }}<br>
-                                        Username: {{user.username}}<br>
-                                        Email: {{user.email}}<br>
-                                        Type: {{user.user_type}}
+                                        <!--All Users Info-->    
+                                        <div style="display: flex;flex-direction: column; margin-left: 7px; padding-top: 12px;width:420px;">
+                                            Name: {{ user.full_name }}<br>
+                                            Username: {{user.username}}<br>
+                                            Email: {{user.email}}<br>
+                                            Type: {{user.user_type}}
+                                        </div>
+                                        <div style="width:48px;height:42px; border:transparent 3px outset;color: white;background-image: linear-gradient(black,grey);margin-top: 30px;justify-content: space-between;text-align: center;padding-top: 12px;cursor:pointer;">
+                                            SEND<br>CHAT
+                                        </div>
                                     </div>
                                     {% endfor %}
                                 {% else %}
@@ -375,78 +355,102 @@
                         </div>
                        
 
-                        <div class="user_box" id="admin_user_box" style="display: none;">
-                            <h1 style="font-family: 'Micro 5', sans-serif;margin-left:12px;font-size: 53px;">Admin Users</h1><br>
-                            {% if admin_users %}  
-                                {% for user in admin_users %}
-                                <div class="user_box">
+                        <div  id="admin_user_box" style="width:820px; background-image:linear-gradient(indigo,skyblue); border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; height: 472px;margin:auto;flex-direction: column;">       
+                            <h1 style="font-family: 'Micro 5', sans-serif;margin-left:12px;font-size: 53px;padding-left: 12px;color: gold;width:820px;">Admin Users</h1>
+                            <div style="height: 420px;display: flex;flex-direction: column;justify-content: space-evenly;overflow-y: scroll;overflow-x: hidden;scrollbar-color: black,gold;">
+                                {% if admin_users %}  
+                                    {% for user in admin_users %}
+                                    <div style="display: flex;flex-direction:row;background-color:white; border-radius: 10px; margin:auto; width: 790px; margin-top:7px;">
+                                        <div class="profile" id="pic"  style="background-image: url('{{ url_for('static', filename='images/' ~ user.user_image) }}');"></div>
+                                        <!--All Users Info-->    
+                                        <div style="display: flex;flex-direction: column; margin-left: 7px; padding-top: 12px;width:420px;">
+                                            Name: {{ user.full_name }}<br>
+                                            Username: {{user.username}}<br>
+                                            Email: {{user.email}}<br>
+                                            Type: {{user.user_type}}
+                                        </div>
+                                        <div style="width:48px;height:42px; border:transparent 3px outset;color: white;background-image: linear-gradient(black,grey);margin-top: 30px;justify-content: space-between;text-align: center;padding-top: 12px;cursor:pointer;">
+                                            SEND<br>CHAT
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                    </div>
+                                {% else %}
+                                    <p>No admin_users found</p>
+                                {% endif %}
+                                    </div>
+                            {%endif%}
+                        </div>            
+
+                    <div  id="vendor_user_box" style="display:none;width:820px; background-image:linear-gradient(indigo,skyblue); border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; height: 472px;margin:auto;margin-top:0px;flex-direction: column">
+                        <h1 style="font-family: 'Micro 5', sans-serif;margin-left:12px;font-size: 53px;color:gold;">Vendor Users</h1>
+                        <div style="height: 420px;display: flex;flex-direction: column;justify-content: space-evenly;overflow-y: scroll;overflow-x: hidden;scrollbar-color: black,gold;">
+                            {% if vendor_users %}  
+                                {% for user in vendor_users %}
+                                <div style="display: flex;flex-direction:row;background-color:white; border-radius: 10px; margin:auto; width: 790px; margin-top:7px;">
                                     <div class="profile" id="pic"  style="background-image: url('{{ url_for('static', filename='images/' ~ user.user_image) }}');"></div>
-                                    <div class="user_stats"></div> 
-                                    Name: {{ user.full_name }}<br>
-                                    Username: {{user.username}}<br>
-                                    Email: {{user.email}}<br>
-                                    Type: {{user.user_type}}
-                                 </div>
+                                    <!--All Users Info-->    
+                                    <div style="display: flex;flex-direction: column; margin-left: 7px; padding-top: 12px;width:420px;">
+                                        Name: {{ user.full_name }}<br>
+                                        Username: {{user.username}}<br>
+                                        Email: {{user.email}}<br>
+                                        Type: {{user.user_type}}
+                                    </div>
+                                    <div style="width:48px;height:42px; border:transparent 3px outset;color: white;background-image: linear-gradient(black,grey);margin-top: 30px;justify-content: space-between;text-align: center;padding-top: 12px;cursor:pointer;">
+                                        SEND<br>CHAT
+                                    </div>
+                                </div>
                                 {% endfor %}
+                                </div>
                             {% else %}
-                                <p>No admin_users found</p>
+                                <p>No vendor users found</p>
                             {% endif %}
                                 </div>
-                        {%endif%}
-    
-                    <div class="box_users" id="vendor_user_box" style="display:none;">
-                        <h1 style="font-family: 'Micro 5', sans-serif;margin-left:12px;font-size: 53px;">Vendor Users</h1>
-                        {%if vendor_users%}
-    
-                            {% for user in vendor_users %}
-                            <div class="user_box">
-                                <div class="profile" id="pic"  style="background-image: url('{{ url_for('static', filename='images/' ~ user.user_image) }}');"></div>
-                                <div class="user_stats"></div>
+
+                                <div id="customer_user_box"  style="display:none;width:820px; background-image:linear-gradient(indigo,skyblue); border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; height: 472px;margin:auto;margin-top:0px;flex-direction: column">
+                        <h1 style="font-family: 'Micro 5', sans-serif;margin-left:12px;font-size: 53px;color:gold;">Customer Users</h1>
+                        <div style="height: 420px;display: flex;flex-direction: column;justify-content: space-evenly;overflow-y: scroll;overflow-x: hidden;scrollbar-color: black,gold;">
+                        {% if customer_users %}  
+                        {% for user in customer_users %}
+                        <div style="display: flex;flex-direction:row;background-color:white; border-radius: 10px; margin:auto; width: 790px; margin-top:7px;">
+                            <div class="profile" id="pic"  style="background-image: url('{{ url_for('static', filename='images/' ~ user.user_image) }}');"></div>
+                            <!--All Users Info-->    
+                            <div style="display: flex;flex-direction: column; margin-left: 7px; padding-top: 12px;width:420px;">
                                 Name: {{ user.full_name }}<br>
                                 Username: {{user.username}}<br>
                                 Email: {{user.email}}<br>
                                 Type: {{user.user_type}}
                             </div>
-    
-                            {% endfor%}
-                        {% else %}
-                            <p> no vendors found</p>
-                        {% endif %}
+                            <div style="width:48px;height:42px; border:transparent 3px outset;color: white;background-image: linear-gradient(black,grey);margin-top: 30px;justify-content: space-between;text-align: center;padding-top: 12px;cursor:pointer;">
+                                SEND<br>CHAT
+                            </div>
+                        </div>
+                        {% endfor %}
+                        </div>
+                    {% else %}
+                        <p>No vendor users found</p>
+                    {% endif %}
+                    </div>
+                    </div>
+                        
                         </div>
     
-                    <div class="box_users" id="customer_user_box" style="display:none;">
-                        <h1 style="font-family: 'Micro 5', sans-serif;margin-left:12px;font-size: 53px;">Customer Users</h1>
-                        {%if customer_users%}
-    
-                            {% for user in customer_users %}
-                            <div class="user_box">
-                                <div class="profile"  style="background-image: url('{{ url_for('static', filename='images/' ~ user.user_image) }}');"></div>
-                                <div class="user_stats"></div>
-                                Name: {{ user.full_name }}<br>
-                                Username: {{user.username}}<br>
-                                Email: {{user.email}}<br>
-                                Type: {{user.user_type}}
-                </div>
-    
-                            {% endfor%}
-                        {% else %}
-                            <p> no customers found</p>
-                        {% endif %}
-                    </div>
+                        
+                    
                     {% endif %}
                 </div>
 
                 </div>
 
                 <!--Product Card-->
-                <div >
+                <div>
                     
-                    <div id="product_card" style="width: 820px; height: 420px; background-color: white; margin: auto; border-radius: 10px; margin-top: 38px;position: relative; top: -510px; display: none;flex-direction: column;">
+                    <div id="product_card" style="width: 820px; height: 420px; background-color: white; margin: auto; border-radius: 10px; margin-top: 38px;position: relative; top: -620px; display: none;flex-direction: column;">
                         <div id="user_filters" style="display: flex;color:white;margin: auto;width: 600px; justify-content: space-evenly;position: relative; top: -38px;">
                             <div id="create_filter" class="filter">CREATE</div>
-                            <div id="all_items_filter" class="filter">ALL ITEMS</div>
-                            <div id="color_filter" class="filter">BY COLOR</div>
-                            <div id="size_filter" class="filter">BY SIZE</div>
+                            <div id="all_items_filter" class="filter">SEARCH</div>
+                            <div id="color_filter" class="filter">WARRANTYS</div>
+                            <div id="size_filter" class="filter">DISCOUNTS</div>
                             <div id="customer_filter" class="filter">BY VENDOR</div>
                         </div>
                        
@@ -460,10 +464,10 @@
                                 <textarea placeholder="Item Description" name="item_desc"></textarea>
                                 <div style="width:100%;height:250px;border:white solid 1px; background-image: url(../static/images/shop_background1.png);background-size: contain; border-bottom-right-radius: 10px;border-bottom-left-radius: 10px;
                                 background-position: center;">
-                                  <div class="avatar_create" id="pic"  style="background-image: url('{{ url_for('static', filename='images/' ~ login.user_image_small) }}');"></div>
+                                  <div class="avatar_create_item" id="pic"  style="background-image: url('{{ url_for('static', filename='images/' ~ login.user_image_small) }}');"></div>
                                   <div style="width:60px; height: 57px; background-image: url(../static/images/misc/table_00-1.png);background-size: contain;position: relative;
-                                  left:380px; top: 94px;"></div>
-                                    <button type="submit" style="position: relative; left: 310px; top: 93px;width: 200px;">Create</button>
+                                  left:380px; top: 74px;"></div>
+                                    <button id="create_item" type="submit" style="height: 33px; width: 120px; border-radius: 10px; font-family: 'Micro 5', sans-serif; font-size: 32px; cursor: pointer; position: absolute; left: 350px; color: white; background-color: black;top: 433px; ">Create</button>
                                 </div>
                                 
                             </form>
@@ -735,7 +739,14 @@ var navText07 = document.getElementById('nav_text_07');
             customer_user_box.style.display = 'flex';
         }
 
-                    
+        var create_item = document.getElementById('create_item');
+        create_item.addEventListener('mouseover',function(){
+            create_item.style.color = 'gold';
+        });
+        var create_item = document.getElementById('create_item');
+        create_item.addEventListener('mouseout',function(){
+            create_item.style.color = 'white';
+        });               
 
              </script>
                 {%endif%}
@@ -1254,6 +1265,17 @@ var navText07 = document.getElementById('nav_text_07');
             background-size: contain;
             left: 60px;
             top: 64px;
+            position: relative;
+        }
+        .avatar_create_item{
+            width: 96px;
+            height: 96px;
+            /* border: red solid 1px; */
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: contain;
+            left: 362px;
+            top: 96px;
             position: relative;
         }
         .avatar_large{

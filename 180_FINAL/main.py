@@ -5,10 +5,10 @@ import threading
 import time
 import math
 from datetime import datetime, timedelta
-import bcrypt
+
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:74CLpyrola!@localhost/shopdb'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:CSET155@localhost/shopdb'
 app.config['SECRET_KEY'] = 'dev_key'
 db = SQLAlchemy(app)
 
@@ -49,7 +49,7 @@ def initialize():
             "full_name": "Wingoul",
             "email": "flower@account.com",
             "username":"Dippi",  
-            "user_image":"/users/wingall_img", #start from /images/your_file.png
+            "user_image":"/users/wingall_img.png", #start from /images/your_file.png
             "password_hash": "123", #we dont have hashing yet
             "user_type": "Vendor" #pick one of "Admin" "Vendor" "Customer"
         },
@@ -303,7 +303,7 @@ def all_users():
             if 'user_image_small' in request.form and request.form['user_image_small']:
                 signup_data['user_image_small'] = request.form['user_image_small']
             else:
-                signup_data['user_image_small'] = '/users/small_blue_boi'
+                signup_data['user_image_small'] = '/users/small_blue_boi.png'
 
             db.session.execute(text("""
                 INSERT INTO shop_user (full_name, email, username, user_image, user_image_small, password_hash, user_type)

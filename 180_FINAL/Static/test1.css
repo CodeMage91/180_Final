@@ -119,10 +119,9 @@
 }
 
 .profile {
-    width: 60px;
-    height: 60px;
+    width: 96px;
+    height: 96px;
     border-radius: 6px;
-    background-color: #ddd;
     background-position: center;
     background-size: cover;
     flex-shrink: 0;
@@ -778,5 +777,10 @@ footer {
     &:hover{
         scale:1.1;
         box-shadow: 2px 4px white;
+    }
+    .avatar_create{
+        width:48px;
+        height: 48px;
+        border: red solid 1px;
     }
 }

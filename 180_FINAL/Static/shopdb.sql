@@ -17,7 +17,8 @@ email varchar(100) unique not null,
 username varchar(100) not null,
 password_hash varchar(100) not null,
 user_type enum('Admin','Vendor','Customer') not null,
-user_image varchar(200) null
+user_image varchar(200) null,
+user_image_small varchar(200)  null
 );
 
 create table shop_item(
