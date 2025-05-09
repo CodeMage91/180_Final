@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:CSET155@localhost/shopdb'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:QIblI25#3@localhost/shopdb'
 app.config['SECRET_KEY'] = 'dev_key'
 db = SQLAlchemy(app)
 
@@ -388,8 +388,19 @@ def all_users():
         battle = True
     page_memory = session["memory"]
     #Pagination of users
-    page=1
-    max_pages=1
+    if "user_page" not in session:
+        session["user_page"]=1
+    if type(session['user_page'])!=int:
+        session["user_page"]=1
+    user_page=session["user_page"]
+    num_of_users=db.session.execute(text("SELECT count(user_id) as 'num_of_users' from shop_user")).mappings.fetchone()
+    per_page=3
+    user_page=1
+    max_pages=math.ceil(num_of_users['num_of_users']/per_page)
+    if user_page>max_pages:
+        user_page=max_pages
+        session['user_page']=user_page
+    users=db.session.execute(text(f"SELECT * FROM shop_user LIMIT {per_page} OFFSET {(user_page-1)*per_page}"))
     #chat logic
     to_user = None
     user_id = session['user_id']
@@ -444,7 +455,7 @@ def all_users():
                            item_page=item_page,
                            max_page=max_page,
                            memory=page_memory,
-                           page=page,
+                           page=user_page,
                            max_pages=max_pages,
                            _chat=_chat,
                            conversation=conversation
@@ -779,6 +790,22 @@ def reviewing(item_id):
                            order_items=order_items,
                            inventory_items=inventory_items,
                            battle=battle)
+@app.route("/user_page_increase", methods=["GET"])
+def user_page_increase():
+    if "user_page" not in session:
+        session["user_page"] = 1
+    session["user_page"] +=1
+    print(session["user_page"])
+    return redirect(url_for("all_users"))
+@app.route("/user_page_decrease", methods=["GET"])
+def user_page_decrease():
+    if "user_page" not in session:
+        session["user_page"] = 1
+    session["user_page"] -=1
+    if session["user_page"] == 0:
+        session["user_page"] = 1
+    print(session["user_page"])
+    return redirect(url_for("all_users"))
 #run#
 if __name__ == '__main__':
     app.run(debug=True)
