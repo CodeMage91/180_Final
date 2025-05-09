@@ -476,6 +476,33 @@
                            
                             {% endif %}
 
+                            <!--all items and search card-->
+                            <div style="width: 820px; height: 420px; background-image: linear-gradient(indigo,skyblue); margin: auto; border-radius: 10px;">
+                                <h2 style="font-family: 'Micro 5', sans-serif;margin-left:12px;font-size: 53px;color:gold;">All Items</h2>
+                                <div style="width: 820px;height: 420px;overflow-y: scroll;">
+                                    {% if items %}
+                                    {% for item in items %}
+                                        <div class="item_card_image" style="background-image: url('{{ url_for('static', filename='images/' ~ item.item_image) }}');"></div>  
+                                    {{item.item_name}}
+                                    {% endfor%}
+                                    {% else %}
+                                    <p>There are no items</p>
+                                    {%endif%}
+                                </div>    
+                            </div>
+                            <!--warranty card-->
+                            <div style="width: 820px; height: 420px; background-image: linear-gradient(indigo,skyblue); margin: auto; border-radius: 10px;">
+                                <h2 style="font-family: 'Micro 5', sans-serif;margin-left:12px;font-size: 53px;color:gold;">Item Warrantys</h2>
+                            </div>
+                            <!--Discount card-->
+                            <div style="width: 820px; height: 420px; background-image: linear-gradient(indigo,skyblue); margin: auto; border-radius: 10px;">
+                                <h2 style="font-family: 'Micro 5', sans-serif;margin-left:12px;font-size: 53px;color:gold;">Item Discounts</h2>
+                            </div>
+                            <!--by vendor-->
+                            <div style="width: 820px; height: 420px; background-image: linear-gradient(indigo,skyblue); margin: auto; border-radius: 10px;">
+                                <h2 style="font-family: 'Micro 5', sans-serif;margin-left:12px;font-size: 53px;color:gold;">By Vendor</h2>
+                            </div>
+
                     </div>
                 </div>
 
@@ -748,8 +775,26 @@ var navText07 = document.getElementById('nav_text_07');
         var create_item = document.getElementById('create_item');
         create_item.addEventListener('mouseout',function(){
             create_item.style.color = 'white';
-        });               
+        });   
+        
+        var create_item_card = document.getElementById('create_item_card');
+        var search_item_card = document.getElementById('search_item_card');
+        var item_warranty_card = document.getElementById('item_warranty_card');
+        var item_discount_card = document.getElementById('item_discount_card');
+        var item_by_vendor_card = document.getElementById('items_by_vendor');
 
+        var item_card_array = [create_item_card, search_item_card, item_warranty_card, item_discount_card, item_by_vendor_card];
+        for(let i = 0; i<item_card_array.length;i++){
+            item_card_array[i].addEventListener('mouseover',function(){
+                item_card_array[i].style.color = 'gold';
+                item_card_array[i].style.cursor = 'pointer';
+            });
+            item_card_array[i].addEventListener('mouseout',function(){
+                item_card_array[i].style.color = 'white';
+            });
+        }
+
+ 
              </script>
                 {%endif%}
                  
@@ -1215,6 +1260,20 @@ var navText07 = document.getElementById('nav_text_07');
     {% endif %}
         <style>
 
+
+
+
+
+            .item_card_image{
+                width: 120px;
+                height: 120px;
+                border: white outset 3px;
+                background-size: contain;
+                background-repeat: no-repeat;
+                background-color: rgba(0,0,0,0.15);
+                border-radius: 10px;
+                
+            }
 
 
             .user_box{
