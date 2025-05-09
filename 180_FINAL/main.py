@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:CSET155@localhost/shopdb'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:QIblI25#3@localhost/shopdb'
 app.config['SECRET_KEY'] = 'dev_key'
 db = SQLAlchemy(app)
 
@@ -395,7 +395,7 @@ def all_users():
     if type(session['user_page'])!=int:
         session["user_page"]=1
     user_page=session["user_page"]
-    num_of_users=db.session.execute(text("SELECT count(user_id) as 'num_of_users' from shop_user")).mappings.fetchone()
+    num_of_users=db.session.execute(text("SELECT count(user_id) as 'num_of_users' from shop_user")).mappings().fetchone()
     per_page=3
     user_page=1
     max_pages=math.ceil(num_of_users['num_of_users']/per_page)
