@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:CSET155@localhost/shopdb'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:74CLpyrola!@localhost/shopdb'
 app.config['SECRET_KEY'] = 'dev_key'
 db = SQLAlchemy(app)
 
@@ -65,6 +65,8 @@ def initialize():
     for signup_data in create_users:
         if signup_data == None:
             break
+        if 'user_image_small' not in signup_data:
+            signup_data['user_image_small'] = 'small_blue_boi.png'
         db.session.execute(text("""
                     INSERT INTO shop_user (full_name, email, username, user_image,user_image_small,password_hash, user_type)
                     VALUES (:full_name, :email, :username, :user_image, :user_image_small, :password_hash, :user_type)
@@ -400,30 +402,29 @@ def all_users():
         session['to_user'] = None
     to_user=session['to_user']
     conversation=None
-    
-    if request.form:
-        if "whichchat" in request.form:
-            conversation = db.session.execute(
-                text(f"""
-                     SELECT 
-                        message.* , 
-                        user1.username as 'username1' ,  
-                        user2.username as 'username2' 
-                    FROM 
-                        message, shop_user as user1, shop_user as user2 
-                    WHERE 
-                        message.from_user = user1.user_id AND 
-                        message.to_user = user2.user_id AND
-                        forchat={request.form["whichchat"]}
-                     """)).mappings().fetchall()
-        if "response" in request.form:
-            chatid = db.session.execute(text(
-                f"SELECT * FROM chat WHERE (user1={to_user}) AND (user2={user_id}) OR (user1={user_id}) AND (user2={to_user})")).first()
-            if chatid == None:
-                db.session.execute(text(f"INSERT INTO chat (user1, user2) VALUES ({user_id},{to_user})"))
-                db.session.commit()
-                chatid = db.session.execute(text(
+    if to_user != None and user_id != None:
+        chatid = db.session.execute(text(
                     f"SELECT * FROM chat WHERE (user1={to_user}) AND (user2={user_id}) OR (user1={user_id}) AND (user2={to_user})")).first()
+        if chatid == None:
+            db.session.execute(text(f"INSERT INTO chat (user1, user2) VALUES ({user_id},{to_user})"))
+            db.session.commit()
+            chatid = db.session.execute(text(
+                        f"SELECT * FROM chat WHERE (user1={to_user}) AND (user2={user_id}) OR (user1={user_id}) AND (user2={to_user})")).first()
+        conversation = db.session.execute(
+                    text(f"""
+                        SELECT 
+                            message.* , 
+                            user1.username as 'username1' ,  
+                            user2.username as 'username2' 
+                        FROM 
+                            message, shop_user as user1, shop_user as user2 
+                        WHERE 
+                            message.from_user = user1.user_id AND 
+                            message.to_user = user2.user_id AND
+                            forchat={chatid.chatid}
+                        """)).mappings().fetchall()
+    if request.form: 
+        if "response" in request.form:
             db.session.execute(text(
                 f"INSERT INTO message (forchat,conversation,comment_date,from_user,to_user) VALUES({chatid.chatid},'{request.form['response']}', NOW(), {user_id}, {to_user})"))
             db.session.commit()
@@ -779,6 +780,10 @@ def reviewing(item_id):
                            order_items=order_items,
                            inventory_items=inventory_items,
                            battle=battle)
+@app.route('/clear_info')
+def clear_session():
+    session.clear()
+    return redirect(url_for('initialize'))
 #run#
 if __name__ == '__main__':
     app.run(debug=True)
