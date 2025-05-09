@@ -58,11 +58,12 @@
     height: 40vh;
 }
 .chat-left-div{
+height:375px;
     width: 25%;
 }
 .chat-right-div{
     width: 75%;
-    height: 100%;
+    height: 375px;
 }
 .chat-respond-box{
     display: flex;
