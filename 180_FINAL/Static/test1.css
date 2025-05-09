@@ -312,7 +312,7 @@ padding: 0px;
 margin: 0px;
 }
 .create_user{
-height: 460px;
+height: 60vh;
 background-image: linear-gradient(rgb(1, 39, 1), rgb(202, 145, 91));
 color: white;
 display: flex;

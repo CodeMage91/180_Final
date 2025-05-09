@@ -60,4 +60,5 @@ document.addEventListener("DOMContentLoaded", (event) => {
     if (memory == "None"){
         reset_displays()
     }
+    console.log(memory)
 })

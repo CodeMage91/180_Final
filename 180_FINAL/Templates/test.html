@@ -6,6 +6,7 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Micro+5&display=swap" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="{{url_for( 'static', filename="layered_background.css" )}}">
+        <link rel="stylesheet" type="text/css" href="{{url_for( 'static', filename="user_css.css" )}}">
         {% block extra_head %}{% endblock %}
     </head>
     <body>
@@ -236,11 +237,11 @@
     
     
     
+            {% if login %}
     <div class="page">
         <div class="bodi">
             
             
-            {% if login %}
              <!--saving login info-->
             {% if login.user_type == 'Admin'%}
 
@@ -756,12 +757,12 @@ var navText07 = document.getElementById('nav_text_07');
             <!--login page-->
             <div class="user-panel">
                 <div class="user-info">
-                    <div class="greeting">Hello, Admin!</div>
-                    <div class="info-row"><strong>Balance:</strong> $0.0</div>
-                    <div class="info-row"><strong>Name:</strong> Admin Account</div>
-                    <div class="info-row"><strong>Username:</strong> Admin</div>
-                    <div class="info-row"><strong>Email:</strong> admin@account.com</div>
-                    <div class="info-row"><strong>Class:</strong> Admin</div>
+                    <div class="greeting">Hello, {{login.full_name}}!</div>
+                    <div class="info-row"><strong>Balance:</strong> $</div>
+                    <div class="info-row"><strong>Name:</strong> {{login.full_name}}</div>
+                    <div class="info-row"><strong>Username:</strong> {{login.username}}</div>
+                    <div class="info-row"><strong>Email:</strong> {{login.email}}</div>
+                    <div class="info-row"><strong>Class:</strong> {{login.user_type}}</div>
                     <a href="{{ url_for('logout') }}" class="logout-button">Logout</a>
                 </div>
             </div>
@@ -777,69 +778,49 @@ var navText07 = document.getElementById('nav_text_07');
                 </div>
             </div>
                 <div class="box_holder">
-                    {% if not (login.user_type == "Customer") %}
-                    {% if (login.user_type == "Admin") %}
-                    <div class="box">
-                        <h1>  Admin Users</h1><br>
-                        {% if admin_users %}
-
-                            {% for user in admin_users %}
-                            <div class="user_box">
-                                <div class="profile" id="pic"  style="background-image: url('{{ url_for('static', filename='images/' ~ user.user_image) }}');"></div>
-                                <div class="user_stats"></div>
-                            Name: {{ user.full_name }}<br>
-                            Username: {{user.username}}<br>
-                            Email: {{user.email}}
-                            Type: {{user.user_type}}
+                    <div class="chat-holder">
+                        <div class="chat-left-div">
+                            <div class="user-page-card-holder">
+                                {% for user in users %}
+                                <div class="card">
+                                    <img src="../static/images/{{user['user_image']}}" height="100px" width="100px" style="align-self:center">
+                                    
+                                    <div class='card-stats'>
+                                        <p style="text-align:center">Name: {{user['full_name']}}</p>
+                                        <p style="text-align:center">User Type: {{user['user_type']}}</p>
+                                        <form action="/chat" method="POST">
+                                            <input type="hidden" name="userid" value="{{user['user_id']}}">
+                                            <div style="margin-left:20px"><input type="submit" name="submit" value="Chat with User" class="chat-with"></div>
+                                        </form>
+                                    </div>
+                                </div>
+                                {% endfor %}
                             </div>
-                            {% endfor %}
-                        {% else %}
-                            <p>No admin_users found</p>
-                        {% endif %}
+                            <div class="pagination_bar">
+                                <a href= {% if page==1 %}"/users/1" {% else %} "{{ "/users/"+ (page - 1) | string }}"{% endif %} class="pagination_button"> < </a>
+                                <a class="pagination_button" style="background-color: rgb(108, 3, 3);"> {{page}} </a>
+                                {% if (not (page>=max_pages-2)) %}
+                                <a href="{{ "/users/"+ (page + 1) | string }}" class="pagination_button" > {{ page + 1 }} </a>
+                                {% endif %}
+                                {% if (not (page>=max_pages-1)) %}
+                                <a href="{{ "/users/"+ (page + 2) | string }}" class="pagination_button"> {{ page + 2 }} </a>
+                                {% endif %}
+                                {% if (not(page>=max_pages-2)) %}
+                                <p class="pagination_button">...</p>
+                                {% endif %}
+                                {% if not (page==max_pages) %}
+                                <a href={{"/users/"+(max_pages) | string}} class="pagination_button">{{max_pages}}</a>
+                                {% endif %}
+                                <a href={% if page==max_pages %}{{"/users/"+max_pages  | string }} {% else %}"{{ "/users/"+ (page + 1) | string }}"{% endif %} class="pagination_button"> > </a>
+                            </div>
+                        </div>
+                        <div class="chat-right-div">
+                        {% block chat %}
+
+                        {% endblock %}
+                        </div>
                     </div>
-                    {%endif%}
-
-                <div class="box">
-                    <h1>Vendor Users</h1>
-                    {%if vendor_users%}
-
-                        {% for user in vendor_users %}
-                        <div class="user_box">
-                            <div class="profile" id="pic"  style="background-image: url('{{ url_for('static', filename='images/' ~ user.user_image) }}');"></div>
-                            <div class="user_stats"></div>
-                        Name: {{ user.full_name }}<br>
-                        Username: {{user.username}}<br>
-                        Email: {{user.email}}<br>
-                        Type: {{user.user_type}}
-                        </div>
-
-                        {% endfor%}
-                    {% else %}
-                        <p> no vendors found</p>
-                    {% endif %}
                 </div>
-
-                <div class="box">
-                    <h1>Customer Users</h1>
-                    {%if customer_users%}
-
-                        {% for user in customer_users %}
-                        <div class="user_box">
-                            <div class="profile"  style="background-image: url('{{ url_for('static', filename='images/' ~ user.user_image) }}');"></div>
-                            <div class="user_stats"></div>
-                        Name: {{ user.full_name }}<br>
-                        Username: {{user.username}}<br>
-                        Email: {{user.email}}<br>
-                        Type: {{user.user_type}}
-                        </div>
-
-                        {% endfor%}
-                    {% else %}
-                        <p> no customers found</p>
-                    {% endif %}
-                </div>
-                {% endif %}
-            </div>
             <div class="shop_holder shop_holder_sky">
                 {% if login.user_type == "Customer"%}
                     <button id="exit_shop_cart_order" onclick="update_memory('None')">X</button>
@@ -1446,16 +1427,6 @@ var navText07 = document.getElementById('nav_text_07');
             padding: 0px;
             margin: 0px;
         }
-        .create_user{
-            height: 460px;
-            background-image: linear-gradient(rgb(1, 39, 1), rgb(202, 145, 91));
-                color: white;
-                display: flex;
-            flex-direction: column;
-                justify-content: center;
-                align-items: center;
-
-        }
         .account_type{
             position: relative;
             /* border: green 1px solid; */
@@ -1475,7 +1446,7 @@ var navText07 = document.getElementById('nav_text_07');
             padding-left: 3px;
         }
         #header-title {
-                font-family: 'Micro 5', sans-serif;
+                font-family: 'Alagard', sans-serif;
                 font-size: 80px;
                 color: rgb(255, 187, 0);
                 text-align: center;
