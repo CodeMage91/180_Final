@@ -359,12 +359,18 @@ def all_users():
                 'item_name': request.form['item_name'],
                 'item_image':request.form['item_image'],
                 'original_price': request.form['original_price'],
+                'current_price': request.form['original_price'],
+                'item_size': request.form['item_size'],
+                'item_color': request.form['item_color'],
+                'in_stock': request.form['in_stock'],
+                'warranty_duration':request.form['warranty_duration'],
                 'item_desc': request.form['item_desc'],
-                'created_by': 1
+                'created_by': session['user_id']
             }
             db.session.execute(text("""
-                INSERT INTO shop_item (item_name, item_image,original_price, item_desc, created_by)
-                VALUES (:item_name, :item_image, :original_price, :item_desc, :created_by)
+                INSERT INTO shop_item (item_name, item_image,original_price,current_price,item_size,item_color,in_stock,warranty_duration, item_desc, created_by)
+                VALUES (:item_name, :item_image, :original_price,:current_price, 
+                        :item_size, :item_color, :in_stock, :warranty_duration,:item_desc, :created_by)
             """), create_item)
             db.session.commit()
     # Pagination for items in the shop
@@ -779,6 +785,33 @@ def reviewing(item_id):
                            order_items=order_items,
                            inventory_items=inventory_items,
                            battle=battle)
+
+def apply_warranty(item_id, warranty_choice, db_connection):
+    if warranty_choice in ['2 day', '3 day', '7 day']:
+        purchase_date = datetime.now().date()
+        if warranty_choice == '2 day':
+            expiry_date = purchase_date + timedelta(days=2)
+        elif warranty_choice == '3 day':
+            expiry_date = purchase_date + timedelta(days=3)
+        elif warranty_choice == '7 day':
+            expiry_date = purchase_date + timedelta(days=7)
+
+        cursor = db_connection.cursor()
+        sql = "UPDATE shop_items SET warranty_duration = %s, warranty_valid_until = %s WHERE item_id = %s"
+        values = (warranty_choice, expiry_date, item_id)
+        cursor.execute(sql, values)
+        db_connection.commit()
+        cursor.close()
+    elif warranty_choice is None:
+        cursor = db_connection.cursor()
+        sql = "UPDATE shop_items SET warranty_duration = NULL, warranty_valid_until = NULL WHERE item_id = %s"
+        values = (item_id,)
+        cursor.execute(sql, values)
+        db_connection.commit()
+        cursor.close()
+    else:
+        print("Invalid warranty choice.")
+
 #run#
 if __name__ == '__main__':
     app.run(debug=True)

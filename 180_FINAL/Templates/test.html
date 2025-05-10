@@ -448,11 +448,11 @@
                     
                     <div id="product_card" style="width: 820px; height: 420px; background-image: linear-gradient(indigo,skyblue); margin: auto; border-radius: 10px; margin-top: 38px;position: relative; top: -620px; flex-direction: column;">
                         <div id="user_filters" style="display: flex;color:white;margin: auto;width: 600px; justify-content: space-evenly;position: relative; top: -38px;">
-                            <div id="create_item_card" class="filter">CREATE</div>
-                            <div id="search_item_card" class="filter">SEARCH</div>
-                            <div id="item_warranty_card" class="filter">WARRANTYS</div>
-                            <div id="item_discount_card" class="filter">DISCOUNTS</div>
-                            <div id="items_by_vendor" class="filter">BY VENDOR</div>
+                            <div id="create_item_filter" class="filter">CREATE</div>
+                            <div id="search_item_filter" class="filter">SEARCH</div>
+                            <div id="item_warranty_filter" class="filter">WARRANTYS</div>
+                            <div id="item_discount_filter" class="filter">DISCOUNTS</div>
+                            <div id="items_by_vendor_filter" class="filter">BY VENDOR</div>
                         </div>
                        
                             {% if not (login.user_type == "Customer") %}
@@ -463,6 +463,29 @@
                                 <input placeholder="Item Name" name="item_name">
                                 <input placeholder="item_image" name="item_image">
                                 <input placeholder="Item Price" name="original_price">
+                                <label for="item_size">Size</label>
+                                    <select name="item_size">
+                                        <option value="small">Small</option>
+                                        <option value="medium">Medium</option>
+                                        <option value="large">Large</option>
+                                    </select>
+                                <lable for="item_color">Color</lable>
+                                <select name="item_color">
+                                    <option value="red" style="background-color: red;">RED</option>
+                                    <option value="orange" style="background-color: orange;">ORANGE</option>
+                                    <option value="yellow" style="background-color: yellow;">YELLOW</option>
+                                    <option value="green" style="background-color: green;">GREEN</option>
+                                    <option value="blue" style="background-color: blue;">BLUE</option>
+                                    <option value="indigo" style="background-color: indigo;">INDIGO</option>
+                                    <option value="violet" style="background-color: violet;">VIOLET</option>
+                                </select>
+                                <input placeholder="Quantity" name="in_stock">
+                                <label for="warranty_duration">Warranty</label>
+                                <select name="warranty_duration">
+                                    <option value="2 Day">2 Day</option>
+                                    <option value="3 Day">3 Day</option>
+                                    <option value="7 Day">7 Day</option>
+                                </select>
                                 <textarea placeholder="Item Description" name="item_desc"></textarea>
                                 <div style="width:100%;height:250px;border:white solid 1px; background-image: url(../static/images/shop_background1.png);background-size: contain; border-bottom-right-radius: 10px;border-bottom-left-radius: 10px;
                                 background-position: center;">
@@ -481,23 +504,37 @@
                                 <!--search items-->
                                 <div>
                                     <input placeholder="search items" style=" margin-top:23px;width:420px; padding-left:7px;border-top-left-radius: 10px;border-bottom-left-radius:10px;position: relative;left:300px;height: 28px; ">
-                                    <div style="position: relative;width: 28px; height: 28px; border: 1px red solid;top:-30px;left:700px;"></div>
+                                    <div id="search_item_btn" style="position: relative;width: 28px; height: 28px; top:-28px;left:720px;background-image: url(../static/images/icons/icon_14.png);background-size: contain;cursor:pointer;">
+                                        <div id="search_item_text" style="position: relative;border-radius: 10px;background-image: linear-gradient(indigo,skyblue);color:white;text-align: center;height: 23px;width: fit-content;padding:3px;left:-8px;top: 32px;display:none;">Search</div>
+                                    </div>
                                 </div>
                                 <h2 style="font-family: 'Micro 5', sans-serif;margin-left:12px;font-size: 53px;color:gold;">All Items</h2>
                                 <div style="width: 820px;height: 420px;overflow-y: scroll;display: flex;flex-direction: column;">
                                     {% if items %}
                                     {% for item in items %}
-                                        <div style="display: flex;flex-direction: row; width:720px;margin-left: 32px;margin-top:12px;border-radius: 10px;background-color: white;">
+                                        <div style="display: flex;flex-direction: row; width:720px;margin-left: 32px;margin-top:6px;border-radius: 10px;background-color: white;">
                                             <div class="item_card_image" style="background-image: url('{{ url_for('static', filename='images/' ~ item.item_image) }}');"></div>  
-                                                <div>
-                                                    <h2>{{item.item_name}}</h2>
-                                                    <h3>${{item.original_price}}</h3>
-                                                    <p style="font-size: 23px;">{{item.item_desc}}</p>
+                                                <div style="width: 300px;margin-left: 6px;">
+                                                    <h3>Item Name:{{item.item_name}}</h3>
+                                                    <h4>Original Price: ${{item.original_price}}</h4>
+                                                    <h4>Current Price: ${{item.current_price}}</h4>
+                                                    <h4>Warranty: {{item.item_warranty}}</h4>
+                                                    <h4>Color: {{item.item_color}}</h4>
+                                                    <h4>Size: {{item.item_size}}</h4>
+                                                    <h4>In Stock: {{item.in_stock}}</h4>
+                                                    <h4>Created By: {{item.created_by}}</h4>
                                                 </div>
+                                                    <div style="border-radius:10px;width:240px;height: 100px;position: relative; padding-left:7px;background-color:aliceblue;margin-top: 7px; border:black solid 2px;">
+                                                        <p style="font-size: 18px;">Description:<br>{{item.item_desc}}</p>
+                                                    </div>
                                             </div>
-                                                <div  id="update_item" style="position:relative; top:-40px;left: 655px;border: 3px black outset;background-image: linear-gradient(black,grey);padding: 4px;
+                                                <div  class="update_item" id="update_item" style="position:relative; top:-36px;left: 600px;border: 3px black outset;background-image: linear-gradient(black,grey);padding: 4px;
                                                 color:white;font-family: 'Micro 5', sans-serif; width: 80px; text-align: center;font-size: 23px; border-radius: 10px;cursor: pointer; ">
                                                     update
+                                                </div>
+                                                <div  class="delete_item" id="update_item" style="position:relative; top: -73px;left: 500px;border: 3px black outset;background-image: linear-gradient(black,grey);padding: 4px;
+                                                color:white;font-family: 'Micro 5', sans-serif; width: 80px; text-align: center;font-size: 23px; border-radius: 10px;cursor: pointer; ">
+                                                    delete
                                                 </div>    
                                     {% endfor%}
                                     {% else %}
@@ -506,15 +543,15 @@
                                 </div>    
                             </div>
                             <!--warranty card-->
-                            <div style="width: 820px; height: 420px; background-image: linear-gradient(indigo,skyblue); margin: auto; border-radius: 10px;">
+                            <div style="width: 820px; height: 420px; background-image: linear-gradient(indigo,skyblue); margin: auto; border-radius: 10px;display:none">
                                 <h2 style="font-family: 'Micro 5', sans-serif;margin-left:12px;font-size: 53px;color:gold;">Item Warrantys</h2>
                             </div>
                             <!--Discount card-->
-                            <div style="width: 820px; height: 420px; background-image: linear-gradient(indigo,skyblue); margin: auto; border-radius: 10px;">
+                            <div style="width: 820px; height: 420px; background-image: linear-gradient(indigo,skyblue); margin: auto; border-radius: 10px;display:none">
                                 <h2 style="font-family: 'Micro 5', sans-serif;margin-left:12px;font-size: 53px;color:gold;">Item Discounts</h2>
                             </div>
                             <!--by vendor-->
-                            <div style="width: 820px; height: 420px; background-image: linear-gradient(indigo,skyblue); margin: auto; border-radius: 10px;">
+                            <div style="width: 820px; height: 420px; background-image: linear-gradient(indigo,skyblue); margin: auto; border-radius: 10px;display: none;">
                                 <h2 style="font-family: 'Micro 5', sans-serif;margin-left:12px;font-size: 53px;color:gold;">By Vendor</h2>
                             </div>
 
@@ -808,6 +845,27 @@ var navText07 = document.getElementById('nav_text_07');
                 item_card_array[i].style.color = 'white';
             });
         }
+
+        var search_item_btn = document.getElementById('search_item_btn');
+        var search_item_text = document.getElementById('search_item_text');
+
+        search_item_btn.addEventListener('mouseover',function(){
+            search_item_text.style.display = 'flex';
+            search_item_text.animate(
+                    [
+                        {scale : '1'},
+                        {scale : '1.2'},
+                        {scale : '1.1'}
+                        ],
+                        {
+                        easing: 'ease-in',
+                        duration: 500,
+                        fill: 'forwards'
+                    
+                    }
+                )
+        });
+        
 
  
              </script>
@@ -1287,7 +1345,8 @@ var navText07 = document.getElementById('nav_text_07');
                 background-repeat: no-repeat;
                 background-color: rgba(0,0,0,0.15);
                 border-radius: 10px;
-                margin-right: 12px;
+                margin-left: 6px;
+                margin-top: 6px;
 
             }
 
@@ -1939,6 +1998,9 @@ var navText07 = document.getElementById('nav_text_07');
             width: 100%;
             bottom: 0;
             z-index: 400;
+            }
+            .update_item:hover{
+                color: gold;
             }
         </style>
     <footer>
