@@ -74,7 +74,7 @@ def initialize():
     db.session.commit()
     #get the items that will be default into the database
     vendors = db.session.execute(text("""
-                    SELECT user_id FROM shop_user WHERE user_type = "Vendor" 
+                    SELECT user_id, full_name FROM shop_user WHERE user_type = "Vendor" 
                                             """)).mappings().fetchall()
     print(vendors)
     create_items = [
@@ -226,6 +226,12 @@ def initialize():
             "created_by": 0  # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
         }
     ]
+    
+    phobius = None
+    for i in vendors:
+        if i['full_name'] == "Phobius Heathstone":
+            phobius = i
+            break
     vendorNum = 0
     for i, item in enumerate(create_items):
         if i % 5 == 0:
@@ -233,7 +239,7 @@ def initialize():
         if vendorNum == len(vendors):
             vendorNum = 0
         vendor = vendors[vendorNum]
-        item["created_by"] = vendor["user_id"]
+        item["created_by"] = phobius['user_id']
     for create_item in create_items:
         if create_item == None:
             break
@@ -276,11 +282,18 @@ def all_users():
     creator = db.session.execute(text("SELECT * FROM shop_user WHERE user_id = 1")).mappings().fetchone()
     cart_items = get_user_cart(session['user_id']) if 'user_id' in session else []
     cart_total = db.session.execute(text("SELECT sum(item.original_price) as 'cart_total' from shop_cart cross join shop_item as item where shop_cart.item_id = item.item_id and is_ordered = false and user_id = :user_id"), {"user_id": session["user_id"]}).first()
-    order = get_user_order(session['user_id']) if 'user_id' in session else []
+    order = get_user_order(session['user_id'], None) if 'user_id' in session else []
+    if session['user_id']:
+        print('user')
+        for vendor in vendor_users:
+            print(vendor,'vendor')
+            if session['user_id'] ==  vendor['user_id']:
+                order = get_user_order(None, session['user_id']) if 'user_id' in session else []
+                print(order)
+                break
     user_order = order[0]
     order_items = order[1]
     inventory_items = get_user_inventory(session['user_id']) if 'user_id' in session else []
-    
     battle = False
     print(html)
     
@@ -557,8 +570,8 @@ def to_order():
         cart = get_user_cart(user_id)
         for cartItem in cart:
             db.session.execute(text("""
-                            insert into order_item (order_id, item_id, quantity, price, color, size)
-                            VALUES (:order_id, :item_id, :quantity, :price, :item_color, :item_size)
+                            insert into order_item (order_id, item_id, quantity, price, color, size, status)
+                            VALUES (:order_id, :item_id, :quantity, :price, :item_color, :item_size, "Pending")
                             """), 
                             {
                                 'order_id':latest_order_id,
@@ -582,63 +595,113 @@ def to_order():
         print(e)
         return redirect(url_for('memory_update', memory="None"))
     
-def get_user_order(user_id):
-    x = db.session.execute(text("""
-    select *
-    from shop_order
-    where shop_order.user_id = :user_id
-"""),{'user_id':user_id}).mappings().fetchall()
-    y = db.session.execute(text("""
-    select 
-        shop_item.item_name as "name",
-        order_item.quantity as "quantity",
-        shop_order.order_id as "order_id",
-        order_item.price as "price",
-        order_item.color as "color",
-        order_item.size as "size"
-    from 
-        order_item 
-            cross join 
-        shop_item 
-            cross join
-        shop_order
-    where 
-        shop_item.item_id = order_item.item_id
-            and 
-        order_item.order_id = shop_order.order_id
-            and
-        shop_order.user_id = :user_id
-"""), {"user_id": user_id}).mappings().fetchall()
+def get_user_order(user_id, vendor_id):
+    if user_id == None and vendor_id != None:
+        y = db.session.execute(text("""
+            select 
+                shop_item.item_name as "name",
+                order_item.quantity as "quantity",
+                shop_order.order_id as "order_id",
+                order_item.price as "price",
+                order_item.color as "color",
+                order_item.size as "size",
+                order_item.status as status
+            from 
+                order_item 
+                    cross join 
+                shop_item 
+                    cross join
+                shop_order
+            where 
+                shop_item.item_id = order_item.item_id
+                    and 
+                order_item.order_id = shop_order.order_id
+                    and
+                shop_item.created_by = :vendor_id
+        """), {"vendor_id": vendor_id}).mappings().fetchall()
+        order_ids = ''
+        for item in y:
+            order_ids = order_ids + str(item['order_id']) + ', '
+        x = db.session.execute(text("""
+                select *
+                from shop_order
+                where order_id in (:order_ids)
+            """),{"order_ids": order_ids}).mappings().fetchall()
+    else:
+            
+        x = db.session.execute(text("""
+                select *
+                from shop_order
+                where shop_order.user_id = :user_id
+            """),{'user_id':user_id}).mappings().fetchall()
+        y = db.session.execute(text("""
+            select 
+                shop_item.item_name as "name",
+                order_item.quantity as "quantity",
+                shop_order.order_id as "order_id",
+                order_item.price as "price",
+                order_item.color as "color",
+                order_item.size as "size"
+            from 
+                order_item 
+                    cross join 
+                shop_item 
+                    cross join
+                shop_order
+            where 
+                shop_item.item_id = order_item.item_id
+                    and 
+                order_item.order_id = shop_order.order_id
+                    and
+                shop_order.user_id = :user_id
+        """), {"user_id": user_id}).mappings().fetchall()
     return [x,y]
 
 @app.route('/update_order_status', methods=['POST','GET'])
 def update_order_status():
-     if request.method == 'GET':
-        flash('Invalid access. Please use the cart form to submit an order.')
-        return redirect(url_for('all_users'))
-     if 'user_id' not in session:
-        flash('Login Required')
-        return redirect(url_for('all_users'))
-     
-     user_id= session['user_id']
-     order_data= {
-         'status':request.form['status'],
-         'user_id':user_id,
+    if request.method == 'GET':
+       flash('Invalid access. Please use the cart form to submit an order.')
+       return redirect(url_for('all_users'))
+    if 'user_id' not in session:
+       flash('Login Required')
+       return redirect(url_for('all_users'))
+    
+    user_id= session['user_id']
+    order_data= {
+        'status':request.form['status'],
+         'order_id':request.form['order_id'],
          'item_id':request.form['item_id']
      }
-     try:
+    try:
          
-         db.session.execute(text("""
-                update shop_order set status = :status, last_status_update = NOW()
-                                 where user_id = :user_id and item_id = :item_id
-                                 """),order_data)
-         db.session.commit()
-         flash('Order Updated.')
-         return redirect(url_for('all_users'))
-     except Exception as e:
-         flash(f'Error updating order!{e}')
-
-     return redirect(url_for('all_users'))
+        db.session.execute(text("""
+               update order_item set status = :status
+                                where item_id = :item_id and order_id = :order_id
+                                """),order_data)
+        db.session.commit()   
+        flash('Order Updated.')
+        #check if order is complete
+        order = db.session.execute(text("""
+                        select * from shop_order where order_id = :order_id
+                                        """), order_data).mappings().fetchall()
+        order_items = db.session.execute(text("""
+                        select * from order_item where order_id = :order_id
+                                              """), order_data).mappings().fetchall()
+        delivered = True
+        for item in order_items:
+            if item['status'] == "Pending":
+                delivered = False
+            if item['status'] == "Shipped":
+                continue
+        if delivered:
+            db.session.execute(text("update shop_order set status = 'Delivered'"))
+            db.session.commit()
+        if order['status'] == 'Delivered':
+            return redirect(f'/add_inventory_order/{order_data['order_id']}')
+        return redirect(url_for('all_users'))
+    except Exception as e:
+        flash(f'Error updating order!{e}')
+    return redirect(url_for('all_users'))
 
 @app.route('/update_order_status_js', methods=['POST'])
 def update_order_status_js():
@@ -655,7 +718,7 @@ def update_order_status_js():
         return jsonify({'success': True})
     except Exception as e:
         return jsonify({'success': False, 'error': str(e)})
-
+#OLD CODE FOR REFERENCE
 @app.route('/to_user', methods=['POST','GET'])
 def to_user():
     if request.method == 'GET':
@@ -677,6 +740,35 @@ def to_user():
                                 """),inventory_data)
         db.session.commit()
         flash('added to invertory!')
+        return redirect(url_for('all_users'))
+    except Exception as e:
+        flash(f'Error updating Inventory: {e}')
+
+        return redirect(url_for('all_users'))
+
+# Updating inventory based off a completed order   
+@app.route('/add_inventory_order/<order_id>', methods=['GET'])
+def add_inventory_order(order_id):
+    try:
+        order = db.session.execute(text(f"""
+                    SELECT * FROM shop_order WHERE order_id = {order_id}
+                                        """)).first()
+        user_id = order['user_id']
+        order_items = db.session.execute(text(f"""
+                    SELECT * FROM order_item WHERE order_id = {order_id} SORT BY item_id
+                                        """)).mappings().fetchall()
+        for item in order_items:
+            inventory_data = {
+                'user_id':user_id,
+                'item_id':item['item_id'],
+                'quantity':item['quantity']
+            }
+            db.session.execute(text("""
+                                    insert into user_inventory(user_id, item_id, quantity)
+                                    values(:user_id,:item_id, :quantity)
+                                    on duplicate key update quantity = quantity + :quantity;
+                                    """),inventory_data)
+        db.session.commit()
         return redirect(url_for('all_users'))
     except Exception as e:
         flash(f'Error updating Inventory: {e}')
@@ -770,16 +862,8 @@ def reviewing(item_id):
         user_id=session['user_id']
         db.session.execute(text(f"INSERT INTO review (from_user,for_item,rating,review_date,statement) VALUES ({user_id},{item_id},{request.form["rating"]}, NOW(),'{request.form["review"]}')"))
         db.session.commit()
-    return render_template("reviews.html",comments=comments, item_id=item_id,admin_users=admin_users,
-                           vendor_users=vendor_users,
-                           customer_users=customer_users,
-                           items=items,
-                           creator=creator,
-                           login=login,
-                           cart_items=cart_items,
-                           order_items=order_items,
-                           inventory_items=inventory_items,
-                           battle=battle)
+    session['html'] = 'reviews.html'
+    return redirect(url_for('all_users'))
 @app.route('/clear_info')
 def clear_session():
     session.clear()

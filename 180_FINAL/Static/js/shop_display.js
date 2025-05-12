@@ -12,39 +12,53 @@ function update_memory(memory){
 function reset_displays(){
     items = document.getElementById("items");
     cart = document.getElementById("cart");
+    inventory = document.getElementById("inventory");
     order = document.getElementById("orders");
     shop_holder.classList.add('shop_holder_sky');
     shop_holder.classList.remove('shop_background_image');
     displayButtonHolder.style.display = 'flex'
     items.style.display = "none";
+    inventory.style.display = "none";
     cart.style.display = "none";
     order.style.display = "none";
     exit_shop_cart_order.style.display = 'none';
 }
 
 function display_shop(){
+    reset_displays()
     exit_shop_cart_order.style.display = 'block';
     items = document.getElementById("items");
     shop_holder.classList.remove('shop_holder_sky');
     shop_holder.classList.add('shop_background_image');
-    displayButtonHolder.style.display = 'None'
+    displayButtonHolder.style.display = 'None';
     items.style.display = "flex";
 }
 function display_cart(){
+    reset_displays()
     exit_shop_cart_order.style.display = 'block';
     cart = document.getElementById("cart");
     shop_holder.classList.remove('shop_holder_sky');
     shop_holder.classList.add('shop_background_image');
-    displayButtonHolder.style.display = 'None'
+    displayButtonHolder.style.display = 'None';
     cart.style.display = "flex";
 }
 function display_orders(){
+    reset_displays()
     exit_shop_cart_order.style.display = 'block';
     order = document.getElementById("orders");
     shop_holder.classList.remove('shop_holder_sky');
     shop_holder.classList.add('shop_background_image');
-    displayButtonHolder.style.display = 'None'
+    displayButtonHolder.style.display = 'None';
     order.style.display = "flex";
+}
+function display_inventory(){
+    reset_displays()
+    exit_shop_cart_order.style.display = 'block';
+    inventory = document.getElementById("inventory");
+    shop_holder.classList.remove('shop_holder_sky');
+    shop_holder.classList.add('shop_background_image');
+    displayButtonHolder.style.display = 'None';
+    inventory.style.display = "flex";
 }
 document.addEventListener("DOMContentLoaded", (event) => {
     memory = document.getElementById("memory_item_get").innerHTML
@@ -56,6 +70,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
     }
     if (memory == "ORDERS"){
         display_orders()
+    }
+    if (memory == "INVENTORY"){
+        display_inventory()
     }
     if (memory == "None"){
         reset_displays()
