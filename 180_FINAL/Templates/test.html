@@ -916,21 +916,9 @@ var navText07 = document.getElementById('nav_text_07');
                                 {% endfor %}
                             </div>
                             <div class="pagination_bar">
-                                <a href= {% if page==1 %}"/users/1" {% else %} "{{ "/users/"+ (page - 1) | string }}"{% endif %} class="pagination_button"> < </a>
-                                <a class="pagination_button" style="background-color: rgb(108, 3, 3);"> {{page}} </a>
-                                {% if (not (page>=max_pages-2)) %}
-                                <a href="{{ "/users/"+ (page + 1) | string }}" class="pagination_button" > {{ page + 1 }} </a>
-                                {% endif %}
-                                {% if (not (page>=max_pages-1)) %}
-                                <a href="{{ "/users/"+ (page + 2) | string }}" class="pagination_button"> {{ page + 2 }} </a>
-                                {% endif %}
-                                {% if (not(page>=max_pages-2)) %}
-                                <p class="pagination_button">...</p>
-                                {% endif %}
-                                {% if not (page==max_pages) %}
-                                <a href={{"/users/"+(max_pages) | string}} class="pagination_button">{{max_pages}}</a>
-                                {% endif %}
-                                <a href={% if page==max_pages %}{{"/users/"+max_pages  | string }} {% else %}"{{ "/users/"+ (page + 1) | string }}"{% endif %} class="pagination_button"> > </a>
+                                {% if not ( user_page == 1 ) %}<a class="item_page_button" href="/user_page_decrease"> PREVIOUS </a>{% endif %}
+                            <a class="item_page_button" href="/">{{user_page}}</a>
+                            {% if not ( user_page == max_page ) %}<a class="item_page_button" href="/user_page_increase"> NEXT </a>{% endif %}
                             </div>
                         </div>
                         <div class="chat-right-div">
@@ -1040,9 +1028,10 @@ var navText07 = document.getElementById('nav_text_07');
             <div class="cart" id="orders">
             {% endif %}
             {% if user_orders %}
-            
+
             {% for order in user_orders %}
-                <h1>ORDER ID: {{order.order_id}}</h1>
+                <div class="order-card">
+                 <h1>ORDER ID: {{order.order_id}}</h1>
                 <h3>TOTAL: ${{order.order_total}}</h3>
                 <form method="POST" action="{{url_for('update_order_status')}}">
                     <input type="hidden" name="item_id" value={{order.order_id}}>
@@ -1069,6 +1058,8 @@ var navText07 = document.getElementById('nav_text_07');
                         </ul>
                     </div>
                     {% endif %}
+                </div>
+
             {% endfor%}
             {% else%}
                 <p>No order items</p>
@@ -1242,6 +1233,15 @@ var navText07 = document.getElementById('nav_text_07');
                 justify-content: space-around;
                 flex-direction: column;
                 position: relative;
+                overflow: scroll-y;
+            }
+            .order-card{
+            padding:10%;
+            text-align:center;
+            background-color: rbga(0,0,0,100.7);
+            border-radius:10px;
+            height:200px;
+            width:fit-content;
             }
             .display_button{
                 color: white;

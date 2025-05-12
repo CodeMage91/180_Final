@@ -4,7 +4,7 @@ from sqlalchemy import text
 import threading
 import time
 import math
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 
 
 app = Flask(__name__)
@@ -65,6 +65,8 @@ def initialize():
     for signup_data in create_users:
         if signup_data == None:
             break
+        if 'user_image_small' not in signup_data:
+            signup_data['user_image_small'] = 'small_blue_boi.png'
         db.session.execute(text("""
                     INSERT INTO shop_user (full_name, email, username, user_image,user_image_small,password_hash, user_type)
                     VALUES (:full_name, :email, :username, :user_image, :user_image_small, :password_hash, :user_type)
@@ -355,6 +357,9 @@ def all_users():
                 flash('Invalid email or password')
               
         elif 'item_name' in request.form:  # This means the Create Item form was submitted
+            duration_str = request.form['warranty_duration']
+            warranty_days = int(duration_str) if duration_str.isdigit() else 0
+            warranty_until = date.today() + timedelta(days=warranty_days) if warranty_days else None
             create_item = {
                 'item_name': request.form['item_name'],
                 'item_image':request.form['item_image'],
@@ -394,8 +399,19 @@ def all_users():
         battle = True
     page_memory = session["memory"]
     #Pagination of users
-    page=1
-    max_pages=1
+    if "user_page" not in session:
+        session["user_page"]=1
+    if type(session['user_page'])!=int:
+        session["user_page"]=1
+    user_page=session["user_page"]
+    num_of_users=db.session.execute(text("SELECT count(user_id) as 'num_of_users' from shop_user")).mappings().fetchone()
+    per_page=3
+    user_page=1
+    max_pages=math.ceil(num_of_users['num_of_users']/per_page)
+    if user_page>max_pages:
+        user_page=max_pages
+        session['user_page']=user_page
+    users=db.session.execute(text(f"SELECT * FROM shop_user LIMIT {per_page} OFFSET {(user_page-1)*per_page}"))
     #chat logic
     to_user = None
     user_id = session['user_id']
@@ -406,30 +422,29 @@ def all_users():
         session['to_user'] = None
     to_user=session['to_user']
     conversation=None
-    
-    if request.form:
-        if "whichchat" in request.form:
-            conversation = db.session.execute(
-                text(f"""
-                     SELECT 
-                        message.* , 
-                        user1.username as 'username1' ,  
-                        user2.username as 'username2' 
-                    FROM 
-                        message, shop_user as user1, shop_user as user2 
-                    WHERE 
-                        message.from_user = user1.user_id AND 
-                        message.to_user = user2.user_id AND
-                        forchat={request.form["whichchat"]}
-                     """)).mappings().fetchall()
-        if "response" in request.form:
-            chatid = db.session.execute(text(
-                f"SELECT * FROM chat WHERE (user1={to_user}) AND (user2={user_id}) OR (user1={user_id}) AND (user2={to_user})")).first()
-            if chatid == None:
-                db.session.execute(text(f"INSERT INTO chat (user1, user2) VALUES ({user_id},{to_user})"))
-                db.session.commit()
-                chatid = db.session.execute(text(
+    if to_user != None and user_id != None:
+        chatid = db.session.execute(text(
                     f"SELECT * FROM chat WHERE (user1={to_user}) AND (user2={user_id}) OR (user1={user_id}) AND (user2={to_user})")).first()
+        if chatid == None:
+            db.session.execute(text(f"INSERT INTO chat (user1, user2) VALUES ({user_id},{to_user})"))
+            db.session.commit()
+            chatid = db.session.execute(text(
+                        f"SELECT * FROM chat WHERE (user1={to_user}) AND (user2={user_id}) OR (user1={user_id}) AND (user2={to_user})")).first()
+        conversation = db.session.execute(
+                    text(f"""
+                        SELECT 
+                            message.* , 
+                            user1.username as 'username1' ,  
+                            user2.username as 'username2' 
+                        FROM 
+                            message, shop_user as user1, shop_user as user2 
+                        WHERE 
+                            message.from_user = user1.user_id AND 
+                            message.to_user = user2.user_id AND
+                            forchat={chatid.chatid}
+                        """)).mappings().fetchall()
+    if request.form: 
+        if "response" in request.form:
             db.session.execute(text(
                 f"INSERT INTO message (forchat,conversation,comment_date,from_user,to_user) VALUES({chatid.chatid},'{request.form['response']}', NOW(), {user_id}, {to_user})"))
             db.session.commit()
@@ -450,7 +465,7 @@ def all_users():
                            item_page=item_page,
                            max_page=max_page,
                            memory=page_memory,
-                           page=page,
+                           page=user_page,
                            max_pages=max_pages,
                            _chat=_chat,
                            conversation=conversation

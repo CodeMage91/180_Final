@@ -1,11 +1,7 @@
 {% extends "test.html" %}
 {% block chat %}
     {% if _chat %}
-        {% for ch in _chat %}
-            <form action="/" method="POST">
-            <p>{{ch['forchat']}}<input id="whichchat" type="submit" name="whichchat" value="{{ch['chatid']}}" placeholder="{{ch['chatid']}}"></p>
-            </form>
-        {% endfor %}
+            
         {% if conversation %}
             <div class='chat-respond-box'>
                 {% for con in conversation %}
