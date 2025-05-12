@@ -973,7 +973,7 @@ var navText07 = document.getElementById('nav_text_07');
 
             {% for order in user_orders %}
                 <div class="order-card">
-                 <h1>ORDER ID: {{order.order_id}}</h1>
+                <h1>ORDER ID: {{order.order_id}}</h1>
                 <h3>TOTAL: ${{order.order_total}}</h3>
                 <form method="POST" action="{{url_for('update_order_status')}}">
                     <input type="hidden" name="item_id" value={{order.order_id}}>
@@ -1178,12 +1178,15 @@ var navText07 = document.getElementById('nav_text_07');
                 overflow: scroll-y;
             }
             .order-card{
-            padding:10%;
-            text-align:center;
-            background-color: rbga(0,0,0,100.7);
-            border-radius:10px;
-            height:200px;
-            width:fit-content;
+                padding:10%;
+                text-align:center;
+                background-color: rgba(0,0,0,.5);
+                border-radius:10px;
+                height:200px;
+                width:300px;
+                ul{
+                    list-style: none;
+                }
             }
             .display_button{
                 color: white;
