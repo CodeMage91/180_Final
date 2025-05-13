@@ -8,7 +8,7 @@ from datetime import datetime, timedelta, date
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:74CLpyrola!@localhost/shopdb'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:CSET155@localhost/shopdb'
 app.config['SECRET_KEY'] = 'dev_key'
 db = SQLAlchemy(app)
 
@@ -919,7 +919,6 @@ def update_item(item_id):
         warranty_days = int(duration_str) if duration_str.isdigit() else 0
         warranty_valid_until = date.today() + timedelta(days=warranty_days) if warranty_days else None
         update_item = {
-                'item':item_id,
                 'item_name': request.form['item_name'],
                 'item_image':request.form['item_image'],
                 'original_price': request.form['original_price'],
@@ -930,7 +929,8 @@ def update_item(item_id):
                 'warranty_duration':request.form['warranty_duration'],
                 'warranty_valid_until':warranty_valid_until,
                 'item_desc': request.form['item_desc'],
-                'created_by': session['user_id']
+                'created_by': session['user_id'],
+                'item_id': item_id
             }
         db.session.execute(text("""
                 UPDATE shop_item
