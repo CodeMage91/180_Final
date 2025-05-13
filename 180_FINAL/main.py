@@ -725,6 +725,13 @@ def to_order():
                                "user_id": user_id,
                                "order_total": order_total.cart_total
                            })
+        #pay for the order
+        previousBalance = db.session.execute(text('select balance from shop_user where user_id = :user_id'), {"user_id": user_id}).mappings().fetchone()
+
+        db.session.execute(text(f"""
+                            UPDATE shop_user SET balance = {previousBalance.balance - order_total.cart_total} WHERE user_id = :user_id 
+                                """), {"user_id": user_id})
+        
         db.session.commit()
         
         result = db.session.execute(
@@ -762,39 +769,44 @@ def to_order():
     
 def get_user_order(user_id, vendor_id):
     if user_id == None and vendor_id != None:
-        y = db.session.execute(text("""
-            select 
-                shop_item.item_name as "name",
-                order_item.quantity as "quantity",
-                shop_order.order_id as "order_id",
-                order_item.item_id as "item_id",
-                order_item.price as "price",
-                order_item.color as "color",
-                order_item.size as "size",
-                order_item.status as "status"
-            from 
-                order_item 
-                    cross join 
-                shop_item 
-                    cross join
-                shop_order
-            where 
-                shop_item.item_id = order_item.item_id
-                    and 
-                order_item.order_id = shop_order.order_id
-                    and
-                shop_item.created_by = :vendor_id
-        """), {"vendor_id": vendor_id}).mappings().fetchall()
-        order_ids = ''
-        for i, item in enumerate(y):
-            if i == len(y) - 1:
-                order_ids += str(item['order_id'])
-                break
-            order_ids = order_ids + str(item['order_id']) + ', '
-        x = db.session.execute(text(f"""
-                select *
-                from shop_order
-                where order_id in ({order_ids})""")).mappings().fetchall()
+        try:
+            y = db.session.execute(text("""
+                select 
+                    shop_item.item_name as "name",
+                    order_item.quantity as "quantity",
+                    shop_order.order_id as "order_id",
+                    order_item.item_id as "item_id",
+                    order_item.price as "price",
+                    order_item.color as "color",
+                    order_item.size as "size",
+                    order_item.status as "status"
+                from 
+                    order_item 
+                        cross join 
+                    shop_item 
+                        cross join
+                    shop_order
+                where 
+                    shop_item.item_id = order_item.item_id
+                        and 
+                    order_item.order_id = shop_order.order_id
+                        and
+                    shop_item.created_by = :vendor_id
+            """), {"vendor_id": vendor_id}).mappings().fetchall()
+            order_ids = ''
+            for i, item in enumerate(y):
+                if i == len(y) - 1:
+                    order_ids += str(item['order_id'])
+                    break
+                order_ids = order_ids + str(item['order_id']) + ', '
+            x = db.session.execute(text(f"""
+                    select *
+                    from shop_order
+                    where order_id in ({order_ids})""")).mappings().fetchall()
+        except Exception as e:
+            print(e)
+        x = None
+        y = None
     elif user_id == None and  vendor_id == None:
         y = db.session.execute(text("""
             select 
