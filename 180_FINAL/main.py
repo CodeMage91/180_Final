@@ -683,6 +683,13 @@ def to_order():
                                "user_id": user_id,
                                "order_total": order_total.cart_total
                            })
+        #pay for the order
+        previousBalance = db.session.execute(text('select balance from shop_user where user_id = :user_id'), {"user_id": user_id}).mappings().fetchone()
+
+        db.session.execute(text(f"""
+                            UPDATE shop_user SET balance = {previousBalance.balance - order_total.cart_total} WHERE user_id = :user_id 
+                                """), {"user_id": user_id})
+        
         db.session.commit()
         
         result = db.session.execute(

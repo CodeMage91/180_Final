@@ -29,6 +29,8 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            align-items: center;
+            max-height: 650px;
         }
         .game-window {
             position: relative;
@@ -58,7 +60,7 @@
         }
         .enemy {
             position: relative;
-            top: 150px;
+            top: 130px;
             width:80px;
             height:100px;
             left: 600px;
@@ -89,7 +91,7 @@
         }
         #player {
             position: relative;
-            top: 160px;
+            top: 140px;
             left: 50%;
             transform: translateX(-50%);
             transition: transform 0.5s ease-in-out;
@@ -199,11 +201,11 @@
             background-position: center;
             background-color:rgb(192, 181, 150);
             background-repeat: no-repeat;
-            width: 520px;
-            height: 280px;
+            width: 420px;
+            height: 200px;
             right: 00px;
             z-index: 1;
-            padding:50px 50px 50px 50px;
+            padding:50px;
             font-family: 'Micro 5', sans-serif;
             color:rgb(37, 29, 16);
         }
@@ -348,6 +350,7 @@
                     stats['LUCK'] += Number(luck[i].innerText);
                 }
             }
+            console.log(stats)
             finalLuck = document.getElementById('final-luck');
             finalLuck.value = stats['LUCK'] + 1
         }
@@ -498,27 +501,33 @@
                     }
                     healthBar.setAttribute("value", newHP);
                     fill.setAttribute("value", newHP);
-                    hpValue = document.querySelector('#player-health-value');
                     var hpPercentage = (newHP / maxHP) * 100;
-                    hpValue.innerText = newHP
                     fill.style.width = hpPercentage + "%";
                     fill.style.transition = "width 0.5s ease-in-out"; // Add transition for smooth effect
                 }
-                if (Etime > .50) { // Player get attacked every 0.75 seconds
+                if (Etime > .50) { // Player get attacked every 0.5 seconds
                     rollToMiss = randomNum(1,20)
                     DifficultyClass = randomNum(16,50)
                     modifier = stats['DEX']
                     if (rollToMiss + modifier > DifficultyClass){
+                        setTimeout(function(){
                         reset_Etime()
+                        }, 1000);
                         return
                     }
+                    reset_Etime()
                     console.log("HIT!");
                     let PlayerHealthBar = document.getElementById('player-health-bar');
                     let fill = PlayerHealthBar.querySelector('.hp-bar-fill');
-                    let currentHP = parseInt(healthBar.getAttribute("value"));
-                    let maxHP = parseInt(healthBar.getAttribute("max"));
-                    let damage = randomNum(4,11); // Example damage value
-                    damage -= stats['CON']
+                    let currentHP = parseInt(PlayerHealthBar.getAttribute("value"));
+                    let maxHP = parseInt(PlayerHealthBar.getAttribute("max"));
+                    let damage = randomNum(4,11); //  damage value
+                    damage = damage - stats['CON']/2
+                    damage = Math.ceil(damage)
+                    if (damage < 0){
+                        damage = 1
+                    }
+                    console.log(damage)
                     let newHP = currentHP - damage;
                     if (newHP <= 0){ 
                         newHP = 0; // Ensure HP doesn't go below 0
@@ -530,6 +539,8 @@
                     fill.setAttribute("value", newHP);
                     var hpPercentage = (newHP / maxHP) * 100;
                     fill.style.width = hpPercentage + "%";
+                    hpValue = document.querySelector('#player-health-value');
+                    hpValue.innerText = newHP
                     fill.style.transition = "width 0.5s ease-in-out"; // Add transition for smooth effect
                 }
             }
