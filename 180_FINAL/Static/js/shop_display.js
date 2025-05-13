@@ -14,6 +14,7 @@ function reset_displays(){
     cart = document.getElementById("cart");
     inventory = document.getElementById("inventory");
     order = document.getElementById("orders");
+    dungeon = document.getElementById("dungeon");
     box = document.getElementById('main-box');
     shop_holder.classList.add('shop_holder_sky');
     shop_holder.classList.remove('shop_background_image');
@@ -23,6 +24,7 @@ function reset_displays(){
     cart.style.display = "none";
     order.style.display = "none";
     chat.style.display = 'none';
+    dungeon.style.display = 'none';
     box.style.display = 'none';
     exit_shop_cart_order.style.display = 'none';
 }
@@ -82,6 +84,17 @@ function display_chat(){
     displayButtonHolder.style.display = 'None';
     chat.style.display = "flex";
 }
+function display_dungeon(){
+    reset_displays()
+    box = document.getElementById('main-box');
+    exit_shop_cart_order.style.display = 'block';
+    box.style.display = "flex";
+    dungeon = document.getElementById("dungeon");
+    shop_holder.classList.remove('shop_holder_sky');
+    shop_holder.classList.add('shop_background_image');
+    displayButtonHolder.style.display = 'None';
+    dungeon.style.display = "flex";
+}
 document.addEventListener("DOMContentLoaded", (event) => {
     memory = document.getElementById("memory_item_get").innerHTML
     if (memory == "SHOP"){
@@ -98,6 +111,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
     }
     if (memory == "CHAT"){
         display_chat()
+    }
+    if (memory == "DUNGEON"){
+        display_dungeon()
     }
     if (memory == "None"){
         reset_displays()

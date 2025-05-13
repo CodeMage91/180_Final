@@ -3,6 +3,7 @@ use shopdb;
 drop table if exists message;
 drop table if exists chat;
 drop table if exists review;
+drop table if exists item_stats;
 drop table if exists user_inventory;
 drop table if exists order_item;
 drop table if exists shop_order;
@@ -16,6 +17,7 @@ full_name varchar(55) not null,
 email varchar(100) unique not null,
 username varchar(100) not null,
 password_hash varchar(100) not null,
+balance decimal(10,2) default 0,
 user_type enum('Admin','Vendor','Customer') not null,
 user_image varchar(200) null,
 user_image_small varchar(200)  null
@@ -32,7 +34,7 @@ in_stock int null,
 created_by int not null,
 original_price decimal(10,2) not null,
 current_price decimal(10,2) null,
-warranty_duration ENUM ('2','3','7') null,
+warranty_duration ENUM ('2','3','7') null
 );
 
 create table shop_cart(
@@ -78,6 +80,21 @@ equipped boolean default false,
 foreign key (user_id) references shop_user(user_id),
 foreign key (item_id) references shop_item(item_id)
 );
+
+create table item_stats (
+    stats_id INT PRIMARY KEY AUTO_INCREMENT,
+    item_id INT NOT NULL,
+    item_name VARCHAR(100) NOT NULL,
+    STR INT DEFAULT 0,
+    DEX INT DEFAULT 0,
+    CON INT DEFAULT 0,
+    INTEL INT DEFAULT 0,
+    CHA INT DEFAULT 0,
+    WIS INT DEFAULT 0,
+    LUCK INT DEFAULT 0,
+    FOREIGN KEY (item_id) REFERENCES shop_item(item_id)
+);
+
 create table chat(
 chatid int primary key auto_increment,
 user1 int,

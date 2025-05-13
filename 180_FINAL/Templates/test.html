@@ -1110,7 +1110,7 @@ var navText07 = document.getElementById('nav_text_07');
             <div class="user-panel">
                 <div class="user-info">
                     <div class="greeting">Hello, {{login.full_name}}!</div>
-                    <div class="info-row"><strong>Balance:</strong> $</div>
+                    <div class="info-row"><strong>Balance:</strong> ${{login.balance}}</div>
                     <div class="info-row"><strong>Name:</strong> {{login.full_name}}</div>
                     <div class="info-row"><strong>Username:</strong> {{login.username}}</div>
                     <div class="info-row"><strong>Email:</strong> {{login.email}}</div>
@@ -1118,7 +1118,7 @@ var navText07 = document.getElementById('nav_text_07');
                     <a href="{{ url_for('logout') }}" class="logout-button">Logout</a>
                 </div>
             </div>
-           
+           {% if not (login.user_type == "Admin")%}
             <div class="login_nav">
 
                 <div class="login_profile">
@@ -1157,9 +1157,6 @@ var navText07 = document.getElementById('nav_text_07');
                 </div>
                 {% endif %}
             <div class="box" id='main-box'>
-                {% block review %}
-
-                {% endblock %}
                     <br>
                     {%if items%}
                     <div class="vertical_split_holder" id="items" {% if login.user_type == "Vendor"%} style = "display: none;"{% endif %}>
@@ -1195,6 +1192,46 @@ var navText07 = document.getElementById('nav_text_07');
                             <ul class="sort_by_holder">
                             </ul>
                         </div>
+                    <div class="horizontal_split_holder" id="items" {% if login.user_type == "Vendor"%} style = "display: none;"{% endif %}>
+                        <div class="vertical_split_holder">
+                            <h1 style="font-family: 'Alagard'">Items</h1>
+                            <div class="item_holder">
+                                {% for item in items %}
+                                <div class="item_box">
+                                    <form method="POST" action="{{ url_for('to_cart') }}">
+                                    <div class="item_image" style="background-image: url('{{ url_for('static', filename='images/' ~ item.item_image) }}');">  
+                                        <div class="item_stats">
+                                            Item: {{ item.item_name}}<br>
+                                            <input type="hidden" name="item_id" value="{{item.item_id}}">
+                                            Price: ${{ item.original_price}}<br>
+                                            Description: {{item.item_desc}}<br>
+                                            Created By: {{item.created_by}}<br>
+                                        </div>
+                                    </div>
+                                <a href="/reviews/{{item.item_id}}">Place a Review</a>
+                                <form method="POST" action="{{ url_for('to_cart') }}">
+                                    <p>Rating: <span>X</span>/5</p>
+                                    {% if not (login.user_type == "Vendor") %}
+                                        <button class="input"  class="input"  type="submit">Add to Cart</button>
+                                    {% endif %}
+                                    </form>
+                                </div>
+                                {% endfor%}
+                            </div>
+                            <div>
+                                {% if not ( item_page == 1 ) %}<a class="item_page_button" href="/item_page_decrease"> PREVIOUS </a>{% endif %}
+                                <a class="item_page_button" href="/">{{item_page}}</a>
+                                {% if not ( item_page == max_page ) %}<a class="item_page_button" href="/item_page_increase"> NEXT </a>{% endif %}
+                                <button class="input" onclick="update_memory('CART')"> VIEW CART </button>
+                                <ul class="sort_by_holder">
+                                </ul>
+                            </div>
+                        </div>
+                    <div>
+                    {% block review %}
+
+                    {% endblock %}
+                </div>
                 {% else %}
                     <p> No items found</p>
                 {% endif %}
@@ -1266,7 +1303,6 @@ var navText07 = document.getElementById('nav_text_07');
                 {% else%}
                     <p>No order items</p>
                 {% endif %}
-                    <link href="https://fonts.googleapis.com/css2?family=Micro+5&display=swap" rel="stylesheet">
             </div>
             <!--Inventory Card-->
             <div id="inventory">
@@ -1321,17 +1357,14 @@ var navText07 = document.getElementById('nav_text_07');
                     {% endblock %}
                 </div>
             </div>
-            {%endif%}
+            <div class='battle_holder' id='dungeon'>
+                {% block battle %}
+
+                {% endblock %}
+            </div>
+            {% endif %}
         </div>
     </div>
-        
-
-          {% if battle %}
-         <main>
-          {% block body%}
-         {% endblock%}
-         </main>
-         {% endif %}
          {% endif %}
      {% if login.user_type == "Vendor"%}
      <style>
@@ -1369,6 +1402,9 @@ var navText07 = document.getElementById('nav_text_07');
                 }
         }
         #inventory{
+            display: None;
+        }
+        #dungeon{
             display: None;
         }
      </style>
@@ -1411,6 +1447,9 @@ var navText07 = document.getElementById('nav_text_07');
             #chat{
                 display: None;
             }
+            #dungeon{
+                display: None;
+            }
             .display_button_holder{
                 display: flex;
                 align-items: center;
@@ -1440,6 +1479,11 @@ var navText07 = document.getElementById('nav_text_07');
                     color: white;
                     border-radius: 5px;
                 }
+            }
+            .horizontal_split_holder{
+                display: flex;
+                flex-direction: row;
+                position: absolute;
             }
             .order_items_holder{
                 ul{
@@ -1514,7 +1558,10 @@ var navText07 = document.getElementById('nav_text_07');
                 border-bottom: none;
                 border-radius: 20px;
                 background-color: rgba(100,100,100, 0.6);
+            }
+            
                 .item_image{
+                    z-index: 100;
                     height: 50px;
                     width: 50px;
                     background-size: contain;
@@ -1523,10 +1570,10 @@ var navText07 = document.getElementById('nav_text_07');
                 &:hover{
                     .item_stats{
                         display: flex;
+                        color: white;
                     }
                 }
                 }
-            }
             .item_stats{
                 position: absolute;
                 font-size: 24;

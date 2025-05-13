@@ -1,19 +1,31 @@
 {% extends "test.html" %}
 {% block review %}
-{% if comments %}
-{% for comment in comments %}
-<div>Review by: {{comment['from_user']}}</div>
-<div>Rating: {{comment['rating']}}/5</div>
-<div>{{comment['statement']}}</div>
-<div>{{comment['review_image']}}</div>
-<div>{{comment['review_date']}}</div>
-{% endfor %}
-{% else %}
-<P>No reviews.</P>
-{% endif %}
-<form action="/reviews/{{item_id}}" method="POST">
-    <div><input type="number" name="rating">/5</div>
-    <div><textarea name="review" rows="4" cols="50"></textarea></div>
-    <div><input type="submit" name="submit"></div>
-</form>
+<div class="review_holder">
+    {% if comments %}
+    <div class="reviews">
+        {% for comment in comments %}
+        <div class='response'>
+            <div>Review by: {{comment['from_user']}}</div>
+            <div>Rating: {{comment['rating']}}/5</div>
+            <div class='conversation'>{{comment['statement']}}</div>
+            {% if comment['review_image']%}
+            <div>{{comment['review_image']}}</div>
+            {% endif %}
+            <div class='conversation-datetime'>{{comment['review_date']}}</div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <P>No reviews.</P>
+    {% endif %}
+
+    <form action="/reviews/{{review_item_id}}" method="POST">
+        <div class='review-rating'>
+            <h4>RATE IT</h4>
+            <p><input type="number" min='1' max='5' step='0.5' name="rating" value='1'>/5</p>
+        </div>
+        <textarea name="review" rows="4" cols="50" class='review-respond-box'></textarea>
+        <input type="submit" name="submit" value="SEND" class="review-submit">
+    </form>
+</div>
 {% endblock %}

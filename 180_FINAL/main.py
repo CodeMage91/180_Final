@@ -8,7 +8,7 @@ from datetime import datetime, timedelta, date
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:CSET155@localhost/shopdb'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:74CLpyrola!@localhost/shopdb'
 app.config['SECRET_KEY'] = 'dev_key'
 db = SQLAlchemy(app)
 
@@ -71,6 +71,9 @@ def initialize():
                     INSERT INTO shop_user (full_name, email, username, user_image,user_image_small,password_hash, user_type)
                     VALUES (:full_name, :email, :username, :user_image, :user_image_small, :password_hash, :user_type)
                 """), signup_data)
+    db.session.commit()
+    #adding initial money to the protagonist account
+    db.session.execute(text("update shop_user set balance = 200 where full_name = 'Player One'"))
     db.session.commit()
     #get the items that will be default into the database
     vendors = db.session.execute(text("""
@@ -249,6 +252,49 @@ def initialize():
             """), create_item)
     #commit to db
     db.session.commit()
+    item_stat_blocks = {
+        "Bastard Sword":         {"STR": 5,  "DEX": 1},
+        "Apprentice Ice Wand":   {"INTEL": 4},
+        "Health Potion":         {"CON": 2},
+        "Iron Sword":            {"STR": 8},
+        "Throwable Acid Potion": {"INTEL": 2, "DEX": 2},
+        "Guinness":              {"CHA": 3, "LUCK": 1},
+        "Iron Mace":             {"STR": 6, "LUCK": 1},
+        "Poisoned Throwing Knife": {"DEX": 4, "LUCK": 2},
+        "Mithril Sword":         {"STR": 10, "DEX": 2},
+        "Bomb":                  {"STR": 5, "INTEL": 3},
+        "Potion of Draconic Strength": {"STR": 15, "CON": 5},
+        "Starter Sword":         {"STR": 1, "DEX": 1},
+        "Starter Staff":         {"INTEL": 1, "WIS": 1},
+        "Starter Mace":          {"STR": 2},
+        "Leather Armor":         {"CON": 3},
+        "Chainmail Armor":       {"CON": 5},
+        "Iron Armor":            {"CON": 8},
+        "Mithril Chain Shirt":   {"CON": 12},
+        "Mithril Plate Armor":   {"CON": 20}
+    }
+    items = db.session.execute(text('select * from shop_item')).mappings().fetchall()
+    for key, stat in item_stat_blocks.items():
+        for item in items:
+            if item.item_name == key:
+                stat_data = {
+                    "item_id": item.item_id,
+                    "item_name": item.item_name,
+                    "STR": stat.get("STR", 0),
+                    "DEX": stat.get("DEX", 0),
+                    "CON": stat.get("CON", 0),
+                    "INTEL": stat.get("INTEL", 0),
+                    "CHA": stat.get("CHA", 0),
+                    "WIS": stat.get("WIS", 0),
+                    "LUCK": stat.get("LUCK", 0)
+                }
+                db.session.execute(text("""
+                    INSERT INTO item_stats (item_id, item_name, STR, DEX, CON, INTEL, CHA, WIS, LUCK)
+                    VALUES (:item_id, :item_name, :STR, :DEX, :CON, :INTEL, :CHA, :WIS, :LUCK)
+                """), stat_data)
+                continue
+    #commit to db
+    db.session.commit()
     #load homepage
     global initialized
     initialized = True
@@ -299,6 +345,7 @@ def all_users():
     user_order = order[0]
     order_items = order[1]
     inventory_items = get_user_inventory(session['user_id']) if 'user_id' in session else []
+    print(inventory_items, 'hui')
     battle = False
     print(html)
     
@@ -416,8 +463,31 @@ def all_users():
     # Page Memory to save current page status as we are on one page
     if "memory" not in session:
         session["memory"] = "None"
+    inventory_stats = None
     if session['memory'] == "DUNGEON":
-        battle = True
+        session['html'] = 'battle.html'
+        if 'user_id' in session:
+            print('Stats?')
+            inventory_stats = db.session.execute(text("""                      
+                            SELECT 
+                                i.equipped as 'equipped',
+                                si.item_image as 'item_image',
+                                s.*
+                            FROM
+                                user_inventory as i
+                                    natural join
+                                item_stats as s
+                                    natural join
+                                shop_item as si
+                            WHERE 
+                                i.item_id = s.item_id
+                                and
+                                i.item_id = si.item_id
+                                and
+                                i.user_id = :user_id
+                            LIMIT 6
+                            """), {"user_id": session['user_id']}).mappings().fetchall()
+            print("HUH", inventory_stats)
     page_memory = session["memory"]
     #Pagination of users
     if "user_page" not in session:
@@ -469,6 +539,14 @@ def all_users():
             db.session.execute(text(
                 f"INSERT INTO message (forchat,conversation,comment_date,from_user,to_user) VALUES({chatid.chatid},'{request.form['response']}', NOW(), {user_id}, {to_user})"))
             db.session.commit()
+            return redirect(url_for('all_users'))
+    #reviews logic
+    comments = None
+    review_item_id = None
+    if 'review_item_id' in session:
+        review_item_id = session['review_item_id']
+        comments=db.session.execute(text(f"SELECT * FROM review WHERE for_item={review_item_id}")).all()
+
     return render_template(html,
                            users=users,
                            admin_users=admin_users,
@@ -489,7 +567,10 @@ def all_users():
                            page=user_page,
                            max_pages=max_pages,
                            _chat=_chat,
-                           conversation=conversation
+                           conversation=conversation,
+                           comments = comments,
+                           review_item_id=review_item_id,
+                           inventory_stats=inventory_stats
                            )
 @app.route("/memory/<memory>", methods=["GET"])
 def memory_update(memory):
@@ -850,11 +931,15 @@ def add_inventory_order(order_id):
      
 def get_user_inventory(user_id):
     return db.session.execute(text("""
-    select user_inventory.*,shop_item.*
-    from user_inventory
-    join shop_item on user_inventory.item_id = shop_item.item_id
-    where user_inventory.user_id = :user_id
-"""),{'user_id':user_id}).mappings().fetchall()
+        select 
+            user_inventory.*,shop_item.*
+        from
+            user_inventory
+                cross join 
+            shop_item 
+        where user_inventory.item_id = shop_item.item_id
+        and user_inventory.user_id = :user_id
+    """),{'user_id':user_id}).mappings().fetchall()
 
 
 #this is for you to look at ronin!!!
@@ -862,26 +947,36 @@ def get_user_inventory(user_id):
 def equip_item(item_id):
     user_id = session['user_id']
     try:
-        # Unequip everything first (if needed)
-        db.session.execute(text("""
-            update user_inventory
-            set equipped = false
-            where user_id = :user_id
-        """), {'user_id': user_id})
-
-        # Equip selected item
-        db.session.execute(text("""
-            update user_inventory
-            set equipped = true
-            where user_id = :user_id and item_id = :item_id
-        """), {'user_id': user_id, 'item_id': item_id})
-
-        db.session.commit()
-        flash('Item equipped!')
+        countOfEquipped = db.session.execute(text('select count(equipped) as "Total" from user_inventory where equipped = true')).mappings().fetchone()
+        print(countOfEquipped)
+        if countOfEquipped.Total < 6:
+            # Equip selected item
+            db.session.execute(text("""
+                update user_inventory
+                set equipped = true
+                where user_id = :user_id and item_id = :item_id
+            """), {'user_id': user_id, 'item_id': item_id})
+            db.session.commit()
+            flash('Item equipped!')
+        else:
+            flash("Please unequip an item first!")
     except Exception as e:
         flash(f'Error equipping item: {e}')
     return redirect(url_for('all_users'))
 
+@app.route('/coins_to_cash', methods=['POST'])
+def coins_to_cash():
+    if request.form:
+        user_id = session['user_id']
+        previousBalance = db.session.execute(text('select balance from shop_user where user_id = :user_id'), {"user_id": user_id}).mappings().fetchone()
+        luck = int(request.form['luck'])
+        coins = int(request.form['coins']) * luck
+        db.session.execute(text(f"""
+                    update shop_user set balance = { previousBalance.balance + coins } where user_id = {user_id}
+                                """))
+        db.session.commit()
+        session['memory'] = 'None'
+    return redirect(url_for('all_users'))
 
 @app.route('/logout')
 def logout():
@@ -927,33 +1022,14 @@ def chat():
     return redirect(url_for("all_users"))
 @app.route("/reviews/<item_id>", methods=['GET','POST'])
 def reviewing(item_id):
-    login=None;
-    if session['user_id']:
-        login = db.session.execute(text("SELECT * FROM shop_user WHERE user_id = :user_id"), {"user_id": session["user_id"]}).first()
-    admin_users = db.session.execute(text("SELECT * FROM shop_user WHERE user_type = 'Admin'")).mappings().fetchall()
-    vendor_users = db.session.execute(text("SELECT * FROM shop_user WHERE user_type = 'Vendor'")).mappings().fetchall()
-    customer_users = db.session.execute(text("SELECT * FROM shop_user WHERE user_type = 'Customer'")).mappings().fetchall()
-    items = db.session.execute(text("SELECT * FROM shop_item")).mappings().fetchall()
-    creator = db.session.execute(text("SELECT * FROM shop_user WHERE user_id = 1")).mappings().fetchone()
-    cart_items = get_user_cart(session['user_id']) if 'user_id' in session else []
-    order_items = get_user_order(session['user_id']) if 'user_id' in session else []
-    inventory_items = get_user_inventory(session['user_id']) if 'user_id' in session else []
-    battle = False
     comments=db.session.execute(text(f"SELECT * FROM review WHERE for_item={item_id}")).all()
     if "review" in request.form:
         user_id=session['user_id']
         db.session.execute(text(f"INSERT INTO review (from_user,for_item,rating,review_date,statement) VALUES ({user_id},{item_id},{request.form["rating"]}, NOW(),'{request.form["review"]}')"))
         db.session.commit()
-    return render_template("reviews.html",comments=comments, item_id=item_id,admin_users=admin_users,
-                           vendor_users=vendor_users,
-                           customer_users=customer_users,
-                           items=items,
-                           creator=creator,
-                           login=login,
-                           cart_items=cart_items,
-                           order_items=order_items,
-                           inventory_items=inventory_items,
-                           battle=battle)
+    session['review_item_id'] = item_id
+    session['html'] = 'reviews.html'
+    return redirect(url_for('all_users'))
 @app.route('/update_item/<int:item_id>', methods=['POST'])
 def update_item(item_id):
         duration_str = request.form['warranty_duration']
