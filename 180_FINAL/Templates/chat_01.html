@@ -1,0 +1,29 @@
+{% extends "test.html" %}
+{% block chat_01 %}
+    {% if _chat %}
+            
+        {% if conversation %}
+        <div class='conversation-holder'>
+        {% for con in conversation %}
+            <div class={% if login.username == con['usernameFrom']%}'chat-response-you'{% else %} 'chat-response'{%endif%}>
+                
+                <h6>{{con["usernameFrom"]}}</h6>
+                {% if con['comment_image']%}
+                <p>{{con['comment_image']}}</p>
+                {% endif %}
+                <p class='conversation'>{{con['conversation']}}</p>
+                <p class='conversation-datetime'>{{con['comment_date']}}</p>
+                
+            </div>
+        {% endfor %}
+        </div>
+        {% endif %}
+    {% else %}
+        <p>No chats</p>
+    {% endif %}
+    <form action="/" method="POST">
+    <textarea id="response" name="response" class='chat-respond-box' rows="5" cols="70"></textarea>
+        <input type="submit" name="submit" class='chat-submit' value="SEND">
+    </form>
+{% endblock %}
+
