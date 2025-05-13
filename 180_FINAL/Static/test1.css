@@ -758,7 +758,7 @@ footer {
 .vertical_split_holder{
     display: flex;
     flex-direction: column;
-    position: absolute;
+    position: relative;
 }
 .item_page_button{
     margin: 10px;

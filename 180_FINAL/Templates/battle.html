@@ -3,21 +3,15 @@
 {% block battle %}
     <style>
         .body {
-            font-family: Arial, sans-serif;
+            font-family: 'Alagard';
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
         }
         header {
             background-color: #333;
             color: white;
             padding: 10px 0;
             text-align: center;
-        }
-        #header-title {
-            font-family: 'Micro 5', sans-serif;
-            font-size: 80px;
-            color: rgb(255, 187, 0);
         }
         nav ul {
             list-style-type: none;
@@ -32,26 +26,20 @@
             text-decoration: none;
         }
         .game-container {
-            background-image: url("{{url_for( 'static', filename='images/pixelframe.png') }}");
-            background-size: 565px 370px;
-            background-repeat: no-repeat;
-            background-position: top 20px left 20px;
             display: flex;
+            flex-direction: column;
             justify-content: space-between;
-            align-items: center;
-            padding: 20px;
-            background-color:rgb(192, 181, 150);
         }
         .game-window {
             position: relative;
             background-color: #fff;
             margin: 45px;
-            height: 280px;
+            height: 300px;
             width: 480px;
-            background-image: url("{{url_for( 'static', filename='images/background.png') }}");
+            background-image: url("{{url_for( 'static', filename='images/pixelframe.png') }}"), url("{{url_for( 'static', filename='images/background.png') }}");
             background-size: cover;
-            background-position: bottom 0px left;
-            background-repeat: repeat-x;
+            background-position: center, bottom 0px left;
+            background-repeat: no-repeat, repeat-x;
             overflow:hidden;
         }
         .player-holder {
@@ -196,18 +184,20 @@
         }
         .hp-container {
             display: flex;
-            justify-content: space-between;
+            justify-content: space-around;
             align-items: center;
-            width: 150px;
+            width: 350px;
             .hp-bar {
-                width: 60px;
+                width:200px;
                 margin-top: 10px;
             }
         }
         .inventory-background {
             position: relative;
             background-image: url("{{url_for( 'static', filename='images/pixelframe.png') }}");
-            background-size: 600px 380px;
+            background-size: cover;
+            background-position: center;
+            background-color:rgb(192, 181, 150);
             background-repeat: no-repeat;
             width: 520px;
             height: 280px;
@@ -243,7 +233,7 @@
             background-color: transparent;
             border: none;
             color: rgb(255, 187, 0);
-            font-size: 45pt;
+            font-size: 25pt;
             text-align: center;
             width: 50px;
             height: 50px;
@@ -257,6 +247,9 @@
             background-position: top left;
             height: 64px;
             width: 384px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
         }
         #drop-down-tag {
             top: 120px;
@@ -270,9 +263,94 @@
             color: #555;
             cursor: pointer;
         }
+        .item_stats{
+            position: absolute;
+            font-size: 24;
+            top: 10px;
+            left: 95px;
+            right: -150px;
+            display: None;
+            border: 3px solid rgba(200,200,200, 0.8);
+            border-radius: 10px;
+            padding: 5px;
+            max-width: 200px; 
+            height: auto;
+            background-color: rgba(0,0,0,0.8);
+            z-index:5;
+        }
+        .inventory_list_item_image{
+            position: relative;
+            z-index: 100;
+            height: 64px;
+            width: 64px;
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+        &:hover{
+            .item_stats{
+                display: flex;
+                color: white;
+            }
+        }
+        }
     </style>
     <script>
         var state = 'idle'; // Initial state
+        var stats = {
+            "STR": 0,
+            "DEX": 0,
+            "CON": 0,
+            "INT": 0,
+            "CHA": 0,
+            "WIS": 0,
+            "LUCK": 0
+        }
+        function updateStats(){
+            str = document.getElementsByClassName('STR');
+            dex = document.getElementsByClassName('DEX');
+            con = document.getElementsByClassName('CON');
+            intel = document.getElementsByClassName('INTEL');
+            cha = document.getElementsByClassName('CHA');
+            wis = document.getElementsByClassName('WIS');
+            luck = document.getElementsByClassName('LUCK');
+            for (i = 0; i < str.length; i ++){
+                if (str[i].innerHTML){
+                    stats['STR'] += Number(str[i].innerText);
+                }
+            }
+            for (i = 0; i < dex.length; i ++){
+                if (dex[i].innerHTML){
+                    stats['DEX'] += Number(dex[i].innerText);
+                }
+            }
+            for (i = 0; i < con.length; i ++){
+                if (con[i].innerHTML){
+                    stats['CON'] += Number(con[i].innerText);
+                }
+            }
+            for (i = 0; i < intel.length; i ++){
+                if (intel[i].innerHTML){
+                    stats['INTEL'] += Number(intel[i].innerText);
+                }
+            }
+            for (i = 0; i < cha.length; i ++){
+                if (cha[i].innerHTML){
+                    stats['CHA'] += Number(cha[i].innerText);
+                }
+            }
+            for (i = 0; i < wis.length; i ++){
+                if (wis[i].innerHTML){
+                    stats['WIS'] += Number(wis[i].innerText);
+                }
+            }
+            for (i = 0; i < luck.length; i ++){
+                if (luck[i].innerHTML){
+                    stats['LUCK'] += Number(luck[i].innerText);
+                }
+            }
+            finalLuck = document.getElementById('final-luck');
+            finalLuck.value = stats['LUCK'] + 1
+        }
         function randomNum(min, max) {
             min = Math.ceil(min);
             max = Math.floor(max);
@@ -297,7 +375,8 @@
             return enemy;
         }
         function playGame(time) {
-            var defaultSpeed = 1.2; // Default speed
+            var defaultSpeed = 1.2; 
+            defaultSpeed += stats['DEX'] * 0.1
             var gameWindow = document.querySelector(".game-window");
             var gameLevel = document.querySelector(".game-level");
             var enemies = document.getElementsByClassName("enemy");
@@ -355,7 +434,7 @@
                 backgroundPosition -= speed; // Adjust the speed of the movement here
                 gameLevelPosition -= speed; // Adjust the speed of the movement here
                 gameLevel.style.left = gameLevelPosition + "px";
-                gameWindow.style.backgroundPosition =  backgroundPosition + "px bottom";
+                gameWindow.style.backgroundPosition =  'center, ' + backgroundPosition + "px bottom";
             }
             else {
                 function getEnemyHealthBar(){
@@ -384,7 +463,7 @@
                     fill = healthBar.querySelector(".hp-bar-fill");
                     var currentHP = parseInt(healthBar.getAttribute("value"));
                     var maxHP = parseInt(healthBar.getAttribute("max"));
-                    var damage = 10; // Example damage value
+                    var damage = 2 + stats["STR"]; // Example damage value
                     var newHP = currentHP - damage;
                     if (newHP <= 0){ 
                         newHP = 0; // Ensure HP doesn't go below 0
@@ -393,11 +472,11 @@
                         enemyGlobal.style.left = "-100px"; // Move the enemy out of view
                         enemyGlobal.remove();
                         state = "idle"; // Change state back to idle
-                        speed = 40; // Resume background movement
                         attackImage.style.display = "none"; // Hide the attack image
                         var coinCount = document.getElementById("coin-count");
                         var currentCoins = parseInt(coinCount.getAttribute("value"));
-                        var newCoins = currentCoins + randomNum(2,5) // Example coin value
+                        coinHigh = 5 + stats['LUCK']
+                        var newCoins = currentCoins + randomNum(2,coinHigh) // Example coin value
                         coinCount.setAttribute("value", newCoins);
                         coinCount.innerHTML = newCoins; // Update the displayed coin count
                         var tempCoin = document.getElementById("temp-coin");
@@ -419,6 +498,36 @@
                     }
                     healthBar.setAttribute("value", newHP);
                     fill.setAttribute("value", newHP);
+                    hpValue = document.querySelector('#player-health-value');
+                    var hpPercentage = (newHP / maxHP) * 100;
+                    hpValue.innerText = newHP
+                    fill.style.width = hpPercentage + "%";
+                    fill.style.transition = "width 0.5s ease-in-out"; // Add transition for smooth effect
+                }
+                if (Etime > .50) { // Player get attacked every 0.75 seconds
+                    rollToMiss = randomNum(1,20)
+                    DifficultyClass = randomNum(16,50)
+                    modifier = stats['DEX']
+                    if (rollToMiss + modifier > DifficultyClass){
+                        reset_Etime()
+                        return
+                    }
+                    console.log("HIT!");
+                    let PlayerHealthBar = document.getElementById('player-health-bar');
+                    let fill = PlayerHealthBar.querySelector('.hp-bar-fill');
+                    let currentHP = parseInt(healthBar.getAttribute("value"));
+                    let maxHP = parseInt(healthBar.getAttribute("max"));
+                    let damage = randomNum(4,11); // Example damage value
+                    damage -= stats['CON']
+                    let newHP = currentHP - damage;
+                    if (newHP <= 0){ 
+                        newHP = 0; // Ensure HP doesn't go below 0
+                        pause=true; // Pause the game
+                        game_over=true;
+                        return; // Exit the function
+                    }
+                    PlayerHealthBar.setAttribute("value", newHP);
+                    fill.setAttribute("value", newHP);
                     var hpPercentage = (newHP / maxHP) * 100;
                     fill.style.width = hpPercentage + "%";
                     fill.style.transition = "width 0.5s ease-in-out"; // Add transition for smooth effect
@@ -427,9 +536,14 @@
         }
         var time = 0; // Initialize time variable
         function reset_time(){
-            time = 0
+            time = 0;
+        }
+        var Etime = 0;
+        function reset_Etime(){
+            Etime = 0;
         }
         document.addEventListener("DOMContentLoaded", function() {
+            updateStats()
             var hpBarFill = document.getElementById("hp-bar-fill");
             var currentHP = 100; // Example current HP value
             var maxHP = 100; // Example max HP value
@@ -438,6 +552,10 @@
             setInterval(function() {
                 time += 0.001; // Increment time by 1 milliseconds (approx. 60 FPS)
                 if (time > 1) {time = 0;}
+            }, 1); // Approximately 60 FPS
+            setInterval(function() {
+                Etime += 0.001; // Increment time by 1 milliseconds (approx. 60 FPS)
+                if (Etime > 1) {Etime = 0;}
             }, 1); // Approximately 60 FPS
 
             // Start the background movement loop
@@ -460,34 +578,55 @@
             </div>
             <div class "player-holder">
                 <img id="player"src="{{url_for( 'static', filename='images/users/character.png') }}" alt="Player Character" width="100" height="100">
-                <img id="weapon" src="{{url_for( 'static', filename='images/weapons/weapon.png') }}" alt="Weapon" width="100" height="100">
+                <img id="weapon" src="{{url_for( 'static', filename='images/weapons/bastard_sword.png') }}" alt="Weapon" width="100" height="100">
                 <img id="attack" src="{{url_for( 'static', filename='images/slice.gif') }}" alt="Attack" width="100" height="100">
                 <img id="temp-coin" src="{{url_for( 'static', filename='images/CoinAnim.gif') }}" alt="Coin" width="100" height="100">
             </div>
         </div>
         <div class="inventory-background">
-                    <form action="/" method="POST" id="inventory-form">
+                    <form action="/coins_to_cash" method="POST" id="inventory-form">
                     <input type="hidden" name="user_id" {%if login %}value="{{login.user_id}}" {% endif %}>
             <div class="game-inventory" >
                 <div class="inventory-header">
-                    <h1 style="text-transform: uppercase;"> user.character_name </h1>
+                    <h1 style="text-transform: uppercase;"> {{login.username}} </h1>
                     <div class="coin-cointainer">
-                    <h3 id='coins'> <input type="text" readonly name="coin-counts" id="coin-count" value="0">COINS</h3>
+                    <h3 id='coins'> <input type="text" readonly name="coins" id="coin-count" value="0" style='display:inline;'>COINS</h3>
                     <img alt="Coin" width="50" height="50" src="{{url_for( 'static', filename='images/Coin.png') }}">
                     </div>
                 </div>
                 <div class="middle-container">
                     <div class="hp-container">
-                        <h2>100/100 HP</h2>
-                        <div class="hp-bar" value ="100" max="100">
+                        <h2><span id='player-health-value'>100</span>/100 HP</h2>
+                        <div class="hp-bar" value ="100" max="100" id='player-health-bar'>
                             <div class="hp-bar-fill" id="hp-bar-fill" value="100"></div>
                         </div>
                     </div>
+                        <input type='hidden' name='luck' id='final-luck' value='1'>
                         <input type='submit' id='end-run' value='END RUN'>
                 </div>
                 <h2>Inventory</h2>
                 <div id="inventory-list">
                     <!-- Inventory items will be dynamically added here -->
+                    {%if inventory_stats %}
+                    {% for item in inventory_stats %}
+                    {% if item.equipped %}
+                        <div class="inventory_list_item_image" style="background-image: url('{{ url_for('static', filename='images' ~ item.item_image) }}');">  
+                            <div class="item_stats">
+                                {{ item.item_name}}<br>
+                                <div class='actual_item_stats'>
+                                {% if item.STR > 0 %} STR: <span class='STR'>{{item.STR}}</span> <br> {%endif%}
+                                {% if item.DEX > 0 %} DEX: <span class='DEX'>{{item.DEX}}</span> <br> {%endif%}
+                                {% if item.CON > 0 %} CON: <span class='CON'>{{item.CON}}</span> <br> {%endif%}
+                                {% if item.INTEL > 0 %} INTEL: <span class='INTEL'>{{item.INTEL}}</span> <br> {%endif%}
+                                {% if item.CHA > 0 %} CHA: <span class='CHA'>{{item.CHA}}</span> <br> {%endif%}
+                                {% if item.WIS > 0 %} WIS: <span class='WIS'>{{item.WIS}}</span> <br> {%endif%}
+                                {% if item.LUCK > 0 %} LUCK: <span class='LUCK'>{{item.LUCK}}</span> <br> {%endif%}
+                                </div>
+                            </div>
+                        </div>
+                    {%endif%}
+                    {%endfor%}
+                    {%endif%}
                 </div>
             </div>
                     </form>
