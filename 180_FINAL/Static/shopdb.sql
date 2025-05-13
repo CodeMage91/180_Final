@@ -26,13 +26,14 @@ item_id int primary key auto_increment,
 item_name varchar(100) not null,
 item_desc varchar(200) not null,
 item_image varchar(200)  null,
-item_warranty int null,
 item_color varchar(33) null, 
 item_size varchar(33) null,
 in_stock int null,
 created_by int not null,
 original_price decimal(10,2) not null,
-current_price decimal(10,2) null
+current_price decimal(10,2) null,
+warranty_duration ENUM ('2','3','7') null,
+warranty_valid_until date null
 );
 
 create table shop_cart(
