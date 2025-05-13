@@ -33,7 +33,6 @@ created_by int not null,
 original_price decimal(10,2) not null,
 current_price decimal(10,2) null,
 warranty_duration ENUM ('2','3','7') null,
-warranty_valid_until date null
 );
 
 create table shop_cart(
@@ -64,6 +63,7 @@ price decimal(10,2) not null,
 color varchar(33) null,
 size varchar(33) null,
 status enum('Pending','Shipped','Delivered') not null,
+warranty_valid_until date null,
 foreign key (order_id) references shop_order(order_id),
 foreign key (item_id) references shop_item(item_id)
 );
