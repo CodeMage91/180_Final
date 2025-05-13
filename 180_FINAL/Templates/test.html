@@ -452,7 +452,7 @@
                             <div id="search_item_filter" class="filter">SEARCH</div>
                             <div id="item_warranty_filter" class="filter">WARRANTYS</div>
                             <div id="item_discount_filter" class="filter">DISCOUNTS</div>
-                            <div id="items_by_vendor_filter" class="filter">BY VENDOR</div>
+                            <div id="item_by_vendor_filter" class="filter">BY VENDOR</div>
                         </div>
                        
                             {% if not (login.user_type == "Customer") %}
@@ -482,9 +482,9 @@
                                 <input placeholder="Quantity" name="in_stock">
                                 <label for="warranty_duration">Warranty</label>
                                 <select name="warranty_duration">
-                                    <option value="2 Day">2 Day</option>
-                                    <option value="3 Day">3 Day</option>
-                                    <option value="7 Day">7 Day</option>
+                                    <option value="2">2 Day</option>
+                                    <option value="3">3 Day</option>
+                                    <option value="7">7 Day</option>
                                 </select>
                                 <textarea placeholder="Item Description" name="item_desc"></textarea>
                                 <div style="width:100%;height:250px;border:white solid 1px; background-image: url(../static/images/shop_background1.png);background-size: contain; border-bottom-right-radius: 10px;border-bottom-left-radius: 10px;
@@ -492,7 +492,7 @@
                                   <div class="avatar_create_item" id="pic"  style="background-image: url('{{ url_for('static', filename='images/' ~ login.user_image_small) }}');"></div>
                                   <div style="width:60px; height: 57px; background-image: url(../static/images/misc/table_00-1.png);background-size: contain;position: relative;
                                   left:380px; top: 74px;"></div>
-                                    <button id="create_item" type="submit" style="height: 33px; width: 120px; border-radius: 10px; font-family: 'Micro 5', sans-serif; font-size: 32px; cursor: pointer; position: absolute; left: 350px; color: white; background-color: black;top: 433px; ">Create</button>
+                                    <button id="create_item" type="submit" style="height: 33px; width: 120px; border-radius: 10px; font-family: 'Micro 5', sans-serif; font-size: 32px; cursor: pointer; position: absolute; left: 350px; color: white; background-color: black;top: 463px; ">Create</button>
                                 </div>
                                 
                             </form>
@@ -518,7 +518,12 @@
                                                     <h3>Item Name:{{item.item_name}}</h3>
                                                     <h4>Original Price: ${{item.original_price}}</h4>
                                                     <h4>Current Price: ${{item.current_price}}</h4>
-                                                    <h4>Warranty: {{item.item_warranty}}</h4>
+                                                    <h4>Warranty: {{item.warranty_duration}} Days</h4>
+                                                        {% if item.warranty_valid_until %}
+                                                            <p>Warranty End Date: {{ item.warranty_valid_until.strftime('%B %d, %Y')}}</p>
+                                                        {% else %}
+                                                            <p>No warranty</p>
+                                                        {% endif %}
                                                     <h4>Color: {{item.item_color}}</h4>
                                                     <h4>Size: {{item.item_size}}</h4>
                                                     <h4>In Stock: {{item.in_stock}}</h4>
@@ -600,11 +605,11 @@
                         
                     </div>
                    
-                    
+                    <div
 
                 
     
-                <!-- <script src="{{url_for( 'static', filename='js/admin.js' )}}"></script> -->
+               <!-- <script src="{{url_for( 'static', filename='js/admin.js' )}}"></script> -->
             
              <script>
 
@@ -829,13 +834,13 @@ var navText07 = document.getElementById('nav_text_07');
             create_item.style.color = 'white';
         });   
         
-        var create_item_card = document.getElementById('create_item_card');
-        var search_item_card = document.getElementById('search_item_card');
-        var item_warranty_card = document.getElementById('item_warranty_card');
-        var item_discount_card = document.getElementById('item_discount_card');
-        var item_by_vendor_card = document.getElementById('items_by_vendor');
+        var create_item_filter = document.getElementById('create_item_filter');
+        var search_item_filter = document.getElementById('search_item_filter');
+        var item_warranty_filter = document.getElementById('item_warranty_filter');
+        var item_discount_filter = document.getElementById('item_discount_filter');
+        var item_by_vendor_filter = document.getElementById('item_by_vendor_filter');
 
-        var item_card_array = [create_item_card, search_item_card, item_warranty_card, item_discount_card, item_by_vendor_card];
+        var item_card_array = [create_item_filter, search_item_filter, item_warranty_filter, item_discount_filter, item_by_vendor_filter];
         for(let i = 0; i<item_card_array.length;i++){
             item_card_array[i].addEventListener('mouseover',function(){
                 item_card_array[i].style.color = 'gold';
@@ -865,6 +870,10 @@ var navText07 = document.getElementById('nav_text_07');
                     }
                 )
         });
+
+        
+
+           
         
 
  
