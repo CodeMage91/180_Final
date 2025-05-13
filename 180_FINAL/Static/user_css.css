@@ -3,6 +3,7 @@
     flex-direction: row;
     width:100%;
     align-items: center;
+    justify-content: space-between;
     background-color:rgb(110, 28, 66);
     border: 2px solid white;
     border-radius:5px;
@@ -55,12 +56,14 @@
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
-    height: 40vh;
+    padding: 50px 0;
+    height: 500px;
     width: 800px;
-    gap: 5px;
+    gap: 15px;
+    
 }
 .chat-left-div{
-    height:375px;
+    height: 675px;
     min-width: 300px;
 }
 .chat-right-div{
@@ -71,6 +74,52 @@
 .chat-respond-box{
     display: flex;
     position: absolute;
-    bottom: 0;
+    bottom: -60px;
     width: 100%;
+    height: 50px;
+    resize: none;
+}
+.conversation-holder{
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: flex-end;
+    height: 100%;
+    gap: 10px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+.chat-response{
+    max-width: 300px;
+    text-wrap: wrap;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    align-self: flex-start;
+    color: black;
+    padding: 0 5px;
+    background-color: rgb(255, 226, 188);
+}
+.chat-response-you{
+    max-width: 300px;
+    text-wrap: wrap;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    text-align: right;
+    color: black;
+    padding: 0 5px;
+    background-color: aliceblue;
+}
+.conversation{
+    font-family: 'Micro 5';
+    font-size: 24;
+}
+.conversation-datetime{
+    font-size: 8;
+}
+.chat-submit{
+    position: absolute;
+    bottom: -60px;
+    right: 0;
+    height: 50px;
 }

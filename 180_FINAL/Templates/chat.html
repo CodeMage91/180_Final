@@ -3,23 +3,27 @@
     {% if _chat %}
             
         {% if conversation %}
-            <div class='chat-response'>
-                {% for con in conversation %}
-                <p>Sent by: {{con["username1"]}}</p>
+        <div class='conversation-holder'>
+        {% for con in conversation %}
+            <div class={% if login.username == con['usernameFrom']%}'chat-response-you'{% else %} 'chat-response'{%endif%}>
+                
+                <h6>{{con["usernameFrom"]}}</h6>
                 {% if con['comment_image']%}
                 <p>{{con['comment_image']}}</p>
                 {% endif %}
-                <p>{{con['conversation']}}</p>
+                <p class='conversation'>{{con['conversation']}}</p>
                 <p class='conversation-datetime'>{{con['comment_date']}}</p>
-                {% endfor %}
+                
             </div>
+        {% endfor %}
+        </div>
         {% endif %}
     {% else %}
         <p>No chats</p>
     {% endif %}
     <form action="/" method="POST">
     <textarea id="response" name="response" class='chat-respond-box' rows="5" cols="70"></textarea>
-        <p><input type="submit" name="submit" placeholder="Respond"></p>
+        <input type="submit" name="submit" class='chat-submit' value="SEND">
     </form>
 {% endblock %}
 

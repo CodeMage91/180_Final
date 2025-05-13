@@ -2,7 +2,7 @@
 var displayButtons = document.getElementsByClassName("display_button");
 var displayButtonHolder = document.querySelector(".display_button_holder");
 var shop_holder = document.querySelector(".shop_holder");
-var exit_shop_cart_order = document.querySelector("#exit_shop_cart_order")
+var exit_shop_cart_order = document.querySelector("#exit_shop_cart_order");
 
 function update_memory(memory){
     memory = memory.toString();
@@ -14,6 +14,7 @@ function reset_displays(){
     cart = document.getElementById("cart");
     inventory = document.getElementById("inventory");
     order = document.getElementById("orders");
+    box = document.getElementById('main-box');
     shop_holder.classList.add('shop_holder_sky');
     shop_holder.classList.remove('shop_background_image');
     displayButtonHolder.style.display = 'flex'
@@ -21,12 +22,16 @@ function reset_displays(){
     inventory.style.display = "none";
     cart.style.display = "none";
     order.style.display = "none";
+    chat.style.display = 'none';
+    box.style.display = 'none';
     exit_shop_cart_order.style.display = 'none';
 }
 
 function display_shop(){
     reset_displays()
+    box = document.getElementById('main-box');
     exit_shop_cart_order.style.display = 'block';
+    box.style.display = "flex";
     items = document.getElementById("items");
     shop_holder.classList.remove('shop_holder_sky');
     shop_holder.classList.add('shop_background_image');
@@ -35,7 +40,9 @@ function display_shop(){
 }
 function display_cart(){
     reset_displays()
+    box = document.getElementById('main-box');
     exit_shop_cart_order.style.display = 'block';
+    box.style.display = "flex";
     cart = document.getElementById("cart");
     shop_holder.classList.remove('shop_holder_sky');
     shop_holder.classList.add('shop_background_image');
@@ -44,7 +51,9 @@ function display_cart(){
 }
 function display_orders(){
     reset_displays()
+    box = document.getElementById('main-box');
     exit_shop_cart_order.style.display = 'block';
+    box.style.display = "flex";
     order = document.getElementById("orders");
     shop_holder.classList.remove('shop_holder_sky');
     shop_holder.classList.add('shop_background_image');
@@ -53,7 +62,9 @@ function display_orders(){
 }
 function display_inventory(){
     reset_displays()
+    box = document.getElementById('main-box');
     exit_shop_cart_order.style.display = 'block';
+    box.style.display = "flex";
     inventory = document.getElementById("inventory");
     shop_holder.classList.remove('shop_holder_sky');
     shop_holder.classList.add('shop_background_image');
@@ -62,7 +73,9 @@ function display_inventory(){
 }
 function display_chat(){
     reset_displays()
+    box = document.getElementById('main-box');
     exit_shop_cart_order.style.display = 'block';
+    box.style.display = "flex";
     chat = document.getElementById("chat");
     shop_holder.classList.remove('shop_holder_sky');
     shop_holder.classList.add('shop_background_image');
