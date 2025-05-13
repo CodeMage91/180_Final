@@ -4,11 +4,11 @@ from sqlalchemy import text
 import threading
 import time
 import math
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:74CLpyrola!@localhost/shopdb'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:CSET155@localhost/shopdb'
 app.config['SECRET_KEY'] = 'dev_key'
 db = SQLAlchemy(app)
 
@@ -372,16 +372,26 @@ def all_users():
             
               
         elif 'item_name' in request.form:  # This means the Create Item form was submitted
+            duration_str = request.form['warranty_duration']
+            warranty_days = int(duration_str) if duration_str.isdigit() else 0
+            warranty_valid_until = date.today() + timedelta(days=warranty_days) if warranty_days else None
             create_item = {
                 'item_name': request.form['item_name'],
                 'item_image':request.form['item_image'],
                 'original_price': request.form['original_price'],
+                'current_price': request.form['original_price'],
+                'item_size': request.form['item_size'],
+                'item_color': request.form['item_color'],
+                'in_stock': request.form['in_stock'],
+                'warranty_duration':request.form['warranty_duration'],
+                'warranty_valid_until':warranty_valid_until,
                 'item_desc': request.form['item_desc'],
-                'created_by': 1
+                'created_by': session['user_id']
             }
             db.session.execute(text("""
-                INSERT INTO shop_item (item_name, item_image,original_price, item_desc, created_by)
-                VALUES (:item_name, :item_image, :original_price, :item_desc, :created_by)
+                INSERT INTO shop_item (item_name, item_image,original_price,current_price,item_size,item_color,in_stock,warranty_duration, item_desc, created_by)
+                VALUES (:item_name, :item_image, :original_price,:current_price, 
+                        :item_size, :item_color, :in_stock, :warranty_duration,:item_desc, :created_by)
             """), create_item)
             db.session.commit()
     # Pagination for items in the shop
@@ -893,28 +903,56 @@ def reviewing(item_id):
         user_id=session['user_id']
         db.session.execute(text(f"INSERT INTO review (from_user,for_item,rating,review_date,statement) VALUES ({user_id},{item_id},{request.form["rating"]}, NOW(),'{request.form["review"]}')"))
         db.session.commit()
-    session['html'] = 'reviews.html'
-    return redirect(url_for('all_users'))
-@app.route('/clear_info')
-def clear_session():
-    session.clear()
-    return redirect(url_for('initialize'))
-@app.route("/user_page_increase", methods=["GET"])
-def user_page_increase():
-    if "user_page" not in session:
-        session["user_page"] = 1
-    session["user_page"] +=1
-    print(session["user_page"])
-    return redirect(url_for("all_users"))
-@app.route("/user_page_decrease", methods=["GET"])
-def user_page_decrease():
-    if "user_page" not in session:
-        session["user_page"] = 1
-    session["user_page"] -=1
-    if session["user_page"] == 0:
-        session["user_page"] = 1
-    print(session["user_page"])
-    return redirect(url_for("all_users"))
+    return render_template("reviews.html",comments=comments, item_id=item_id,admin_users=admin_users,
+                           vendor_users=vendor_users,
+                           customer_users=customer_users,
+                           items=items,
+                           creator=creator,
+                           login=login,
+                           cart_items=cart_items,
+                           order_items=order_items,
+                           inventory_items=inventory_items,
+                           battle=battle)
+@app.route('/update_item/<int:item_id>', methods=['POST'])
+def update_item(item_id):
+        duration_str = request.form['warranty_duration']
+        warranty_days = int(duration_str) if duration_str.isdigit() else 0
+        warranty_valid_until = date.today() + timedelta(days=warranty_days) if warranty_days else None
+        update_item = {
+                'item':item_id,
+                'item_name': request.form['item_name'],
+                'item_image':request.form['item_image'],
+                'original_price': request.form['original_price'],
+                'current_price': request.form['original_price'],
+                'item_size': request.form['item_size'],
+                'item_color': request.form['item_color'],
+                'in_stock': request.form['in_stock'],
+                'warranty_duration':request.form['warranty_duration'],
+                'warranty_valid_until':warranty_valid_until,
+                'item_desc': request.form['item_desc'],
+                'created_by': session['user_id']
+            }
+        db.session.execute(text("""
+                UPDATE shop_item
+                SET item_name = :item_name,
+                                item_image = :item_image,
+                                original_price = :original_price,
+                                current_price = :current_price,
+                                item_size = :item_size,
+                                item_color = :item_color,
+                                in_stock = :in_stock,
+                                warranty_duration = :warranty_duration,
+                                warranty_valid_until = :warranty_valid_until,
+                                item_desc = :item_desc,
+                                created_by = :created_by
+                                where item_id = :item_id 
+            """), update_item)
+        db.session.commit()
+        flash('added to invertory!')
+        return redirect(url_for('all_users'))
+    
+
+
 #run#
 if __name__ == '__main__':
     app.run(debug=True)
