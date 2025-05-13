@@ -62,6 +62,7 @@ quantity int null,
 price decimal(10,2) not null,
 color varchar(33) null,
 size varchar(33) null,
+status enum('Pending','Shipped','Delivered') not null,
 foreign key (order_id) references shop_order(order_id),
 foreign key (item_id) references shop_item(item_id)
 );

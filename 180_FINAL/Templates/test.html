@@ -1076,7 +1076,7 @@ var navText07 = document.getElementById('nav_text_07');
                     <br>
                     {%if items%}
                     <div class="vertical_split_holder" id="items">
-                <h1 style="font-family: 'Alagard'">Items</h1>
+                        <h1 style="font-family: 'Alagard'">Items</h1>
                         <div class="item_holder">
                             {% for item in items %}
                             <div class="item_box">
@@ -1141,50 +1141,69 @@ var navText07 = document.getElementById('nav_text_07');
                 </div>
             </div>
             <div class="cart" id="orders">
-            {% endif %}
-            {% if user_orders %}
-
-            {% for order in user_orders %}
-                <div class="order-card">
-                 <h1>ORDER ID: {{order.order_id}}</h1>
-                <h3>TOTAL: ${{order.order_total}}</h3>
-                <form method="POST" action="{{url_for('update_order_status')}}">
-                    <input type="hidden" name="item_id" value={{order.order_id}}>
-                <label for="status" >Status: {{order.status}}
-                {% if not( login.user_type == "Customer" ) %}
-                <select name="status">
-                    <option value="Pending" {% if order.status == 'Pending' %}selected{% endif %}>Pending</option>
-                    <option value="Shipped"  {% if order.status == 'Shipped' %}selected{% endif %}>Shipped</option>
-                    <option value="Delivered" {% if order.status == 'Delivered' %}selected{% endif %}>Delivered</option>
-                </select>
-                <input type="submit" value="Update"><br><br>
                 {% endif %}
-                </label>
-                </form>
-                    {%if order_items %}
-                    <div class="order_items_holder">
-                        <h1>ITEMS <div class="order_items_holder_icon" ></div></h1>
-                        <ul>
-                        {% for item in order_items%}
-                            {% if item.order_id == order.order_id%}
-                                <li><h1 style="display: inline">{{item.quantity}}x</h1> - {{item.name}} - {{item.price}}</li>
-                            {% endif %}
-                        {% endfor %}
-                        </ul>
+                {% if user_orders %}
+                
+                {% for order in user_orders %}
+                    <div class="order-card">
+                    <h1>ORDER ID: {{order.order_id}}</h1>
+                    <h3>TOTAL: ${{order.order_total}}</h3>
+                    <label for="status" >Status: {{order.status}}                    
+                    </label>
+                        {%if order_items %}
+                        <div class="order_items_holder">
+                            <h1>ITEMS <div class="order_items_holder_icon" ></div></h1>
+                            <ul>
+                            {% for item in order_items%}
+                                {% if item.order_id == order.order_id%}
+                                    <li><h1 style="display: inline">{{item.quantity}}x</h1> - {{item.name}} - {{item.price}}
+                                    {% if not( login.user_type == "Customer" ) %}
+                                    <form method="POST" action="{{url_for('update_order_status')}}">    
+                                    <input type="hidden" name="order_id" value={{item.order_id}}>
+                                    <input type="hidden" name="order_id" value={{item.item_id}}>
+                                        <select name="status">
+                                            <option value="Pending" {% if order.status == 'Pending' %}selected{% endif %}>Pending</option>
+                                            <option value="Shipped"  {% if order.status == 'Shipped' %}selected{% endif %}>Shipped</option>
+                                        </select>
+                                        <input type="submit" value="Update"><br><br>
+                                    </form>
+                                    {% endif %}
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
                     </div>
-                    {% endif %}
-                </div>
-
-            {% endfor%}
-            {% else%}
-                <p>No order items</p>
-            {% endif %}
-
-        
-            <link href="https://fonts.googleapis.com/css2?family=Micro+5&display=swap" rel="stylesheet">
+                {% endfor%}
+                {% else%}
+                    <p>No order items</p>
+                {% endif %}
+                    <link href="https://fonts.googleapis.com/css2?family=Micro+5&display=swap" rel="stylesheet">
             </div>
-         </div>
-         </div>
+            <!--Inventory Card-->
+            <div id="inventory">
+                {% if inventory_items %}
+                    <p>{{inventory_items.length}}</p>
+                    {% for item in inventory_items %}
+                            <div class="inventory_item_pic" style="background-image: url('{{ url_for('static', filename='images/' ~ item.item_image) }}');"></div><br>
+                            <strong>{{ item.item_name }}</strong><br>
+                            Description: {{ item.item_desc }}<br>
+                            Quantity: {{ item.quantity or 1 }}<br>
+                            Equipped: {{ 'Yes' if item.equipped else 'No' }}<br>
+                            <form method="POST" action="{{ url_for('equip_item', item_id=item.item_id) }}">
+                                <button type="submit">Equip</button>
+                            </form>
+                    {% endfor %}
+                {% else %}
+                <div id="empyty_inventory" style="border:white 1px solid;font-family: 'Micro 5', sans-serif;text-align:center;font-size:60px;color:white;width:500px;height:420px;background-image: linear-gradient(indigo,grey);margin:auto;border-radius: 10px;">
+                    <p>No items in inventory</p>
+                    <div style="background-image: url(../static/images/misc/chest_open_00.png);width:120px;height:120px;margin:auto;background-position: center;background-size: contain;margin-top: 120px;"></div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
         
 
           {% if battle %}
@@ -1351,12 +1370,15 @@ var navText07 = document.getElementById('nav_text_07');
                 overflow: scroll-y;
             }
             .order-card{
-            padding:10%;
-            text-align:center;
-            background-color: rbga(0,0,0,100.7);
-            border-radius:10px;
-            height:200px;
-            width:fit-content;
+                padding:10%;
+                text-align:center;
+                background-color: rgba(0,0,0,.5);
+                border-radius:10px;
+                height:200px;
+                width:300px;
+                ul{
+                    list-style: none;
+                }
             }
             .display_button{
                 color: white;
