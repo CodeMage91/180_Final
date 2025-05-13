@@ -1036,7 +1036,7 @@ var navText07 = document.getElementById('nav_text_07');
                 </form>
                 </div>
                 {% endif %}
-            <div class="box">
+            <div class="box" id='main-box'>
                 {% block review %}
 
                 {% endblock %}
@@ -1224,10 +1224,39 @@ var navText07 = document.getElementById('nav_text_07');
             justify-content: space-between;
             align-items: center;
         }
+        #orders{
+            overflow-y:scroll;
+            overflow-x:hidden;
+                /* width */
+                ::-webkit-scrollbar {
+                width: 10px;
+                }
+
+                /* Track */
+                ::-webkit-scrollbar-track {
+                background:rgba(241, 241, 241, 0.5); 
+                }
+                
+                /* Handle */
+                ::-webkit-scrollbar-thumb {
+                background: #888; 
+                }
+
+                /* Handle on hover */
+                ::-webkit-scrollbar-thumb:hover {
+                background: #555; 
+                }
+        }
+        #inventory{
+            display: None;
+        }
      </style>
      {%endif%}
      {% if login.user_type == "Customer" %}
         <style>
+            #main-box{
+                display: None;
+            }
             #exit_shop_cart_order{
                 display: None;
                 position: absolute;
@@ -1251,6 +1280,9 @@ var navText07 = document.getElementById('nav_text_07');
             }
             #orders{
                 display: None;
+                flex-wrap: wrap;
+                align-items: flex-start;
+                justify-content: flex-start;
             }
             #inventory{
                 display: None;
@@ -1291,6 +1323,8 @@ var navText07 = document.getElementById('nav_text_07');
             .order_items_holder{
                 ul{
                     display: none;
+                    height: 40%;
+                    overflow-y: scroll;
                 }
                 .order_items_holder_icon{
                     display:inline-block;
@@ -1321,9 +1355,30 @@ var navText07 = document.getElementById('nav_text_07');
                 background-position: center, bottom 13% center, center;
             }
             .box{
+                width: 80%;
+                height: 80%;
                 background-color: transparent;
                 box-shadow: None;
                 margin: 0px;
+                /* width */
+                ::-webkit-scrollbar {
+                width: 10px;
+                }
+
+                /* Track */
+                ::-webkit-scrollbar-track {
+                background:rgba(241, 241, 241, 0.5); 
+                }
+                
+                /* Handle */
+                ::-webkit-scrollbar-thumb {
+                background: #888; 
+                }
+
+                /* Handle on hover */
+                ::-webkit-scrollbar-thumb:hover {
+                background: #555; 
+                }
             }
             .skybox{
                 height: 100px;
@@ -1386,9 +1441,10 @@ var navText07 = document.getElementById('nav_text_07');
                 justify-content: space-around;
                 flex-direction: column;
                 position: relative;
-                overflow: scroll-y;
+                overflow-y: scroll;
             }
             .order-card{
+                overflow: hidden;
                 padding:10%;
                 text-align:center;
                 background-color: rgba(0,0,0,.5);
