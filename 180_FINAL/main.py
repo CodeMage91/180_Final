@@ -803,7 +803,7 @@ def add_inventory_order(order_id):
                 'quantity': item['quantity']
             }
             print(inventory_data, 'ahuioeh;')
-            inventory = db.session.execute(text('select * from user_inventory where user_id = :user_id'), user_id).mappings().fetchone()
+            #inventory = db.session.execute(text('select * from user_inventory where user_id = :user_id'), user_id).mappings().fetchone()
             db.session.execute(text("""
                                     insert into user_inventory(user_id, item_id, quantity)
                                     values(:user_id,:item_id, :quantity)

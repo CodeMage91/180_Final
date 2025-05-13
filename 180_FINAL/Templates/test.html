@@ -11,7 +11,8 @@
     </head>
     <body>
 
-       
+    <p style="display:None;" id="memory_item_get">{{memory}}</p>
+
     {% with messages = get_flashed_messages(with_categories=true) %}
    
     {% if messages %}
@@ -502,7 +503,7 @@
                             <div id="search_item_text" style="position: relative;border-radius: 10px;background-image: linear-gradient(indigo,skyblue);color:white;text-align: center;height: 23px;width: fit-content;padding:3px;left:-8px;top: 32px;display: none;">Search</div>
                         </div>
                         <h2 style="font-family: 'Micro 5', sans-serif;margin-left:12px;font-size: 53px;color:gold;">All Items</h2>
-                        <div class="pagination_bar" ">
+                        <div class="pagination_bar" >
                                 {% if not ( user_page == 1 ) %}<a class="item_page_button" href="/item_page_decrease"> PREVIOUS </a>{% endif %}
                                 <a class="item_page_button" href="/">{{user_page}}</a>
                                 {% if not ( user_page == max_page ) %}<a class="item_page_button" href="/item_page_increase"> NEXT </a>{% endif %}
@@ -979,7 +980,6 @@ var navText07 = document.getElementById('nav_text_07');
 
 
 
-
  
              </script>
                 {%endif%}
@@ -1022,7 +1022,6 @@ var navText07 = document.getElementById('nav_text_07');
                         <button class="display_button" id="dungeon_display_button" onclick="update_memory('DUNGEON')"><div class="display_button_layer">DUNGEON</div></button>
                         <button class="display_button" id="chat_display_button" onclick="update_memory('CHATS')"><div class="display_button_layer">CHATS</div></button>
                     </div>
-                    <p style="display:None;" id="memory_item_get">{{memory}}</p>
                     <script src={{url_for( 'static', filename='js/shop_display.js' )}}></script> 
                 {% endif %}
                 {% if not (login.user_type == "Customer") %}
