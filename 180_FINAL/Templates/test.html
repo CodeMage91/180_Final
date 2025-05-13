@@ -130,9 +130,9 @@
                             <div class="create_desc_00">Choose Starting Weapon.</div>
 
                             <div style="display:flex; flex-direction: row; justify-content: space-evenly; padding-top: 13px;">
-                            <div class="starter_sword" id="starter_sword" data=6>SWORD</div>
-                            <div class="starter_staff" id="starter_staff" data=7>STAFF</div>
-                            <div class="starter_mace" id="starter_mace" data=8>MACE</div>
+                            <div class="starter_sword" id="starter_sword" data=12>SWORD</div>
+                            <div class="starter_staff" id="starter_staff" data=13>STAFF</div>
+                            <div class="starter_mace" id="starter_mace" data=14>MACE</div>
                             </div>
                         </div>
 
@@ -146,7 +146,7 @@
                                     <div style="font-family: 'Micro 5', sans-serif;font-size: 32px;margin: 0px;">Starter Shield:</div>
                                     This shield is perfect for new adventurers that prioritize defense over maneverability.
                                         
-                                    <div class="choose_00" id="gift_00"
+                                    <div class="choose_00" id="gift_00" data_gift="21"
                                         style="height:28px;width:64px;border:outset 3px black;background-color: black;color:white;
                                         position: relative;font-family: 'Micro 5', sans-serif;text-align:center;font-size:24px;margin:auto;margin-top:4px;cursor:pointer">Select</div>
 
@@ -157,7 +157,7 @@
                                     <div style="font-family: 'Micro 5', sans-serif;font-size: 32px;margin: 0px;">Merri Potion:</div>
                                     A potion that will heal all injuries and bring you to perfect health.
                                     
-                                        <div class="choose_01" id="gift_01"
+                                        <div class="choose_01" id="gift_01" data_gift="22"
                                         style="height:28px;width:64px;border:outset 3px black;background-color: black;color:white;
                                         position: relative;font-family: 'Micro 5', sans-serif;text-align:center;font-size:24px;margin:auto;margin-top:4px;cursor:pointer">Select</div>
 
@@ -168,7 +168,7 @@
                                     <div style="font-family: 'Micro 5', sans-serif;font-size: 32px;margin: 0px;">Tasty Ether:</div>
                                     A fizzy drink that leaves you feeling magical.
 
-                                    <div class="choose_02" id="gift_02"
+                                    <div class="choose_02" id="gift_02" data_gift="23"
                                     style="height:28px;width:64px;border:outset 3px black;background-color: black;color:white;
                                     position: relative;font-family: 'Micro 5', sans-serif;text-align:center;font-size:24px;margin:auto;margin-top:4px;cursor:pointer">Select</div>
 
@@ -179,7 +179,7 @@
                                     <div style="font-family: 'Micro 5', sans-serif;font-size: 32px;margin: 0px;">Fresh Swifties:</div>   
                                     A pair of shoes that allow you to move swiftly.
 
-                                    <div class="choose_03" id="gift_03"
+                                    <div class="choose_03" id="gift_03" data_gift="24"
                                         style="height:28px;width:64px;border:outset 3px black;background-color: black;color:white;
                                         position: relative;font-family: 'Micro 5', sans-serif;text-align:center;font-size:24px;margin:auto;margin-top:4px;cursor:pointer">Select</div>
 
@@ -190,7 +190,7 @@
                                     <div style="font-family: 'Micro 5', sans-serif;font-size: 32px;margin: 0px;">Hardy Hat:</div>
                                     A hat that gives you a little bit of confidence and boost you max health.
 
-                                    <div class="choose_04" id="gift_04"
+                                    <div class="choose_04" id="gift_04" data_gift="25"
                                     style="height:28px;width:64px;border:outset 3px black;background-color: black;color:white;
                                     position: relative;font-family: 'Micro 5', sans-serif;text-align:center;font-size:24px;margin:auto;margin-top:4px;cursor:pointer">Select</div>
 
@@ -201,7 +201,7 @@
                                     <div style="font-family: 'Micro 5', sans-serif;font-size:32px;margin: 0px;">Rabbits Foot:</div>
                                     This lucky charm is supposed to be lucky. 
 
-                                    <div class="choose_05" id="gift_05"
+                                    <div class="choose_05" id="gift_05" data_gift="26"
                                         style="height:28px;width:64px;border:outset 3px black;background-color: black;color:white;
                                         position: relative;font-family: 'Micro 5', sans-serif;text-align:center;font-size:24px;margin:auto;margin-top:4px;cursor:pointer">Select</div>
 
@@ -1357,6 +1357,7 @@ var navText07 = document.getElementById('nav_text_07');
                     {% endblock %}
                 </div>
             </div>
+            {%endif%}
             <div class='battle_holder' id='dungeon'>
                 {% block battle %}
 
