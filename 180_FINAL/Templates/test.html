@@ -226,7 +226,7 @@
     
     
         {% if login %}
-            <div class="page">
+            <div class="page" {% if login.user_type == "Admin" %} style='height:600px;'{% endif %}>
                 <div class="bodi">
                     
                     
@@ -1360,6 +1360,7 @@
     {% endif %}
     {% if login.user_type == "Vendor"%}
     <style>
+
         .shop_holder{
             max-width: 1140px;
         }
@@ -1452,6 +1453,14 @@
                 height: 100%;
                 flex-wrap: wrap;
                 gap: 10%;
+            }
+            .page{
+                height: 1140px;
+                padding: 0 0 10% 0;
+            }
+            .box_holder{
+                position: relative;
+                height: max-content;
             }
             .shop_holder{
                 display:flex;
@@ -2401,9 +2410,6 @@
                     left: 750px;
                     position: relative;
                     justify-content: space-evenly;
-                }
-                .page{
-                    height: 600px;
                 }
                 main {
                     padding: 20px;
