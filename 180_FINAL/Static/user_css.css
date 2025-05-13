@@ -6,7 +6,6 @@
     background-color:rgb(110, 28, 66);
     border: 2px solid white;
     border-radius:5px;
-    margin:2%;
     padding:10px;
     color: white;
     height: 125px;
@@ -54,18 +53,24 @@
 }
 .chat-holder{
     display: flex;
+    justify-content: space-between;
     flex-wrap: wrap;
     height: 40vh;
+    width: 800px;
+    gap: 5px;
 }
 .chat-left-div{
-height:375px;
-    width: 25%;
+    height:375px;
+    min-width: 300px;
 }
 .chat-right-div{
-    width: 75%;
+    position: relative;
+    min-width: 300px;
     height: 375px;
 }
 .chat-respond-box{
     display: flex;
-    
+    position: absolute;
+    bottom: 0;
+    width: 100%;
 }

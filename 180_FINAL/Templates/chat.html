@@ -3,7 +3,7 @@
     {% if _chat %}
             
         {% if conversation %}
-            <div class='chat-respond-box'>
+            <div class='chat-response'>
                 {% for con in conversation %}
                 <p>Sent by: {{con["username1"]}}</p>
                 {% if con['comment_image']%}
@@ -18,7 +18,7 @@
         <p>No chats</p>
     {% endif %}
     <form action="/" method="POST">
-    <textarea id="response" name="response" rows="5" cols="70"></textarea>
+    <textarea id="response" name="response" class='chat-respond-box' rows="5" cols="70"></textarea>
         <p><input type="submit" name="submit" placeholder="Respond"></p>
     </form>
 {% endblock %}

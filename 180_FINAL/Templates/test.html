@@ -504,9 +504,9 @@
                         </div>
                         <h2 style="font-family: 'Micro 5', sans-serif;margin-left:12px;font-size: 53px;color:gold;">All Items</h2>
                         <div class="pagination_bar" >
-                                {% if not ( user_page == 1 ) %}<a class="item_page_button" href="/item_page_decrease"> PREVIOUS </a>{% endif %}
-                                <a class="item_page_button" href="/">{{user_page}}</a>
-                                {% if not ( user_page == max_page ) %}<a class="item_page_button" href="/item_page_increase"> NEXT </a>{% endif %}
+                                {% if not ( item_page == 1 ) %}<a class="item_page_button" href="/item_page_decrease"> PREVIOUS </a>{% endif %}
+                                <a class="item_page_button" href="/">{{item_page}}</a>
+                                {% if not ( item_page == max_page ) %}<a class="item_page_button" href="/item_page_increase"> NEXT </a>{% endif %}
                             </div>
                         <div style="width: 820px;height: 420px;overflow-y: scroll;display: flex;flex-direction: column;">
                             {% if items %}
@@ -1020,7 +1020,7 @@ var navText07 = document.getElementById('nav_text_07');
                         <button class="display_button" id="order_display_button" onclick="update_memory('ORDERS')"><div class="display_button_layer">ORDERS</div></button>
                         <button class="display_button" id="inventory_display_button" onclick="update_memory('INVENTORY')"><div class="display_button_layer">INVENTORY</div></button>
                         <button class="display_button" id="dungeon_display_button" onclick="update_memory('DUNGEON')"><div class="display_button_layer">DUNGEON</div></button>
-                        <button class="display_button" id="chat_display_button" onclick="update_memory('CHATS')"><div class="display_button_layer">CHATS</div></button>
+                        <button class="display_button" id="chat_display_button" onclick="update_memory('CHAT')"><div class="display_button_layer">CHATS</div></button>
                     </div>
                     <script src={{url_for( 'static', filename='js/shop_display.js' )}}></script> 
                 {% endif %}
@@ -1173,6 +1173,31 @@ var navText07 = document.getElementById('nav_text_07');
                     <div style="background-image: url(../static/images/misc/chest_open_00.png);width:120px;height:120px;margin:auto;background-position: center;background-size: contain;margin-top: 120px;"></div>
                 </div>
                 {% endif %}
+            </div>
+            <div class="chat-holder" id='chat'>
+                <div class="chat-left-div">
+                {% for user in users %}
+                    <div class="card">
+                        <img src="../static/images/{{user['user_image']}}" height="100px" width="100px" style="align-self:center">
+                        <p style="text-align:center">Name: {{user['full_name']}}</p>
+                        <p style="text-align:center">User Type: {{user['user_type']}}</p>
+                        <form action="/chat" method="POST">
+                            <input type="hidden" name="userid" value="{{user['user_id']}}">
+                            <div style="margin-left:20px"><input type="submit" name="submit" value="Chat with User" class="chat-with"></div>
+                        </form>
+                    </div>
+                {% endfor %}
+                    <div class="pagination_bar" >
+                        {% if not ( user_page == 1 ) %}<a class="item_page_button" href="/user_page_decrease"> PREVIOUS </a>{% endif %}
+                        <a class="item_page_button" href="/">{{user_page}}</a>
+                        {% if not ( user_page == max_page ) %}<a class="item_page_button" href="/user_page_increase"> NEXT </a>{% endif %}
+                    </div>
+                </div>
+                <div class="chat-right-div">
+                    {% block chat %}
+
+                    {% endblock %}
+                </div>
             </div>
         </div>
     </div>

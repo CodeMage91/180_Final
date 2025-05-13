@@ -60,7 +60,7 @@ function display_inventory(){
     displayButtonHolder.style.display = 'None';
     inventory.style.display = "flex";
 }
-function display_inventory(){
+function display_chat(){
     reset_displays()
     exit_shop_cart_order.style.display = 'block';
     chat = document.getElementById("chat");
