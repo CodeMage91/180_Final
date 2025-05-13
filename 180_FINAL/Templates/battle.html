@@ -619,24 +619,24 @@
                 <div id="inventory-list">
                     <!-- Inventory items will be dynamically added here -->
                     {%if inventory_stats %}
-                    {% for item in inventory_stats %}
-                    {% if item.equipped %}
-                        <div class="inventory_list_item_image" style="background-image: url('{{ url_for('static', filename='images' ~ item.item_image) }}');">  
-                            <div class="item_stats">
-                                {{ item.item_name}}<br>
-                                <div class='actual_item_stats'>
-                                {% if item.STR > 0 %} STR: <span class='STR'>{{item.STR}}</span> <br> {%endif%}
-                                {% if item.DEX > 0 %} DEX: <span class='DEX'>{{item.DEX}}</span> <br> {%endif%}
-                                {% if item.CON > 0 %} CON: <span class='CON'>{{item.CON}}</span> <br> {%endif%}
-                                {% if item.INTEL > 0 %} INTEL: <span class='INTEL'>{{item.INTEL}}</span> <br> {%endif%}
-                                {% if item.CHA > 0 %} CHA: <span class='CHA'>{{item.CHA}}</span> <br> {%endif%}
-                                {% if item.WIS > 0 %} WIS: <span class='WIS'>{{item.WIS}}</span> <br> {%endif%}
-                                {% if item.LUCK > 0 %} LUCK: <span class='LUCK'>{{item.LUCK}}</span> <br> {%endif%}
+                        {% for item in inventory_stats %}
+                            {% if item.equipped %}
+                                <div class="inventory_list_item_image" style="background-image: url('{{ url_for('static', filename='images' ~ item.item_image) }}');">  
+                                    <div class="item_stats">
+                                        {{ item.item_name}}<br>
+                                        <div class='actual_item_stats'>
+                                        {% if item.STR > 0 %} STR: <span class='STR'>{{item.STR}}</span> <br> {%endif%}
+                                        {% if item.DEX > 0 %} DEX: <span class='DEX'>{{item.DEX}}</span> <br> {%endif%}
+                                        {% if item.CON > 0 %} CON: <span class='CON'>{{item.CON}}</span> <br> {%endif%}
+                                        {% if item.INTEL > 0 %} INTEL: <span class='INTEL'>{{item.INTEL}}</span> <br> {%endif%}
+                                        {% if item.CHA > 0 %} CHA: <span class='CHA'>{{item.CHA}}</span> <br> {%endif%}
+                                        {% if item.WIS > 0 %} WIS: <span class='WIS'>{{item.WIS}}</span> <br> {%endif%}
+                                        {% if item.LUCK > 0 %} LUCK: <span class='LUCK'>{{item.LUCK}}</span> <br> {%endif%}
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                    {%endif%}
-                    {%endfor%}
+                            {%endif%}
+                        {%endfor%}
                     {%endif%}
                 </div>
             </div>
