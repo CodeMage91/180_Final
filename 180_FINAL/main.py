@@ -288,7 +288,12 @@ def all_users():
         for vendor in vendor_users:
             print(vendor,'vendor')
             if session['user_id'] ==  vendor['user_id']:
-                order = get_user_order(None, session['user_id']) if 'user_id' in session else []
+                order = get_user_order(None, session['user_id']) 
+                print(order)
+                break
+        for admin in admin_users:
+            if session['user_id'] ==  admin['user_id']:
+                order = get_user_order(None, None) 
                 print(order)
                 break
     user_order = order[0]
@@ -422,6 +427,7 @@ def all_users():
     user_page=session["user_page"]
     num_of_users=db.session.execute(text("SELECT count(user_id) as 'num_of_users' from shop_user")).mappings().fetchone()
     per_page=3
+    user_page=1
     max_pages=math.ceil(num_of_users['num_of_users']/per_page)
     if user_page>max_pages:
         user_page=max_pages
@@ -449,23 +455,20 @@ def all_users():
                     text(f"""
                         SELECT 
                             message.* , 
-                            user1.username as 'usernameFrom' ,  
-                            user2.username as 'usernameTO' 
+                            user1.username as 'username1' ,  
+                            user2.username as 'username2' 
                         FROM 
                             message, shop_user as user1, shop_user as user2 
                         WHERE 
                             message.from_user = user1.user_id AND 
                             message.to_user = user2.user_id AND
                             forchat={chatid.chatid}
-                        ORDER BY
-                            message.comment_date DESC
                         """)).mappings().fetchall()
     if request.form: 
         if "response" in request.form:
             db.session.execute(text(
                 f"INSERT INTO message (forchat,conversation,comment_date,from_user,to_user) VALUES({chatid.chatid},'{request.form['response']}', NOW(), {user_id}, {to_user})"))
             db.session.commit()
-            return redirect(url_for('all_users'))
     return render_template(html,
                            users=users,
                            admin_users=admin_users,
@@ -483,7 +486,7 @@ def all_users():
                            item_page=item_page,
                            max_page=max_page,
                            memory=page_memory,
-                           user_page=user_page,
+                           page=user_page,
                            max_pages=max_pages,
                            _chat=_chat,
                            conversation=conversation
@@ -509,24 +512,6 @@ def item_page_decrease():
     if session["item_page"] == 0:
         session["item_page"] = 1
     print(session["item_page"])
-    return redirect(url_for("all_users"))
-
-@app.route("/user_page_increase", methods=["GET"])
-def user_page_increase():
-    if "user_page" not in session:
-        session["user_page"] = 1
-    session["user_page"] +=1
-    print(session["user_page"])
-    return redirect(url_for("all_users"))
-
-@app.route("/user_page_decrease", methods=["GET"])
-def user_page_decrease():
-    if "user_page" not in session:
-        session["user_page"] = 1
-    session["user_page"] -=1
-    if session["user_page"] == 0:
-        session["user_page"] = 1
-    print(session["user_page"])
     return redirect(url_for("all_users"))
 
 @app.route('/to_cart/', methods=['POST'])
@@ -673,6 +658,33 @@ def get_user_order(user_id, vendor_id):
                 select *
                 from shop_order
                 where order_id in ({order_ids})""")).mappings().fetchall()
+    elif user_id == None and  vendor_id == None:
+        y = db.session.execute(text("""
+            select 
+                shop_item.item_name as "name",
+                order_item.quantity as "quantity",
+                shop_order.order_id as "order_id",
+                order_item.item_id as "item_id",
+                order_item.price as "price",
+                order_item.color as "color",
+                order_item.size as "size",
+                order_item.status as "status"
+            from 
+                order_item 
+                    cross join 
+                shop_item 
+                    cross join
+                shop_order
+            where 
+                shop_item.item_id = order_item.item_id
+                    and 
+                order_item.order_id = shop_order.order_id
+        """), {"vendor_id": vendor_id}).mappings().fetchall()
+        x = db.session.execute(text(f"""
+                select *
+                from shop_order
+                """)).mappings().fetchall()
+
     else:
             
         x = db.session.execute(text("""
@@ -895,6 +907,9 @@ def get_user_cart(user_id):
 @app.route("/chat", methods=['POST'])
 def chat():
     user_id=session['user_id']
+    admin_users = db.session.execute(text("SELECT * FROM shop_user WHERE user_type = 'Admin'")).mappings().fetchall()
+    vendor_users = db.session.execute(text("SELECT * FROM shop_user WHERE user_type = 'Vendor'")).mappings().fetchall()
+    customer_users = db.session.execute(text("SELECT * FROM shop_user WHERE user_type = 'Customer'")).mappings().fetchall()
     _chat = db.session.execute(text(f"SELECT * FROM chat WHERE user1={user_id} OR user2={user_id}")).mappings().fetchall()
     conversation=None
     chatid=db.session.execute(text(f"SELECT * FROM chat WHERE (user1={request.form["userid"]} AND user2={user_id}) OR (user1={user_id} AND user2={request.form["userid"]})")).first()
@@ -902,7 +917,13 @@ def chat():
         db.session.execute(text(f"INSERT INTO chat (user1, user2) VALUES ({request.form["userid"]},{user_id})"))
     db.session.commit()
     session['to_user'] = request.form['userid']    
-    session['html'] = 'chat.html'
+    session['html'] = 'chat_01.html'
+    if customer_users:
+        for customer in customer_users:
+            if customer['user_id'] == user_id:
+                session['html'] = 'chat.html'
+                break
+    session['memory'] = "CHAT"
     return redirect(url_for("all_users"))
 @app.route("/reviews/<item_id>", methods=['GET','POST'])
 def reviewing(item_id):
@@ -950,7 +971,7 @@ def update_item(item_id):
                 'warranty_valid_until':warranty_valid_until,
                 'item_desc': request.form['item_desc'],
                 'created_by': session['user_id'],
-                'item_id': item_id
+                'item_id':item_id
             }
         db.session.execute(text("""
                 UPDATE shop_item
