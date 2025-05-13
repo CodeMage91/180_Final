@@ -1178,9 +1178,11 @@ var navText07 = document.getElementById('nav_text_07');
                 <div class="chat-left-div">
                 {% for user in users %}
                     <div class="card">
-                        <img src="../static/images/{{user['user_image']}}" height="100px" width="100px" style="align-self:center">
-                        <p style="text-align:center">Name: {{user['full_name']}}</p>
-                        <p style="text-align:center">User Type: {{user['user_type']}}</p>
+                        <img src="../static/images/{{user['user_image']}}" height="100px" width="100px" style="align-self:center; size: cover;">
+                        <div class='card-stats'>
+                            <p style="text-align:center">Name: {{user['full_name']}}</p>
+                            <p style="text-align:center">User Type: {{user['user_type']}}</p>
+                        </div>
                         <form action="/chat" method="POST">
                             <input type="hidden" name="userid" value="{{user['user_id']}}">
                             <div style="margin-left:20px"><input type="submit" name="submit" value="Chat with User" class="chat-with"></div>
@@ -1210,6 +1212,20 @@ var navText07 = document.getElementById('nav_text_07');
          </main>
          {% endif %}
          {% endif %}
+     {% if login.user_type == "Vendor"%}
+     <style>
+        .shop_holder{
+            max-width: 1140px;
+        }
+        .box {
+            max-width: 1000px;
+            display: flex;
+            flex-direction:column;
+            justify-content: space-between;
+            align-items: center;
+        }
+     </style>
+     {%endif%}
      {% if login.user_type == "Customer" %}
         <style>
             #exit_shop_cart_order{
@@ -1237,6 +1253,9 @@ var navText07 = document.getElementById('nav_text_07');
                 display: None;
             }
             #inventory{
+                display: None;
+            }
+            #chat{
                 display: None;
             }
             .display_button_holder{

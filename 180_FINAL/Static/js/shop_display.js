@@ -21,6 +21,7 @@ function reset_displays(){
     inventory.style.display = "none";
     cart.style.display = "none";
     order.style.display = "none";
+    chat.style.display = 'none';
     exit_shop_cart_order.style.display = 'none';
 }
 

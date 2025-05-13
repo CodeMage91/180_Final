@@ -422,7 +422,6 @@ def all_users():
     user_page=session["user_page"]
     num_of_users=db.session.execute(text("SELECT count(user_id) as 'num_of_users' from shop_user")).mappings().fetchone()
     per_page=3
-    user_page=1
     max_pages=math.ceil(num_of_users['num_of_users']/per_page)
     if user_page>max_pages:
         user_page=max_pages
@@ -450,20 +449,23 @@ def all_users():
                     text(f"""
                         SELECT 
                             message.* , 
-                            user1.username as 'username1' ,  
-                            user2.username as 'username2' 
+                            user1.username as 'usernameFrom' ,  
+                            user2.username as 'usernameTO' 
                         FROM 
                             message, shop_user as user1, shop_user as user2 
                         WHERE 
                             message.from_user = user1.user_id AND 
                             message.to_user = user2.user_id AND
                             forchat={chatid.chatid}
+                        ORDER BY
+                            message.comment_date DESC
                         """)).mappings().fetchall()
     if request.form: 
         if "response" in request.form:
             db.session.execute(text(
                 f"INSERT INTO message (forchat,conversation,comment_date,from_user,to_user) VALUES({chatid.chatid},'{request.form['response']}', NOW(), {user_id}, {to_user})"))
             db.session.commit()
+            return redirect(url_for('all_users'))
     return render_template(html,
                            users=users,
                            admin_users=admin_users,
@@ -481,7 +483,7 @@ def all_users():
                            item_page=item_page,
                            max_page=max_page,
                            memory=page_memory,
-                           page=user_page,
+                           user_page=user_page,
                            max_pages=max_pages,
                            _chat=_chat,
                            conversation=conversation
@@ -507,6 +509,24 @@ def item_page_decrease():
     if session["item_page"] == 0:
         session["item_page"] = 1
     print(session["item_page"])
+    return redirect(url_for("all_users"))
+
+@app.route("/user_page_increase", methods=["GET"])
+def user_page_increase():
+    if "user_page" not in session:
+        session["user_page"] = 1
+    session["user_page"] +=1
+    print(session["user_page"])
+    return redirect(url_for("all_users"))
+
+@app.route("/user_page_decrease", methods=["GET"])
+def user_page_decrease():
+    if "user_page" not in session:
+        session["user_page"] = 1
+    session["user_page"] -=1
+    if session["user_page"] == 0:
+        session["user_page"] = 1
+    print(session["user_page"])
     return redirect(url_for("all_users"))
 
 @app.route('/to_cart/', methods=['POST'])
