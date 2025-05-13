@@ -79,7 +79,6 @@
                     <select name="user_type" class="user_type">
                         <option value="Customer">Customer</option>
                         <option value="Vendor">Vendor</option>
-                        <option value="Admin">Admin</option>
                     </select>
                 </div>
             <div class="character_profile">
@@ -839,37 +838,6 @@ var navText07 = document.getElementById('nav_text_07');
                 </div>
             </div>
                 <div class="box_holder">
-                    <div class="chat-holder">
-                        <div class="chat-left-div">
-                            <div class="user-page-card-holder">
-                                {% for user in users %}
-                                <div class="card">
-                                    <img src="../static/images/{{user['user_image']}}" height="100px" width="100px" style="align-self:center">
-                                    
-                                    <div class='card-stats'>
-                                        <p style="text-align:center">Name: {{user['full_name']}}</p>
-                                        <p style="text-align:center">User Type: {{user['user_type']}}</p>
-                                        <form action="/chat" method="POST">
-                                            <input type="hidden" name="userid" value="{{user['user_id']}}">
-                                            <div style="margin-left:20px"><input type="submit" name="submit" value="Chat with User" class="chat-with"></div>
-                                        </form>
-                                    </div>
-                                </div>
-                                {% endfor %}
-                            </div>
-                            <div class="pagination_bar">
-                                {% if not ( user_page == 1 ) %}<a class="item_page_button" href="/user_page_decrease"> PREVIOUS </a>{% endif %}
-                            <a class="item_page_button" href="/">{{user_page}}</a>
-                            {% if not ( user_page == max_page ) %}<a class="item_page_button" href="/user_page_increase"> NEXT </a>{% endif %}
-                            </div>
-                        </div>
-                        <div class="chat-right-div">
-                        {% block chat %}
-
-                        {% endblock %}
-                        </div>
-                    </div>
-                </div>
             <div class="shop_holder shop_holder_sky">
                 {% if login.user_type == "Customer"%}
                     <button id="exit_shop_cart_order" onclick="update_memory('None')">X</button>
@@ -902,7 +870,7 @@ var navText07 = document.getElementById('nav_text_07');
                 {% endblock %}
                     <br>
                     {%if items%}
-                    <div class="vertical_split_holder" id="items">
+                    <div class="vertical_split_holder" id="items" {% if login.user_type == "Vendor"%} style = "display: none;"{% endif %}>
                         <h1 style="font-family: 'Alagard'">Items</h1>
                         <div class="item_holder">
                             {% for item in items %}
@@ -975,8 +943,8 @@ var navText07 = document.getElementById('nav_text_07');
                     <div class="order-card">
                     <h1>ORDER ID: {{order.order_id}}</h1>
                     <h3>TOTAL: ${{order.order_total}}</h3>
-                    <label for="status" >Status: {{order.status}}                    
-                    </label>
+                    <h4 >Status: {{order.status}}                    
+                    </h4>
                         {%if order_items %}
                         <div class="order_items_holder">
                             <h1>ITEMS <div class="order_items_holder_icon" ></div></h1>
@@ -985,12 +953,12 @@ var navText07 = document.getElementById('nav_text_07');
                                 {% if item.order_id == order.order_id%}
                                     <li><h1 style="display: inline">{{item.quantity}}x</h1> - {{item.name}} - {{item.price}}
                                     {% if not( login.user_type == "Customer" ) %}
-                                    <form method="POST" action="{{url_for('update_order_status')}}">    
+                                    <form method="POST" action="/update_order_status">    
                                     <input type="hidden" name="order_id" value={{item.order_id}}>
-                                    <input type="hidden" name="order_id" value={{item.item_id}}>
+                                    <input type="hidden" name="item_id" value={{item.item_id}}>
                                         <select name="status">
-                                            <option value="Pending" {% if order.status == 'Pending' %}selected{% endif %}>Pending</option>
-                                            <option value="Shipped"  {% if order.status == 'Shipped' %}selected{% endif %}>Shipped</option>
+                                            <option value="Pending" {% if item.status == 'Pending' %}selected{% endif %}>Pending</option>
+                                            <option value="Shipped"  {% if item.status == 'Shipped' %}selected{% endif %}>Shipped</option>
                                         </select>
                                         <input type="submit" value="Update"><br><br>
                                     </form>
@@ -1013,14 +981,19 @@ var navText07 = document.getElementById('nav_text_07');
                 {% if inventory_items %}
                     <p>{{inventory_items.length}}</p>
                     {% for item in inventory_items %}
-                            <div class="inventory_item_pic" style="background-image: url('{{ url_for('static', filename='images/' ~ item.item_image) }}');"></div><br>
-                            <strong>{{ item.item_name }}</strong><br>
-                            Description: {{ item.item_desc }}<br>
-                            Quantity: {{ item.quantity or 1 }}<br>
-                            Equipped: {{ 'Yes' if item.equipped else 'No' }}<br>
+                        <div class="inventory_card">
+                            <div class="item_image" style="background-image: url(../static/images/{{item.item_image}})">
+                                <div class='inventory_stats'>
+                                    <h4>{{ item.item_name }}</h4>
+                                    <p>Quantity: {{ item.quantity or 1 }}</p>
+                                    <p>Equipped: {{ 'Yes' if item.equipped else 'No' }}</p>
+                                    <p>Description: {{ item.item_desc }}</p>
+                                </div>
+                            </div>
                             <form method="POST" action="{{ url_for('equip_item', item_id=item.item_id) }}">
-                                <button type="submit">Equip</button>
+                                <button class="input" type="submit">Equip</button>
                             </form>
+                        </div>
                     {% endfor %}
                 {% else %}
                 <div id="empyty_inventory" style="border:white 1px solid;font-family: 'Micro 5', sans-serif;text-align:center;font-size:60px;color:white;width:500px;height:420px;background-image: linear-gradient(indigo,grey);margin:auto;border-radius: 10px;">
@@ -1064,6 +1037,9 @@ var navText07 = document.getElementById('nav_text_07');
                 display: None;
             }
             #orders{
+                display: None;
+            }
+            #inventory{
                 display: None;
             }
             .display_button_holder{
@@ -1206,6 +1182,48 @@ var navText07 = document.getElementById('nav_text_07');
                 ul{
                     list-style: none;
                 }
+            }
+            .inventory_card{
+                display: flex;
+                flex-direction: column;
+                position: relative;
+                align-items: center;
+                justify-content: space-around;
+                width: 100px;
+                height: 100px;
+                overflow: visible;
+                border-bottom: none;
+                border-radius: 20px;
+                background-color: rgba(100,100,100, 0.6);
+                .item_image{
+                    height: 50px;
+                    width: 50px;
+                    background-size: contain;
+                    background-position: center;
+                    background-repeat: no-repeat;
+                &:hover{
+                    .inventory_stats{
+                        display: flex;
+                    }
+                }
+                }
+            }
+            .inventory_stats{
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                font-size: 20;
+                top: 10px;
+                left: 95px;
+                right: -150px;
+                display: None;
+                border: 3px solid rgba(200,200,200, 0.8);
+                border-radius: 10px;
+                padding: 5px;
+                max-height: 220px;
+                width: auto;
+                background-color: rgba(0,0,0,0.8);
+                z-index:5;
             }
             .display_button{
                 color: white;

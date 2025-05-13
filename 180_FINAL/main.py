@@ -366,8 +366,10 @@ def all_users():
                                                                  #where's mah wallet
                  login = login_data
                  flash('login success!')
+                 return redirect(url_for("all_users"))
              else:
                 flash('Invalid email or password')
+            
               
         elif 'item_name' in request.form:  # This means the Create Item form was submitted
             create_item = {
@@ -613,10 +615,11 @@ def get_user_order(user_id, vendor_id):
                 shop_item.item_name as "name",
                 order_item.quantity as "quantity",
                 shop_order.order_id as "order_id",
+                order_item.item_id as "item_id",
                 order_item.price as "price",
                 order_item.color as "color",
                 order_item.size as "size",
-                order_item.status as status
+                order_item.status as "status"
             from 
                 order_item 
                     cross join 
@@ -631,13 +634,15 @@ def get_user_order(user_id, vendor_id):
                 shop_item.created_by = :vendor_id
         """), {"vendor_id": vendor_id}).mappings().fetchall()
         order_ids = ''
-        for item in y:
+        for i, item in enumerate(y):
+            if i == len(y) - 1:
+                order_ids += str(item['order_id'])
+                break
             order_ids = order_ids + str(item['order_id']) + ', '
-        x = db.session.execute(text("""
+        x = db.session.execute(text(f"""
                 select *
                 from shop_order
-                where order_id in (:order_ids)
-            """),{"order_ids": order_ids}).mappings().fetchall()
+                where order_id in ({order_ids})""")).mappings().fetchall()
     else:
             
         x = db.session.execute(text("""
@@ -650,9 +655,11 @@ def get_user_order(user_id, vendor_id):
                 shop_item.item_name as "name",
                 order_item.quantity as "quantity",
                 shop_order.order_id as "order_id",
+                order_item.item_id as "item_id",
                 order_item.price as "price",
                 order_item.color as "color",
-                order_item.size as "size"
+                order_item.size as "size",
+                order_item.status as "status"
             from 
                 order_item 
                     cross join 
@@ -668,7 +675,7 @@ def get_user_order(user_id, vendor_id):
         """), {"user_id": user_id}).mappings().fetchall()
     return [x,y]
 
-@app.route('/update_order_status', methods=['POST','GET'])
+@app.route('/update_order_status', methods=['POST'])
 def update_order_status():
     if request.method == 'GET':
        flash('Invalid access. Please use the cart form to submit an order.')
@@ -683,6 +690,7 @@ def update_order_status():
          'order_id':request.form['order_id'],
          'item_id':request.form['item_id']
      }
+    print(order_data)
     try:
          
         db.session.execute(text("""
@@ -692,12 +700,10 @@ def update_order_status():
         db.session.commit()   
         flash('Order Updated.')
         #check if order is complete
-        order = db.session.execute(text("""
-                        select * from shop_order where order_id = :order_id
-                                        """), order_data).mappings().fetchall()
         order_items = db.session.execute(text("""
                         select * from order_item where order_id = :order_id
                                               """), order_data).mappings().fetchall()
+        print(order_items)
         delivered = True
         for item in order_items:
             if item['status'] == "Pending":
@@ -705,9 +711,14 @@ def update_order_status():
             if item['status'] == "Shipped":
                 continue
         if delivered:
-            db.session.execute(text("update shop_order set status = 'Delivered'"))
+            print('order delivered')
+            db.session.execute(text("update shop_order set status = 'Delivered' where order_id = :order_id"), order_data)
             db.session.commit()
-        if order['status'] == 'Delivered':
+        order = db.session.execute(text("""
+                        select * from shop_order where order_id = :order_id
+                                        """), order_data).mappings().first()
+        if order.status == 'Delivered':
+            print('add_inventory_order')
             return redirect(f'/add_inventory_order/{order_data['order_id']}')
         return redirect(url_for('all_users'))
     except Exception as e:
@@ -760,20 +771,29 @@ def to_user():
 # Updating inventory based off a completed order   
 @app.route('/add_inventory_order/<order_id>', methods=['GET'])
 def add_inventory_order(order_id):
+    print(order_id, "jiahoh") 
     try:
+        print("TRY")
         order = db.session.execute(text(f"""
                     SELECT * FROM shop_order WHERE order_id = {order_id}
                                         """)).first()
-        user_id = order['user_id']
+        print(order, 'ha8g9eoa')
+        user_id = order.user_id
+        print('user+id', user_id)
         order_items = db.session.execute(text(f"""
-                    SELECT * FROM order_item WHERE order_id = {order_id} SORT BY item_id
+                    SELECT * FROM order_item WHERE order_id = {order_id}
                                         """)).mappings().fetchall()
+        print(order_items)
         for item in order_items:
+            print('loop')
+            print(item)
             inventory_data = {
                 'user_id':user_id,
-                'item_id':item['item_id'],
-                'quantity':item['quantity']
+                'item_id': item['item_id'],
+                'quantity': item['quantity']
             }
+            print(inventory_data, 'ahuioeh;')
+            inventory = db.session.execute(text('select * from user_inventory where user_id = :user_id'), user_id).mappings().fetchone()
             db.session.execute(text("""
                                     insert into user_inventory(user_id, item_id, quantity)
                                     values(:user_id,:item_id, :quantity)
