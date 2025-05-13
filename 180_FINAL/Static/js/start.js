@@ -227,24 +227,30 @@ gift_btn_array[i].style.color = 'white';
 
 gift_00.onclick = function(){
 prev_gift_pic.style.backgroundImage='url(../static/images/icons/icon_13.png)';
+hidden_input_user_gift.value = gift_00.getAttribute('data_gift');
 }
 
 gift_01.onclick = function(){
 prev_gift_pic.style.backgroundImage='url(../static/images/icons/icon_02.png)';
+hidden_input_user_gift.value = gift_01.getAttribute('data_gift');
 }
 
 gift_02.onclick = function(){
 prev_gift_pic.style.backgroundImage='url(../static/images/icons/icon_08.png)';
+hidden_input_user_gift.value = gift_02.getAttribute('data_gift');
 }
 
 gift_03.onclick = function(){
 prev_gift_pic.style.backgroundImage='url(../static/images/icons/icon_09.png)';
+hidden_input_user_gift.value = gift_03.getAttribute('data_gift');
 }
 
 gift_04.onclick = function(){
 prev_gift_pic.style.backgroundImage='url(../static/images/icons/icon_11.png)';
+hidden_input_user_gift.value = gift_04.getAttribute('data_gift');
 }
 
 gift_05.onclick = function(){
 prev_gift_pic.style.backgroundImage='url(../static/images/icons/icon_12.png)';
+hidden_input_user_gift.value = gift_05.getAttribute('data_gift');
 }

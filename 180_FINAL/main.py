@@ -8,7 +8,7 @@ from datetime import datetime, timedelta, date
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:74CLpyrola!@localhost/shopdb'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:CSET155@localhost/shopdb'
 app.config['SECRET_KEY'] = 'dev_key'
 db = SQLAlchemy(app)
 
@@ -66,7 +66,7 @@ def initialize():
         if signup_data == None:
             break
         if 'user_image_small' not in signup_data:
-            signup_data['user_image_small'] = 'small_blue_boi.png'
+            signup_data['user_image_small'] = '/users/small_blue_boi.png'
         db.session.execute(text("""
                     INSERT INTO shop_user (full_name, email, username, user_image,user_image_small,password_hash, user_type)
                     VALUES (:full_name, :email, :username, :user_image, :user_image_small, :password_hash, :user_type)
@@ -169,21 +169,21 @@ def initialize():
         },
         {
             "item_name":"Starter Sword",
-            "item_image":"/images/weapons/sword_00.png",#start from/images/your_file.png
+            "item_image":"/weapons/sword_00.png",#start from/images/your_file.png
             "original_price": 5,#number value
             "item_desc": "Balanced in weight, swift like a branch. This sword prioritizes swinging over stabbing.",#describe the item in 200 characters or less
             "created_by": 14 # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
         },
         {
         "item_name":"Starter Staff",
-            "item_image":"/images/weapons/staff_00.png",#start from/images/your_file.png
+            "item_image":"/weapons/staff_00.png",#start from/images/your_file.png
             "original_price": 5,#number value
             "item_desc": "Surprisingly sturdy and weighted. It could also be used as a hammer.",#describe the item in 200 characters or less
             "created_by": 14 # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
         },
         {
         "item_name":"Starter Mace",
-            "item_image":"/images/weapons/mace_00.png",#start from/images/your_file.png
+            "item_image":"/weapons/mace_00.png",#start from/images/your_file.png
             "original_price": 5,#number value
             "item_desc": "This was made for smashing, it lands with a thud. Though is is a little heavy to pick up.",#describe the item in 200 characters or less
             "created_by": 14 # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
@@ -225,6 +225,62 @@ def initialize():
             "item_image": "/equipment/mithril_armor.png",  # start from/images/your_file.png
             "original_price": 350,  # number value
             "item_desc": "An expensive and durable set of mithril plate armor.", # 200 points of defensive armor
+            # describe the item in 200 characters or less
+            "created_by": 0  # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
+        },
+        {
+            "item_name": "Mithril Plate Armor",
+            "item_image": "/equipment/mithril_armor.png",  # start from/images/your_file.png
+            "original_price": 350,  # number value
+            "item_desc": "An expensive and durable set of mithril plate armor.", # 200 points of defensive armor
+            # describe the item in 200 characters or less
+            "created_by": 0  # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
+        },
+        {
+            "item_name": "Starter Shield",
+            "item_image": "/icons/icon_13.png",  # start from/images/your_file.png
+            "original_price": 1350,  # number value
+            "item_desc": "This shield is perfect for new adventurers that prioritize defense over maneverability.", 
+            # describe the item in 200 characters or less
+            "created_by": 0  # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
+        },
+        {
+            "item_name": "Merri Potion",
+            "item_image": "/icons/icon_02.png",  # start from/images/your_file.png
+            "original_price": 1200,  # number value
+            "item_desc": "A potion that will heal all injuries and bring you to perfect health.", 
+            # describe the item in 200 characters or less
+            "created_by": 0  # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
+        },
+        {
+        "item_name": "Tasty Ether",
+            "item_image": "/icons/icon_08.png",  # start from/images/your_file.png
+            "original_price": 1200,  # number value
+            "item_desc": "A fizzy drink that leaves you feeling magical.", 
+            # describe the item in 200 characters or less
+            "created_by": 0  # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
+        },
+        {
+        "item_name": "Fresh Swifties",
+            "item_image": "/icons/icon_09.png",  # start from/images/your_file.png
+            "original_price": 1200,  # number value
+            "item_desc": "A pair of shoes that allow you to move swiftly.", 
+            # describe the item in 200 characters or less
+            "created_by": 0  # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
+        },
+        {
+        "item_name": "Hardy Hat",
+            "item_image": "/icons/icon_11.png",  # start from/images/your_file.png
+            "original_price": 1200,  # number value
+            "item_desc": "A hat that gives you a little bit of confidence and boost you max health.", 
+            # describe the item in 200 characters or less
+            "created_by": 0  # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
+        },
+        {
+        "item_name": "Rabbits Foot",
+            "item_image": "/icons/icon_12.png",  # start from/images/your_file.png
+            "original_price": 1200,  # number value
+            "item_desc": "This lucky charm is supposed to be lucky.", 
             # describe the item in 200 characters or less
             "created_by": 0  # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
         }
@@ -385,7 +441,7 @@ def all_users():
                 'item_id': starter_weapon_id
             }
 
-            starter_gift_id = request.form.get('starter_gift_id') or '14'#default gift rabbits foot
+            starter_gift_id = request.form.get('starter_gift_id') or '26'#default gift rabbits foot
             gift_item = {
                 'user_id':user_id,
                 'item_id':starter_gift_id
