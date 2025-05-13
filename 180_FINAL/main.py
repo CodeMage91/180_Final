@@ -66,7 +66,7 @@ def initialize():
         if signup_data == None:
             break
         if 'user_image_small' not in signup_data:
-            signup_data['user_image_small'] = 'small_blue_boi.png'
+            signup_data['user_image_small'] = '/users/small_blue_boi.png'
         db.session.execute(text("""
                     INSERT INTO shop_user (full_name, email, username, user_image,user_image_small,password_hash, user_type)
                     VALUES (:full_name, :email, :username, :user_image, :user_image_small, :password_hash, :user_type)
