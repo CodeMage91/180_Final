@@ -350,13 +350,13 @@
                                     </div>
                                     {% endfor %}
                                 {% else %}
-                                    <p>No admin_users found</p>
+                                    <p>No users found</p>
                                 {% endif %}
                             </div>
                         </div>
                        
 
-                        <div  id="admin_user_box" style="width:820px; background-image:linear-gradient(indigo,skyblue); border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; height: 472px;margin:auto;flex-direction: column;">       
+                        <div  id="admin_user_box" style="width:820px; background-image:linear-gradient(indigo,skyblue); border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; height: 472px;margin:auto;flex-direction: column;display: none;">       
                             <h1 style="font-family: 'Micro 5', sans-serif;margin-left:12px;font-size: 53px;padding-left: 12px;color: gold;width:820px;">Admin Users</h1>
                             <div style="height: 420px;display: flex;flex-direction: column;justify-content: space-evenly;overflow-y: scroll;overflow-x: hidden;scrollbar-color: black,gold;">
                                 {% if admin_users %}  
@@ -440,128 +440,183 @@
                     
                     {% endif %}
                 </div>
-
-                </div>
-
-                <!--Product Card-->
-                <div>
-                    
-                    <div id="product_card" style="width: 820px; height: 420px; background-image: linear-gradient(indigo,skyblue); margin: auto; border-radius: 10px; margin-top: 38px;position: relative; top: -620px; flex-direction: column;">
-                        <div id="user_filters" style="display: flex;color:white;margin: auto;width: 600px; justify-content: space-evenly;position: relative; top: -38px;">
-                            <div id="create_item_filter" class="filter">CREATE</div>
-                            <div id="search_item_filter" class="filter">SEARCH</div>
-                            <div id="item_warranty_filter" class="filter">WARRANTYS</div>
-                            <div id="item_discount_filter" class="filter">DISCOUNTS</div>
-                            <div id="item_by_vendor_filter" class="filter">BY VENDOR</div>
-                        </div>
-                       
-                            {% if not (login.user_type == "Customer") %}
-                            <h2 style="font-family: 'Micro 5', sans-serif;margin-left:12px;font-size: 53px;color:gold;">Create Item</h2>
-                            <div class="item_form">
-                                <!--create item form-->
-                                <form method="POST" action="/">
-                                <input placeholder="Item Name" name="item_name">
-                                <input placeholder="item_image" name="item_image">
-                                <input placeholder="Item Price" name="original_price">
+                <!--Products-->
+                <div id="product_card" style="width:100%;height:608px;border:red solid 1px;position: relative;top:-610px;margin:auto;display: none; flex-direction: column;">
+                    <!--Card Filters-->
+                    <div id="user_filters" style="display: flex;color:white;margin: auto;width: 600px; justify-content: space-evenly;position: relative; top: 0px;">
+                        <div id="create_item_filter" class="filter">CREATE</div>
+                        <div id="search_item_filter" class="filter">MANAGE</div>
+                        <div id="item_warranty_filter" class="filter">WARRANTYS</div>
+                        <div id="item_discount_filter" class="filter">DISCOUNTS</div>
+                        <div id="item_by_vendor_filter" class="filter">BY VENDOR</div>
+                    </div>
+                    <!--Create Items-->
+                    <div id="create_item_card" style="flex-direction: column;border:white 1px solid;width:820px; height:600px; background-image: linear-gradient(indigo, skyblue);margin:auto;border-radius: 10px; display: none; position: relative; top: 0px; display: flex;">
+                        {% if not (login.user_type == "Customer") %}
+                        <h2 style="font-family: 'Micro 5', sans-serif;margin-left:12px;font-size: 53px;color:gold;">Create Item</h2>
+                        <div class="item_form">
+                            <!--create item form-->
+                            <form method="POST" action="/">
+                                <input placeholder="Item Name" name="item_name" style="padding:3px;border-radius: 4px; margin:2px;">
+                                <input placeholder="item_image" name="item_image" style="padding:3px;border-radius: 4px; margin:2px;">
+                                <input placeholder="Item Price" name="original_price" style="padding:3px;border-radius: 4px; margin:2px;">
                                 <label for="item_size">Size</label>
-                                    <select name="item_size">
-                                        <option value="small">Small</option>
-                                        <option value="medium">Medium</option>
-                                        <option value="large">Large</option>
-                                    </select>
-                                <lable for="item_color">Color</lable>
-                                <select name="item_color">
-                                    <option value="red" style="background-color: red;">RED</option>
-                                    <option value="orange" style="background-color: orange;">ORANGE</option>
-                                    <option value="yellow" style="background-color: yellow;">YELLOW</option>
-                                    <option value="green" style="background-color: green;">GREEN</option>
-                                    <option value="blue" style="background-color: blue;">BLUE</option>
-                                    <option value="indigo" style="background-color: indigo;">INDIGO</option>
-                                    <option value="violet" style="background-color: violet;">VIOLET</option>
+                                <select name="item_size" style="padding:3px;border-radius: 4px; margin:2px;">
+                                    <option value="small" style="padding:3px;border-radius: 4px; margin:2px;">Small</option>
+                                    <option value="medium" style="padding:3px;border-radius: 4px; margin:2px;">Medium</option>
+                                    <option value="large" style="padding:3px;border-radius: 4px; margin:2px;">Large</option>
                                 </select>
-                                <input placeholder="Quantity" name="in_stock">
-                                <label for="warranty_duration">Warranty</label>
-                                <select name="warranty_duration">
+                                <lable for="item_color">Color</lable>
+                                <select name="item_color" style="padding:3px;border-radius: 4px; margin:2px;">
+                                    <option value="red" style="background-color: red;" style="padding:3px;border-radius: 4px; margin:2px;">RED</option>
+                                    <option value="orange" style="background-color: orange;" style="padding:3px;border-radius: 4px; margin:2px;">ORANGE</option>
+                                    <option value="yellow" style="background-color: yellow;" style="padding:3px;border-radius: 4px; margin:2px;">YELLOW</option>
+                                    <option value="green" style="background-color: green;" style="padding:3px;border-radius: 4px; margin:2px;">GREEN</option>
+                                    <option value="blue" style="background-color: blue;" style="padding:3px;border-radius: 4px; margin:2px;">BLUE</option>
+                                    <option value="indigo" style="background-color: indigo;" style="padding:3px;border-radius: 4px; margin:2px;">INDIGO</option>
+                                    <option value="violet" style="background-color: violet;" style="padding:3px;border-radius: 4px; margin:2px;">VIOLET</option>
+                                </select>
+                                <input placeholder="Quantity" name="in_stock" style="padding:3px;border-radius: 4px; margin:2px;">
+                                <label for="warranty_duration" style="padding:3px;border-radius: 4px; margin:2px;">Warranty</label>
+                                <select name="warranty_duration" style="padding:3px;border-radius: 4px; margin:2px;">
                                     <option value="2">2 Day</option>
                                     <option value="3">3 Day</option>
                                     <option value="7">7 Day</option>
                                 </select>
-                                <textarea placeholder="Item Description" name="item_desc"></textarea>
-                                <div style="width:100%;height:250px;border:white solid 1px; background-image: url(../static/images/shop_background1.png);background-size: contain; border-bottom-right-radius: 10px;border-bottom-left-radius: 10px;
-                                background-position: center;">
-                                  <div class="avatar_create_item" id="pic"  style="background-image: url('{{ url_for('static', filename='images/' ~ login.user_image_small) }}');"></div>
-                                  <div style="width:60px; height: 57px; background-image: url(../static/images/misc/table_00-1.png);background-size: contain;position: relative;
-                                  left:380px; top: 74px;"></div>
-                                    <button id="create_item" type="submit" style="height: 33px; width: 120px; border-radius: 10px; font-family: 'Micro 5', sans-serif; font-size: 32px; cursor: pointer; position: absolute; left: 350px; color: white; background-color: black;top: 463px; ">Create</button>
+                                <textarea placeholder="Item Description" name="item_desc" style="padding:3px;border-radius: 4px; margin:2px;"></textarea>
+                                <div style="width:100%;height:250px;border:white solid 1px; background-image: url(../static/images/shop_background1.png);background-size: contain; border-bottom-right-radius: 10px;border-bottom-left-radius: 10px;background-position: center;">
+                                    <div class="avatar_create_item" id="pic"  style="background-image: url('{{ url_for('static', filename='images/' ~ login.user_image_small) }}');"></div>
+                                    <div style="width:60px; height: 57px; background-image: url(../static/images/misc/table_00-1.png);background-size: contain;position: relative;left:380px; top: 74px;"></div>    
+                                    <button id="create_item" type="submit" style="height: 33px; width: 120px; border-radius: 10px; font-family: 'Micro 5', sans-serif; font-size: 32px; cursor: pointer; position: relative; left: 350px; color: white; background-color: black;top: 113px; ">Create</button>
                                 </div>
+                            </form>
+                        </div>
+                        {% else %}
+                            <p>Become a Vendor or Admin to create items.</p>
+                        {%endif%}
+                    </div>
+
+                    <!--View Items Card-->
+                    <div id="view_item_card" style="flex-direction: column;border:white 1px solid;width:820px; height:680px; background-image: linear-gradient(indigo, skyblue);margin:auto;border-radius: 10px; position: relative; top: 0px; display: none;">
+                        <input placeholder="search items" style=" margin-top:23px;width:420px; padding-left:7px;border-top-left-radius: 10px;border-bottom-left-radius:10px;position: relative;left:300px;height: 28px;">
+                        <div id="search_item_btn" style="position: relative;width: 28px; height: 28px; top:-28px;left:720px;background-image: url(../static/images/icons/icon_14.png);background-size: contain;cursor:pointer;">
+                            <div id="search_item_text" style="position: relative;border-radius: 10px;background-image: linear-gradient(indigo,skyblue);color:white;text-align: center;height: 23px;width: fit-content;padding:3px;left:-8px;top: 32px;display: none;">Search</div>
+                        </div>
+                        <h2 style="font-family: 'Micro 5', sans-serif;margin-left:12px;font-size: 53px;color:gold;">All Items</h2>
+                        <div class="pagination_bar" ">
+                                {% if not ( user_page == 1 ) %}<a class="item_page_button" href="/user_page_decrease"> PREVIOUS </a>{% endif %}
+                                <a class="item_page_button" href="/">{{user_page}}</a>
+                                {% if not ( user_page == max_page ) %}<a class="item_page_button" href="/user_page_increase"> NEXT </a>{% endif %}
+                            </div>
+                        <div style="width: 820px;height: 420px;overflow-y: scroll;display: flex;flex-direction: column;">
+                            {% if items %}
+                            {% for item in items %}
+                            <div style="display: flex;flex-direction: row; width:720px;margin-left: 32px;margin-top:6px;border-radius: 10px;background-color: white;">
+                                <div class="item_card_image" style="background-image: url('{{ url_for('static', filename='images/' ~ item.item_image) }}');"></div>
+                                <div style="width: 300px;margin-left: 6px;">
+                                    <h2>{{item.item_name}}</h2>
+                                    <h4>Original Price: ${{item.original_price}}</h4>
+                                    <h4>Current Price: ${{item.current_price}}</h4>
+                                    {%if item.warranty_duration %}
+                                    <h4>Warranty: {{item.warranty_duration}} Day</h4>
+                                    {% else %}
+                                    <h4>No Warranty</h4>
+                                    {% endif %}
+                                    {% if item.warranty_valid_until %}
+                                    <h4>Warranty Expires: {{ item.warranty_valid_until.strftime('%B %d, %Y')}}</h4>
+                                    {% else %}
+                                    <h4>Warranty Expires: null</h4>
+                                    {% endif %}
+                                    <h4>Color: {{item.item_color}}</h4>
+                                    <h4>Size: {{item.item_size}}</h4>
+                                    <h4>In Stock: {{item.in_stock}}</h4>
+                                    <h4>Created By: {{item.created_by}}</h4>
+                                </div>
+                                <div style="border-radius:10px;width:240px;height: 100px;position: relative; padding-left:7px;background-color:aliceblue;margin-top: 7px; border:black solid 2px;">
+                                    <p style="font-size: 18px;">Description:<br>{{item.item_desc}}</p>
+                                </div>                                                                                   
+                            </div>
+                            <div style="display: flex;position: relative;height: 30px;left: 420px; top:-33px; width: 300px;">
+                                <div class="update_item" id="update_item" style="border: 3px black outset;background-image: linear-gradient(black,grey);padding: 4px;color:white;font-family: 'Micro 5', sans-serif; width: 80px; text-align: center;font-size: 23px; border-radius: 10px;cursor: pointer; ">update</div>
+                                <div class="delete_item" id="delete_item" style="border: 3px black outset;background-image: linear-gradient(black,grey);padding: 4px;color:white;font-family: 'Micro 5', sans-serif; width: 80px; text-align: center;font-size: 23px; border-radius: 10px;cursor: pointer; ">delete</div>
+                                <div class="discount_item" id="discount_item" style="border: 3px black outset;background-image: linear-gradient(black,grey);padding: 4px;color:white;font-family: 'Micro 5', sans-serif; width: 120px; text-align: center;font-size: 23px; border-radius: 10px;cursor: pointer; ">add discount</div>   
+                            </div>
+                            {% endfor %}
+                            {% else %}
+                            {% endif %}
+                        </div>
+                    </div>
+                    <!--Update Item Card-->
+                    <div id="update_item_card" style="flex-direction: column;border:white 1px solid;width:820px; height:620px; background-image: linear-gradient(black, blueviolet);margin:auto;border-radius: 10px; display: none; position: relative; top: -50px;">
+                        <h2 style="font-family: 'Micro 5', sans-serif;margin-left:12px;font-size: 53px;color:gold;">UPDATE ITEM</h2>
+                        <div style="width: 100%; height: 98%; display: flex;">
+                            <div style="width: 45%;">
+                                <h3 style="color: white; font-family: 'Micro 5', sans-serif; font-size: 33px; text-align: center; display: flex; flex-direction: column;">Current</h3>
+                                {% if items %}
+                                <div style="color: white; font-size: 23px; text-align: center;">
+                                    <ul style="list-style: none;">
+                                        <li>{{items.item_name}}</li>
+                                        <li>{{items.item_image}}</li>
+                                        <li>{{items.item_color}}</li>
+                                        <li>{{items.item_size}}</li>
+                                        <li>{{items.in_stock}}</li>
+                                        <li>{{items.created_by}}</li>
+                                        <li>{{items.original_price}}</li>
+                                        <li>{{items.current_price}}</li>
+                                        <li>{{items.warranty_duration}}</li>
+                                    </ul>
+                                    <div style="width: 100%; height: 250px;">{{items.item_desc}}</div>
+                                </div>
+                                {% else %}
+                                <p> There are no items to update</p>
+                                {% endif %}
+                            </div>
+                            <div style="width: 10%; font-family: 'Micro 5', sans-serif; font-size: 33px; text-align: center; color: white;">TO</div>
+                            <div style="width: 45%; flex-direction: column; color: white;">
+                                <h3 style="color: white; font-family: 'Micro 5', sans-serif; font-size: 33px; text-align: center;display: flex; ">Updated</h3>
+                                <form id="updateForm" method="POST" action="">
+                                <input placeholder="Item Name" name="item_name" style="padding:3px;border-radius: 4px; margin:2px;" value="{{items.item_name}}">
+                                <input placeholder="item_image" name="item_image" style="padding:3px;border-radius: 4px; margin:2px;" value="{{items.item_image}}">
+                                <input placeholder="Item Price" name="original_price" style="padding:3px;border-radius: 4px; margin:2px;" value="{{items.original_price}}"><br>
+                                <label for="item_size">Size</label>
+                                <select name="item_size" style="padding:3px;border-radius: 4px; margin:2px;">
+                                    <option value="small" style="padding:3px;border-radius: 4px; margin:2px;" {% if items.item_size == 'small' %}selected{% endif %}>Small</option>
+                                    <option value="medium" style="padding:3px;border-radius: 4px; margin:2px;">Medium</option>
+                                    <option value="large" style="padding:3px;border-radius: 4px; margin:2px;">Large</option>
+                                </select>
+                                <label for="item_color">Color</label>
+                                <select name="item_color" style="padding:3px;border-radius: 4px; margin:2px;">
+                                    <option value="red" style="background-color: red;" style="padding:3px;border-radius: 4px; margin:2px;" value="red">RED</option>
+                                    <option value="orange" style="background-color: orange;" style="padding:3px;border-radius: 4px; margin:2px;" value="orange">ORANGE</option>
+                                    <option value="yellow" style="background-color: yellow;" style="padding:3px;border-radius: 4px; margin:2px;" value="yellow">YELLOW</option>
+                                    <option value="green" style="background-color: green;" style="padding:3px;border-radius: 4px; margin:2px;" value="green">GREEN</option>
+                                    <option value="blue" style="background-color: blue;" style="padding:3px;border-radius: 4px; margin:2px;" value="blue">BLUE</option>
+                                    <option value="indigo" style="background-color: indigo;" style="padding:3px;border-radius: 4px; margin:2px;" value="indigo">INDIGO</option>
+                                    <option value="violet" style="background-color: violet;" style="padding:3px;border-radius: 4px; margin:2px;" value="violet">VIOLET</option>
+                                </select>
+                                <input placeholder="Quantity" name="in_stock" style="padding:3px;border-radius: 4px; margin:2px;" value="{{items.in_stock}}">
+                                <label for="warranty_duration" style="padding:3px;border-radius: 4px; margin:2px;" value="item.warranty_duration">Warranty</label>
+                                <select name="warranty_duration" style="padding:3px;border-radius: 4px; margin:2px;">
+                                    <option value="2">2 Day</option>
+                                    <option value="3">3 Day</option>
+                                    <option value="7">7 Day</option>
+                                </select>
+                                <textarea placeholder="Item Description" name="item_desc" style="padding:3px;border-radius: 4px; margin:2px; width: 95%; height: 200px;">{{items.item_desc}}"</textarea>
+                                <button  type="submit" style="height: 33px; width: 120px; border-radius: 10px; font-family: 'Micro 5', sans-serif; font-size: 32px; cursor: pointer;  color: white; background-color: black; position: relative; top: 114px; left: 120px;">Update</button>
                                 
                             </form>
-                           
-                            {% endif %}
-
-                            <!--all items and search card-->
-                            <div style="width: 820px; height: 420px; background-image: linear-gradient(indigo,skyblue); margin: auto; border-radius: 10px;">
-                                <!--search items-->
-                                <div>
-                                    <input placeholder="search items" style=" margin-top:23px;width:420px; padding-left:7px;border-top-left-radius: 10px;border-bottom-left-radius:10px;position: relative;left:300px;height: 28px; ">
-                                    <div id="search_item_btn" style="position: relative;width: 28px; height: 28px; top:-28px;left:720px;background-image: url(../static/images/icons/icon_14.png);background-size: contain;cursor:pointer;">
-                                        <div id="search_item_text" style="position: relative;border-radius: 10px;background-image: linear-gradient(indigo,skyblue);color:white;text-align: center;height: 23px;width: fit-content;padding:3px;left:-8px;top: 32px;display:none;">Search</div>
-                                    </div>
-                                </div>
-                                <h2 style="font-family: 'Micro 5', sans-serif;margin-left:12px;font-size: 53px;color:gold;">All Items</h2>
-                                <div style="width: 820px;height: 420px;overflow-y: scroll;display: flex;flex-direction: column;">
-                                    {% if items %}
-                                    {% for item in items %}
-                                        <div style="display: flex;flex-direction: row; width:720px;margin-left: 32px;margin-top:6px;border-radius: 10px;background-color: white;">
-                                            <div class="item_card_image" style="background-image: url('{{ url_for('static', filename='images/' ~ item.item_image) }}');"></div>  
-                                                <div style="width: 300px;margin-left: 6px;">
-                                                    <h3>Item Name:{{item.item_name}}</h3>
-                                                    <h4>Original Price: ${{item.original_price}}</h4>
-                                                    <h4>Current Price: ${{item.current_price}}</h4>
-                                                    <h4>Warranty: {{item.warranty_duration}} Days</h4>
-                                                        {% if item.warranty_valid_until %}
-                                                            <p>Warranty End Date: {{ item.warranty_valid_until.strftime('%B %d, %Y')}}</p>
-                                                        {% else %}
-                                                            <p>No warranty</p>
-                                                        {% endif %}
-                                                    <h4>Color: {{item.item_color}}</h4>
-                                                    <h4>Size: {{item.item_size}}</h4>
-                                                    <h4>In Stock: {{item.in_stock}}</h4>
-                                                    <h4>Created By: {{item.created_by}}</h4>
-                                                </div>
-                                                    <div style="border-radius:10px;width:240px;height: 100px;position: relative; padding-left:7px;background-color:aliceblue;margin-top: 7px; border:black solid 2px;">
-                                                        <p style="font-size: 18px;">Description:<br>{{item.item_desc}}</p>
-                                                    </div>
-                                            </div>
-                                                <div  class="update_item" id="update_item" style="position:relative; top:-36px;left: 600px;border: 3px black outset;background-image: linear-gradient(black,grey);padding: 4px;
-                                                color:white;font-family: 'Micro 5', sans-serif; width: 80px; text-align: center;font-size: 23px; border-radius: 10px;cursor: pointer; ">
-                                                    update
-                                                </div>
-                                                <div  class="delete_item" id="update_item" style="position:relative; top: -73px;left: 500px;border: 3px black outset;background-image: linear-gradient(black,grey);padding: 4px;
-                                                color:white;font-family: 'Micro 5', sans-serif; width: 80px; text-align: center;font-size: 23px; border-radius: 10px;cursor: pointer; ">
-                                                    delete
-                                                </div>    
-                                    {% endfor%}
-                                    {% else %}
-                                        <p>There are no items</p>
-                                    {%endif%}
-                                </div>    
-                            </div>
-                            <!--warranty card-->
-                            <div style="width: 820px; height: 420px; background-image: linear-gradient(indigo,skyblue); margin: auto; border-radius: 10px;display:none">
-                                <h2 style="font-family: 'Micro 5', sans-serif;margin-left:12px;font-size: 53px;color:gold;">Item Warrantys</h2>
-                            </div>
-                            <!--Discount card-->
-                            <div style="width: 820px; height: 420px; background-image: linear-gradient(indigo,skyblue); margin: auto; border-radius: 10px;display:none">
-                                <h2 style="font-family: 'Micro 5', sans-serif;margin-left:12px;font-size: 53px;color:gold;">Item Discounts</h2>
-                            </div>
-                            <!--by vendor-->
-                            <div style="width: 820px; height: 420px; background-image: linear-gradient(indigo,skyblue); margin: auto; border-radius: 10px;display: none;">
-                                <h2 style="font-family: 'Micro 5', sans-serif;margin-left:12px;font-size: 53px;color:gold;">By Vendor</h2>
-                            </div>
-
+                            <button id="cancel_item_update" style="height: 33px; width: 120px; border-radius: 10px; font-family: 'Micro 5', sans-serif; font-size: 32px; cursor: pointer;  color: white; background-color: black; position: relative; top: 82px; left: 0px; position: relative;">Cancel</button>
+                        </div>
+                       
                     </div>
-                </div>
+                            </div>
+                        </div>    
+                    </div>
+                    <!--Warranties Card-->
+
+                </div><!--end of products card-->
+
+            </div>
 
                 <!--Cart Card-->
                 <div id="cart_card"></div>
@@ -609,7 +664,7 @@
 
                 
     
-               <!-- <script src="{{url_for( 'static', filename='js/admin.js' )}}"></script> -->
+               <script src="{{url_for( 'static', filename='js/admin.js' )}}"></script>
             
              <script>
 
@@ -870,17 +925,68 @@ var navText07 = document.getElementById('nav_text_07');
                     }
                 )
         });
-
-        
-
+        search_item_btn.addEventListener('mouseout',function(){
+            search_item_text.style.display = 'none';
            
+        });
+
         
+        var create_item_card = document.getElementById('create_item_card');
+        var view_item_card  = document.getElementById('view_item_card');
+           
+        create_item_filter.onclick=function(){
+            create_item_card.style.display = 'flex';
+            view_item_card.style.display = 'none';
+            
+        }
+        search_item_filter.onclick=function(){
+            create_item_card.style.display = 'none';
+            view_item_card.style.display = 'flex';
+        }
+
+        var update_item = document.getElementById('update_item');
+        var update_item_card = document.getElementById('update_item_card');
+        var cancel_item_update = document.getElementById('cancel_item_update');
+
+        update_item.onclick = function(){
+            view_item_card.style.display = 'none';
+            update_item_card.style.display = 'flex';
+            close_boxes.style.display = 'none';
+        }
+
+        cancel_item_update.onclick = function(){
+            update_item_card.style.display = 'none';
+            view_item_card.style.display = 'flex';
+            close_boxes.style.display = 'flex';
+        }
+
+        function openUpdateForm(el) {
+    const itemId = el.dataset.itemId;
+    const itemName = el.dataset.itemName;
+    const itemImage = el.dataset.itemImage;
+    const originalPrice = el.dataset.originalPrice;
+
+    // Show update form and populate it
+    update_item_card.style.display = 'flex';
+
+    // Populate your form fields
+    document.querySelector('input[name="item_name"]').value = itemName;
+    document.querySelector('input[name="item_image"]').value = itemImage;
+    document.querySelector('input[name="original_price"]').value = originalPrice;
+
+    // Update form action with correct item_id
+    document.querySelector('#updateForm').action = `/update_item/${itemId}`;
+}
+
+
+
 
  
              </script>
                 {%endif%}
                  
-        </div>
+        
+    </div>
             
             <!--login page-->
             <div class="user-panel">
@@ -1347,12 +1453,12 @@ var navText07 = document.getElementById('nav_text_07');
 
 
             .item_card_image{
-                width: 120px;
-                height: 120px;
+                width: 64px;
+                height: 64px;
                 border: white outset 3px;
                 background-size: contain;
                 background-repeat: no-repeat;
-                background-color: rgba(0,0,0,0.15);
+                background-color: whitesmoke;
                 border-radius: 10px;
                 margin-left: 6px;
                 margin-top: 6px;

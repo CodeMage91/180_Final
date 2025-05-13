@@ -359,7 +359,7 @@ def all_users():
         elif 'item_name' in request.form:  # This means the Create Item form was submitted
             duration_str = request.form['warranty_duration']
             warranty_days = int(duration_str) if duration_str.isdigit() else 0
-            warranty_until = date.today() + timedelta(days=warranty_days) if warranty_days else None
+            warranty_valid_until = date.today() + timedelta(days=warranty_days) if warranty_days else None
             create_item = {
                 'item_name': request.form['item_name'],
                 'item_image':request.form['item_image'],
@@ -369,6 +369,7 @@ def all_users():
                 'item_color': request.form['item_color'],
                 'in_stock': request.form['in_stock'],
                 'warranty_duration':request.form['warranty_duration'],
+                'warranty_valid_until':warranty_valid_until,
                 'item_desc': request.form['item_desc'],
                 'created_by': session['user_id']
             }
@@ -800,32 +801,45 @@ def reviewing(item_id):
                            order_items=order_items,
                            inventory_items=inventory_items,
                            battle=battle)
+@app.route('/update_item/<int:item_id>', methods=['POST'])
+def update_item(item_id):
+        duration_str = request.form['warranty_duration']
+        warranty_days = int(duration_str) if duration_str.isdigit() else 0
+        warranty_valid_until = date.today() + timedelta(days=warranty_days) if warranty_days else None
+        update_item = {
+                'item':item_id,
+                'item_name': request.form['item_name'],
+                'item_image':request.form['item_image'],
+                'original_price': request.form['original_price'],
+                'current_price': request.form['original_price'],
+                'item_size': request.form['item_size'],
+                'item_color': request.form['item_color'],
+                'in_stock': request.form['in_stock'],
+                'warranty_duration':request.form['warranty_duration'],
+                'warranty_valid_until':warranty_valid_until,
+                'item_desc': request.form['item_desc'],
+                'created_by': session['user_id']
+            }
+        db.session.execute(text("""
+                UPDATE shop_item
+                SET item_name = :item_name,
+                                item_image = :item_image,
+                                original_price = :original_price,
+                                current_price = :current_price,
+                                item_size = :item_size,
+                                item_color = :item_color,
+                                in_stock = :in_stock,
+                                warranty_duration = :warranty_duration,
+                                warranty_valid_until = :warranty_valid_until,
+                                item_desc = :item_desc,
+                                created_by = :created_by
+                                where item_id = :item_id 
+            """), update_item)
+        db.session.commit()
+        flash('added to invertory!')
+        return redirect(url_for('all_users'))
+    
 
-def apply_warranty(item_id, warranty_choice, db_connection):
-    if warranty_choice in ['2 day', '3 day', '7 day']:
-        purchase_date = datetime.now().date()
-        if warranty_choice == '2 day':
-            expiry_date = purchase_date + timedelta(days=2)
-        elif warranty_choice == '3 day':
-            expiry_date = purchase_date + timedelta(days=3)
-        elif warranty_choice == '7 day':
-            expiry_date = purchase_date + timedelta(days=7)
-
-        cursor = db_connection.cursor()
-        sql = "UPDATE shop_items SET warranty_duration = %s, warranty_valid_until = %s WHERE item_id = %s"
-        values = (warranty_choice, expiry_date, item_id)
-        cursor.execute(sql, values)
-        db_connection.commit()
-        cursor.close()
-    elif warranty_choice is None:
-        cursor = db_connection.cursor()
-        sql = "UPDATE shop_items SET warranty_duration = NULL, warranty_valid_until = NULL WHERE item_id = %s"
-        values = (item_id,)
-        cursor.execute(sql, values)
-        db_connection.commit()
-        cursor.close()
-    else:
-        print("Invalid warranty choice.")
 
 #run#
 if __name__ == '__main__':
