@@ -66,7 +66,7 @@ def initialize():
         if signup_data == None:
             break
         if 'user_image_small' not in signup_data:
-            signup_data['user_image_small'] = '/users/small_blue_boi.png'
+            signup_data['user_image_small'] = '/users/small_blue_boi_00.gif'
         db.session.execute(text("""
                     INSERT INTO shop_user (full_name, email, username, user_image,user_image_small,password_hash, user_type)
                     VALUES (:full_name, :email, :username, :user_image, :user_image_small, :password_hash, :user_type)
@@ -171,21 +171,21 @@ def initialize():
             "item_name":"Starter Sword",
             "item_image":"/weapons/sword_00.png",#start from/images/your_file.png
             "original_price": 5,#number value
-            "item_desc": "Balanced in weight, swift like a branch. This sword prioritizes swinging over stabbing.",#describe the item in 200 characters or less
+            "item_desc": "Balanced in weight, swift like a branch.",#describe the item in 200 characters or less
             "created_by": 14 # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
         },
         {
         "item_name":"Starter Staff",
             "item_image":"/weapons/staff_00.png",#start from/images/your_file.png
             "original_price": 5,#number value
-            "item_desc": "Surprisingly sturdy and weighted. It could also be used as a hammer.",#describe the item in 200 characters or less
+            "item_desc": "Surprisingly sturdy and weighted.",#describe the item in 200 characters or less
             "created_by": 14 # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
         },
         {
         "item_name":"Starter Mace",
             "item_image":"/weapons/mace_00.png",#start from/images/your_file.png
             "original_price": 5,#number value
-            "item_desc": "This was made for smashing, it lands with a thud. Though is is a little heavy to pick up.",#describe the item in 200 characters or less
+            "item_desc": "This was made for smashing, it lands with a thud.",#describe the item in 200 characters or less
             "created_by": 14 # USER ID! BE SPECIFIC DO NOT MESS UP WHO IT WAS CREATED BY
         },
         {
@@ -497,9 +497,9 @@ def all_users():
                 'created_by': session['user_id']
             }
             db.session.execute(text("""
-                INSERT INTO shop_item (item_name, item_image,original_price,current_price,item_size,item_color,in_stock,warranty_duration, item_desc, created_by)
+                INSERT INTO shop_item (item_name, item_image,original_price,current_price,item_size,item_color,in_stock,warranty_duration,warranty_valid_until, item_desc, created_by)
                 VALUES (:item_name, :item_image, :original_price,:current_price, 
-                        :item_size, :item_color, :in_stock, :warranty_duration,:item_desc, :created_by)
+                        :item_size, :item_color, :in_stock, :warranty_duration,:item_desc,:warranty_valid_until, :created_by)
             """), create_item)
             db.session.commit()
     # Pagination for items in the shop

@@ -114,7 +114,7 @@
                                         <div class="type_b" id="type_d" style="border-color: red;" data-image="/users/red_guy_idle.gif" data-image-small="/users/small_red_boi.png">RED<br>B</div>
                                             
                                         <div class="type_a" id="type_e" style="border-color:green;" data-image="/users/green_guy_idle.gif" data-image-small="/users/small_green_boi.png">GREEN<br>B</div>
-                                        <div class="type_b" id="type_f"  data-image="/users/blue_guy_idle_gif.gif" data-image-small="/users/small_blue_boi.png">BLUE<br>B</div>
+                                        <div class="type_b" id="type_f"  data-image="/users/blue_guy_idle_gif.gif" data-image-small="/users/small_blue_boi_00.gif">BLUE<br>B</div>
 
                                 </div>
                             </div>
@@ -438,9 +438,6 @@
                             <div id="user_filters" style="display: flex;color:white;margin: auto;width: 600px; justify-content: space-evenly;position: relative; top: 0px;">
                                 <div id="create_item_filter" class="filter">CREATE</div>
                                 <div id="search_item_filter" class="filter">MANAGE</div>
-                                <div id="item_warranty_filter" class="filter">WARRANTYS</div>
-                                <div id="item_discount_filter" class="filter">DISCOUNTS</div>
-                                <div id="item_by_vendor_filter" class="filter">BY VENDOR</div>
                             </div>
                             <!--Create Items-->
                             <div id="create_item_card" style="flex-direction: column;border:white 1px solid;width:820px; height:600px; background-image: linear-gradient(indigo, skyblue);margin:auto;border-radius: 10px; display: none; position: relative; top: 0px; display: flex;">
@@ -680,24 +677,24 @@
                             <a href="{{ url_for('logout') }}">Logout</a>
                         </div>
                         <!--Inventory Card-->
-                        <div id="inventory_card" style="flex-direction: column; ; display: none;width:820px;height:620px;background-image: linear-gradient(indigo, skyblue);position:relative;top:-610px; margin: auto; border-radius: 10px; border: 1px solid white;">
+                        <div id="inventory_card" style="flex-direction: column; ; display: none;width:820px;height:620px;background-image: linear-gradient(indigo, skyblue);position:relative;top:-480px; margin: auto; border-radius: 10px; border: 1px solid white;">
                             {% if inventory_items %}
                             <h2 style="font-family: 'Micro 5', sans-serif;margin-left:12px;font-size: 53px;color:gold;">Inventory</h2>
                             <p>{{inventory_items.length}}</p>
                             <div style="display: flex; flex-direction: row; flex-wrap: wrap; height: 556px; overflow-y: scroll; justify-content: space-evenly;">
                             {% for item in inventory_items %}
-                                <div id="inventory_item_card" style="border: white 1px solid; width: 173px; border-radius: 10px; margin-top: 12px; margin-left: 12px; box-shadow: 0 2px 5px rgba(0,0,0,2.4); background-image: linear-gradient(black,blueviolet);">
+                                <div id="inventory_item_card" style="border: white 1px solid; width: 173px; height: 240px;border-radius: 10px; margin-top: 12px; margin-left: 12px; box-shadow: 0 2px 5px rgba(0,0,0,2.4); background-image: linear-gradient(black,blueviolet);">
                                     <strong style="color: gold; padding-left: 7px;">{{ item.item_name }}</strong><br>
                                     <div class="inventory_item_pic" style="background-image: url('{{ url_for('static', filename='images/' ~ item.item_image) }}');">
                                         <div style="border: 3px gold outset; font-family:'Micro 5',san-serif;color: white; background-color:  black; width: 24px; border-radius: 18px; font-size: 24px; text-align: center; position: relative; left: 103px; top: 96px;">{{ item.quantity or 1 }}</div>
                                     </div>
                                     <div style="color: white; font-family:  'Micro 5', sans-serif; margin-left: 7px; margin-right: 3px; font-size: 23px;">{{ item.item_desc }}</div> 
                                     
-                                    Equipped: {{ 'Yes' if item.equipped else 'No' }}
+                                </div> 
+                                Equipped: {{ 'Yes' if item.equipped else 'No' }}
                                     <form method="POST" action="{{ url_for('equip_item', item_id=item.item_id) }}">
                                         <button type="submit">Equip</button>
                                     </form>
-                                </div> 
                                     
                                 {% endfor %}  
                             </div>   
@@ -999,10 +996,10 @@
                                     var create_item_filter = document.getElementById('create_item_filter');
                                     var search_item_filter = document.getElementById('search_item_filter');
                                     var item_warranty_filter = document.getElementById('item_warranty_filter');
-                                    var item_discount_filter = document.getElementById('item_discount_filter');
-                                    var item_by_vendor_filter = document.getElementById('item_by_vendor_filter');
+                                    // var item_discount_filter = document.getElementById('item_discount_filter');
+                                    // var item_by_vendor_filter = document.getElementById('item_by_vendor_filter');
 
-                                    var item_card_array = [create_item_filter, search_item_filter, item_warranty_filter, item_discount_filter, item_by_vendor_filter];
+                                    var item_card_array = [create_item_filter, search_item_filter];
                                     for(let i = 0; i<item_card_array.length;i++){
                                         item_card_array[i].addEventListener('mouseover',function(){
                                             item_card_array[i].style.color = 'gold';
@@ -1308,7 +1305,7 @@
                                             <h4>{{ item.item_name }}</h4>
                                             <p>Quantity: {{ item.quantity or 1 }}</p>
                                             <p>Equipped: {{ 'Yes' if item.equipped else 'No' }}</p>
-                                            <p>Description: {{ item.item_desc }}</p>
+                                            <div style="width:120px; height: 69px; border: 1px solid white;"><p>Description: {{ item.item_desc }}</p></div>
                                         </div>
                                     </div>
                                     <form method="POST" action="{{ url_for('equip_item', item_id=item.item_id) }}">
@@ -1434,7 +1431,7 @@
                 display: None;
             }
             #orders{
-                height: 100%%;
+                height: 100%;
                 overflow-y: scroll;
                 flex-direction: column;
                 align-items: center;
