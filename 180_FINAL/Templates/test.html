@@ -546,7 +546,6 @@
                         </div>
                     </div>
                     <!--update item card-->
-                    <div id="sleepy_div" style="display: none;">
                     <div style="display: flex; flex-direction: column; gap: 5px; margin-left: 15px;">
                         <div class="update_item" id="update_item" style="border: 1px solid #007bff; background-color: #f0f8ff; color: #007bff; padding: 8px 12px; text-align: center; font-size: 0.9em; border-radius: 5px; cursor: pointer;"
                             data-item-id="{{item.item_id}}"
@@ -557,9 +556,8 @@
                             data-item-color="{{item.item_color}}"
                             onclick="openUpdateForm(this)"
                         >update</div>
-                        <div class="delete_item" id="delete_item" style="border: 1px solid #dc3545; background-color: #fdecea; color: #dc3545; padding: 8px 12px; text-align: center; font-size: 0.9em; border-radius: 5px; cursor: pointer; display: none;">delete</div>
-                        <div class="discount_item" id="discount_item" style="border: 1px solid #ffc107; background-color: #fff8e1; color: #ffc107; padding: 8px 12px; text-align: center; font-size: 0.9em; border-radius: 5px; cursor: pointer;display: none; ">add discount</div>
-                    </div>
+                        <div class="delete_item" id="delete_item" style="border: 1px solid #dc3545; background-color: #fdecea; color: #dc3545; padding: 8px 12px; text-align: center; font-size: 0.9em; border-radius: 5px; cursor: pointer;">delete</div>
+                        <div class="discount_item" id="discount_item" style="border: 1px solid #ffc107; background-color: #fff8e1; color: #ffc107; padding: 8px 12px; text-align: center; font-size: 0.9em; border-radius: 5px; cursor: pointer;">add discount</div>
                     </div>
                 </div>
                 <p>Update Item:</p>
@@ -1396,157 +1394,8 @@
                             </div>
                 </div>
                 <div id="remember_me">
-                     <div id="view_item_card" style="display: flex; flex-direction: column; border: 1px solid white; width: 820px; height: 620px; background-image: linear-gradient(indigo, skyblue); margin: auto; border-radius: 10px; position: relative; padding: 20px; top:30px;">
-
-                                <div style="margin-bottom: 20px; text-align: center; display: none;">
-                                    <input placeholder="search items" style="margin-top: 10px; width: 420px; padding-left: 10px; border-top-left-radius: 10px; border-bottom-left-radius: 10px; position: relative; height: 30px; border: 1px solid #ccc;">
-                                    <div id="search_item_btn" style="position: absolute; top: 33px; left: 700px; width: 30px; height: 30px; background-image: url(../static/images/icons/icon_14.png); background-size: contain; cursor: pointer;">
-                                        <div id="search_item_text" style="display: none; position: absolute; border-radius: 10px; background-image: linear-gradient(indigo, skyblue); color: white; text-align: center; height: 25px; width: fit-content; padding: 5px; left: -10px; top: 35px;">search</div>
-                                    </div>
-                                </div>
-
-            <h2 style="font-family: 'Micro 5', sans-serif; margin-left: 12px; font-size: 48px; color: gold; text-align: left; margin-bottom: 15px;">All Items</h2>
-
-            <div class="pagination_bar" style="display: flex; justify-content: center; margin-bottom: 15px;">
-                {% if not ( item_page == 1 ) %}<a class="item_page_button" href="/item_page_decrease" style="padding: 8px 15px; border: 1px solid #ddd; border-radius: 5px; margin: 0 5px; text-decoration: none; color: #333; background-color: #f9f9f9;"> previous </a>{% endif %}
-                <span class="item_page_button" style="padding: 8px 15px; border: 1px solid #ddd; border-radius: 5px; margin: 0 5px; color: #333; background-color: #eee;">{{item_page}}</span>
-                {% if not ( item_page == max_page ) %}<a class="item_page_button" href="/item_page_increase" style="padding: 8px 15px; border: 1px solid #ddd; border-radius: 5px; margin: 0 5px; text-decoration: none; color: #333; background-color: #f9f9f9;"> next </a>{% endif %}
-            </div>
-
-            <div style="width: 100%; max-height: 500px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; padding: 10px;">
-                {% if items %}
-                {% if items.item_id == user_id%}
-                {% for item in items %}
-                <div class="item_holder" style="display: flex; border: 1px solid #eee; border-radius: 8px; padding: 15px; background-color: ghostwhite; flex-direction: row;">
-                    <div class="item_image" style="width: 120px; height: 120px; background-image: url('{{ url_for('static', filename='images/' ~ item.item_image) }}'); background-size: cover; background-position: center; border-radius: 10px; margin-right: 15px; border: 7px outset {{item.item_color}};"></div>
-
-                    <div style="display: flex; border: transparent 1px solid;width: 75%; justify-content: space-between;">
-                        <div style="display: flex; flex-direction: column;">
-                            <h4 style="margin-top: 0; margin-bottom: 5px; font-weight: bold;">{{ item.item_name }}</h4>
-                            <p style="margin-bottom: 5px;">Price: <span style="color: green; font-weight: bold;">${{ item.original_price }}</span></p>
-                            <p style="margin-bottom: 5px; font-size: 0.9em; color: #777;">Currant Price: ${{ item.current_price }}</p>
-                            <p style="margin-bottom: 5px; font-size: 0.9em; color: #777;">Size: {{ item.item_size }}</p>
-                            <p style="margin-bottom: 5px; font-size: 0.9em;  color: {{item.item_color}};">Color: {{ item.item_color}}</p>
-                            <p style="margin-bottom: 5px; font-size: 0.9em; color: #777;">In stock: {{ item.in_stock }}</p>
-                            <p style="margin-bottom: 5px; font-size: 0.9em; color: #777;">Created By: {{ item.created_by }}</p>
-                        </div>
-                        <div style="justify-content: space-around; width: 55%; display: flex; gap: 10px; align-items: center; margin-top: 10px; border: transparent solid 1px;flex-direction: column;">
-                            <p style="margin-bottom: 10px; font-size: 0.9em; color: #555;background-color: aliceblue; border-radius: 10px;">Description: {{ item.item_desc }}</p>
-                            <form method="POST" action="{{ url_for('to_cart') }}" style="margin-bottom: 0;">
-                                <input type="hidden" value="{{item.item_id}}" name="item_id">
-                                <p style="margin-bottom: 5px; font-size: 0.9em;">Rating: <span style="font-weight: bold;">X</span>/5</p>
-                                
-                                <button class="input" type="submit" style="padding: 8px 15px; background-image: linear-gradient(black, grey); color: gold; border: none; border-radius: 5px; cursor: pointer; font-size: 33px;">add to cart</button>
-                                
-                            </form>
-                        </div>
-                    </div>
-                    <!--update item card-->
-                    <div id="sleepy_div" style="display: none;">
-                    <div style="display: flex; flex-direction: column; gap: 5px; margin-left: 15px;">
-                        <div class="update_item" id="update_item" style="border: 1px solid #007bff; background-color: #f0f8ff; color: #007bff; padding: 8px 12px; text-align: center; font-size: 0.9em; border-radius: 5px; cursor: pointer;"
-                            data-item-id="{{item.item_id}}"
-                            data-item-name="{{item.item_name}}"
-                            data-item-image="{{item.item_image}}"
-                            data-original-price="{{item.original_price}}"
-                            data-item-size="{{item.item_size}}"
-                            data-item-color="{{item.item_color}}"
-                            onclick="openUpdateForm(this)"
-                        >update</div>
-                        <div class="delete_item" id="delete_item" style="border: 1px solid #dc3545; background-color: #fdecea; color: #dc3545; padding: 8px 12px; text-align: center; font-size: 0.9em; border-radius: 5px; cursor: pointer; display: none;">delete</div>
-                        <div class="discount_item" id="discount_item" style="border: 1px solid #ffc107; background-color: #fff8e1; color: #ffc107; padding: 8px 12px; text-align: center; font-size: 0.9em; border-radius: 5px; cursor: pointer;display: none; ">add discount</div>
-                    </div>
-                    </div>
+                    
                 </div>
-                <p>Update Item:</p>
-                <!--update item-->
-                <div style="display: flex; flex-direction: column; border: 1px solid #eee; border-radius: 8px; padding: 15px; background-color: rgba(0,0,0,.5); "> 
-                    <div style="display: flex; flex-direction: row;">
-                        <div style="display: flex;">
-                            <div style="display: flex; flex-direction: column; background-color: white; border-radius: 10px; margin: 5px; padding: 12px;">
-                                <p>Name</p>
-                                <form action="/update_item_name" method="POST">
-                                    <input type="hidden" value="{{item.item_id}}" name="item_id">
-                                    <input placeholder="{{item.item_name}}" name="item_name">
-                                    <button type="submit" style="background-color: black; color: white;">update</button>
-                                </form>
-                            </div>
-                            <div style="display: flex; flex-direction: column;  background-color: white; border-radius: 10px; margin: 5px; padding: 12px;">
-                                <p>Original Price</p>
-                                <form action="/update_item_price" method="POST">
-                                    <input type="hidden" value="{{item.item_id}}" name="item_id">
-                                    <input placeholder="{{item.original_price}}" name="original_price">
-                                    <button type="submit" style="background-color: black; color: white;">update</button>
-                                </form>
-                            </div>
-                            <div style="display: flex; flex-direction: column;  background-color: white; border-radius: 10px; margin: 5px; padding: 12px;">
-                                <p>Current Price</p>
-                                <form action="/update_item_current_price" method="POST">
-                                    <input type="hidden" value="{{item.item_id}}" name="item_id">
-                                    <input placeholder="{{item.current}}" name="current_price">
-                                    <button type="submit" style="background-color: black; color: white;">update</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    <div style="display: flex;  flex-direction: row;">
-                        <div style="display: flex;">
-                            <div style="display: flex; flex-direction: column; background-color: white; border-radius: 10px; margin: 5px; padding: 12px;">
-                                <p>Size</p>
-                                <form action="/update_item_size" method="POST">
-                                    <input type="hidden" value="{{item.item_id}}" name="item_id">
-                                    <input placeholder="{{item.item_size}}" name="item_size">
-                                    <button type="submit" style="background-color: black; color: white;">update</button>
-                                </form>
-                            </div>
-                            <div style="display: flex; flex-direction: column;  background-color: white; border-radius: 10px; margin: 5px; padding: 12px;">
-                                <p>Color</p>
-                                <form action="/update_item_color" method="POST">
-                                    <input type="hidden" value="{{item.item_id}}" name="item_id">
-                                    <input placeholder="{{item.item_color}}" name="item_color">
-                                    <button type="submit" style="background-color: black; color: white;">update</button>
-                                </form>
-                            </div>
-                            <div style="display: flex; flex-direction: column;  background-color: white; border-radius: 10px; margin: 5px; padding: 12px;">
-                                <p>Stock Amount</p>
-                                <form action="/update_in_stock" method="POST">
-                                    <input type="hidden" value="{{item.item_id}}" name="item_id">
-                                    <input placeholder="{{item.in_stock}}" name="in_stock">
-                                    <button type="submit" style="background-color: black; color: white;">update</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    <div style="display: flex;  flex-direction: row;">
-                        <div style="display: flex;">
-                            <div style="display: flex; flex-direction: column; background-color: white; border-radius: 10px; margin: 5px; padding: 12px;">
-                                <p>Created By</p>
-                                <form action="/update_created_by" method="POST">
-                                    <input type="hidden" value="{{item.item_id}}" name="item_id">
-                                    <input placeholder="{{item.created_by}}" name="created_by">
-                                    <button type="submit" style="background-color: black; color: white;">update</button>
-                                </form>
-                            </div>
-                            <div style="display: flex; flex-direction: column;  background-color: white; border-radius: 10px; margin: 5px; padding: 12px;">
-                                <p>Color</p>
-                                <form action="/update_item_desc" method="POST">
-                                    <input type="hidden" value="{{item.item_id}}" name="item_id">
-                                    <textarea placeholder="{{item.item_desc}}" name="item_desc" style="width: 180px; height: 200px;"></textarea>
-                                    <button type="submit" style="background-color: black; color: white;">update</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {% endfor%}
-                {% else%}
-                <p style="text-align: center; color: #777;">no items</p>
-                {%endif%}
-                {%endif%}
-            </div>
-            
-        </div>
-        
                 {% endif %}
                 <div class="cart" id="cart">
                     {% if not (login.user_type == "Vendor") %}
@@ -1568,82 +1417,6 @@
                             <p>Empty Cart</p>
                             {% endif %}
 
-                        </div>
-                        <div id="cart_card" style="flex-direction: column;border:white 1px solid;width:820px; height:620px; background-image: linear-gradient(indigo, skyblue);margin:auto;border-radius: 10px; position: relative; top: -490px; display: flex;">
-                            <div class="cart" id="cart">
-                                <h2 style="font-family: 'Micro 5', sans-serif; font-size: 53px;padding-left: 13px; color: gold;">MY CART</h2>
-                                    <div style="background-color: white; border-radius: 10px; box-shadow: 0,0,0,0,0.4; margin:12px; padding-left: 12px;">    
-                                        <h3 style="font-family: 'Alagard'; color: black;padding-left: 13px; padding-top: 7px;">{{login.full_name}}</h3>
-                                            <div class="cart_inventory">
-                                                {% if cart_items %}
-                                                {% for item in cart_items %}
-                                                <form action="/item_from_cart" method="POST">
-                                                    <input type="hidden" name="item_id" value="{{item.item_id}}">
-                                                    <div style="border-bottom: grey 1px solid; display: flex;">
-                                                        <div style="width: 53px; text-align: center;">{{item.quantity}}x</div>
-                                                        <div style="width: 153px; text-align: left;">{{item.item_name}}</div>
-                                                        <div style="width: 153px; text-align: right;">{{item.original_price}}</div>
-                                                    </div>
-                                                     <input style="color:red; border:none;"  class="input"  type="hidden" name="submit_remove" value="Remove"><input style="color:black; border:none;"  class="input"  type="hidden" name="submit_warranty" value="Add A Warranty" style="display: none;">
-                                                </form>
-                                                {% endfor %}
-                                            </div>
-                                            <div style="margin-left: 256px; border-bottom: black 3px groove; width: fit-content;">Total: ${{cart_total.cart_total}}</div>
-                                                {% else %}
-                                                    <p>Empty Cart</p>
-                                                {% endif %}
-                                            <div>
-                                                <form action="/to_order" method="POST">
-                                                    <input type="submit" name="submit" class="input" value="Submit Order" style="color:white; border:none;" >
-                                                </form>
-                                            </div>
-                                        </div>    
-                                    </div>
-                                
-                                
-                            </div>   
-                        </div>
-                        <!--Orders Card-->
-                        <div id="display_order_card" style="flex-direction: column;border:white 1px solid;width:820px; height:620px; background-image: linear-gradient(indigo, skyblue);margin:auto;border-radius: 10px; position: relative; top: -500px; display: flex; flex-direction: column; padding: 12px;">
-                            <h2 style="font-family: 'Micro 5', sans-serif; font-size: 53px;padding-left: 13px; color: gold;">ORDERS</h2>
-                            {% if user_orders %}
-                            {% for order in user_orders %}
-                            <div class="order-card" style="border: transparent solid 1px; flex-direction: row; display: columns; border-radius: 10px; width: 96%; background-color: ghostwhite; margin: auto;">
-                                <p style="padding-left: 12px;">ORDER ID: {{order.order_id}}</p>
-                                <div style="border: transparent 1px solid; display: flex; flex-direction: column;">
-                                    {%if order_items %}
-                                    <h1 style="font-family: 'Micro 5', sans-serif; font-size: 23px;padding-left: 13px; color: black;"> ORDER ITEMS</h1>
-                                    <div style="flex-direction: column; display: flex; border: 1px transparent solid;">
-                                        {% for item in order_items%}
-                                            <div style="display: flex; border-bottom: grey 1px solid; border-top: grey 1px solid;">
-                                                {% if item.order_id == order.order_id%}
-                                                <p style="text-align: left; width: 142px;">{{item.name}}</p>  <h3 style="text-align: left; width: 182px;">{{item.quantity}}x</h3>
-                                                {% if not( login.user_type == "Customer" ) %}
-                                                <form method="POST" action="/update_order_status">    
-                                                    <input type="hidden" name="order_id" value={{item.order_id}}>
-                                                    <input type="hidden" name="item_id" value={{item.item_id}}>
-                                                    <select name="status">
-                                                        <option value="Pending" {% if item.status == 'Pending' %}selected{% endif %}>Pending</option>
-                                                        <option value="Shipped"  {% if item.status == 'Shipped' %}selected{% endif %}>Shipped</option>
-                                                    </select>
-                                                    <input type="submit" value="Update">
-                                                </form>
-                                                    <p style="text-align: right; width: 142px; border: transparent 1px solid;margin-left:180px;">{{item.price}}</p> 
-                                                {% endif %}
-                                            {% endif %}
-                                            </div>
-                                        {% endfor %}
-                                    </div>
-                                {% endif %}
-                                </div>
-                            <p style="text-align: right; border: transparent solid 1px;">TOTAL: ${{order.order_total}}</p>
-                            <h4 style="text-align: right; padding-bottom: 12px;">Status: {{order.status}}</h4>
-                                
-                            </div>
-                            {% endfor%}
-                            {% else%}
-                            <h2 style="font-family: 'Micro 5', sans-serif;margin-left:12px;font-size: 53px;color:gold;">NO ORDER ITEMS</h2>
-                            {% endif %}
                         </div>
 
                         <div>
