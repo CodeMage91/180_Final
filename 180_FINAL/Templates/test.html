@@ -560,6 +560,28 @@
                         <div class="discount_item" id="discount_item" style="border: 1px solid #ffc107; background-color: #fff8e1; color: #ffc107; padding: 8px 12px; text-align: center; font-size: 0.9em; border-radius: 5px; cursor: pointer; ">add discount</div>
                     </div>
                 </div>
+                <p>Update Item:</p>
+                <!--update item--> 
+                <div class="item_holder" style="display: flex; border: 1px solid #eee; border-radius: 8px; padding: 15px; background-color: rgba(0,0,0,.5); flex-direction: row;">
+                        <div style="display: flex;">
+                            <div style="display: flex; flex-direction: column; background-color: white; border-radius: 10px; margin: 5px; padding: 12px;">
+                                <p>Name</p>
+                                <form action="/update_item_name" method="POST">
+                                    <input type="hidden" value="{{item.item_id}}" name="item_id">
+                                    <input placeholder="{{item.item_name}}" name="item_name">
+                                    <button type="submit" style="background-color: black; color: white;">update</button>
+                                </form>
+                            </div>
+                            <div style="display: flex; flex-direction: column;  background-color: white; border-radius: 10px; margin: 5px; padding: 12px;">
+                                <p>Price</p>
+                                <form action="/update_item_price" method="POST">
+                                    <input type="hidden" value="{{item.item_id}}" name="item_id">
+                                    <input placeholder="{{item.original_price}}" name="original_price">
+                                    <button type="submit" style="background-color: black; color: white;">update</button>
+                                </form>
+                            </div>
+                        </div>
+                </div>
                 {% endfor%}
                 {% else%}
                 <p style="text-align: center; color: #777;">no items</p>

@@ -1168,6 +1168,38 @@ def to_admin():
     db.session.commit()
     flash('Made User into Admin!')
     return redirect(url_for('all_users'))
+#update name
+@app.route('/update_item_name', methods=['POST'])
+def update_item_name():
+    update ={
+        'item_id':request.form['item_id'],
+        'item_name':request.form['item_name']
+    }
+    db.session.execute(text("""
+                            UPDATE shop_item
+                            SET item_name = :item_name
+                            WHERE item_id = :item_id
+                            """),update)
+    db.session.commit()
+    flash('Item Name updated!')
+    return redirect(url_for('all_users'))
+
+#update original price
+@app.route('/update_item_price', methods=['POST'])
+def update_item_price():
+    update ={
+        'item_id':request.form['item_id'],
+        'original_price':request.form['original_price']
+    }
+    db.session.execute(text("""
+                            UPDATE shop_item
+                            SET original_price = :original_price
+                            WHERE item_id = :item_id
+                            """),update)
+    db.session.commit()
+    flash('Item Price updated!')
+    return redirect(url_for('all_users'))
+
     
 
 
