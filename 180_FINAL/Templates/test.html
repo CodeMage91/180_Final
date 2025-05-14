@@ -690,11 +690,11 @@
                                     </div>
                                     <div style="color: white; font-family:  'Micro 5', sans-serif; margin-left: 7px; margin-right: 3px; font-size: 23px;">{{ item.item_desc }}</div> 
                                     
-                                </div> 
-                                Equipped: {{ 'Yes' if item.equipped else 'No' }}
+                                     <div style="color: greenyellow;text-align: center;">Equipped: {{ 'Yes' if item.equipped else 'No' }}</div>
                                     <form method="POST" action="{{ url_for('equip_item', item_id=item.item_id) }}">
-                                        <button type="submit">Equip</button>
+                                        <button type="submit" style="width: 120px; position: relative; top: 24px; left: 24px; background-color: black; color: white; cursor: pointer;">Equip</button>
                                     </form>
+                                </div> 
                                     
                                 {% endfor %}  
                             </div>   
