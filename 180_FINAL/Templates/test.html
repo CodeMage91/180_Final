@@ -1279,6 +1279,51 @@
                 {% if login.user_type == 'Vendor' %}
                 <div class='cart' id='vendor_side_items'>
                     <!--PUT YOUR ITEM STUFF HERE!-->
+                     <!--Create Items-->
+                            <div id="create_item_card" style="flex-direction: column;border:white 1px solid;width:820px; height:600px; background-image: linear-gradient(indigo, skyblue);margin:auto;border-radius: 10px; display: none; position: relative; top: 0px; display: flex;">
+                                {% if not (login.user_type == "Customer") %}
+                                <h2 style="font-family: 'Micro 5', sans-serif;margin-left:12px;font-size: 53px;color:gold;">Create Item</h2>
+                                <div class="item_form">
+                                    <!--create item form-->
+                                    <form method="POST" action="/">
+                                        <input placeholder="Item Name" name="item_name" style="padding:3px;border-radius: 4px; margin:2px;">
+                                        <input placeholder="item_image" name="item_image" style="padding:3px;border-radius: 4px; margin:2px;">
+                                        <input placeholder="Item Price" name="original_price" style="padding:3px;border-radius: 4px; margin:2px;">
+                                        <label for="item_size">Size</label>
+                                        <select name="item_size" style="padding:3px;border-radius: 4px; margin:2px;">
+                                            <option value="small" style="padding:3px;border-radius: 4px; margin:2px;">Small</option>
+                                            <option value="medium" style="padding:3px;border-radius: 4px; margin:2px;">Medium</option>
+                                            <option value="large" style="padding:3px;border-radius: 4px; margin:2px;">Large</option>
+                                        </select>
+                                        <lable for="item_color">Color</lable>
+                                        <select name="item_color" style="padding:3px;border-radius: 4px; margin:2px;">
+                                            <option value="red" style="background-color: red;" style="padding:3px;border-radius: 4px; margin:2px;">RED</option>
+                                            <option value="orange" style="background-color: orange;" style="padding:3px;border-radius: 4px; margin:2px;">ORANGE</option>
+                                            <option value="yellow" style="background-color: yellow;" style="padding:3px;border-radius: 4px; margin:2px;">YELLOW</option>
+                                            <option value="green" style="background-color: green;" style="padding:3px;border-radius: 4px; margin:2px;">GREEN</option>
+                                            <option value="blue" style="background-color: blue;" style="padding:3px;border-radius: 4px; margin:2px;">BLUE</option>
+                                            <option value="indigo" style="background-color: indigo;" style="padding:3px;border-radius: 4px; margin:2px;">INDIGO</option>
+                                            <option value="violet" style="background-color: violet;" style="padding:3px;border-radius: 4px; margin:2px;">VIOLET</option>
+                                        </select>
+                                        <input placeholder="Quantity" name="in_stock" style="padding:3px;border-radius: 4px; margin:2px;">
+                                        <label for="warranty_duration" style="padding:3px;border-radius: 4px; margin:2px;">Warranty</label>
+                                        <select name="warranty_duration" style="padding:3px;border-radius: 4px; margin:2px;">
+                                            <option value="2">2 Day</option>
+                                            <option value="3">3 Day</option>
+                                            <option value="7">7 Day</option>
+                                        </select>
+                                        <textarea placeholder="Item Description" name="item_desc" style="padding:3px;border-radius: 4px; margin:2px;"></textarea>
+                                        <div style="width:100%;height:250px;border:white solid 1px; background-image: url(../static/images/shop_background1.png);background-size: contain; border-bottom-right-radius: 10px;border-bottom-left-radius: 10px;background-position: center;">
+                                            <div class="avatar_create_item" id="pic"  style="background-image: url('{{ url_for('static', filename='images/' ~ login.user_image_small) }}');"></div>
+                                            <div style="width:60px; height: 57px; background-image: url(../static/images/misc/table_00-1.png);background-size: contain;position: relative;left:380px; top: 74px;"></div>    
+                                            <button id="create_item" type="submit" style="height: 33px; width: 120px; border-radius: 10px; font-family: 'Micro 5', sans-serif; font-size: 32px; cursor: pointer; position: relative; left: 350px; color: white; background-color: black;top: 113px; ">Create</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                {% else %}
+                                    <p>Become a Vendor or Admin to create items.</p>
+                                {%endif%}
+                            </div>
                 </div>
                 {% endif %}
                 <div class="cart" id="cart">
