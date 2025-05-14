@@ -1155,6 +1155,19 @@ def get_all_carts():
                                 GROUP BY u.user_id, u.username, i.item_id, i.item_name, i.original_price, c.is_ordered
                                 ORDER BY u.user_id
                                    """)).mappings().fetchall()
+@app.route('/to_admin', methods=['POST'] )
+def to_admin():
+    user_id = {
+        'user_id':request.form['user_id']
+}
+    db.session.execute(text("""
+                            UPDATE shop_user
+                            SET user_type = 'Admin'
+                            WHERE user_id = :user_id
+                            """),user_id)
+    db.session.commit()
+    flash('Made User into Admin!')
+    return redirect(url_for('all_users'))
     
 
 

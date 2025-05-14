@@ -309,7 +309,7 @@
                                     <div id="customer_filter" class="filter">CUSTOMER</div>
                                         </div>
 
-                                <div id="users" style="display:flex; flex-direction:row; background-color: indigo; width:820px; border-top-right-radius: 10px;border-top-left-radius: 10px; margin:auto; padding-top:9px; ">      
+                                <div id="users" style="display:none; flex-direction:row; background-color: indigo; width:820px; border-top-right-radius: 10px;border-top-left-radius: 10px; margin:auto; padding-top:9px; ">      
                                     <!--Search Users-->
                                     <input placeholder=" Search Users" style="width:300px;margin-left: 240px;"> 
                                     <div id="search_btn" type="submit" style="width:32px;height:32px;background-image: url(../static/images/icons/icon_14.png);background-repeat: no-repeat;background-size: contain; position: relative; left:3px; top:0px;cursor: pointer;">
@@ -317,7 +317,7 @@
                                     border-radius:10px;display:none;padding-left:7px;">Search</div>
                                     </div>
                                 </div>
-                                <div style="width:820px; background-image:linear-gradient(indigo,skyblue); border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; height: 472px;margin:auto;flex-direction: column;" id="all_users_box">
+                                <div style="width:820px; background-image:linear-gradient(indigo,skyblue); border-radius: 10px; height: 472px;margin:auto;flex-direction: column;" id="all_users_box">
                                     <h1 style="font-family: 'Micro 5', sans-serif;margin-left:12px;font-size: 53px;padding-left: 12px;color: gold;">All Users</h1>
                                     <div style="height: 420px;display: flex;flex-direction: column;justify-content: space-evenly;overflow-y: scroll;overflow-x: hidden;scrollbar-color: black,gold;">
                                         {% if users %}  
@@ -335,9 +335,13 @@
                                                     <input type="hidden" name="userid" value="{{user['user_id']}}">
                                                     <div style="margin-left:20px"><input type="submit" name="submit" value="Chat with User"></div>
                                                 </form>
+                                                <form action="/to_admin" method="POST">
+                                                    <input type="hidden" name="user_id" value="{{user['user_id']}}">
+                                                    <div style="margin-left: 20px"><button type="submit">Make Admin</button></div>
+                                                </form>
                                             </div>
                                             {% endfor %}
-                                            <div class="pagination_bar" >
+                                            <div class="pagination_bar" style="display: none;">
                                                 {% if not ( user_page == 1 ) %}<a class="item_page_button" href="/user_page_decrease"> PREVIOUS </a>{% endif %}
                                                 <a class="item_page_button" href="/">{{user_page}}</a>
                                                 {% if not ( user_page == max_page ) %}<a class="item_page_button" href="/user_page_increase"> NEXT </a>{% endif %}
@@ -367,6 +371,10 @@
                                                     <input type="hidden" name="userid" value="{{user['user_id']}}">
                                                     <div style="margin-left:20px"><input type="submit" name="submit" value="Chat with User"></div>
                                                 </form>
+                                                <form action="/to_admin" method="POST">
+                                                    <input type="hidden" name="user_id" value="{{user['user_id']}}">
+                                                    <div style="margin-left: 20px"><button type="submit">Make Admin</button></div>
+                                                </form>
                                             </div>
                                             {% endfor %}
                                             </div>
@@ -395,6 +403,10 @@
                                                     <input type="hidden" name="userid" value="{{user['user_id']}}">
                                                     <div style="margin-left:20px"><input type="submit" name="submit" value="Chat with User"></div>
                                                 </form>
+                                                <form action="/to_admin" method="POST">
+                                                    <input type="hidden" name="user_id" value="{{user['user_id']}}">
+                                                    <div style="margin-left: 20px"><button type="submit">Make Admin</button></div>
+                                                </form>
                                         </div>
                                         {% endfor %}
                                         </div>
@@ -418,9 +430,13 @@
                                         Type: {{user.user_type}}
                                     </div>
                                     <form action="/chat" method="POST">
-                                                    <input type="hidden" name="userid" value="{{user['user_id']}}">
-                                                    <div style="margin-left:20px"><input type="submit" name="submit" value="Chat with User"></div>
-                                                </form>
+                                        <input type="hidden" name="userid" value="{{user['user_id']}}">
+                                        <div style="margin-left:20px"><input type="submit" name="submit" value="Chat with User"></div>
+                                    </form>
+                                    <form action="/to_admin" method="POST">
+                                        <input type="hidden" name="user_id" value="{{user['user_id']}}">
+                                        <div style="margin-left: 20px"><button type="submit">Make Admin</button></div>
+                                    </form>
                                 </div>
                                 {% endfor %}
                                 </div>
@@ -632,17 +648,33 @@
                                 <!--All Carts-->    
                                 <h2 style="font-family: 'Micro 5', sans-serif; font-size: 53px;padding-left: 13px; color: gold;">All CARTS</h2>
                                 <div style="width:800px; margin:auto; height: 390px; border: grey 1px solid; overflow-y: scroll; border-bottom-left-radius: 10px; border-top-left-radius: 10px;">
-                                    {% set last_user = None %}
-                                    {% for cart in all_carts %}
-                                        {% if cart.user_id != last_user %}
-                                            {% if not loop.first %}</ul>{% endif %}
-                                            <h3>{{ cart.username }}'s Cart (User ID: {{ cart.user_id }})</h3>
-                                            <ul>
-                                            {% set last_user = cart.user_id %}
+                                    <div style="border: grey 1px solid; padding: 15px; border-radius: 8px; background-color: white;">
+                                        {% set last_user = None %}
+                                        {% for cart in all_carts %}
+                                            {% if cart.user_id != last_user %}
+                                                {% if not loop.first %}
+                                                    </ul>
+                                                {% endif %}
+                                                <h3 style="font-size: 1.2em; margin-bottom: 5px;">
+                                                    <span style="font-weight: bold;">{{ cart.username }}</span>'s Cart
+                                                    <span style="font-size: 0.9em; color: #777;">(User ID: {{ cart.user_id }})</span>
+                                                </h3>
+                                                <ul style="list-style-type: none; padding-left: 0;">
+                                                {% set last_user = cart.user_id %}
+                                            {% endif %}
+                                            <li style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #eee;">
+                                                <span style="width: 53px; text-align: center;">{{ cart.quantity }}x</span>
+                                                <span style="width: 153px; text-align: left;">{{ cart.item_name }}</span>
+                                                <span style="width: 153px; text-align: right;">${{ cart.original_price }}</span>
+                                            </li>
+                                            {% if loop.last %}
+                                                </ul>
+                                            {% endif %}
+                                        {% endfor %}
+                                        {% if not all_carts %}
+                                            <p style="color: #777;">No carts available.</p>
                                         {% endif %}
-                                        <li>{{ cart.item_name }} — ${{ cart.original_price }} × {{ cart.quantity }}</li>
-                                        {% if loop.last %}</ul>{% endif %}
-                                    {% endfor %}
+                                    </div>
                                 </div>
                             </div>   
                         </div>
