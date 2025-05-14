@@ -598,10 +598,11 @@
                             <!--Warranties Card-->
 
                         <!--Cart Card-->
-                        <div id="cart_card" style="flex-direction: column;border:white 1px solid;width:820px; height:420px; background-image: linear-gradient(indigo, skyblue);margin:auto;border-radius: 10px; position: relative; top: -490px; display: none;">
+                        <!--Admins Cart-->
+                        <div id="cart_card" style="flex-direction: column;border:white 1px solid;width:820px; height:620px; background-image: linear-gradient(indigo, skyblue);margin:auto;border-radius: 10px; position: relative; top: -490px; display: none;">
                             <div class="cart" id="cart">
-                                <h2 style="font-family: 'Micro 5', sans-serif; font-size: 53px;padding-left: 13px; color: gold;">CART</h2>
-                                    <div style="background-color: white; border-radius: 10px; box-shadow: 0,0,0,0,0.4;">    
+                                <h2 style="font-family: 'Micro 5', sans-serif; font-size: 53px;padding-left: 13px; color: gold;">MY CART</h2>
+                                    <div style="background-color: white; border-radius: 10px; box-shadow: 0,0,0,0,0.4; margin:12px; padding-left: 12px;">    
                                         <h3 style="font-family: 'Alagard'; color: black;padding-left: 13px; padding-top: 7px;">{{login.full_name}}</h3>
                                             <div class="cart_inventory">
                                                 {% if cart_items %}
@@ -626,7 +627,12 @@
                                                     <input type="submit" name="submit" class="input" value="Submit Order" style="color:white; border:none;" >
                                                 </form>
                                             </div>
-                                    </div>        
+                                        </div>    
+                                    </div>
+                                <!--All Carts-->    
+                                <h2 style="font-family: 'Micro 5', sans-serif; font-size: 53px;padding-left: 13px; color: gold;">All CARTS</h2>
+                                <div style="width:800px; margin:auto; height: 390px; border: grey 1px solid; overflow-y: scroll; border-bottom-left-radius: 10px; border-top-left-radius: 10px;">
+                                    
                                 </div>
                             </div>   
                         </div>
