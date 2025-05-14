@@ -528,7 +528,7 @@
                         <div style="display: flex; flex-direction: column;">
                             <h4 style="margin-top: 0; margin-bottom: 5px; font-weight: bold;">{{ item.item_name }}</h4>
                             <p style="margin-bottom: 5px;">Price: <span style="color: green; font-weight: bold;">${{ item.original_price }}</span></p>
-                            <p style="margin-bottom: 5px; font-size: 0.9em; color: #777;">Currant Price: {{ item.current_price }}</p>
+                            <p style="margin-bottom: 5px; font-size: 0.9em; color: #777;">Currant Price: ${{ item.current_price }}</p>
                             <p style="margin-bottom: 5px; font-size: 0.9em; color: #777;">Size: {{ item.item_size }}</p>
                             <p style="margin-bottom: 5px; font-size: 0.9em;  color: {{item.item_color}};">Color: {{ item.item_color}}</p>
                             <p style="margin-bottom: 5px; font-size: 0.9em; color: #777;">In stock: {{ item.in_stock }}</p>
@@ -561,8 +561,9 @@
                     </div>
                 </div>
                 <p>Update Item:</p>
-                <!--update item--> 
-                <div class="item_holder" style="display: flex; border: 1px solid #eee; border-radius: 8px; padding: 15px; background-color: rgba(0,0,0,.5); flex-direction: row;">
+                <!--update item-->
+                <div style="display: flex; flex-direction: column; border: 1px solid #eee; border-radius: 8px; padding: 15px; background-color: rgba(0,0,0,.5); "> 
+                    <div style="display: flex; flex-direction: row;">
                         <div style="display: flex;">
                             <div style="display: flex; flex-direction: column; background-color: white; border-radius: 10px; margin: 5px; padding: 12px;">
                                 <p>Name</p>
@@ -573,14 +574,71 @@
                                 </form>
                             </div>
                             <div style="display: flex; flex-direction: column;  background-color: white; border-radius: 10px; margin: 5px; padding: 12px;">
-                                <p>Price</p>
+                                <p>Original Price</p>
                                 <form action="/update_item_price" method="POST">
                                     <input type="hidden" value="{{item.item_id}}" name="item_id">
                                     <input placeholder="{{item.original_price}}" name="original_price">
                                     <button type="submit" style="background-color: black; color: white;">update</button>
                                 </form>
                             </div>
+                            <div style="display: flex; flex-direction: column;  background-color: white; border-radius: 10px; margin: 5px; padding: 12px;">
+                                <p>Current Price</p>
+                                <form action="/update_item_current_price" method="POST">
+                                    <input type="hidden" value="{{item.item_id}}" name="item_id">
+                                    <input placeholder="{{item.current}}" name="current_price">
+                                    <button type="submit" style="background-color: black; color: white;">update</button>
+                                </form>
+                            </div>
                         </div>
+                    </div>
+                    <div style="display: flex;  flex-direction: row;">
+                        <div style="display: flex;">
+                            <div style="display: flex; flex-direction: column; background-color: white; border-radius: 10px; margin: 5px; padding: 12px;">
+                                <p>Size</p>
+                                <form action="/update_item_size" method="POST">
+                                    <input type="hidden" value="{{item.item_id}}" name="item_id">
+                                    <input placeholder="{{item.item_size}}" name="item_size">
+                                    <button type="submit" style="background-color: black; color: white;">update</button>
+                                </form>
+                            </div>
+                            <div style="display: flex; flex-direction: column;  background-color: white; border-radius: 10px; margin: 5px; padding: 12px;">
+                                <p>Color</p>
+                                <form action="/update_item_color" method="POST">
+                                    <input type="hidden" value="{{item.item_id}}" name="item_id">
+                                    <input placeholder="{{item.item_color}}" name="item_color">
+                                    <button type="submit" style="background-color: black; color: white;">update</button>
+                                </form>
+                            </div>
+                            <div style="display: flex; flex-direction: column;  background-color: white; border-radius: 10px; margin: 5px; padding: 12px;">
+                                <p>Stock Amount</p>
+                                <form action="/update_in_stock" method="POST">
+                                    <input type="hidden" value="{{item.item_id}}" name="item_id">
+                                    <input placeholder="{{item.in_stock}}" name="in_stock">
+                                    <button type="submit" style="background-color: black; color: white;">update</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display: flex;  flex-direction: row;">
+                        <div style="display: flex;">
+                            <div style="display: flex; flex-direction: column; background-color: white; border-radius: 10px; margin: 5px; padding: 12px;">
+                                <p>Created By</p>
+                                <form action="/update_created_by" method="POST">
+                                    <input type="hidden" value="{{item.item_id}}" name="item_id">
+                                    <input placeholder="{{item.created_by}}" name="created_by">
+                                    <button type="submit" style="background-color: black; color: white;">update</button>
+                                </form>
+                            </div>
+                            <div style="display: flex; flex-direction: column;  background-color: white; border-radius: 10px; margin: 5px; padding: 12px;">
+                                <p>Color</p>
+                                <form action="/update_item_desc" method="POST">
+                                    <input type="hidden" value="{{item.item_id}}" name="item_id">
+                                    <textarea placeholder="{{item.item_desc}}" name="item_desc" style="width: 180px; height: 200px;"></textarea>
+                                    <button type="submit" style="background-color: black; color: white;">update</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 {% endfor%}
                 {% else%}

@@ -1200,6 +1200,102 @@ def update_item_price():
     flash('Item Price updated!')
     return redirect(url_for('all_users'))
 
+#update current price
+@app.route('/update_item_current_price', methods=['POST'])
+def update_item_current_price():
+    update ={
+        'item_id':request.form['item_id'],
+        'current_price':request.form['current_price']
+    }
+    db.session.execute(text("""
+                            UPDATE shop_item
+                            SET current_price = :current_price
+                            WHERE item_id = :item_id
+                            """),update)
+    db.session.commit()
+    flash('Item Current Price updated!')
+    return redirect(url_for('all_users'))
+
+#update size
+@app.route('/update_item_size', methods=['POST'])
+def update_item_size():
+    update ={
+        'item_id':request.form['item_id'],
+        'item_size':request.form['item_size']
+    }
+    db.session.execute(text("""
+                            UPDATE shop_item
+                            SET item_size = :item_size
+                            WHERE item_id = :item_id
+                            """),update)
+    db.session.commit()
+    flash('Item Size updated!')
+    return redirect(url_for('all_users'))
+
+#update size
+@app.route('/update_item_color', methods=['POST'])
+def update_item_color():
+    update ={
+        'item_id':request.form['item_id'],
+        'item_color':request.form['item_color']
+    }
+    db.session.execute(text("""
+                            UPDATE shop_item
+                            SET item_color = :item_color
+                            WHERE item_id = :item_id
+                            """),update)
+    db.session.commit()
+    flash('Item Color updated!')
+    return redirect(url_for('all_users'))
+
+#update in stock
+@app.route('/update_in_stock', methods=['POST'])
+def update_in_stock():
+    update ={
+        'item_id':request.form['item_id'],
+        'in_stock':request.form['in_stock']
+    }
+    db.session.execute(text("""
+                            UPDATE shop_item
+                            SET in_stock = :in_stock
+                            WHERE item_id = :item_id
+                            """),update)
+    db.session.commit()
+    flash('Item stock Amount updated!')
+    return redirect(url_for('all_users'))
+
+#update created by
+@app.route('/update_created_by', methods=['POST'])
+def update_created_by():
+    update ={
+        'item_id':request.form['item_id'],
+        'created_by':request.form['created_by']
+    }
+    db.session.execute(text("""
+                            UPDATE shop_item
+                            SET created_by = :created_by
+                            WHERE item_id = :item_id
+                            """),update)
+    db.session.commit()
+    flash('Item Created By updated!')
+    return redirect(url_for('all_users'))
+
+#update in item desc
+@app.route('/update_item_desc', methods=['POST'])
+def update_item_desc():
+    update ={
+        'item_id':request.form['item_id'],
+        'item_desc':request.form['item_desc']
+    }
+    db.session.execute(text("""
+                            UPDATE shop_item
+                            SET item_desc = :item_desc
+                            WHERE item_id = :item_id
+                            """),update)
+    db.session.commit()
+    flash('Item Description updated!')
+    return redirect(url_for('all_users'))
+
     
 
 
