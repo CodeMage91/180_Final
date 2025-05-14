@@ -503,12 +503,12 @@
                             <!--View item card-->
                             <div id="view_item_card" style="display: none; flex-direction: column; border: 1px solid white; width: 820px; height: 620px; background-image: linear-gradient(indigo, skyblue); margin: auto; border-radius: 10px; position: relative; padding: 20px; top:30px;">
 
-            <div style="margin-bottom: 20px; text-align: center;">
-                <input placeholder="search items" style="margin-top: 10px; width: 420px; padding-left: 10px; border-top-left-radius: 10px; border-bottom-left-radius: 10px; position: relative; height: 30px; border: 1px solid #ccc;">
-                <div id="search_item_btn" style="position: absolute; top: 33px; left: 700px; width: 30px; height: 30px; background-image: url(../static/images/icons/icon_14.png); background-size: contain; cursor: pointer;">
-                    <div id="search_item_text" style="display: none; position: absolute; border-radius: 10px; background-image: linear-gradient(indigo, skyblue); color: white; text-align: center; height: 25px; width: fit-content; padding: 5px; left: -10px; top: 35px;">search</div>
-                </div>
-            </div>
+                                <div style="margin-bottom: 20px; text-align: center; display: none;">
+                                    <input placeholder="search items" style="margin-top: 10px; width: 420px; padding-left: 10px; border-top-left-radius: 10px; border-bottom-left-radius: 10px; position: relative; height: 30px; border: 1px solid #ccc;">
+                                    <div id="search_item_btn" style="position: absolute; top: 33px; left: 700px; width: 30px; height: 30px; background-image: url(../static/images/icons/icon_14.png); background-size: contain; cursor: pointer;">
+                                        <div id="search_item_text" style="display: none; position: absolute; border-radius: 10px; background-image: linear-gradient(indigo, skyblue); color: white; text-align: center; height: 25px; width: fit-content; padding: 5px; left: -10px; top: 35px;">search</div>
+                                    </div>
+                                </div>
 
             <h2 style="font-family: 'Micro 5', sans-serif; margin-left: 12px; font-size: 48px; color: gold; text-align: left; margin-bottom: 15px;">All Items</h2>
 
@@ -540,7 +540,7 @@
                                 <input type="hidden" value="{{item.item_id}}" name="item_id">
                                 <p style="margin-bottom: 5px; font-size: 0.9em;">Rating: <span style="font-weight: bold;">X</span>/5</p>
                                 
-                                <button class="input" type="submit" style="padding: 8px 15px; background-image: linear-gradient(black, grey); color: gold; border: none; border-radius: 5px; cursor: pointer; font-size: 0.9em;">add to cart</button>
+                                <button class="input" type="submit" style="padding: 8px 15px; background-image: linear-gradient(black, grey); color: gold; border: none; border-radius: 5px; cursor: pointer; font-size: 33px;">add to cart</button>
                                 
                             </form>
                         </div>
