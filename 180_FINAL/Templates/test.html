@@ -1544,8 +1544,9 @@
                 {%endif%}
                 {%endif%}
             </div>
-
-                </div>
+            
+        </div>
+        
                 {% endif %}
                 <div class="cart" id="cart">
                     {% if not (login.user_type == "Vendor") %}
@@ -1567,6 +1568,82 @@
                             <p>Empty Cart</p>
                             {% endif %}
 
+                        </div>
+                        <div id="cart_card" style="flex-direction: column;border:white 1px solid;width:820px; height:620px; background-image: linear-gradient(indigo, skyblue);margin:auto;border-radius: 10px; position: relative; top: -490px; display: flex;">
+                            <div class="cart" id="cart">
+                                <h2 style="font-family: 'Micro 5', sans-serif; font-size: 53px;padding-left: 13px; color: gold;">MY CART</h2>
+                                    <div style="background-color: white; border-radius: 10px; box-shadow: 0,0,0,0,0.4; margin:12px; padding-left: 12px;">    
+                                        <h3 style="font-family: 'Alagard'; color: black;padding-left: 13px; padding-top: 7px;">{{login.full_name}}</h3>
+                                            <div class="cart_inventory">
+                                                {% if cart_items %}
+                                                {% for item in cart_items %}
+                                                <form action="/item_from_cart" method="POST">
+                                                    <input type="hidden" name="item_id" value="{{item.item_id}}">
+                                                    <div style="border-bottom: grey 1px solid; display: flex;">
+                                                        <div style="width: 53px; text-align: center;">{{item.quantity}}x</div>
+                                                        <div style="width: 153px; text-align: left;">{{item.item_name}}</div>
+                                                        <div style="width: 153px; text-align: right;">{{item.original_price}}</div>
+                                                    </div>
+                                                     <input style="color:red; border:none;"  class="input"  type="hidden" name="submit_remove" value="Remove"><input style="color:black; border:none;"  class="input"  type="hidden" name="submit_warranty" value="Add A Warranty" style="display: none;">
+                                                </form>
+                                                {% endfor %}
+                                            </div>
+                                            <div style="margin-left: 256px; border-bottom: black 3px groove; width: fit-content;">Total: ${{cart_total.cart_total}}</div>
+                                                {% else %}
+                                                    <p>Empty Cart</p>
+                                                {% endif %}
+                                            <div>
+                                                <form action="/to_order" method="POST">
+                                                    <input type="submit" name="submit" class="input" value="Submit Order" style="color:white; border:none;" >
+                                                </form>
+                                            </div>
+                                        </div>    
+                                    </div>
+                                
+                                
+                            </div>   
+                        </div>
+                        <!--Orders Card-->
+                        <div id="display_order_card" style="flex-direction: column;border:white 1px solid;width:820px; height:620px; background-image: linear-gradient(indigo, skyblue);margin:auto;border-radius: 10px; position: relative; top: -500px; display: flex; flex-direction: column; padding: 12px;">
+                            <h2 style="font-family: 'Micro 5', sans-serif; font-size: 53px;padding-left: 13px; color: gold;">ORDERS</h2>
+                            {% if user_orders %}
+                            {% for order in user_orders %}
+                            <div class="order-card" style="border: transparent solid 1px; flex-direction: row; display: columns; border-radius: 10px; width: 96%; background-color: ghostwhite; margin: auto;">
+                                <p style="padding-left: 12px;">ORDER ID: {{order.order_id}}</p>
+                                <div style="border: transparent 1px solid; display: flex; flex-direction: column;">
+                                    {%if order_items %}
+                                    <h1 style="font-family: 'Micro 5', sans-serif; font-size: 23px;padding-left: 13px; color: black;"> ORDER ITEMS</h1>
+                                    <div style="flex-direction: column; display: flex; border: 1px transparent solid;">
+                                        {% for item in order_items%}
+                                            <div style="display: flex; border-bottom: grey 1px solid; border-top: grey 1px solid;">
+                                                {% if item.order_id == order.order_id%}
+                                                <p style="text-align: left; width: 142px;">{{item.name}}</p>  <h3 style="text-align: left; width: 182px;">{{item.quantity}}x</h3>
+                                                {% if not( login.user_type == "Customer" ) %}
+                                                <form method="POST" action="/update_order_status">    
+                                                    <input type="hidden" name="order_id" value={{item.order_id}}>
+                                                    <input type="hidden" name="item_id" value={{item.item_id}}>
+                                                    <select name="status">
+                                                        <option value="Pending" {% if item.status == 'Pending' %}selected{% endif %}>Pending</option>
+                                                        <option value="Shipped"  {% if item.status == 'Shipped' %}selected{% endif %}>Shipped</option>
+                                                    </select>
+                                                    <input type="submit" value="Update">
+                                                </form>
+                                                    <p style="text-align: right; width: 142px; border: transparent 1px solid;margin-left:180px;">{{item.price}}</p> 
+                                                {% endif %}
+                                            {% endif %}
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                                </div>
+                            <p style="text-align: right; border: transparent solid 1px;">TOTAL: ${{order.order_total}}</p>
+                            <h4 style="text-align: right; padding-bottom: 12px;">Status: {{order.status}}</h4>
+                                
+                            </div>
+                            {% endfor%}
+                            {% else%}
+                            <h2 style="font-family: 'Micro 5', sans-serif;margin-left:12px;font-size: 53px;color:gold;">NO ORDER ITEMS</h2>
+                            {% endif %}
                         </div>
 
                         <div>
