@@ -34,7 +34,8 @@ in_stock int null,
 created_by int not null,
 original_price decimal(10,2) not null,
 current_price decimal(10,2) null,
-warranty_duration ENUM ('2','3','7') null
+warranty_duration ENUM ('2','3','7') null,
+warranty_valid date null
 );
 
 create table shop_cart(

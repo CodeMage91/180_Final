@@ -493,14 +493,13 @@ def all_users():
                 'item_color': request.form['item_color'],
                 'in_stock': request.form['in_stock'],
                 'warranty_duration':request.form['warranty_duration'],
-                'warranty_valid_until':warranty_valid_until,
                 'item_desc': request.form['item_desc'],
                 'created_by': session['user_id']
             }
             db.session.execute(text("""
-                INSERT INTO shop_item (item_name, item_image,original_price,current_price,item_size,item_color,in_stock,warranty_duration,warranty_valid_until, item_desc, created_by)
+                INSERT INTO shop_item (item_name, item_image,original_price,current_price,item_size,item_color,in_stock,warranty_duration, item_desc, created_by)
                 VALUES (:item_name, :item_image, :original_price,:current_price, 
-                        :item_size, :item_color, :in_stock, :warranty_duration,:item_desc,:warranty_valid_until, :created_by)
+                        :item_size, :item_color, :in_stock, :warranty_duration,:item_desc,:created_by)
             """), create_item)
             db.session.commit()
     # Pagination for items in the shop
