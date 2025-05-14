@@ -385,6 +385,7 @@ def all_users():
     cart_items = get_user_cart(session['user_id']) if 'user_id' in session else []
     cart_total = db.session.execute(text("SELECT sum(item.original_price) as 'cart_total' from shop_cart cross join shop_item as item where shop_cart.item_id = item.item_id and is_ordered = false and user_id = :user_id"), {"user_id": session["user_id"]}).first()
     order = get_user_order(session['user_id'], None) if 'user_id' in session else []
+    all_carts = get_all_carts()
     if session['user_id']:
         print('user')
         for vendor in vendor_users:
@@ -626,7 +627,8 @@ def all_users():
                            conversation=conversation,
                            comments = comments,
                            review_item_id=review_item_id,
-                           inventory_stats=inventory_stats
+                           inventory_stats=inventory_stats,
+                           all_carts = all_carts
                            )
 @app.route("/memory/<memory>", methods=["GET"])
 def memory_update(memory):
@@ -1150,7 +1152,7 @@ def get_all_carts():
                                 JOIN shop_user u ON c.user_id = u.user_id
                                 JOIN shop_item i ON c.item_id = i.item_id
                                 WHERE c.is_ordered = FALSE
-                                GROUP BY u.user_id, u.username, i.item_id, i.tem_name, i.original_price, c.is_ordered
+                                GROUP BY u.user_id, u.username, i.item_id, i.item_name, i.original_price, c.is_ordered
                                 ORDER BY u.user_id
                                    """)).mappings().fetchall()
     

@@ -81,7 +81,4 @@
             inventory_card.style.display = 'flex';
         }
 
-        var close_inventory = document.getElementById('close_inventory');
-        close_inventory.onclick=function(){
-            inventory_card.style.display = 'none';
-        }
+        

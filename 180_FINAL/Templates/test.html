@@ -632,7 +632,17 @@
                                 <!--All Carts-->    
                                 <h2 style="font-family: 'Micro 5', sans-serif; font-size: 53px;padding-left: 13px; color: gold;">All CARTS</h2>
                                 <div style="width:800px; margin:auto; height: 390px; border: grey 1px solid; overflow-y: scroll; border-bottom-left-radius: 10px; border-top-left-radius: 10px;">
-                                    
+                                    {% set last_user = None %}
+                                    {% for cart in all_carts %}
+                                        {% if cart.user_id != last_user %}
+                                            {% if not loop.first %}</ul>{% endif %}
+                                            <h3>{{ cart.username }}'s Cart (User ID: {{ cart.user_id }})</h3>
+                                            <ul>
+                                            {% set last_user = cart.user_id %}
+                                        {% endif %}
+                                        <li>{{ cart.item_name }} — ${{ cart.original_price }} × {{ cart.quantity }}</li>
+                                        {% if loop.last %}</ul>{% endif %}
+                                    {% endfor %}
                                 </div>
                             </div>   
                         </div>
