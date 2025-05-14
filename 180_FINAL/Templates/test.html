@@ -1205,18 +1205,6 @@
                     </div>
                     <script src={{url_for( 'static', filename='js/shop_display.js' )}}></script> 
                 {% endif %}
-                {% if not (login.user_type == "Customer") %}
-                    <h2>Create Item</h2>
-                    <div class="item_form">
-                        <form method="POST" action="/">
-                            <input placeholder="Item Name" name="item_name">
-                            <input placeholder="item_image" name="item_image">
-                            <input placeholder="Item Price" name="original_price">
-                            <textarea placeholder="Item Description" name="item_desc"></textarea>
-                            <button class="input" type="submit">Create</button>
-                        </form>
-                    </div>
-                {% endif %}
                 <div class="box" id='main-box'>
                     <br>
                     {%if items%}

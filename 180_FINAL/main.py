@@ -8,7 +8,7 @@ from datetime import datetime, timedelta, date
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:CSET155@localhost/shopdb'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:74CLpyrola!@localhost/shopdb'
 app.config['SECRET_KEY'] = 'dev_key'
 db = SQLAlchemy(app)
 
@@ -1155,6 +1155,7 @@ def get_all_carts():
                                 GROUP BY u.user_id, u.username, i.item_id, i.item_name, i.original_price, c.is_ordered
                                 ORDER BY u.user_id
                                    """)).mappings().fetchall()
+    
 @app.route('/to_admin', methods=['POST'] )
 def to_admin():
     user_id = {
@@ -1168,6 +1169,7 @@ def to_admin():
     db.session.commit()
     flash('Made User into Admin!')
     return redirect(url_for('all_users'))
+
 #update name
 @app.route('/update_item_name', methods=['POST'])
 def update_item_name():
