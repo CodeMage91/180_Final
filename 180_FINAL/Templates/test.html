@@ -547,7 +547,7 @@
                     </div>
                     <!--update item card-->
                     <div style="display: flex; flex-direction: column; gap: 5px; margin-left: 15px;">
-                        <div class="update_item" id="update_item" style="border: 1px solid #007bff; background-color: #f0f8ff; color: #007bff; padding: 8px 12px; text-align: center; font-size: 0.9em; border-radius: 5px; cursor: pointer;"
+                        <div class="update_item" id="update_item" style="display: none ;border: 1px solid #007bff; background-color: #f0f8ff; color: #007bff; padding: 8px 12px; text-align: center; font-size: 0.9em; border-radius: 5px; cursor: pointer;"
                             data-item-id="{{item.item_id}}"
                             data-item-name="{{item.item_name}}"
                             data-item-image="{{item.item_image}}"
@@ -557,7 +557,20 @@
                             onclick="openUpdateForm(this)"
                         >update</div>
                         <div class="delete_item" id="delete_item" style="border: 1px solid #dc3545; background-color: #fdecea; color: #dc3545; padding: 8px 12px; text-align: center; font-size: 0.9em; border-radius: 5px; cursor: pointer;">delete</div>
-                        <div class="discount_item" id="discount_item" style="border: 1px solid #ffc107; background-color: #fff8e1; color: #ffc107; padding: 8px 12px; text-align: center; font-size: 0.9em; border-radius: 5px; cursor: pointer;">add discount</div>
+                        <div class="discount_item" id="discount_item" style="border: 1px solid #ffc107; background-color: #fff8e1; color: #ffc107; padding: 8px 12px; text-align: center; font-size: 0.9em; border-radius: 5px; cursor: pointer;">
+                            add discount
+                            <div id="discount_card" style="width: 200px; height: 120px; background-color: white; border-radius: 10px; position: relative; margin:auto; display: flex; flex-direction: column;">
+                                <p style="color: black; margin-top: 5px;">Original Price: ${{item.original_price}}</p>
+                                <br>
+                                <label for="discount"></label>
+                                <select>
+                                    <option>5%</option>
+                                    <option>10%</option>
+                                    <option>15%</option>
+                                    <option>20%</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <p>Update Item:</p>
