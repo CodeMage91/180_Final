@@ -1135,6 +1135,24 @@ def update_item(item_id):
         db.session.commit()
         flash('added to invertory!')
         return redirect(url_for('all_users'))
+
+def get_all_carts():
+    return db.session.execute(text("""
+                                   SELECT
+                                   u.user_id,
+                                   u.username,
+                                   i.item_id,
+                                   i.item_name,
+                                   i.original_price,
+                                   c.is_ordered,
+                                   COUNT(i.item_id) as quantity
+                                FROM shop_cart c
+                                JOIN shop_user u ON c.user_id = u.user_id
+                                JOIN shop_item i ON c.item_id = i.item_id
+                                WHERE c.is_ordered = FALSE
+                                GROUP BY u.user_id, u.username, i.item_id, i.tem_name, i.original_price, c.is_ordered
+                                ORDER BY u.user_id
+                                   """)).mappings().fetchall()
     
 
 
