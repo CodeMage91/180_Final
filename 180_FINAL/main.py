@@ -552,7 +552,7 @@ def all_users():
         session["user_page"]=1
     user_page=session["user_page"]
     num_of_users=db.session.execute(text("SELECT count(user_id) as 'num_of_users' from shop_user")).mappings().fetchone()
-    per_page=3
+    per_page=10
     user_page=1
     max_pages=math.ceil(num_of_users['num_of_users']/per_page)
     if user_page>max_pages:
