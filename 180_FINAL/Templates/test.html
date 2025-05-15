@@ -557,18 +557,30 @@
                             onclick="openUpdateForm(this)"
                         >update</div>
                         <div class="delete_item" id="delete_item" style="border: 1px solid #dc3545; background-color: #fdecea; color: #dc3545; padding: 8px 12px; text-align: center; font-size: 0.9em; border-radius: 5px; cursor: pointer;">delete</div>
-                        <div class="discount_item" id="discount_item" style="border: 1px solid #ffc107; background-color: #fff8e1; color: #ffc107; padding: 8px 12px; text-align: center; font-size: 0.9em; border-radius: 5px; cursor: pointer;">
-                            add discount
+                        <div class="discount_item" id="discount_item" style="border: 1px solid #ffc107; background-color: #fff8e1; color: black; padding: 8px 12px; text-align: center; font-size: 0.9em; border-radius: 5px; cursor: pointer;">
+                            Add discount
                             <div id="discount_card" style="width: 200px; height: 120px; background-color: white; border-radius: 10px; position: relative; margin:auto; display: flex; flex-direction: column;">
                                 <p style="color: black; margin-top: 5px;">Original Price: ${{item.original_price}}</p>
                                 <br>
-                                <label for="discount"></label>
-                                <select>
+                                <label for="discount" style="margin:auto;margin-bottom: 0px;">Percent Off</label>
+                                <select name="discount" style="margin: auto;">
                                     <option>5%</option>
                                     <option>10%</option>
                                     <option>15%</option>
                                     <option>20%</option>
+                                    <option>25%</option>
+                                    <option>30%</option>
+                                    <option>50%</option>
+                                    <option>60%</option>
+                                    <option>75%</option>
+                                    <option>80%</option>
+                                    <option>90%</option>
+                                    <option>95%</option>
+                                    <option>99%</option>
                                 </select>
+                                <p>Discounted Price</p>
+                                <br>
+                                <p></p>
                             </div>
                         </div>
                     </div>
