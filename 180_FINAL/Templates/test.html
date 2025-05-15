@@ -280,7 +280,18 @@
                                         <div style="width:220px;border-radius:10px;height: 220px;background-image: url(../static/images/layered_background/stone_ground_00.png);margin:auto;background-size: contain;margin-top: 160px;"></div>
                                     </div>
                                 </div>
-                            </div>
+                                <div id="town" style="width:1880px; height: 242px; border: red 1px solid; display: flex; margin: auto;">
+                                    {% if users %}
+                                    {% for user in users%}
+                                    <div style="border: blue 1px solid; width: 10%; display: flex; flex-direction: column;">
+
+                                    </div>
+                                    {% endfor %}
+                                    {% else %}
+                                        <p>no users</p>
+                                    {% endif %}
+                                </div>
+                            </div> 
                         </div>
 
                         <!--User Account Card-->
@@ -879,7 +890,7 @@
 
                             Object.assign(star_box.style,{
                                 backgroundImage: 'linear-gradient(0deg,rgba(11, 38, 0, 1) 9%, rgba(11, 38, 0, 0) 51%), url(../static/images/starlitSky.png)',
-                                height: '700px',
+                                height: '880px',
                                 backgroundRepeat: 'repeat-x',
                                 backgroundPosition: '40px',
                                 backgroundSize: 'contain',
