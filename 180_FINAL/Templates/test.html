@@ -260,31 +260,33 @@
                                     <div class="nav_text_06" id="nav_text_06">Chat</div>
                                 </div><!--Chat-->
                                 <div id="nav_07">
-                                    <div class="nav_text_07" id="nav_text_07">Log</div>
+                                    
+                                    <div class="nav_text_07" id="nav_text_07"><a href="{{ url_for('logout') }}">Log Out</a></div>
                                 </div><!--logout-->
                             </div>
+                            
                             <div id="close_boxes" class="close_boxes" style="width:90px;position: relative;border:3px solid white;color:white;border-radius: 10px;text-align: center;margin: auto;left:370px;top:23px;display: none;padding-left: 21px;">X CLOSE</div>
                             
 
                                 <div style="width:1240px;height: 420px; margin:auto;display: flex;">
                                     <div class="shop_space" style="height: 393px;width: 420px;border:transparent 1px solid;margin: auto;">
-                                        <div style="width:220px;height: 220px;background-image: url(../static/images/layered_background/carpet_00.png);margin:auto;background-size: contain;margin-top: 160px;"></div>
+                                        <div style="width:220px;height: 220px; margin:auto;background-size: contain;margin-top: 160px;"></div>
                                     </div>
                                     <!--Admin Avatar-->
                                     <div class="user_space" style="height: 393px;width: 420px;border:transparent 1px solid;margin: auto;">
-                                        <div style="width:220px;height: 220px;background-image: url(../static/images/layered_background/patch_o_grass.png);margin:auto;background-size: contain;margin-top: 160px;">
+                                        <div style="width:220px;height: 220px;background-image: url(../static/images/layered_background/floating_place_00.png);margin:auto;background-size: contain;margin-top: 160px;">
                                             <div class="avatar_small" id="pic"  style="background-image: url('{{ url_for('static', filename='images/' ~ login.user_image_small) }}');"></div>
                                         </div>
                                     </div>
                                     <div class="dungeon_space" style="height: 393px;width: 420px; margin: auto;">
-                                        <div style="width:220px; border-radius:10px;height: 220px;background-image: url(../static/images/layered_background/stone_ground_00.png);margin:auto;background-size: contain;margin-top: 160px;"></div>
+                                        <div style="width:220px; border-radius:10px;height: 220px; margin:auto;background-size: contain;margin-top: 160px;"></div>
                                     </div>
                                 </div>
-                                <div id="town" style="width:1880px; height: 242px; border: white 4px outset; display: flex; margin: auto;">
-                                    {% if users %}
-                                    {% for user in users%}
+                                 <div id="town" style="width:1880px; height: 242px; display: flex; margin: auto;">
+                                    {% if users_01 %}
+                                    {% for user in users_01 %}
                                     <div style="width: 10%; display: flex; flex-direction: column;">
-                                        <div id="sky" style="width:100%; height: 121px; background-image: linear-gradient(rgba(0,0,0,0.4),skyblue);"></div>
+                                        <div id="sky" style="width:100%; height: 121px; background-image: linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0.4),skyblue);"></div>
                                         <div id="land" style="width:100%; height: 121px; background-image: url('../static/images/layered_background/patch_o_grass.png'); background-position: center; background-size: cover; background-color: rgb(192, 122, 96);">
                                             <div id="house" style="width: 92px; height: 92px; position: relative; top: -46px; left: 12px; background-image: url('../static/images/misc/tent_00.png'); background-position: center; background-repeat: no-repeat; background-size: contain;">
                                                 {% if user.user_type == 'Vendor'%}
@@ -292,13 +294,13 @@
                                                 {% else %}
                                                 {% endif %}
                                             </div>
-                                            <div id="inventory_chest" style="width: 48px; height: 48px; border: transparent 0px solid; position: relative; top: -100px; left: 124px; background-image: url('../static/images/misc/chest_00.png'); background-position: center; background-repeat: no-repeat; background-size: contain;"></div>
-                                            <div id="land_user" style="width: 48px; height: 48px; border: 0px transparent solid; cursor: pointer; position: relative; top: -112px; left: 35px; background-size: contain; background-position: center; background-repeat: no-repeat; background-image: url('{{ url_for('static', filename='images/' ~ user.user_image_small) }}');">
+                                            <div id="inventory_chest" style="width: 48px; height: 48px; position: relative; top: -100px; left: 124px; background-image: url('../static/images/misc/chest_00.png'); background-position: center; background-repeat: no-repeat; background-size: contain;"></div>
+                                            <div id="land_user" style="width: 48px; height: 48px; cursor: pointer; position: relative; top: -112px; left: 35px; background-size: contain; background-position: center; background-repeat: no-repeat; background-image: url('{{ url_for('static', filename='images/' ~ user.user_image_small) }}');">
                                                 <div style="border-radius: 10px; color: gold; background-color: black; width: fit-content; height: fit-content; padding: 4px; text-align: center; position: relative; top: 102px; left: -32px; border: 1px white solid;">{{user.full_name}}</div>
                                             </div>
                                         </div>
                                     </div>
-                                    {% endfor %}
+                                {% endfor %}
                                     {% else %}
                                         <p>no users</p>
                                     {% endif %}
@@ -342,7 +344,7 @@
                                 </div>
                                 <div style="width:820px; background-image:linear-gradient(indigo,skyblue); border-radius: 10px; height: 472px;margin:auto;flex-direction: column;" id="all_users_box">
                                     <h1 style="font-family: 'Micro 5', sans-serif;margin-left:12px;font-size: 53px;padding-left: 12px;color: gold;">All Users</h1>
-                                    <div style="height: 420px;display: flex;flex-direction: column;justify-content: space-evenly;overflow-y: scroll;overflow-x: hidden;scrollbar-color: black,gold;">
+                                    <div style="height: 420px;display: flex;flex-direction: column;justify-content: space-evenly; overflow-y:scroll;">
                                         {% if users %}  
                                             {% for user in users %}
                                             <div style="display: flex;flex-direction:row;background-color:white; border-radius: 10px; margin:auto; width: 790px; margin-top:7px;">
@@ -364,9 +366,9 @@
                                                 </form>
                                             </div>
                                             {% endfor %}
-                                            <div class="pagination_bar" style="display: none;">
+                                            <div class="pagination_bar" style="display: flex;">
                                                 {% if not ( user_page == 1 ) %}<a class="item_page_button" href="/user_page_decrease"> PREVIOUS </a>{% endif %}
-                                                <a class="item_page_button" href="/">{{user_page}}</a>
+                                                <a class="user_page_button" href="/">{{user_page}}</a>
                                                 {% if not ( user_page == max_page ) %}<a class="item_page_button" href="/user_page_increase"> NEXT </a>{% endif %}
                                             </div>
                                         {% else %}
@@ -2028,7 +2030,7 @@
                     background-repeat: no-repeat;
                     background-size: contain;
                     left: 60px;
-                    top: 64px;
+                    top: 0px;
                     position: relative;
                 }
                 .avatar_create_item{
