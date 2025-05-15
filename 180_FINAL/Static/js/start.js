@@ -80,7 +80,7 @@ var creation_options_01 = document.getElementById('creation_options_01');
 var creation_options_02 = document.getElementById('creation_options_02');
 
 var creation_preview = document.getElementById('creation_preview');
-creation_preview.style.backgroundImage = 'url(../static/images/users/blue_guy_idle_gif.gif)';
+creation_preview.style.backgroundImage = 'url(../static/images/users/medium_blue_guy.gif)';
 
 var type_a = document.getElementById('type_a');
 var type_b = document.getElementById('type_b');
@@ -117,42 +117,42 @@ var starter_mace = document.getElementById('starter_mace');
 
 
 type_a.onclick = function(){
-creation_preview.style.backgroundImage = 'url(../static/images/users/red_gal_idle.gif)';
+creation_preview.style.backgroundImage = 'url(../static/images/users/medium_red_gal.gif)';
 prev_type_pic.style.backgroundImage = 'linear-gradient(red,black)';
 prev_type_pic.innerHTML = 'A';
 hidden_input_user_image.value =type_a.getAttribute('data-image');
 hidden_input_user_image_small.value =type_a.getAttribute('data-image-small');
 }
 type_b.onclick = function(){
-creation_preview.style.backgroundImage = 'url(../static/images/users/green_gal_idle.gif)';
+creation_preview.style.backgroundImage = 'url(../static/images/users/medium_green_gal.gif)';
 prev_type_pic.style.backgroundImage = 'linear-gradient(green,black)';
 prev_type_pic.innerHTML = 'A';
 hidden_input_user_image.value =type_b.getAttribute('data-image');
 hidden_input_user_image_small.value =type_b.getAttribute('data-image-small');
 }
 type_c.onclick = function(){
-creation_preview.style.backgroundImage = 'url(../static/images/users/blue_gal_idle.gif)';
+creation_preview.style.backgroundImage = 'url(../static/images/users/medium_blue_gal.gif)';
 prev_type_pic.style.backgroundImage = 'linear-gradient(blue,black)';
 prev_type_pic.innerHTML = 'A';
 hidden_input_user_image.value =type_c.getAttribute('data-image');
 hidden_input_user_image_small.value =type_c.getAttribute('data-image-small');
 }
 type_d.onclick = function(){
-creation_preview.style.backgroundImage = 'url(../static/images/users/red_guy_idle.gif)';
+creation_preview.style.backgroundImage = 'url(../static/images/users/medium_red_guy.gif)';
 prev_type_pic.style.backgroundImage = 'linear-gradient(red,black)';
 prev_type_pic.innerHTML = 'B';
 hidden_input_user_image.value =type_d.getAttribute('data-image');
 hidden_input_user_image_small.value =type_d.getAttribute('data-image-small');
 }
 type_e.onclick = function(){
-creation_preview.style.backgroundImage = 'url(../static/images/users/green_guy_idle.gif)';
+creation_preview.style.backgroundImage = 'url(../static/images/users/medium_green_guy.gif)';
 prev_type_pic.style.backgroundImage = 'linear-gradient(green,black)';
 prev_type_pic.innerHTML = 'B';
 hidden_input_user_image.value =type_e.getAttribute('data-image');
 hidden_input_user_image_small.value =type_e.getAttribute('data-image-small');
 }
 type_f.onclick = function(){
-creation_preview.style.backgroundImage = 'url(../static/images/users/blue_guy_idle_gif.gif)';
+creation_preview.style.backgroundImage = 'url(../static/images/users/medium_blue_guy.gif)';
 prev_type_pic.style.backgroundImage = 'linear-gradient(blue,black)';
 prev_type_pic.innerHTML = 'B';
 hidden_input_user_image.value =type_f.getAttribute('data-image');
